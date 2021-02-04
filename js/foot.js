@@ -6508,43 +6508,53 @@ function KakutyouKansuu(){
 		}else
 			myInnerHtml("A_KakutyouData","Not Available for this Class",0);
 	}
-	else if(wKK == 17){
-		var wkk17="";
-		if(n_tok[380]||n_tok[382]){
-			weapS=[0,6,7,19,40,41,44,65,70,71,72,73,76,83,84,86,111,158,161,169,171,176,188,189,192,199,207,248,260,261,264,272,288,289,290,292,302,303,305,306,307,308,326,317,318,331,333,335,337,339,382,388,391,398,400,401,418,419,423,428,429,430,431,432,434,435,436,437,"NULL"];
-			if(weapS.includes(n_A_ActiveSkill)){
-				var mobCount = eval(document.calcForm.A_KakutyouSelNum.value);
-				if(mobCount==""||mobCount<1){
-					mobCount = 1;
-					document.calcForm.A_KakutyouSelNum.value = 1;
-				}
-				var avergeAtk=parseInt(document.getElementById("strID_1").textContent);
-				if(avergeAtk>=0){
-					var critAtk=parseInt(document.getElementById("CRIATK").textContent);
-					var critChance=parseInt(document.getElementById("CRInum").textContent);
-					if(critAtk>=0 && critChance){
-						avergeAtk=avergeAtk*(1-critChance/100)+critAtk*critChance/100;
-					}
-					
-					
-					wkk17+="<table border=0>";
-					wkk17+="<tr><td><b>HP</b></td>"+"<td></td>"+"<td><b>SP</b></td></tr>";
-					wkk17+="<tr><td>Chance: "+(n_tok[380]>100?100:n_tok[380])+"%</td>"+"<td></td>"+"<td>Chance: "+(n_tok[382]>100?100:n_tok[382])+"%</td></tr>";
-					wkk17+="<tr><td>Absorb "+n_tok[381]+"% of the damage inflicted on the enemy as HP</td>"+"<td></td>"+"<td>Absorb "+n_tok[383]+"% of the damage inflicted on the enemy as SP</td></tr>";
-					wkk17+="<tr><td>Result: ~<b>"+Math.floor(mobCount*(n_tok[380]>100?100:n_tok[380])*n_tok[381]*avergeAtk/10000)+"</b>("+Math.floor(mobCount*n_tok[381]*avergeAtk/100)+" maximum) per hit</td>"+"<td></td>"+"<td>Result: ~<b>"+Math.floor(mobCount*(n_tok[382]>100?100:n_tok[382])*n_tok[383]*avergeAtk/10000)+"</b>("+Math.floor(mobCount*n_tok[383]*avergeAtk/100)+" maximum) per hit</td></tr>";
-					var dps = parseInt(document.getElementById("AveSecondATK").textContent);
-					if(dps>=0){
-						wkk17+="<tr><td>~<b>"+Math.floor(mobCount*(n_tok[380]>100?100:n_tok[380])*n_tok[381]*dps/10000)+"</b> per second</td>"+"<td></td>"+"<td>~<b>"+Math.floor(mobCount*(n_tok[382]>100?100:n_tok[382])*n_tok[383]*dps/10000)+"</b> per second</td></tr>";
-					}
-					wkk17+="</table>";
-					myInnerHtml("A_KakutyouData",wkk17,0);
-				}else{
-				myInnerHtml("A_KakutyouData","Load Problem",0);
-				}
+	else if(wKK == 17)
+	{
+		wkk17 = "";
+		if (n_Enekyori == 2)
+			myInnerHtml("A_KakutyouData","Skill not elligible for drain",0);
+		else if (n_tok[380] || n_tok[382])
+		{
+			hp_drain_value = n_tok[381];
+			sp_drain_value = n_tok[383];
+			hp_drain_chance = Math.min(100, n_tok[380]);
+			sp_drain_chance = Math.min(100, n_tok[382]);
+			
+			monsters_count = eval(document.calcForm.A_KakutyouSelNum.value)
+			
+			if (typeof monsters_count == 'undefined' || monsters_count < 1)
+			{
+				monsters_count = 1;
+				document.calcForm.A_KakutyouSelNum.value = 1;
 			}
-		}else{
-			myInnerHtml("A_KakutyouData","Not Available without drain item",0);
+			
+			avergeAtk = parseInt(document.getElementById("strID_1").textContent);
+			
+			if (avergeAtk >= 0)
+			{
+				critAtk = parseInt(document.getElementById("CRIATK").textContent);
+				critChance = parseInt(document.getElementById("CRInum").textContent);
+				
+				if(critAtk>=0 && critChance)
+					avergeAtk = avergeAtk * (1 - critChance / 100) + critAtk * critChance / 100;
+
+				wkk17+="<table border=0>";
+				wkk17+="<tr><td><b>HP</b></td>"+"<td></td>"+"<td><b>SP</b></td></tr>";
+				wkk17+="<tr><td>Chance: " + hp_drain_chance + "%</td>"+"<td></td>"+"<td>Chance: " + sp_drain_chance +"%</td></tr>";
+				wkk17+="<tr><td>Absorb " + hp_drain_value +"% of the damage inflicted on the enemy as HP</td>"+"<td></td>"+"<td>Absorb " + sp_drain_value +"% of the damage inflicted on the enemy as SP</td></tr>";
+				wkk17+="<tr><td>Result: ~<b>"+Math.floor(monsters_count * hp_drain_chance * hp_drain_value * avergeAtk / 10000)+"</b> ("+Math.floor(monsters_count * hp_drain_value * avergeAtk / 100)+" maximum) per hit</td>"+"<td></td>";
+				wkk17+="<td>Result: ~<b>"+Math.floor(monsters_count * sp_drain_chance * sp_drain_value * avergeAtk / 10000)+"</b> ("+(monsters_count * sp_drain_value * avergeAtk / 100)+" maximum) per hit</td></tr>";
+				var dps = parseInt(document.getElementById("AveSecondATK").textContent);
+				if(dps>=0)
+					wkk17+="<tr><td>~<b>"+Math.floor(monsters_count * hp_drain_chance * hp_drain_value * dps / 10000)+"</b> per second</td>"+"<td></td>"+"<td>~<b>"+Math.floor(monsters_count * sp_drain_chance * sp_drain_value * dps / 10000)+"</b> per second</td></tr>";
+				wkk17+="</table>";
+				myInnerHtml("A_KakutyouData",wkk17,0);
+			}
+			else
+				myInnerHtml("A_KakutyouData","Invalid combat context",0);
 		}
+		else
+			myInnerHtml("A_KakutyouData","Not available without drain item",0);
 	}
 	else if(wKK == 18)
 	{	
