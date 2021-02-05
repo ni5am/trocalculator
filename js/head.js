@@ -714,13 +714,31 @@ function BattleCalc999()
 			wbairitu += n_A_ActiveSkillLV *0.5;
 			n_Delay[2] = 1;
 			n_Enekyori=1;
-		}else if(n_A_ActiveSkill==73){
-			w = (1+n_A_ActiveSkillLV*0.2);
-			if(n_A_ActiveSkillLV == 10)wbairitu += 4.625;
-			else if(n_A_ActiveSkillLV >= 7)wbairitu += w+w/2+w/4-1;
-			else if(n_A_ActiveSkillLV >= 4)wbairitu += w+w/2-1;
-			else wbairitu += w-1;
+		}
+		else if (73 == n_A_ActiveSkill) // Brandish Spear#73
+		{
 			wCast = 0.7;
+			skill_ratio = 1 + n_A_ActiveSkillLV * 0.2;
+			aoe_position = eval(document.calcForm.SkillSubNum.value);
+			
+			// #129 - inflict full damage regardless of AoE position
+			if (1386 == n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x - 1 == 129) > -1)
+				aoe_position = 0;
+			
+			wbairitu += skill_ratio - 1;
+			
+			if(n_A_ActiveSkillLV > 3 && aoe_position == 0)
+				wbairitu += skill_ratio / 2;
+			if(n_A_ActiveSkillLV > 6 && aoe_position == 0)
+				wbairitu += skill_ratio / 4;
+			if(n_A_ActiveSkillLV > 9 && aoe_position == 0)
+				wbairitu += skill_ratio / 8;
+			if(n_A_ActiveSkillLV > 6 && aoe_position == 1)
+				wbairitu += skill_ratio / 2;
+			if(n_A_ActiveSkillLV > 9 && aoe_position == 1)
+				wbairitu += skill_ratio / 4;
+			if(n_A_ActiveSkillLV > 9 && aoe_position == 2)
+				wbairitu += skill_ratio / 2;
 		}else if(n_A_ActiveSkill==83 || n_A_ActiveSkill==388){
 
 			wActiveHitNum = 8;
@@ -3338,6 +3356,14 @@ with(document.calcForm){
 		SkillSubNum.value=0;
 		if(n_A_JobSearch2() == 14)
 			SkillSubNum.value=0;
+	}
+	else if (73 == n_A_ActiveSkill) // Brandish Spear#73
+	{
+		myInnerHtml("AASkillName","AoE Position:",0);
+		myInnerHtml("AASkill",'<select name="SkillSubNum"onChange="calc()"></select>',0);
+		for (i = 0; i <= 2; ++i)
+			SkillSubNum.options[i] = new Option(i,i);
+		SkillSubNum.value = 0;
 	}
 	else if(n_A_ActiveSkill==197){
 		myInnerHtml("AASkillName","Remaining SP:",0);
