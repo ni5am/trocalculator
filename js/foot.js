@@ -1439,7 +1439,7 @@ with(document.calcForm){
 		}
 	}
 
-	n_A_MaxSP = 10 + n_A_BaseLV * JobSP_A[n_A_JOB] - wSPSL;//tirei math.floor para acertar sp values
+	n_A_MaxSP = Math.floor(10 + n_A_BaseLV * JobSP_A[n_A_JOB] - wSPSL);
 
 	if(n_A_JOB == 44){
 		if(n_A_BaseLV <= 20) n_A_MaxSP = 11 + n_A_BaseLV * 3;
@@ -1458,29 +1458,8 @@ with(document.calcForm){
 		else if(n_A_BaseLV <= 78) n_A_MaxSP = 306 +(n_A_BaseLV-75)*6;
 		else n_A_MaxSP = 330 +(n_A_BaseLV-78)*6;
 	}
-	if(n_Tensei)
-		n_A_MaxSP = Math.floor(n_A_MaxSP * 125 /100);
-	if(eval(A_youshi.checked))
-		n_A_MaxSP = Math.floor(n_A_MaxSP *70 /100);
-	//custom TalonRO Gospel +20 all stats - darf bei % berechnungen nicht mitverwendet werden
-	//d.h. auf die sp die man durch die 20 stats bekommt gibts keine % boni wie z.b. GEC shoes +20%
-	var n_A_MaxSP_Gospel_Malus = 0;
-	var n_A_MaxSP_Bless_Malus = 0;
-	var n_A_MaxSP_Malus = 0;
-	//n_A_PassSkill2[0]
-	if(n_A_PassSkill5[0] || n_A_PassSkill2[0]) {
-		if(n_A_PassSkill5[0]) {
-			n_A_MaxSP_Malus +=20;
-			n_A_MaxSP_Gospel_Malus = n_A_MaxSP * 20 / 100;
-		}
-		if(n_A_PassSkill2[0]) {
-			n_A_MaxSP_Malus += n_A_PassSkill2[0];
-			n_A_MaxSP_Bless_Malus = n_A_MaxSP * n_A_PassSkill2[0] / 100;
-		}
-		n_A_MaxSP = n_A_MaxSP * (100 + n_A_INT-n_A_MaxSP_Malus) / 100;
-	} else
-		n_A_MaxSP = Math.floor(n_A_MaxSP * (100 + n_A_INT) / 100);
-	//alert("MaxSP="+n_A_MaxSP+"\nINT="+n_A_INT);
+	
+	n_A_MaxSP = Math.floor(n_A_MaxSP * (100 + n_A_INT) * (n_Tensei ? 1.25 : 1) / 100);
 
 	if(n_A_JOB == 41 && n_A_BaseLV >= 70){
 		if(n_A_BaseLV <=79)
@@ -1610,16 +1589,10 @@ with(document.calcForm){
 
 	w += SkillSearch(274) *2;
 
-	if(n_A_PassSkill5[2]){
-		w += (100+n_tok[16]);
-		n_A_MaxSP_Gospel_Malus *= 2;
-		n_A_MaxSP_Bless_Malus *=2;
-	}
-
 	if(EquipNumSearch(715))
 		w -= n_A_SHOES_DEF_PLUS;
-	//custom TalonRO + n_A_MaxSP_Gospel_Malus + n_A_MaxSP_Bless_Malus (not sure if here or after Service for you calculation)
-	n_A_MaxSP = Math.floor(n_A_MaxSP * (100 + w)/100) + n_A_MaxSP_Gospel_Malus + n_A_MaxSP_Bless_Malus;
+	
+	n_A_MaxSP = Math.floor(n_A_MaxSP * (100 + w)/100);
 
 	/*
 		Service for you - n_A_PassSkill3[6]
