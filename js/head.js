@@ -1520,35 +1520,16 @@ function BattleCalc999()
 		w_HIT_HYOUJI = 100;
 		n_A_Weapon_zokusei = 0;
 		ATKbai02(wbairitu,0);
-		if(n_A_ActiveSkill==197)
-			wbairitu += 8 + eval(document.calcForm.SkillSubNum.value) /10;
-		else
-			wbairitu += 8 + (n_A_MaxSP-1) /10;
-
-		//custom TalonRO fix (checked rAthena calculation)
-		//wbairitu += 1;
-
-		//[Custom TalonRO - 2018-07-09 fix asura damage] [NattWara/Loa]
-		wbairitu = Math.floor(wbairitu);
-
-		wASYU = 250 + n_A_ActiveSkillLV * 150;
+		
+		sp_used = (197 == n_A_ActiveSkill ? eval(document.calcForm.SkillSubNum.value) : n_A_MaxSP - 1);
+		skill_ratio = 1 + Math.floor(7 + sp_used / 10);
+		skill_damage_constant = 250 + n_A_ActiveSkillLV * 150;
 
 		for(var b=0;b<=2;b++){
-			w_DMG[b] = Math.floor(BK_n_A_DMG[b] * wbairitu) + wASYU;	//Asura calculation (dmg * sp-calc + skilllvl-specific-atk)
-			w_DMG[b] = BaiCI(w_DMG[b]);									//weap (i.e. Nemesis) & card modifier
-			w_DMG[b] = Math.floor(w_DMG[b] * zokusei[n_B[3]][0]);		//Enemy element reduction for ghost
-			if(n_A_PassSkill6[5]){w_DMG[b] += Math.floor((.02+(.03*n_A_PassSkill6[5]))*w_DMG[b]);}	//Provoke
-			if(n_A_PassSkill6[5] && n_A_PassSkill2[12]){
-			w_DMG[b] += 0;
-			}else{
-				if(n_A_PassSkill2[12])
-					w_DMG[b] += Math.floor(w_DMG[b]*0.05);
-			}
-			if(n_A_PassSkill5[3] == 1)
-				w_DMG[b] = 2*w_DMG[b];									//Gospel +100% atk
-
-			//Last_DMG_A[b] = Last_DMG_B[b] = w_DMG[b] + EDP_DMG(b);
-			w_DMG[b] += EDP_DMG(b);
+			w_DMG[b] = Math.floor(BK_n_A_DMG[b] * skill_ratio) + skill_damage_constant;	//Asura calculation (dmg * sp-calc + skilllvl-specific-atk)
+			w_DMG[b] = BaiCI(w_DMG[b]);													//weap (i.e. Nemesis) & card modifier
+			w_DMG[b] = Math.floor(w_DMG[b] * zokusei[n_B[3]][0]);						//Enemy element reduction for ghost
+			w_DMG[b] = ApplySkillAtkBonus(w_DMG[b]);
 
 			//[Custom TalonRO - 2018-07-09 Soft-Cap Asura damage above 200k] [NattWara/Loa]
 			//100% accurate for below 200k damage.
@@ -1556,14 +1537,14 @@ function BattleCalc999()
 			//No data available for above 400k damage.
 			
 			//Lex Aeterna for Asura Strike after soft-cap
-			if(n_B_IJYOU[6] && wLAch==0){
+			if (n_B_IJYOU[6] && wLAch==0)
 				w_DMG[b] *= 2;
-			}
 
-			if(w_DMG[b] > 200000){
-				var AsuraExcessD = w_DMG[b] - 200000;
-				var AsuraNerfD = (0.5963 - 0.1471) * Math.exp(-0.000002230 * AsuraExcessD) + 0.1471;
-				w_DMG[b] = Math.floor(200000 + (AsuraExcessD * AsuraNerfD));
+			if (w_DMG[b] > 200000)
+			{
+				overflow_damage = w_DMG[b] - 200000;
+				smoothed_damage = 1.323031 + 0.5996693 * overflow_damage - 0.000001183789 * overflow_damage**2 + 2.125968e-12 * overflow_damage ** 3 - 2.736422e-18 * overflow_damage ** 4 + 1.647955e-24 * overflow_damage**5;
+				w_DMG[b] = Math.floor(200000 + smoothed_damage);
 			}
 			
 			Last_DMG_A[b] = Last_DMG_B[b] = w_DMG[b]
