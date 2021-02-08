@@ -1326,7 +1326,7 @@ function BattleCalc999()
 		BattleCalc998();
 	}
 
-	else if(n_A_ActiveSkill==162)
+	else if (162 == n_A_ActiveSkill) // Grand Cross#163
 	{
 		n_PerHIT_DMG = 0;
 
@@ -1335,31 +1335,36 @@ function BattleCalc999()
 
 		myInnerHtml("CRInumname",'<Font color="#FF0000">Damage Backlash</Font>',0);
 
-
+		w_DMG = [0,0,0];
 		work_A_VITDEF = [0,0,0];
 		work_A_VITDEF[0] = n_A_VITDEF[2];
 		work_A_VITDEF[1] = n_A_VITDEF[1];
 		work_A_VITDEF[2] = n_A_VITDEF[0];
 		n_A_INTMDEF = n_A_INT + Math.floor(n_A_VIT /2);
 
-		for(var i=0;i<=2;i++){
-			w_DMG[i] = BK_n_A_DMG[i] * (100 - n_A_DEF) /100 - work_A_VITDEF[i] + n_A_WeaponLV_seirenATK;
-			w_DMG[i] = Math.floor(w_DMG[i] * (wbairitu + n_A_ActiveSkillLV * 0.4));
 
-			w = BK_n_A_MATK[i] *(100 - n_A_MDEF)/100 - n_A_INTMDEF;
-			w = Math.floor(w * (n_A_ActiveSkillLV * 0.4 +1));
+		// #18 - Ignore [Grand Cross] holy self-damage
+		if (1376 != n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x - 1 == 18) == -1)
+		{
+			for(var i=0;i<=2;i++){
+				w_DMG[i] = BK_n_A_DMG[i] * (100 - n_A_DEF) /100 - work_A_VITDEF[i] + n_A_WeaponLV_seirenATK;
+				w_DMG[i] = Math.floor(w_DMG[i] * (wbairitu + n_A_ActiveSkillLV * 0.4));
 
-			w_DMG[i] += w;
-			w_DMG[i] = Math.floor(w_DMG[i] * (100-n_tok[57]) /100);
-			w_DMG[i] = Math.floor(w_DMG[i] * (100-n_tok[66]) /100);
-			w_DMG[i] = Math.floor(w_DMG[i] * (100-n_tok[78]) /100);
-			if(eval(document.calcForm.A_youshi.checked))
-				w_DMG[i] = Math.floor(w_DMG[i] * (100-n_tok[190]) /100);
-			else
-				w_DMG[i] = Math.floor(w_DMG[i] * (100-n_tok[191]) /100);
-			w_DMG[i] = Math.floor(w_DMG[i] * zokusei[n_A_BodyZokusei * 10 +1][6]);
+				w = BK_n_A_MATK[i] *(100 - n_A_MDEF)/100 - n_A_INTMDEF;
+				w = Math.floor(w * (n_A_ActiveSkillLV * 0.4 +1));
 
-			w_DMG[i] = Math.floor(w_DMG[i] /2);
+				w_DMG[i] += w;
+				w_DMG[i] = Math.floor(w_DMG[i] * (100-n_tok[57]) /100);
+				w_DMG[i] = Math.floor(w_DMG[i] * (100-n_tok[66]) /100);
+				w_DMG[i] = Math.floor(w_DMG[i] * (100-n_tok[78]) /100);
+				if(eval(document.calcForm.A_youshi.checked))
+					w_DMG[i] = Math.floor(w_DMG[i] * (100-n_tok[190]) /100);
+				else
+					w_DMG[i] = Math.floor(w_DMG[i] * (100-n_tok[191]) /100);
+				w_DMG[i] = Math.floor(w_DMG[i] * zokusei[n_A_BodyZokusei * 10 +1][6]);
+
+				w_DMG[i] = Math.floor(w_DMG[i] /2);
+			}
 		}
 		myInnerHtml("CRInum",'<Font color="#FF0000">'+3+ SubName[8] + w_DMG[0] +"~"+ w_DMG[2] +" Damage</Font>",0);
 
