@@ -602,6 +602,7 @@ SQI_BONUS =[
 ,[74,1382,"Evangelist","Increase effectiveness of Sanctuary by 20%",94,20,0]
 ,[75,1382,"Evangelist","Enables use of Level 10 [Frost Nova]",220,51,0]
 ,[76,1382,"Evangelist","Enables use of [Free Cast] and casting can't be interrupted",0]
+,[76,1382,"Evangelist","50% cast time reduction for [Magnificat], [Kyrie Elesion], [Assumptio] and [Safety Wall]",0]
 ,[77,1382,"Evangelist","Add a 10% chance to auto-cast level 6 [Cold Bolt] when attacking normally",0]
 ,[78,1382,"Evangelist","Add a 15% chance to double cast [Heal] at the level learned",0]
 ,[79,1383,"Eversong Greaves","[Taekwon] +10% MaxHP/MaxSP; [Star Gladiator] +20% MaxHP/MaxSP",0]
