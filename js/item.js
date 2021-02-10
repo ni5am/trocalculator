@@ -1805,6 +1805,10 @@ ItemOBJ = [
 ,[1754,50,1,2,0,1,50,15,"RWC 2010 Indonesia","","A special cap with a neon sign above, dedicated to celebrating RWC 2010 in Indonesia.",10,3,57,5,218,[501,5,1],218,[504,5,1],0]
 ,[1755,50,1,2,0,0,40,1,"Xmas Frozen Twin Pompom","","A cute hat that will protect you from the cold weather. Used to celebrate Christmas.<br>Gain a Christmas Firecracker when killing monsters of Non-Boss type by low chance.",7,1,73,-5,80,5,218,[520,5,1],218,[521,5,1],218,[522,5,1],218,[545,5,1],218,[508,5,1],218,[501,5,1],218,[507,5,1],218,[569,5,1],218,[549,5,1],218,[529,5,1],218,[528,5,1],218,[550,5,1],0]
 ,[1756,51,0,0,0,0,10,20,"Thanatos Despero Mask","","A mask worn by Thanatos Despero.<br>It feels very powerful, but the design is charming.",6,-5,9,4,0]
+,[1757,50,0,5,0,1,40,10,"Skull Cap","","A hat with a skeleton accessory on the top.<br><br><b>[Refine Rate > 4]</b> Additional MATK + 2%<br><b>[Refine Rate > 6]</b> Additional MATK + 1%<br><b>[Refine Rate 10]</b> Reduce Casting Time by 5%",89,2,0]
+,[1758,100,0,0,0,0,0,0,"Skull Cap + Elven Ears[0]","",0,72,-3,0]
+,[1759,100,0,0,0,0,0,0,"Skull Cap + Evil Bone Wand","",0,89,2,0]
+,[1760,100,0,0,0,0,0,0,"Skull Cap + Dark Thorn Staff","",0,89,2,0]
 ];
 
 //Test code for finding the values in Skill.js AutoSpellSkill
@@ -3595,6 +3599,10 @@ ItemID = [
 ,[1754,1,18509]
 ,[1755,1,8802]
 ,[1756,1,18530]
+,[1757,1,18539]
+,[1758,2,18539,2286]
+,[1759,2,18539,1615]
+,[1760,2,18539,1636]
 ];
 
 /*
@@ -4255,6 +4263,9 @@ w_SE = [[737,436,475,"NULL"]
 ,[1737,1736,1240,"NULL"] //Custom TalonRO - Empty Liquor Bottle + Beer Hat
 ,[1740,1739,781,"NULL"] //Custom TalonRO - Preschool Hat + Bunny Slipper
 ,[1742,1741,1414,"NULL"] //Custom TalonRO - Rose Casquette + Rose of Crimson
+,[1758,1757,253,"NULL"] //Custom TalonRO - Skull Cap + Elven Ears[0]
+,[1759,1757,89,"NULL"] //Custom TalonRO - Skull Cap + Evil Bone Wand
+,[1760,1757,936,"NULL"] //Custom TalonRO - Skull Cap + Dark Thorn Staff
 ];
 
 SE_MAXnum = w_SE.length -1;

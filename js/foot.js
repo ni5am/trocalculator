@@ -2529,6 +2529,22 @@ with(document.calcForm){
 	//MATK% stuff
 	w = 100;
 
+	/*
+		Skull Cap#1757 
+		[Refine Rate 5~10] Additional MATK + 2%
+		[Refine Rate 7~10] Additional MATK + 1%
+		[Refine Rate 10] Cast time - 5%
+	*/
+	if (EquipNumSearch(1757))
+	{
+		if (n_A_HEAD_DEF_PLUS > 4)
+			n_tok[89] += 2;
+		if (n_A_HEAD_DEF_PLUS > 6)
+			n_tok[89] += 1;
+		if (10 == n_A_HEAD_DEF_PLUS)
+			n_tok[73] -= 5;
+	}
+
 	w += n_tok[89];
 
 	if(n_A_Weapon_ATKplus >= 9 && EquipNumSearch(642))
@@ -5972,7 +5988,7 @@ function KakutyouKansuu(){
 		myInnerHtml("A_KakutyouData",wkk9,0);
 	}else if(wKK == 10){
 		var wkk10;
-		wkk10 = "<b>Cast Time: </b>"+ Math.round(n_A_CAST *10000)/100 + " % [ "+(100 - n_tok[73]) + " % " + (seductive_bathory_cocktail ? "(25 %) " : "") + "and "+n_A_DEX+" DEX ]<BR>";
+		wkk10 = "<b>Cast Time: </b>"+ Math.round(n_A_CAST *10000)/100 + " % [ "+(100 + n_tok[73]) + " % " + (seductive_bathory_cocktail ? "(25 %) " : "") + "and "+n_A_DEX+" DEX ]<BR>";
 		wkk10 += "<b>Cast Delay: </b>"+ Math.round((100 - n_tok[74]) *100)/100 +" %";
 		myInnerHtml("A_KakutyouData",wkk10,0);
 	}else if(wKK == 11){
