@@ -1,3 +1,9 @@
+[2021-02-10]
+- Added Skull Cap
+- Added SQI Intances' monsters
+- Fixed max SP under Blessing and Gospel
+- Fixed Asura Strike damage computation including lex and soft cap
+
 [2021-02-03]
 - Updated SQI
 
