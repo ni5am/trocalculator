@@ -723,8 +723,8 @@ function BattleCalc999()
 			skill_ratio = 1 + n_A_ActiveSkillLV * 0.2;
 			aoe_position = eval(document.calcForm.SkillSubNum.value);
 			
-			// #129 - inflict full damage regardless of AoE position
-			if (1386 == n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x - 1 == 129) > -1)
+			// #131 - inflict full damage regardless of AoE position
+			if (1386 == n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x == 131) > -1)
 				aoe_position = 0;
 			
 			wbairitu += skill_ratio - 1;
@@ -1343,8 +1343,8 @@ function BattleCalc999()
 		n_A_INTMDEF = n_A_INT + Math.floor(n_A_VIT /2);
 
 
-		// #18 - Ignore [Grand Cross] holy self-damage
-		if (1376 != n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x - 1 == 18) == -1)
+		// #19 - Ignore [Grand Cross] holy self-damage
+		if (1376 != n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x == 19) == -1)
 		{
 			for(var i=0;i<=2;i++){
 				w_DMG[i] = BK_n_A_DMG[i] * (100 - n_A_DEF) /100 - work_A_VITDEF[i] + n_A_WeaponLV_seirenATK;
@@ -6776,8 +6776,8 @@ Race - n_B[2] = raceID - example n_B[2] = 3, Plant
 	
 	
 	// Belmont Whip#1378 - Dancer/Gypsy
-	// #37 - [Ugly Dance] reduces enemy INT by 20% for 7 seconds
-	if (1378 == n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x - 1 == 37) > -1)
+	// #38 - [Ugly Dance] reduces enemy INT by 20% for 7 seconds
+	if (1378 == n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x == 38) > -1)
 		n_B[9] -= Math.floor(n_B[9] * 0.1);
 	
 	
@@ -7097,8 +7097,8 @@ function calc()
 		wDA = Math.max(5, SkillSearch(13) * 5);
 	
 	// Sherwood Bow#1388 - Rogue/Stalker
-	// #148 - Enable [Double Attack] usage
-	if (1388 == n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x - 1 == 149) > -1)
+	// #151 - Enable [Double Attack] usage
+	if (1388 == n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x == 151) > -1)
 		wDA = Math.max(wDA, SkillSearch(13) * 5);
 	
 	// Chain Action#427 - Similar behaviour as Double Attack
@@ -7851,9 +7851,9 @@ function ApplySkillAtkBonus(dmg)
 	}
 	
 	// Nibelungen#1386 - Knight/Lord Knight
-	// #125 - Increase damage inflicted on Large size monster by 15% when using [Pierce#70] or [Brandish Spear#73]
-	if (1386 == n_A_Equip[0] && 2 == n_B[4] && (70 == n_A_ActiveSkill || 73 == n_A_ActiveSkill) && SQI_Bonus_Effect.findIndex(x => x - 1 == 125) > -1)
-		skill_atk_bonus_ratio += 20;
+	// #127 - Increase damage inflicted on Large size monster by 15% when using [Pierce#70] or [Brandish Spear#73]
+	if (1386 == n_A_Equip[0] && 2 == n_B[4] && (70 == n_A_ActiveSkill || 73 == n_A_ActiveSkill) && SQI_Bonus_Effect.findIndex(x => x == 127) > -1)
+		skill_atk_bonus_ratio += 15;
 
 	dmg = dmg * (100 + StPlusCalc2 (5000 + n_A_ActiveSkill) + StPlusCard(5000 + n_A_ActiveSkill) + skill_atk_bonus_ratio) / 100;
 

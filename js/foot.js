@@ -572,10 +572,10 @@ with(document.calcForm){
 	}
 	//custom TalonRO SQI
 	if(n_SQI_Bonus_SW){
-		SQI_Bonus_Effect[0] = eval(SQI_Bonus_1.value);
-		SQI_Bonus_Effect[1] = eval(SQI_Bonus_2.value);
-		SQI_Bonus_Effect[2] = eval(SQI_Bonus_3.value);
-		SQI_Bonus_Effect[3] = eval(SQI_Bonus_4.value);
+		SQI_Bonus_Effect[0] = SQI_Bonus_1.value;
+		SQI_Bonus_Effect[1] = SQI_Bonus_2.value;
+		SQI_Bonus_Effect[2] = SQI_Bonus_3.value;
+		SQI_Bonus_Effect[3] = SQI_Bonus_4.value;
 	}
 	//custom TalonRO - Skill9SW deactivated
 	if(n_Skill9SW){
@@ -1354,8 +1354,8 @@ with(document.calcForm){
 		n_tok[15] -= n_A_SHOES_DEF_PLUS;
 	if (n_A_PassSkill3[3]) // Apple of Idun - HP Rate: (5 + 2 * skill_lv) + (VIT / 10) + (BA_MUSICALLESSON skill_lv / 2)
 	{
-		// #66 - [The Apple of Idun] MaxHP Rate + 2%. Heals three times as often and twice as much
-		apple_of_idun_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x - 1 == 67) > -1 ? 2 : 0);
+		// #68 - [The Apple of Idun] MaxHP Rate + 2%. Heals three times as often and twice as much
+		apple_of_idun_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x == 68) > -1 ? 2 : 0);
 		n_tok[15] += 5 + n_A_PassSkill3[3] * 2 + Math.floor(n_A_PassSkill3[23] /10) + Math.floor(n_A_PassSkill3[33]) / 2 + apple_of_idun_sqi_bonus;
 	}
 
@@ -2116,8 +2116,8 @@ with(document.calcForm){
 	}
 	if(n_A_PassSkill3[0]) // A Whistle - Base_FLEE_Boost - Skill Lv + Floor(AGI / 10) + Floor(Music_Lessons_Lv / 2)
 	{
-		// #67 - [A Whistle] FLEE Rate + 20% and Perfect Dodge Rate + 3%
-		a_whistle_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x - 1 == 68) > -1 ? 20 : 0);
+		// #69 - [A Whistle] FLEE Rate + 20% and Perfect Dodge Rate + 3%
+		a_whistle_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x == 69) > -1 ? 20 : 0);
 		n_A_FLEE += n_A_PassSkill3[0] + Math.Floor(n_A_PassSkill3[30] / 2) + Math.floor(n_A_PassSkill3[20] / 10) + a_whistle_sqi_bonus;
 	}
 
@@ -2220,8 +2220,8 @@ with(document.calcForm){
 	// A Whistle Skill - Base_P._D._Boost - Floor((Skill Lv + 1) / 2 + LUK / 30) + Floor(Music_Lessons_Lv / 5)
 	if (n_A_PassSkill3[0])
 	{
-		// #67 - [A Whistle] FLEE Rate + 20% and Perfect Dodge Rate + 3%
-		a_whistle_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x - 1 == 68) > -1 ? 3 : 0);
+		// #69 - [A Whistle] FLEE Rate + 20% and Perfect Dodge Rate + 3%
+		a_whistle_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x == 69) > -1 ? 3 : 0);
 		n_tok[11] += Math.floor((n_A_PassSkill3[0] + 1) / 2 + n_A_PassSkill3[46] / 30) + Math.floor(n_A_PassSkill3[30] / 5) + a_whistle_sqi_bonus;
 	}
 
@@ -2299,7 +2299,7 @@ with(document.calcForm){
 	if (n_A_PassSkill3[5]) // Fortune's Kiss
 	{
 		// #39 - [Fortune's Kiss] CRIT Rate + 5%; and buffs yourself without [Bard and Dancer Spirits]; when its user leaves the AoE it lasts 40 seconds
-		fortunes_kiss_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x - 1 == 39) > -1 ? 5 : 0);
+		fortunes_kiss_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x == 39) > -1 ? 5 : 0);
 		n_A_CRI += 10 + n_A_PassSkill3[5] + Math.floor(n_A_PassSkill3[35] /2) + Math.floor(n_A_PassSkill3[25] /10) + fortunes_kiss_sqi_bonus;
 	}
 	
@@ -3344,8 +3344,8 @@ with(document.calcForm){
 	musical_lesson_lv = n_A_PassSkill3[2]; // Musical Lesson
 	if (musical_lesson_lv)
 	{
-		// #68 - [Poem of Bragi] Aftercast Rate + 2%
-		bragi_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x - 1 == 69) > -1 ? 2 : 0);
+		// #69 - [Poem of Bragi] Aftercast Rate + 2%
+		bragi_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x == 69) > -1 ? 2 : 0);
 		
 		// custom TalonRO Poem of Bragi after cast delay
 		// "we strongly think that the stacking of Bragi with items that grant ACD reduction is something to avoid" - GM Team, applied only to PvM
@@ -6707,26 +6707,26 @@ function manage_sqi_bonus()
 	// Scouter#1387 - Gunslinger
 	if (45 == n_A_JOB && 1387 == n_A_Equip[3])
 	{
-		// #134 - CRIT + 15 (30 with Rifles) and 20% more damage with Critical Hits
-		if (18 == n_A_WeaponType && SQI_Bonus_Effect.findIndex(x => x - 1 == 135) > -1)
+		// #137 - CRIT + 15 (30 with Rifles) and 20% more damage with Critical Hits
+		if (18 == n_A_WeaponType && SQI_Bonus_Effect.findIndex(x => x == 137) > -1)
 			n_tok[10] += 15;
 		
-		// #135 - Shotgun Equipped: 15% Aftercast reduction and immunity to Blind status
-		if (19 == n_A_WeaponType && SQI_Bonus_Effect.findIndex(x => x - 1 == 136) > -1)
+		// #138 - Shotgun Equipped: 15% Aftercast reduction and immunity to Blind status
+		if (19 == n_A_WeaponType && SQI_Bonus_Effect.findIndex(x => x == 138) > -1)
 		{
 			n_tok[74] += 15;
 			n_tok[154] += 100;
 		}
 		
-		// #136 - Grenade Launcher Equipped: Add a 10% chance to pierce 20% of enemy defense for 10 seconds after using [Triple Action]
-		if (21 == n_A_WeaponType && SQI_Bonus_Effect.findIndex(x => x - 1 == 137) > -1)
+		// #139 - Grenade Launcher Equipped: Add a 10% chance to pierce 20% of enemy defense for 10 seconds after using [Triple Action]
+		if (21 == n_A_WeaponType && SQI_Bonus_Effect.findIndex(x => x == 139) > -1)
 		{
 			n_tok[200] += 20;
 			n_tok[201] += 20;
 		}
 		
-		// #137 - Ignore [Gatling Fever] FLEE and Movement Speed penalties. Dispell [Gatling Fever] on unequip
-		if (20 == n_A_WeaponType && SQI_Bonus_Effect.findIndex(x => x - 1 == 138) > -1)
+		// #140 - Ignore [Gatling Fever] FLEE and Movement Speed penalties. Dispell [Gatling Fever] on unequip
+		if (20 == n_A_WeaponType && SQI_Bonus_Effect.findIndex(x => x == 140) > -1)
 			n_A_FLEE -= 5 * SkillSearch(433);
 	}
 
@@ -6737,15 +6737,15 @@ function manage_sqi_bonus()
 		n_tok[8] += 75;  // HIT + 75
 		n_tok[12] += 30; // ASPD + 30%
 		
-		// #78 - [Taekwon] +10% MaxHP/MaxSP
-		if (SQI_Bonus_Effect.findIndex(x => x - 1 == 79) > -1)
+		// #81 - [Taekwon] +10% MaxHP/MaxSP
+		if (SQI_Bonus_Effect.findIndex(x => x == 81) > -1)
 		{
 			n_tok[15] += 10;
 			n_tok[16] += 10;
 		}
 		
-		// #79 - [Taekwon] Ignore 20% of enemy Defense
-		if (SQI_Bonus_Effect.findIndex(x => x - 1 == 80) > -1)
+		// #82 - [Taekwon] Ignore 20% of enemy Defense
+		if (SQI_Bonus_Effect.findIndex(x => x == 82) > -1)
 		{
 			n_tok[21] += 20;
 			n_tok[22] += 20;
@@ -6759,8 +6759,8 @@ function manage_sqi_bonus()
 		n_tok[5] += 10; // DEX + 10
 		n_tok[6] += 15; // LUK + 15
 		
-		// #78 - [Star Gladiator] +20% MaxHP/MaxSP
-		if (SQI_Bonus_Effect.findIndex(x => x - 1 == 79) > -1)
+		// #81 - [Star Gladiator] +20% MaxHP/MaxSP
+		if (SQI_Bonus_Effect.findIndex(x => x == 81) > -1)
 		{
 			n_tok[15] += 20;
 			n_tok[16] += 20;
@@ -6768,14 +6768,14 @@ function manage_sqi_bonus()
 	}
 
 	// Tome of Ymir#1391 - Sage/Professor
-	if (1383 == n_A_Equip[0])
+	if (1391 == n_A_Equip[0])
 	{
-		// #179 - Pierce 10% of enemy MDEF when using [Fire Bolt], [Cold Bolt], [Lightning Bolt], or [Earth Spike]
-		if (SQI_Bonus_Effect.findIndex(x => x - 1 == 179) > -1 && (51 == n_A_ActiveSkill || 54 == n_A_ActiveSkill || 56 == n_A_ActiveSkill || 132 == n_A_ActiveSkill))
+		// #180 - Pierce 10% of enemy MDEF when using [Fire Bolt], [Cold Bolt], [Lightning Bolt], or [Earth Spike]
+		if (SQI_Bonus_Effect.findIndex(x => x == 180) > -1 && (51 == n_A_ActiveSkill || 54 == n_A_ActiveSkill || 56 == n_A_ActiveSkill || 132 == n_A_ActiveSkill))
 			n_tok[295] += 10;
 		
-		// #182 - Autospell#229 Mastered: Add ASPD + 12% and FLEE + 15 during [Autospell]
-		if (SQI_Bonus_Effect.findIndex(x => x - 1 == 182) > -1 && 10 == SkillSearch(229))
+		// #183 - Autospell#229 Mastered: Add ASPD + 12% and FLEE + 15 during [Autospell]
+		if (SQI_Bonus_Effect.findIndex(x => x == 183) > -1 && 10 == SkillSearch(229))
 		{
 			n_tok[9] += 15;
 			n_tok[12] += 12;
@@ -6785,20 +6785,20 @@ function manage_sqi_bonus()
 	// Artemis#1377 - Hunter/Sniper
 	if (1377 == n_A_Equip[0])
 	{
-		// #26 - Add a 10% chance to auto-cast Level 2 [NPC_BLEEDING] when attacking normally - HIT + 20
-		if (SQI_Bonus_Effect.findIndex(x => x - 1 == 26) > -1)
+		// #27 - Add a 10% chance to auto-cast Level 2 [NPC_BLEEDING] when attacking normally - HIT + 20
+		if (SQI_Bonus_Effect.findIndex(x => x == 27) > -1)
 			n_tok[8] += 20;
 
-		// #27 - + 15 FLEE on [Wind Walk]
-		if (SQI_Bonus_Effect.findIndex(x => x - 1 == 27) > -1 && SkillSearch(273))
+		// #28 - + 15 FLEE on [Wind Walk]
+		if (SQI_Bonus_Effect.findIndex(x => x == 28) > -1 && SkillSearch(273))
 			n_tok[9] += 15;	
 	}
 	
 	// Aegis Shield#1376 - Crusader/Paladin
 	if (1376 == n_A_Equip[5])
 	{
-		// #19 - Increase effectiveness of [Heal] by 20% (10% in PvP/WoE)
-		if (Taijin && SQI_Bonus_Effect.findIndex(x => x - 1 == 19) > -1)
+		// #20 - Increase effectiveness of [Heal] by 20% (10% in PvP/WoE)
+		if (Taijin && SQI_Bonus_Effect.findIndex(x => x == 20) > -1)
 			n_tok[90] -= 10;
 	}
 	
