@@ -3529,18 +3529,18 @@ with(document.calcForm){
 	if(n_Skill3SW){
 		var str;
 		str = '<table style="border: 1px solid #999; border-collapse: collapse; width: auto;">';
-		str += '<TR><TD id="A3TD" ColSpan="6" Bgcolor="#DDDDFF" class="subheader"><div style="float: left; padding: 3px;">Music and Dance Skills <span id="A3used"></span></div>';
+		str += '<TR><TD id="A3TD" ColSpan="8" Bgcolor="#DDDDFF" class="subheader"><div style="float: left; padding: 3px;">Music and Dance Skills <span id="A3used"></span></div>';
 		str += '<div style="float: right; padding-right: 3px;"><input id="lab10" type="checkbox" name="A3_SKILLSW"onClick="Click_Skill3SW()"><label for="lab10">Show</label></div>';
 		str += '<div style="clear: both;"></div></TD></TR>';
-		str += '<TR><TD RowSpan=2 id="EN0_1"></TD><TD RowSpan=2 id="EN0_2"></TD><TD id="EN0_3"></TD><TD id="EN0_4"></TD><TD id="EN0_7"></TD><TD id="EN0_8"></TD></TR>';
+		str += '<TR><TD RowSpan=2 id="EN0_1"></TD><TD RowSpan=2 id="EN0_2"></TD><TD id="EN0_3"></TD><TD id="EN0_4"></TD><TD id="EN0_7"></TD><TD id="EN0_8"></TD><TD id="EN0_9"></TD><TD id="EN0_10"></TD></TR>';
 		str += '<TR><TD id="EN0_5"></TD><TD id="EN0_6"></TD></TR>';
-		str += '<TR><TD id="EN1_1"></TD><TD id="EN1_2"></TD><TD id="EN1_3"></TD><TD id="EN1_4"></TD><TD id="EN1_5"></TD><TD id="EN1_6"></TD></TR>';
+		str += '<TR><TD id="EN1_1"></TD><TD id="EN1_2"></TD><TD id="EN1_3"></TD><TD id="EN1_4"></TD><TD id="EN1_5"></TD><TD id="EN1_6"></TD><TD id="EN1_7"></TD><TD id="EN1_8"></TD></TR>';
 		// custom TalonRO Poem of Bragi after cast delay: after cast delay is reduced for PVM but not for PVP/WOE, thus a checkbox is needed to decide which mode is active
-		str += '<TR><TD RowSpan=2 id="EN2_1"></TD><TD RowSpan=2 id="EN2_2"></TD><TD id="EN2_3"></TD><TD id="EN2_4"></TD><TD id="EN2_7"></TD><TD id="EN2_8"></TD></TR>';
-		str += '<TR><TD id="EN2_5"></TD><TD id="EN2_6"></TD><TD id="EN2_9"></TD><TD id="EN2_10"></TD></TR>';
-		str += '<TR><TD id="EN3_1"></TD><TD id="EN3_2"></TD><TD id="EN3_3"></TD><TD id="EN3_4"></TD><TD id="EN3_5"></TD><TD id="EN3_6"></TD></TR>';
+		str += '<TR><TD RowSpan=2 id="EN2_1"></TD><TD RowSpan=2 id="EN2_2"></TD><TD id="EN2_3"></TD><TD id="EN2_4"></TD><TD id="EN2_7"></TD><TD id="EN2_8"></TD><TD id="EN2_11"></TD><TD id="EN2_12"></TD></TR>';
+		str += '<TR><TD id="EN2_5"></TD><TD id="EN2_6"></TD><TD><TD><TD id="EN2_9"></TD><TD id="EN2_10"></TD></TR>';
+		str += '<TR><TD id="EN3_1"></TD><TD id="EN3_2"></TD><TD id="EN3_3"></TD><TD id="EN3_4"></TD><TD id="EN3_5"></TD><TD id="EN3_6"></TD><TD id="EN3_7"></TD><TD id="EN3_8"></TD></TR>';
 		str += '<TR><TD id="EN4_1"></TD><TD id="EN4_2"></TD><TD id="EN4_3"></TD><TD id="EN4_4"></TD><TD id="EN4_5"></TD><TD id="EN4_6"></TD></TR>';
-		str += '<TR><TD id="EN5_1"></TD><TD id="EN5_2"></TD><TD id="EN5_3"></TD><TD id="EN5_4"></TD><TD id="EN5_5"></TD><TD id="EN5_6"></TD></TR>';
+		str += '<TR><TD id="EN5_1"></TD><TD id="EN5_2"></TD><TD id="EN5_3"></TD><TD id="EN5_4"></TD><TD id="EN5_5"></TD><TD id="EN5_6"></TD></TD><TD id="EN5_7"></TD><TD id="EN5_8"></TD></TR>';
 		str += '<TR><TD id="EN6_1"></TD><TD id="EN6_2"></TD><TD id="EN6_3"></TD><TD id="EN6_4"></TD><TD id="EN6_5"></TD><TD id="EN6_6"></TD></TR>';
 		str += '<TR><TD id="EN7_1"></TD><TD id="EN7_2"></TD><TD id="EN8_1"></TD><TD id="EN8_2"></TD></TR>';
 		str += '<TR><TD id="EN9_1"></TD><TD id="EN9_2"></TD><TD id="EN10_1"></TD><TD id="EN10_2"></TD></TR>';
@@ -3633,6 +3633,7 @@ with(document.calcForm){
 				n_A_PassSkill3[20] = 100;	// Bard's AGI
 				n_A_PassSkill3[30] = 10;	// Musical Lessons Lv
 				n_A_PassSkill3[46] = 100;	// Bard's LUK
+				whistle_bonus = 0;
 			}
 			myInnerHtml("EN0_3","Bard's AGI",0);
 			myInnerHtml("EN0_4",'<select name="A3_Skill0_2"onChange="Click_A3(1)"></select>',0);
@@ -3640,7 +3641,9 @@ with(document.calcForm){
 			myInnerHtml("EN0_6",'<select name="A3_Skill0_4"onChange="Click_A3(1)"></select>',0);
 			myInnerHtml("EN0_7","Musical Lessons",0);
 			myInnerHtml("EN0_8",'<select name="A3_Skill0_3"onChange="Click_A3(1)"></select>',0);
-
+			myInnerHtml("EN0_9","<label for=\"song_sqi_bonus\">SQI Bonus</label>",0);
+			myInnerHtml("EN0_10",'<input type="checkbox" name="whistle_bonus_check" id="whistle_bonus_check" onChange="Click_A3(1)"></input>',0);
+			
 			for(i=1;i<=200;i++)
 				A3_Skill0_2.options[i-1] = new Option(i,i);
 			for(i=0;i<=10;i++)
@@ -3651,6 +3654,7 @@ with(document.calcForm){
 			A3_Skill0_2.value = n_A_PassSkill3[20];
 			A3_Skill0_3.value = n_A_PassSkill3[30];
 			A3_Skill0_4.value = n_A_PassSkill3[46];
+			whistle_bonus_check.checked = whistle_bonus;
 		}
 	}else{
 		SWs3sw[0] = 0;
@@ -3695,6 +3699,7 @@ with(document.calcForm){
 				n_A_PassSkill3[29] = 100;
 				n_A_PassSkill3[32] = 10;
 				n_A_PassSkill3[45] = 0;
+				bragi_bonus = 0;
 			}
 			myInnerHtml("EN2_3","Bard's DEX",0);
 			myInnerHtml("EN2_4",'<select name="A3_Skill2_2"onChange="Click_A3(1)"></select>',0);
@@ -3705,6 +3710,8 @@ with(document.calcForm){
 			// custom TalonRO Poem of Bragi after cast delay
 			myInnerHtml("EN2_9","<label for=\"lab16\">PVP/WOE mode</label>",0);
 			myInnerHtml("EN2_10",'<input type="checkbox" name="A3_Skill2_5" id="lab16" onChange="Click_A3(1)"></input>',0);
+			myInnerHtml("EN2_11","<label for=\"song_sqi_bonus\">SQI Bonus</label>",0);
+			myInnerHtml("EN2_12",'<input type="checkbox" name="bragi_bonus_check" id="bragi_bonus_check" onChange="Click_A3(1)"></input>',0);
 			for(i=1;i<=200;i++)
 				A3_Skill2_2.options[i-1] = new Option(i,i);
 			for(i=1;i<=250;i++)
@@ -3717,6 +3724,7 @@ with(document.calcForm){
 			A3_Skill2_4.value = n_A_PassSkill3[32];
 			// custom TalonRO Poem of Bragi after cast delay
 			A3_Skill2_5.checked = n_A_PassSkill3[45];
+			bragi_bonus_check.checked = bragi_bonus;
 		}
 	}else{
 		SWs3sw[2] = 0;
@@ -3736,11 +3744,14 @@ with(document.calcForm){
 			if(n_A_PassSkill3[23]==0){
 				n_A_PassSkill3[23] = 100;
 				n_A_PassSkill3[33] = 10;
+				apple_bonus = 0;
 			}
 			myInnerHtml("EN3_3","Bard's VIT",0);
 			myInnerHtml("EN3_4",'<select name="A3_Skill3_2"onChange="Click_A3(1)"></select>',0);
 			myInnerHtml("EN3_5","Musical Lessons",0);
 			myInnerHtml("EN3_6",'<select name="A3_Skill3_3"onChange="Click_A3(1)"></select>',0);
+			myInnerHtml("EN3_7","<label for=\"song_sqi_bonus\">SQI Bonus</label>",0);
+			myInnerHtml("EN3_8",'<input type="checkbox" name="apple_bonus_check" id="apple_bonus_check" onChange="Click_A3(1)"></input>',0);
 			for(i=1;i<=150;i++)
 				A3_Skill3_2.options[i-1] = new Option(i,i);
 			for(i=0;i<=10;i++)
@@ -3748,6 +3759,7 @@ with(document.calcForm){
 			SWs3sw[3] = 1;
 			A3_Skill3_2.value = n_A_PassSkill3[23];
 			A3_Skill3_3.value = n_A_PassSkill3[33];
+			apple_bonus_check = apple_bonus;
 		}
 	}else{
 		SWs3sw[3] = 0;
@@ -3788,11 +3800,14 @@ with(document.calcForm){
 			if(n_A_PassSkill3[25]==0){
 				n_A_PassSkill3[25] = 50;
 				n_A_PassSkill3[35] = 10;
+				fortune_bonus = 0;
 			}
 			myInnerHtml("EN5_3","Dancer's LUK",0);
 			myInnerHtml("EN5_4",'<select name="A3_Skill5_2"onChange="Click_A3(1)"></select>',0);
 			myInnerHtml("EN5_5","Dancing Lessons",0);
 			myInnerHtml("EN5_6",'<select name="A3_Skill5_3"onChange="Click_A3(1)"></select>',0);
+			myInnerHtml("EN5_7","<label for=\"song_sqi_bonus\">SQI Bonus</label>",0);
+			myInnerHtml("EN5_8",'<input type="checkbox" name="fortune_bonus_check" id="fortune_bonus_check" onChange="Click_A3(1)"></input>',0);
 			for(i=1;i<=180;i++)
 				A3_Skill5_2.options[i-1] = new Option(i,i);
 			for(i=0;i<=10;i++)
@@ -3800,6 +3815,7 @@ with(document.calcForm){
 			SWs3sw[5] = 1;
 			A3_Skill5_2.value = n_A_PassSkill3[25];
 			A3_Skill5_3.value = n_A_PassSkill3[35];
+			fortune_bonus_check = fortune_bonus;
 		}
 	}else{
 		SWs3sw[5] = 0;

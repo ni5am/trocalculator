@@ -444,6 +444,7 @@ with(document.calcForm){
 			n_A_PassSkill3[20] = eval(A3_Skill0_2.value);
 			n_A_PassSkill3[30] = eval(A3_Skill0_3.value);
 			n_A_PassSkill3[46] = eval(A3_Skill0_4.value);
+			whistle_bonus = eval(whistle_bonus_check.checked)
 		}
 		if(n_A_PassSkill3[1]){
 			n_A_PassSkill3[21] = eval(A3_Skill1_2.value);
@@ -454,10 +455,12 @@ with(document.calcForm){
 			n_A_PassSkill3[29] = eval(A3_Skill2_3.value);
 			n_A_PassSkill3[32] = eval(A3_Skill2_4.value);
 			n_A_PassSkill3[45] = eval(A3_Skill2_5.checked);
+			bragi_bonus = eval(bragi_bonus_check.checked)
 		}
 		if(n_A_PassSkill3[3]){
 			n_A_PassSkill3[23] = eval(A3_Skill3_2.value);
 			n_A_PassSkill3[33] = eval(A3_Skill3_3.value);
+			apple_bonus = eval(apple_bonus_check.checked);
 		}
 		if(n_A_PassSkill3[4]){
 			n_A_PassSkill3[24] = eval(A3_Skill4_2.value);
@@ -466,6 +469,7 @@ with(document.calcForm){
 		if(n_A_PassSkill3[5]){
 			n_A_PassSkill3[25] = eval(A3_Skill5_2.value);
 			n_A_PassSkill3[35] = eval(A3_Skill5_3.value);
+			fortune_bonus = eval(fortune_bonus_check.checked)
 		}
 		if(n_A_PassSkill3[6]){
 			n_A_PassSkill3[26] = eval(A3_Skill6_2.value);
@@ -1355,7 +1359,7 @@ with(document.calcForm){
 	if (n_A_PassSkill3[3]) // Apple of Idun - HP Rate: (5 + 2 * skill_lv) + (VIT / 10) + (BA_MUSICALLESSON skill_lv / 2)
 	{
 		// #68 - [The Apple of Idun] MaxHP Rate + 2%. Heals three times as often and twice as much
-		apple_of_idun_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x == 68) > -1 ? 2 : 0);
+		apple_of_idun_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x == 68) > -1 || apple_bonus ? 2 : 0);
 		n_tok[15] += 5 + n_A_PassSkill3[3] * 2 + Math.floor(n_A_PassSkill3[23] /10) + Math.floor(n_A_PassSkill3[33]) / 2 + apple_of_idun_sqi_bonus;
 	}
 
@@ -2117,8 +2121,8 @@ with(document.calcForm){
 	if(n_A_PassSkill3[0]) // A Whistle - Base_FLEE_Boost - Skill Lv + Floor(AGI / 10) + Floor(Music_Lessons_Lv / 2)
 	{
 		// #69 - [A Whistle] FLEE Rate + 20% and Perfect Dodge Rate + 3%
-		a_whistle_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x == 69) > -1 ? 20 : 0);
-		n_A_FLEE += n_A_PassSkill3[0] + Math.Floor(n_A_PassSkill3[30] / 2) + Math.floor(n_A_PassSkill3[20] / 10) + a_whistle_sqi_bonus;
+		a_whistle_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x == 69) > -1 || whistle_bonus ? 20 : 0);
+		n_A_FLEE += n_A_PassSkill3[0] + Math.floor(n_A_PassSkill3[30] / 2) + Math.floor(n_A_PassSkill3[20] / 10) + a_whistle_sqi_bonus;
 	}
 
 	if(n_A_HEAD_DEF_PLUS >= 7 && EquipNumSearch(1276)){
@@ -2221,7 +2225,7 @@ with(document.calcForm){
 	if (n_A_PassSkill3[0])
 	{
 		// #69 - [A Whistle] FLEE Rate + 20% and Perfect Dodge Rate + 3%
-		a_whistle_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x == 69) > -1 ? 3 : 0);
+		a_whistle_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x == 69) > -1 || whistle_bonus ? 3 : 0);
 		n_tok[11] += Math.floor((n_A_PassSkill3[0] + 1) / 2 + n_A_PassSkill3[46] / 30) + Math.floor(n_A_PassSkill3[30] / 5) + a_whistle_sqi_bonus;
 	}
 
@@ -2299,7 +2303,7 @@ with(document.calcForm){
 	if (n_A_PassSkill3[5]) // Fortune's Kiss
 	{
 		// #39 - [Fortune's Kiss] CRIT Rate + 5%; and buffs yourself without [Bard and Dancer Spirits]; when its user leaves the AoE it lasts 40 seconds
-		fortunes_kiss_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x == 39) > -1 ? 5 : 0);
+		fortunes_kiss_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x == 39) > -1 || fortune_bonus ? 5 : 0);
 		n_A_CRI += 10 + n_A_PassSkill3[5] + Math.floor(n_A_PassSkill3[35] /2) + Math.floor(n_A_PassSkill3[25] /10) + fortunes_kiss_sqi_bonus;
 	}
 	
@@ -3345,7 +3349,7 @@ with(document.calcForm){
 	if (musical_lesson_lv)
 	{
 		// #69 - [Poem of Bragi] Aftercast Rate + 2%
-		bragi_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x == 69) > -1 ? 2 : 0);
+		bragi_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x == 69) > -1 || bragi_bonus ? 2 : 0);
 		
 		// custom TalonRO Poem of Bragi after cast delay
 		// "we strongly think that the stacking of Bragi with items that grant ACD reduction is something to avoid" - GM Team, applied only to PvM
@@ -9866,6 +9870,11 @@ for(i=0;i<=15;i++)
 n_A_PassSkill3 = new Array();
 for(i=0;i<=46;i++)
 	n_A_PassSkill3[i] = 0;
+
+bragi_bonus = 0;
+apple_bonus = 0;
+whistle_bonus = 0;
+fortune_bonus = 0;
 
 n_A_PassSkill5 = new Array();
 for(i=0;i<=5;i++)
