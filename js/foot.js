@@ -3343,7 +3343,7 @@ with(document.calcForm){
 	// Skill delay reduction script bonus
 	skill_delay_reduction = StPlusCalc2(8000 + n_A_ActiveSkill);
 	skill_delay_reduction += StPlusCard(8000 + n_A_ActiveSkill);
-	n_tok[74] = n_tok[74] ? Math.floor(n_tok[74] * (1 + skill_delay_reduction / 100)) : skill_delay_reduction;
+	n_tok[74] = Math.floor(100 - (100 - n_tok[74]) * (1 - skill_delay_reduction / 100));
 
 	musical_lesson_lv = n_A_PassSkill3[2]; // Musical Lesson
 	if (musical_lesson_lv)
