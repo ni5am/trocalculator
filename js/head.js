@@ -8154,14 +8154,14 @@ function CastAndDelay(){
 		w = 6;
 	}
 
+	wDelay = Math.floor(wDelay * 100) / 100;
+
 	if(w == 1){
 		if(n_A_ActiveSkill == 0){
 			if(SkillSearch(187)){
 				strSUB2name += "Attack Interval (Normal)<BR>Attack Interval (Raging Trifecta Blow)<BR>";
 				strSUB2 += n_Delay[1] +"s<BR>"+ sandanDelay +"s<BR>";
 				wDelay = n_Delay[1] * w998A /100 + sandanDelay * wBC3_3danHatudouRitu / 100;
-
-
 			}
 			else{
 				strSUB2name += "Time/Hit<BR>";
@@ -8188,7 +8188,7 @@ function CastAndDelay(){
 	}
 	if(w == 4){
 		strSUB2name += "<Font size=2>Delay (Input Limit)</Font><BR>";
-		strSUB2 += n_Delay[4] +"s<BR>";
+		strSUB2 += wDelay +"s<BR>";
 	}
 	if(w == 5){
 		strSUB2name += "<Font size=2>Damage Interval</Font><BR>";
