@@ -2328,7 +2328,7 @@ function reset_monster_stats()
 {
 	if (0 == Taijin)
 	{
-		document.calcForm.monster_stats_check.checked = 0;
+		ClickB_Enemy();
 		display_monster_stats();
 	}
 }
