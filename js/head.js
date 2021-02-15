@@ -8064,10 +8064,7 @@ function BattleCalc4(wBC4,wBC4_2,wBC4_3){
 	//original
 	//if(n_tok[180+n_B[2]] >= 1)
 		return wBC4 + wBC4_3;
-	if(n_tok[22] >= 1 && n_B[19] == 0)
-		return wBC4 + wBC4_3;
-	if(n_tok[22] >= 10)
-		return wBC4 + wBC4_3;
+
 	if(SkillSearch(364))
 		return wBC4 + wBC4_3;
 
