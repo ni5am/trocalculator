@@ -7514,13 +7514,10 @@ function BattleCalc2(w999)
 
 	if(n_A_WeaponType != 0 && w999_AB == 1)
 		w999 += 20 * SkillSearch(254);
-	//custom TalonRO SQI Bonus Blade of Angels: activating Aura Blade lv 5
-	if(EquipNumSearch(1379))
-		for(i=0;i<SQI_Bonus_Effect.length;i++)
-			if(SQI_Bonus_Effect[i]==45) {
-				w999 += 100;
-				break;
-			}
+	
+	// Blade of Angels#1379 - #50 Enable Aura Blade lv 5
+	if (1379 == n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x == 50) > -1)
+		w999 += 100;
 
 	if(wBCEDPch==0){
 		if(n_A_ActiveSkill==17 || n_A_ActiveSkill==307)
