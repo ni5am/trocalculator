@@ -1,3 +1,6 @@
+[2021-02-16]
+- Added new section to control monster stats
+
 [2021-02-10]
 - Added Skull Cap
 - Added SQI Intances' monsters

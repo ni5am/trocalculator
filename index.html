@@ -43,6 +43,7 @@
 				<li>Added SQI Instances' monsters</li>
 				<li>Reworked Potion Pitcher Calculator</li>
 				<li>Fixed Asura Strike damage computation</li>
+				<li>Added new section to control monster stats</li>
 				<li>Added Thanatos Despero Mask, Skull Cap items</li>
 				<li>Fixed Shield Chain and Shield Boomerang damage computation</li>
 			</ul>
@@ -932,7 +933,7 @@
 												<tr>
 													<td colspan="4" class="subheader" bgcolor="#DDDDFF">
 														<span id="nm037">Monster: </span>
-														<select name="B_Enemy" onchange="calc()"></select>
+														<select name="B_Enemy" onchange="reset_monster_stats()|calc()"></select>
 													</td>
 												</tr>
 												<tr>
@@ -1065,6 +1066,19 @@
 											<tr>
 												<td colspan="6" class="subheader" bgcolor="#DDDDFF">
 													<div style="float: left; padding: 3px;">Monster Skills</div><input id="lab7" name="B_ENSKSW" onclick="Click_EnemySkillsSW()" type="checkbox">	<label for="lab7"><span id="nm090">Show</span></label>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr>
+								<td id="monster_stats"><!--Monster Skills-->
+									<table style="border: 1px solid rgb(153, 153, 153); border-collapse: collapse; width: auto;" align="left">
+										<tbody>
+											<tr>
+												<td colspan="6" class="subheader" bgcolor="#DDDDFF">
+													<div style="float: left; padding: 3px;">Monster Stats</div><input id="monster_stats_check" name="monster_stats_check" onclick="display_monster_stats()" type="checkbox">	<label for="monster_stats_check"><span id="monster_stats_check_label">Show</span></label>
 												</td>
 											</tr>
 										</tbody>

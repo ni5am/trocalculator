@@ -4222,7 +4222,7 @@ with(document.calcForm){
 			n_tok[370 + eclage_food] += 5;
 	}
 
-	ClickB_Enemy();
+	ClickB_Enemy(0 == Taijin && document.calcForm.monster_stats_check.checked);
 	
 	// Update Extended Information
 	KakutyouKansuu();
@@ -9912,7 +9912,10 @@ moscow_headless_mule_cocktail = 0;
 blossoming_geographer_cocktail = 0;
 
 if (0 == Taijin)
+{
 	document.calcForm.B_ENSKSW.checked = 0;
+	document.calcForm.monster_stats_check.checked = 0;
+}
 
 document.calcForm.A2_SKILLSW.checked = 0;
 

@@ -2324,6 +2324,63 @@ function BattleTAKA()
 	}
 }
 
+function reset_monster_stats()
+{
+	if (0 == Taijin)
+	{
+		document.calcForm.monster_stats_check.checked = 0;
+		display_monster_stats();
+	}
+}
+
+function display_monster_stats()
+{
+	monster_stats_html =  '<table style="border: 1px solid #999; border-collapse: collapse; width: auto;">';
+	monster_stats_html += '<TR><TD ColSpan="10" Bgcolor="#DDDDFF" class="subheader"><div style="float: left; padding: 3px;">Monster Stats</div>';
+	monster_stats_html += '<div style="float: right; padding-right: 3px;"><input id="monster_stats_check" type="checkbox" name="monster_stats_check" onClick="display_monster_stats()"><label for="monster_stats_check">Show</label></div><div style="clear: both;"></div></TD></TR>';
+	
+	if (document.calcForm.monster_stats_check.checked)
+	{
+		element = Math.floor(n_B[3] / 10) * 4 + n_B[3] % 10 - 1;
+		
+		monster_stats_html += '<tr><td>HP</td><td><input type="text" onChange="calc()" name="monster_hp" value="' + n_B[6] + '" style="width: 100%;"><td>DEF</td><td><input type="text" onChange="calc()" name="monster_def" value="' + n_B[14] + '" size=1></td><td>MDEF</td><td><input type="text" onChange="calc()" name="monster_mdef" value="' + n_B[15] + '" size=1></td></tr>';
+		monster_stats_html += '<tr><td>Type</td><td><select style="width: 100%;" name="monster_type" onChange="calc()"></select></td><td>HIT</td><td><input type="text" onChange="calc()" name="monster_hit" value="' + n_B[26] + '" size=1></td></td><td>FLEE</td><td><input type="text" onChange="calc()" name="monster_flee" value="' + n_B[27] + '" size=1></td></tr>';
+		monster_stats_html += '<tr><td>Size</td><td><select style="width: 100%;" name="monster_size" onChange="calc()"></select></td><td>VIT</td><td><input type="text" onChange="calc()" name="monster_vit" value="' + n_B[7] + '" size=1></td><td>INT</td><td><input type="text" onChange="calc()" name="monster_int" value="' + n_B[9] + '" size=1></td>';
+		monster_stats_html += '<tr><td>Element</td><td><select style="width: 100%;" name="monster_element" onChange="calc()"></td><td>AGI</td><td><input type="text" onChange="calc()" name="monster_agi" value="' + n_B[8] + '" size=1></td><td>LUK</td><td><input type="text" onChange="calc()" name="monster_luk" value="' + n_B[11] + '" size=1></td>';
+		monster_stats_html += '<tr><td>Race</td><td><select style="width: 100%;" name="monster_race" onChange="calc()"></select></td>';
+		monster_stats_html += "</table>";
+	
+		myInnerHtml("monster_stats", monster_stats_html, 0);
+	
+		for (i = 0; i < ZokuseiOBJ2.length; ++i)
+		{
+			for (j = 1; j <= 4; ++j)
+			{
+				index = i * 4 + j - 1;
+				document.calcForm.monster_element.options[index] = new Option(ZokuseiOBJ2[i] + j, index);
+			}
+		}
+		for (i = 0; i < SyuzokuOBJ.length; ++i)
+			document.calcForm.monster_race.options[i] = new Option(SyuzokuOBJ[i], i);
+		for (i = 0; i < SizeOBJ.length; ++i)
+			document.calcForm.monster_size.options[i] = new Option(SizeOBJ[i], i);
+		for (i = 0; i < BossTypeOBJ.length; ++i)
+			document.calcForm.monster_type.options[i] = new Option(BossTypeOBJ[i], i);
+	
+		document.calcForm.monster_race.value = n_B[2];
+		document.calcForm.monster_size.value = n_B[4];
+		document.calcForm.monster_type.value = n_B[19];
+		document.calcForm.monster_element.value = element;
+		document.calcForm.monster_stats_check.checked = 1;
+	}
+	else
+	{
+		monster_stats_html += '</table>';
+		myInnerHtml("monster_stats", monster_stats_html, 0);
+		document.calcForm.monster_stats_check.checked = 0;
+	}
+}
+
 function Click_EnemySkillsSW(){
 with(document.calcForm){
 	n_ENSKSW = B_ENSKSW.checked;
@@ -2679,7 +2736,6 @@ function BattleHiDam(){
 			w_HiDam[i] -= Math.floor(w_HiDam[i] * wBHD /100);
 	}
 
-
 	wBHD = n_tok[50+n_B[2]];
 	if(wBHD != 0){
 		for(i=0;i<=6;i++)
@@ -2691,7 +2747,6 @@ function BattleHiDam(){
 		for(i=0;i<=6;i++)
 			w_HiDam[i] -= Math.floor(w_HiDam[i] * wBHD /100);
 	}
-
 
 	if(n_B[19] == 0){
 		wBHD = n_tok[79];
@@ -6464,7 +6519,7 @@ function Click_AK(n){
 	}
 }
 
-function ClickB_Enemy(){
+function ClickB_Enemy(tweak_stats = false){
 with(document.calcForm){
 	n_B = new Array();
 	n_B2 = new Array();
@@ -6510,7 +6565,24 @@ with(document.calcForm){
 			n_B[23] *= (1 + 0.05 * w);
 			n_B[24] *= (1 + 0.05 * w);
 		}
-	}else{
+	}
+	else{
+		if (tweak_stats) // Manage monster stats manually
+		{
+			element_index = eval(document.calcForm.monster_element.value);
+			
+			n_B[2]	= eval(document.calcForm.monster_race.value);
+			n_B[3]  = Math.floor(element_index / 4) * 10 + element_index % 4 + 1;
+			n_B[4]	= eval(document.calcForm.monster_size.value);
+			n_B[6]  = eval(document.calcForm.monster_hp.value);		// HP
+			n_B[7]  = eval(document.calcForm.monster_vit.value);	// VIT
+			n_B[8]  = eval(document.calcForm.monster_agi.value);	// AGI
+			n_B[9]  = eval(document.calcForm.monster_int.value);	// INT
+			n_B[11] = eval(document.calcForm.monster_luk.value);	// LUK
+			n_B[14] = eval(document.calcForm.monster_def.value);	// DEF
+			n_B[15] = eval(document.calcForm.monster_mdef.value);	// MDEF
+			n_B[19] = eval(document.calcForm.monster_type.value);	// Boss type
+		}
 
 		n_B2[23] = n_B[7];
 		n_B2[24] = n_B[7] + (Math.floor(n_B[7]/20) * Math.floor(n_B[7]/20) -1);
@@ -6527,9 +6599,8 @@ with(document.calcForm){
 			document.getElementById("B_Enemy_mobdb").innerHTML="<b>n/a</b>";
 		}
 		//custom TalonRO show boss/non-boss
-		if (MonsterOBJ[B_Enemy.value][19]==1)
+		if (n_B[19])
 			myInnerHtml("B_26","Boss",0);
-
 		else
 			myInnerHtml("B_26","non-Boss",0);
 	}
@@ -6800,7 +6871,12 @@ Race - n_B[2] = raceID - example n_B[2] = 3, Plant
 	n_B[25] = Math.floor(n_B[7] / 2) + n_B[9];
 	n_B[26] = n_B[5] + n_B[10];
 	n_B[27] = n_B[5] + n_B[8];
-
+	
+	if (0 == Taijin && tweak_stats)
+	{
+		n_B[26] = eval(document.calcForm.monster_hit.value); 	// HIT
+		n_B[27] = eval(document.calcForm.monster_flee.value);	// FLEE
+	}
 
 	var w = 0;
 	w += n_tok[295];
@@ -7533,7 +7609,8 @@ function BaiCI(wBaiCI)
 			debug_atk+="\n --- (BaiCI) Weapon/Card Size Modifier ---";
 			debug_atk+="\nb_wBaiCI:"+wBaiCI;
 		}
-		w1=n_tok[27+n_B[4]];
+		
+		w1=n_tok[27 + n_B[4]];
 		//custom TalonRO RWC Commemorative Pin +1% atk against small/mid/large size each refine above 4
 		if(EquipNumSearch(1468) && n_A_HEAD_DEF_PLUS >= 4)
 			w1 += n_A_HEAD_DEF_PLUS-3;
@@ -7558,6 +7635,7 @@ function BaiCI(wBaiCI)
 			debug_atk+="\n --- (BaiCI) damage Modifier ---";
 			debug_atk+="\nb_wBaiCI:"+wBaiCI;
 		}
+
 		w1=0;
 		if(n_B[19] == 1)
 			w1 += n_tok[26];
