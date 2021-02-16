@@ -45,6 +45,8 @@ td.top {
   background-repeat: no-repeat;
   background-position: left;
   background-size: contain;
+  background-origin: content-box;
+  padding-left: 15px;
   margin: 6px;
 }
 
