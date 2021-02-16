@@ -3715,6 +3715,8 @@ with(document.calcForm){
 		myInnerHtml("EN0_6","",0);
 		myInnerHtml("EN0_7","",0);
 		myInnerHtml("EN0_8","",0);
+		myInnerHtml("EN0_9","",0);
+		myInnerHtml("EN0_10","",0);
 	}
 
 	if(n_A_PassSkill3[1] != 0){
@@ -3788,6 +3790,8 @@ with(document.calcForm){
 		// custom TalonRO Poem of Bragi after cast delay
 		myInnerHtml("EN2_9","",0);
 		myInnerHtml("EN2_10","",0);
+		myInnerHtml("EN2_11","",0);
+		myInnerHtml("EN2_12","",0);
 	}
 
 	if(n_A_PassSkill3[3] != 0){
@@ -3818,6 +3822,8 @@ with(document.calcForm){
 		myInnerHtml("EN3_4","-",0);
 		myInnerHtml("EN3_5","",0);
 		myInnerHtml("EN3_6","",0);
+		myInnerHtml("EN3_7","",0);
+		myInnerHtml("EN3_8","",0);
 	}
 
 	if(n_A_PassSkill3[4] != 0){
@@ -3874,6 +3880,8 @@ with(document.calcForm){
 		myInnerHtml("EN5_4","-",0);
 		myInnerHtml("EN5_5","",0);
 		myInnerHtml("EN5_6","",0);
+		myInnerHtml("EN5_7","",0);
+		myInnerHtml("EN5_8","",0);
 	}
 
 	if(n_A_PassSkill3[6] != 0){
