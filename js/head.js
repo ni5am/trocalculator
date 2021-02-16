@@ -60,8 +60,6 @@ debug_dmg_avg = 0;
 
 //custom TalonRO
 EQB = [1,0,0,0];
-//custom TalonRO fix ignore effects on left/offhand like Ice Pick or Weeder Knife
-IgnoreEffectOnLeftHand = 0;
 
 //[Custom TalonRO 2018-06-15 - Global for Malangdo Enchants values] [Kato]
 tRO_MalangdoEnchantment = [0,0,0,0];
@@ -391,6 +389,9 @@ function BattleCalc999()
 		if(n_Nitou){
 			TyouEnkakuSousa3dan = 0;
 
+			//custom TalonRO ignore effects on left/offhand like Ice Pick and bIgnoreDefRace
+			manage_left_hand_effect(-1);
+
 			n_A_workDEX = Math.floor(n_A_DEX * (1 + (n_A_Weapon2LV - 1) * 0.2));
 
 			if(n_A_workDEX>=n_A_Weapon2_ATK)
@@ -398,10 +399,7 @@ function BattleCalc999()
 			else
 				w_left_Maxatk = n_A_ATK + n_A_Weapon2LV_Maxplus + Math.floor((n_A_Weapon2_ATK - 1) * wCSize);
 
-			//custom TalonRO ignore effects on left/offhand like Ice Pick or Weeder Knife
-			IgnoreEffectOnLeftHand = 1;
 			w_left_Maxatk = BattleCalc4(w_left_Maxatk * wbairitu,2,1);
-			IgnoreEffectOnLeftHand = 0;
 
 			if(w_left_Maxatk<1)w_left_Maxatk=1;
 			w_left_Maxatk = Math.floor(w_left_Maxatk * zokusei[n_B[3]][n_A_Weapon2_zokusei]);
@@ -424,11 +422,9 @@ function BattleCalc999()
 			if(n_A_workDEX > n_A_Weapon2_ATK)
 				n_A_workDEX = n_A_Weapon2_ATK;
 			w_left_Minatk = n_A_ATK + n_A_Weapon2LV_Minplus + Math.floor(n_A_workDEX * wCSize);
-
-			//custom TalonRO ignore effects on left/offhand like Ice Pick or Weeder Knife
-			IgnoreEffectOnLeftHand = 1;
 			w_left_Minatk = BattleCalc4(w_left_Minatk * wbairitu,0,1);
-			IgnoreEffectOnLeftHand = 0;
+			
+			manage_left_hand_effect(1);
 
 			if(w_left_Minatk<1)
 				w_left_Minatk=1;
@@ -6859,8 +6855,6 @@ Race - n_B[2] = raceID - example n_B[2] = 3, Plant
 	n_B[14] = Math.ceil(n_B[14] * (100 - def_reduction) / 100);
 	n_B[23] = Math.ceil(n_B[23] * (100 - def_reduction) / 100);
 	n_B[24] = Math.max(n_B[23], Math.ceil(n_B[24] * (100 - def_reduction) / 100));
-
-	
 	
 	// Belmont Whip#1378 - Dancer/Gypsy
 	// #38 - [Ugly Dance] reduces enemy INT by 20% for 7 seconds
@@ -8059,20 +8053,14 @@ function BattleCalc4(wBC4,wBC4_2,wBC4_3){
 		return Math.floor(wBC4 * (100 - n_B[14]) /100) - n_B_DEF2[wBC4_2] + wBC4_3;
 	if(n_A_ActiveSkill==432) // Piercing Shot#432
 		return wBC4 + wBC4_3;
-	//custom TalonRO fix ignore effects on left/offhand like Ice Pick or Weeder Knife
-	if(n_tok[180+n_B[2]] >= 1 && IgnoreEffectOnLeftHand == 0)
-	//original
-	//if(n_tok[180+n_B[2]] >= 1)
-		return wBC4 + wBC4_3;
 
 	if(SkillSearch(364))
 		return wBC4 + wBC4_3;
 
-	//custom TalonRO fix ignore effects on left/offhand like Ice Pick or Weeder Knife
-	if(n_tok[23] == 0 || IgnoreEffectOnLeftHand == 1)
-		wBC4 = Math.floor(wBC4 * (100 - n_B[14]) /100) - n_B_DEF2[wBC4_2] + wBC4_3;
-	else
+	if(n_tok[23])
 		wBC4 = Math.floor(wBC4 * (n_B_DEF2[2 - wBC4_2]+n_B[14])/100) +wBC4_3;
+	else
+		wBC4 = Math.floor(wBC4 * (100 - n_B[14]) /100) - n_B_DEF2[wBC4_2] + wBC4_3;
 
 	return wBC4;
 }
@@ -8632,4 +8620,24 @@ function removeOptions(selectbox)
     {
         selectbox.remove(i);
     }
+}
+
+function manage_left_hand_effect(flag)
+{
+	if (392 == n_A_Equip[1] || 401 == n_A_Equip[1]) // Weeder Knife#392 and Caesar Sword#401
+		n_tok[183] += 100 * flag;
+		
+	if (394 == n_A_Equip[1]) // Exorciser#394
+		n_tok[186] += 100 * flag;
+		
+	if (393 == n_A_Equip[1] || 1334 == n_A_Equip[1]) // Combat Knife#393 and Refined Combat Knife#1334
+		n_tok[187] += 100 * flag;
+
+	if (467 == n_A_Equip[1]) // Dragon Killer#467
+		n_tok[189] += 100 * flag;
+	
+	if (388 == n_A_Equip[1] || 607 == n_A_Equip[1]) // Ice Pick#388#607
+		n_tok[23] += 1 * flag;
+		
+	ClickB_Enemy();
 }

@@ -63,7 +63,7 @@ ItemOBJ = [
 ,[40,3,0,140,3,"1 / 2",200,33,"Broad Sword","",0,18,5,0]
 ,[41,3,0,160,3,"1 / 2",220,33,"Two-handed Sword","",0,0]
 ,[42,3,61,180,3,"0 / 2",250,33,"Claymore","",0,0]
-,[43,3,0,155,4,"0 / 1",220,48,"Executioner","",0,37,20,57,-10,187,1,20,7,0]
+,[43,3,0,155,4,"0 / 1",220,48,"Executioner","",0,37,20,57,-10,187,100,20,7,0]
 ,[44,3,0,155,4,0,100,48,"Muramasa","","Curse his owner by a low chance",10,30,12,8,0]
 ,[45,3,0,175,4,0,200,48,"Katzbalger","",0,3,5,18,10,0]
 ,[46,3,0,200,4,"0 / 2",220,48,"Zweihander","",0,194,1,0]
@@ -412,20 +412,20 @@ ItemOBJ = [
 ,[389,1,1,84,4,0,40,0,"Princess Knife","",0,7,1,0]
 ,[390,1,1,70,4,"0 / 3",100,36,"Swordbreaker","",0,140,5,0]
 ,[391,1,1,70,4,"0 / 3",100,36,"Mailbreaker","",0,141,5,0]
-,[392,1,1,80,4,0,40,36,"Weeder Knife","",0,183,1,33,15,53,15,0]
-,[393,1,1,80,4,0,40,36,"Combat Knife","",0,57,10,56,-10,187,1,0]
-,[394,1,1,90,4,0,70,36,"Exorciser","",0,56,5,57,-10,186,1,0]
+,[392,1,1,80,4,0,40,36,"Weeder Knife","",0,183,100,33,15,53,15,0]
+,[393,1,1,80,4,0,40,36,"Combat Knife","",0,57,10,56,-10,187,100,0]
+,[394,1,1,90,4,0,70,36,"Exorciser","",0,56,5,57,-10,186,100,0]
 ,[395,1,1,70,4,0,50,36,"Bazerald","",0,20,3,4,5,89,10,0]
 ,[396,1,119,110,4,0,70,36,"Azoth","","When performing a physical attack, there's a 3% chance to transforming all monsters",0]
 ,[397,1,55,55,4,0,40,85,"Cursed Dagger","",0,133,50,0]
 ,[398,1,55,140,4,0,55,55,"Dagger of Counter","",0,10,90,0]
 ,[399,2,1,120,4,0,50,40,"Nagan","","Enables use of the skill [Double Attack]Lv5",37,5,0]
 ,[400,2,1,115,4,0,70,40,"Edge","","When attacking, adds a 0.03% chance to inflict [Coma] on the enemy",133,3,0]
-,[401,2,1,140,4,0,70,40,"Caesar's Sword","",0,33,25,183,1,0]
+,[401,2,1,140,4,0,70,40,"Caesar's Sword","",0,33,25,183,100,0]
 ,[402,2,1,150,4,0,120,40,"Excalibur","",0,20,6,4,5,6,10,5,-1,0]
 ,[403,2,1,150,4,0,90,40,"Byeollungum","",0,7,2,26,5,79,-10,0]
 ,[404,2,1,140,4,0,90,40,"Immaterial Sword","","Drains 30% of target's SP by a low chance<br>Drain 1 SP from its owner on each attack",20,8,194,1,0]
-,[405,3,1,150,4,"0 / 2",130,48,"Dragon Slayer","",0,39,15,189,1,0]
+,[405,3,1,150,4,"0 / 2",130,48,"Dragon Slayer","",0,39,15,189,100,0]
 ,[406,3,1,160,4,"0 / 2",160,48,"Schweizersabel","",0,18,1,20,4,221,6,0]
 ,[407,50,0,4,0,1,50,50,"Drooping Domovoi","",0,19,5,15,2,57,5,0]
 ,[408,4,1,145,4,0,70,48,"Gelerdria","",0,20,2,13,800,14,-50,0]
@@ -437,7 +437,7 @@ ItemOBJ = [
 ,[414,5,1,200,4,0,350,48,"Hellfire","","",20,3,1,3,221,8,0]
 ,[415,6,70,140,4,0,120,44,"Cleaver","","Add a 30% additional chance of dropping Meat each time a Brute monster is killed",37,5,0]
 ,[416,7,1,120,4,0,230,44,"Sabbath","","Can cause the Coma effect on Demon monster by a 0.50% chance",20,7,111,50,0]
-,[417,7,1,120,4,0,250,44,"Slaughter","","Can cause the Coma effect on Brute monster by a 0.40% chance",20,2,182,1,0]
+,[417,7,1,120,4,0,250,44,"Slaughter","","Can cause the Coma effect on Brute monster by a 0.40% chance",20,2,182,100,0]
 ,[418,7,1,165,4,0,250,44,"Tomahawk","",0,20,4,220,8,0]
 ,[419,7,1,215,4,0,300,44,"Guillotine","","Can cause the Coma effect on Demi-Human monster by a 0.30% chance<br>Regain 2 SP for each attack on a DemiHuman monster and 20 SP for each killed DemiHuman monster",0]
 ,[420,8,53,85,4,"0 / 2",70,40,"Spike","",0,10,40,24,3,0]
@@ -487,11 +487,11 @@ ItemOBJ = [
 ,[464,1,0,39,1,0,60,0,"Obsidian Dagger","",0,20,2,0]
 ,[465,1,50,110,3,"1 / 2",70,30,"Cinquedea","",0,0]
 ,[466,1,52,80,3,"1 / 2",70,55,"Cowardice Blade","",0,18,5,0]
-,[467,1,0,110,4,"0 / 2",90,60,"Dragon Killer","",0,189,1,129,10,0]
+,[467,1,0,110,4,"0 / 2",90,60,"Dragon Killer","",0,189,100,129,10,0]
 ,[468,1,0,148,4,"0 / 1",70,70,"Ginnungagap","","When attacking, adds a 0.5% chance to inflict [Blind] on yourself",20,7,134,5,0]
 ,[469,2,50,100,3,"1 / 2",80,30,"Town Sword","",0,0]
 ,[470,2,50,140,4,1,100,45,"Star Dust Blade","",0,131,5,194,1,0]
-,[471,5,0,160,4,"0 / 2",200,60,"Gae Bolg","",0,189,1,26,10,0]
+,[471,5,0,160,4,"0 / 2",200,60,"Gae Bolg","",0,189,100,26,10,0]
 ,[472,6,72,115,2,0,150,14,"Windhawk","",0,20,4,12,5,0]
 ,[473,9,50,70,3,2,50,30,"Hypnotist's Staff","",0,89,25,4,1,0]
 ,[474,9,1,50,3,0,100,24,"Survivor's Rod [0] (DEX)","",0,89,15,5,2,13,300,0]
@@ -499,11 +499,11 @@ ItemOBJ = [
 ,[476,9,1,50,3,0,100,24,"Survivor's Rod [0] (INT)","",0,89,15,4,2,13,300,0]
 ,[477,9,1,50,3,1,100,24,"Survivor's Rod [1] (INT)","",0,89,15,4,3,13,400,0]
 ,[478,9,55,60,4,0,50,40,"Wing Staff","",0,20,4,89,15,73,-5,0]
-,[479,10,0,100,4,0,120,60,"Dragon Wing","","3% chance to get Oridecon Arrow upon killing Dragon monsters",189,1,0]
+,[479,10,0,100,4,0,120,60,"Dragon Wing","","3% chance to get Oridecon Arrow upon killing Dragon monsters",189,100,0]
 ,[480,11,0,90,1,4,80,0,"Specialty Jur","","When attacking, adds a 0.1% chance to inflict [External Bleed] on yourself",0]
 ,[481,11,0,115,3,0,120,55,"Loki's Nail","",0,138,3,0]
 ,[482,11,0,151,4,0,125,70,"Unholy Touch","",0,20,7,10,-1,133,2,0]
-,[483,11,0,120,4,0,100,75,"Bloody Roar","","Flee Rate - 160<br>Perfect Dodge - 160",187,1,76,-100,75,-100,0]
+,[483,11,0,120,4,0,100,75,"Bloody Roar","","Flee Rate - 160<br>Perfect Dodge - 160",187,100,76,-100,75,-100,0]
 ,[484,12,0,100,3,2,110,60,"Sage's Diary","","If user's base Str is 50 or higher: Increases Attack Speed by 5%<br>If user's base Int is 70 or higher: Add a MATK + 5%",89,15,0]
 ,[485,12,0,140,4,1,150,55,"Hardcover Book","",0,1,3,5,2,0]
 ,[486,12,0,130,4,0,70,70,"Legacy of Dragon","","Recover 10 SP every time you kill a Dragon monster",189,1,4,3,0]
@@ -596,7 +596,7 @@ ItemOBJ = [
 ,[573,50,0,3,0,1,30,30,"Pinwheel Hairpin","",0,2,2,193,1,0]
 ,[574,50,0,4,0,0,60,30,"Magic Kettle","","",221,16,221,17,0]
 ,[575,1,58,120,1,0,0,0,"Ashura [Rental]","",0,89,15,193,1,0] //custom TalonRO Rental
-,[576,3,51,190,4,0,0,0,"Executioner [Rental]","",0,20,7,187,1,37,20,57,-10,193,1,0] //custom TalonRO Rental
+,[576,3,51,190,4,0,0,0,"Executioner [Rental]","",0,20,7,187,100,37,20,57,-10,193,1,0] //custom TalonRO Rental
 ,[577,1,55,209,4,0,0,0,"Dagger of Counter [Rental]","",0,10,90,193,1,0] //custom TalonRO Rental
 ,[578,2,72,185,4,0,0,0,"Cutlus [Rental]","",0,1,2,18,1,193,1,220,3,0] //custom TalonRO Rental
 ,[579,1,1,85,4,0,0,0,"Moonlight Dagger [Rental]","","Regain 3 SP with each attack",16,10,193,1,0] //custom TalonRO Rental
@@ -1353,10 +1353,10 @@ ItemOBJ = [
 ,[1328,15,0,170,3,0,0,0,"Rante Whip [Rental]","",0,27,40,28,40,29,40,193,1,0] //custom TalonRO rental
 ,[1329,8,53,175,3,0,0,0,"Stunner [Rental]","",0,131,10,27,40,28,40,29,40,193,1,0] //custom TalonRO rental
 ,[1330,7,0,205,4,0,0,0,"Bloody Axe [Rental]","","Movement speed +25% (non-stacking)",1,20,12,5,193,1,0] //custom TalonRO rental
-,[1331,11,0,148,4,0,0,0,"Bloody Roar [Rental]","","Recovery 3 HP every 5 seconds",187,1,193,1,0] //custom TalonRO rental
+,[1331,11,0,148,4,0,0,0,"Bloody Roar [Rental]","","Recovery 3 HP every 5 seconds",187,100,193,1,0] //custom TalonRO rental
 ,[1332,10,92,170,4,0,0,0,"Bow of Evil [Rental]","",0,5,2,193,1,5040,25,0] //custom TalonRO rental
 ,[1333,4,1,149,4,0,0,0,"Brocca [Rental]","",0,28,20,21,100,193,1,0] //custom TalonRO rental //fixed 2016-05-05
-,[1334,1,1,129,4,0,0,0,"Combat Knife [Rental]","","Drain 3SP from enemy per hit",57,10,56,-10,187,1,16,10,193,1,0] //custom TalonRO rental
+,[1334,1,1,129,4,0,0,0,"Combat Knife [Rental]","","Drain 3SP from enemy per hit",57,10,56,-10,187,100,16,10,193,1,0] //custom TalonRO rental
 ,[1335,2,1,199,4,0,0,0,"Excalibur [Rental]","",0,20,6,4,10,6,10,193,1,0] //custom TalonRO rental
 ,[1336,2,1,120,4,0,0,0,"Fireblend [Rental]","",0,20,3,4,2,220,47,221,114,193,1,0] //custom TalonRO rental
 ,[1337,7,0,215,4,0,0,0,"Great Axe [Rental]","","Mammonite will shove his target back 5 cells",1,5,8,20,131,15,193,1,0] //custom TalonRO rental
