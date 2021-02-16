@@ -3579,7 +3579,7 @@ with(document.calcForm){
 
 	if(n_Skill3SW){
 		var str;
-		str = '<table style="border: 1px solid #999; border-collapse: collapse; width: auto;">';
+		str = '<table style="border: 1px solid #999; border-collapse: separate; width: auto;">';
 		str += '<TR><TD id="A3TD" ColSpan="8" Bgcolor="#DDDDFF" class="subheader"><div style="float: left; padding: 3px;">Music and Dance Skills <span id="A3used"></span></div>';
 		str += '<div style="float: right; padding-right: 3px;"><input id="lab10" type="checkbox" name="A3_SKILLSW"onClick="Click_Skill3SW()"><label for="lab10">Show</label></div>';
 		str += '<div style="clear: both;"></div></TD></TR>';

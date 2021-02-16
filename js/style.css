@@ -1,4 +1,4 @@
-body {
+﻿body {
   font-family: Tahoma, Verdana, Arial, "sans-serif";
   font-size: 12px;
   margin:0;
@@ -38,6 +38,16 @@ ol {
 td.top {
   vertical-align: top;
 }
+.footer {
+  border: 1px solid #999;
+  background-color: #fff;
+  background-image: url(https://talonro.com/images/talonro-logo-nomargin.png);
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: contain;
+  margin: 6px;
+}
+
 .topic {
   border: 1px solid #999;
   background-color: #fff;
