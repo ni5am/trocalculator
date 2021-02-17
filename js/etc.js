@@ -533,7 +533,7 @@ SQI_BONUS =[
 ,[6,1375,"Twin Fang","10% more damage with [Soul Breaker]",5263,10,0]
 ,[7,1375,"Twin Fang","30% Cast Time Reduction with [Soul Breaker] and [Meteor Assault]",7263,30,7264,30,0]
 ,[8,1375,"Twin Fang","[Enchant Poison] endows Shadow instead of Poison",0]
-,[9,1375,"Twin Fang","Add a 7.5% chance to inflict Deadly Poison status on the target when attacking",0]
+,[9,1375,"Twin Fang","Add a 15% chance to inflict Deadly Poison status on the target when attacking",0]
 ,[10,1375,"Twin Fang","Demon Race, Insect Race, and Detector Mobs can no longer see you when hidden; Fails against boss monsters",0] // ID reuse is not allowed for explicit bonus
 ,[11,1376,"Aegis Shield","50% Stone Curse Resistance",159,50,0]
 ,[12,1376,"Aegis Shield","Reflect 15% of all melee damage.",71,15,0]

@@ -1399,7 +1399,7 @@ ItemOBJ = [
 ,[1373,51,0,1,0,1,10,0,"+1 AGI [1]","",0,2,1,0] //custom TalonRO +1 agi mid
 ,[1374,51,0,1,0,1,10,0,"+1 INT [1]","",0,4,1,0] //custom TalonRO +1 int mid
 //custom TalonRO SQI
-,[1375,11,0,180,4,4,150,0,"Twin Fang","","<font color='blue'>SQI</font><br>15% Non-Boss and Boss resistance.",2,5,10,20,8,50,9,30,0] //custom TalonRO SQI
+,[1375,11,0,180,4,4,150,0,"Twin Fang","","<font color='blue'>SQI</font>",2,20,9,15,10,20,8,50,77,15,79,15,0] //custom TalonRO SQI
 ,[1376,61,113,8,0,1,400,0,"Aegis Shield","","<font color='blue'>SQI</font>",1,3,3,5,4,3,19,10,194,1,61,10,62,10,63,10,64,10,0] //custom TalonRO SQI
 ,[1377,10,110,200,4,3,150,0,"Artemis Bow","","<font color='blue'>SQI</font>",4,15,6,20,5040,10,0] //custom TalonRO SQI
 ,[1378,15,117,190,4,3,70,0,"Belmont Whip","","<font color='blue'>SQI</font><br>Ignore [Adpation to Circumstances] delay.<br>Enable to use Level 5 [Providence] and Level 5 [Aspersio]",2,10,5,15,6,4,12,13,20,3,0] //custom TalonRO SQI
