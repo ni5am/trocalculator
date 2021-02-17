@@ -1746,16 +1746,9 @@ function BattleCalc999()
 			n_A_Weapon_zokusei = 3;
 			w_DMG[2] = Math.floor((75 + n_A_DEX/2) * (1+ n_A_INT /100) * n_A_ActiveSkillLV * zokusei[n_B[3]][3]);
 		}
-		//custom TalonRO SQI Bonus Artemis Bow: Claymore Trap and Blast Mine damage +40%
-		if(n_A_ActiveSkill == 112 || n_A_ActiveSkill == 113)
-			if(EquipNumSearch(1377))
-				for(i=0;i<SQI_Bonus_Effect.length;i++)
-					if(SQI_Bonus_Effect[i]==21) {
-						w_DMG[2] = Math.floor(w_DMG[2]/100*140);
-						break;
-					}
 
-		w_DMG[2] = tPlusDamCut(w_DMG[2]);
+		w_DMG[2] = ApplySkillAtkBonus(tPlusDamCut(w_DMG[2]));
+		
 		w_DMG[0] = w_DMG[1] = w_DMG[2];
 		for(var i=0;i<=2;i++){
 			Last_DMG_A[i] = Last_DMG_B[i] = w_DMG[i];
