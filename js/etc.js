@@ -582,7 +582,7 @@ SQI_BONUS =[
 ,[55,1380,"Djinn","+20% MATK, enables use of Level 6 [Fire Bolt] and 5% chance to auto cast Level 6 [Firebolt] when attacking, ",220,48,221,115,89,20,0]
 ,[56,1380,"Djinn","+50% more damage and 75% reduced zeny cost with [Mammonite]",5065,50,0]
 ,[57,1380,"Djinn","[Demonstration] damage interval reduced by 75% (every 0.25 secs instead of 1 sec). Remove [Demonstration] on unequip",0]
-,[58,1380,"Djinn","Add a 10% chance to add ASPD + 25% when using [Acid Terror] for 10 seconds",0]
+,[58,1380,"Djinn","Add a 10% chance to add ASPD + 25% when using [Acid Terror] for 10 seconds (Toggle)",12,25,0]
 ,[59,1380,"Djinn","PvM: 20% chance to ignore potion cost with [Potion Pitcher] and [Slim Potion Pitcher]",0]
 ,[60,1380,"Djinn","PvM: Ignore [Acid Terror] Acid Bottle cost and [Demonstration] Fire Bottle cost",0]
 ,[61,1381,"Electric Guitar","+20% MaxHP",15,20,0]
