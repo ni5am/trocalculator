@@ -787,7 +787,12 @@ function BattleCalc999()
 		}else if(n_A_ActiveSkill==248){
 			not_use_card = 1;
 			n_A_Weapon_zokusei = 3;
+			
 			n_Delay[0] = 1;
+			// #57 - [Demonstration] damage interval reduced by 75% (every 0.25 secs instead of 1 sec)
+			if (SQI_Bonus_Effect.findIndex(x => x == 57) > -1)
+				n_Delay[0] = 0.25
+
 			wCast = 1;
 			wbairitu += n_A_ActiveSkillLV *0.2;
 			w_HIT = 100;
