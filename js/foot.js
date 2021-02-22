@@ -5093,10 +5093,7 @@ function StPlusCard(nSTP2)
 	var w_num = [0,0,0,0];
 	for(i=0;i<=3;i++)
 		w_num[i] = n_A_PassSkill8[8+i];
-	for(i=0;i<=2;i++)
-		for(j=i+1;j<=3;j++)
-			if(w_num[i] == w_num[j])
-				w_num[j] = 0;
+
 	for(i=0;i<=3;i++)
 	{
 		for(var j=0;ITEM_SP_TIME_OBJ[w_num[i]][5 + j] != 0;j += 2)
