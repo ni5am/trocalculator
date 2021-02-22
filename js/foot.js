@@ -753,6 +753,22 @@ with(document.calcForm){
 		n_tok[62] += Math.floor(n_A_HEAD_DEF_PLUS/2);
 		n_tok[63] += Math.floor(n_A_HEAD_DEF_PLUS/2);
 	}
+	
+	// #125 - Lucky Case - [Mage, Archer, Acolyte Class] MHP +175, Perfect Dodge +1 - [Swordman, Merchant, Thief Class] MSP +50, VIT +2
+	if (n_A_PassSkill8[0] == 125)
+	{
+		current_job_category = n_A_JobSearch();
+		if (current_job_category > 2 && current_job_category < 6)
+		{
+			n_tok[11] += 1;
+			n_tok[13] += 175;
+		}
+		else (1 == current_job_category || 2 == current_job_category || 6 == current_job_category)
+		{
+			n_tok[3] += 2;
+			n_tok[14] += 50;
+		}
+	}
 
 	// Sword Master Crown#1745
 	if (EquipNumSearch(1745))
@@ -2220,6 +2236,9 @@ with(document.calcForm){
 	if (CardNumSearch(511) && SkillSearch(258) && TimeItemNumSearch(51))
 		n_tok[11] += 10;
 
+	// #117 - Baby Skoll - [Extended Class] Perfect Dodge +3
+	if (n_A_PassSkill8[0] == 117 && (n_A_JobSearch() > 6 || 20 == n_A_JOB))
+		n_tok[11] += 3;
 	
 	// A Whistle Skill - Base_P._D._Boost - Floor((Skill Lv + 1) / 2 + LUK / 30) + Floor(Music_Lessons_Lv / 5)
 	if (n_A_PassSkill3[0])
