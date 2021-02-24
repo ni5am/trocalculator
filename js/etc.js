@@ -424,12 +424,12 @@ ITEM_SP_TIME_OBJ =[
 ,[13,"Glorious Tablet","[Every Refine Level] ATK + 20",1,1094,0]
 ,[14,"Glorious Shuriken","Throw Fuuma Shuriken/Final Strike Damage + 100%",0,0,0] //,1,1098,5396,100,5405,100,5438,100,0
 ,[15,"Glorious Bloody Roar[+9]","ASPD + 100%",1,1090,12,100,0]
-,[16,"Naght Sieger Twin-Blade [Red]","Ignore [Non-Boss] Monster Defense",1,933,22,1,0]
+,[16,"Naght Sieger Twin-Blade [Red]","Ignore [Non-Boss] Monster Defense",1,933,21,100,0]
 ,[17,"Her National Treasury","none",0,0,0] //replace me
 ,[18,"Desert Twilight + Desert Wind","190 ASPD",1,818,12,100,0]
 ,[19,"Shadow Guard Set [Shadow Walk + Shadow Guard]","FLEE + 20",1,995,9,20,0]
 ,[20,"Huuma Front Shuriken (Valorous)","Throw Fuuma Shuriken/Final Strike Damage + 100%",0,0,0] //1,931,5396,100,5405,100,5438,100,0
-,[21,"Naght Sieger Twin-Blade [Blue]","Ignore [Non-Boss] Monster Defense",1,932,22,1,0]
+,[21,"Naght Sieger Twin-Blade [Blue]","Ignore [Non-Boss] Monster Defense",1,932,21,100,0]
 ,[22,"Soldier Gatling Gun","ATK + 80",1,927,17,80,0]
 ,[23,"Soldier Grenade Launcher","ATK + 300",1,929,17,300,0]
 ,[24,"Soldier Revolver","ASPD + 100%",1,925,12,100,0]
@@ -437,7 +437,7 @@ ITEM_SP_TIME_OBJ =[
 ,[26,"Brave Battle Fist","Asura Strike Cast Time -100%",1,916,7197,100,7321,100,0]
 ,[27,"Naga Scale Armor","ATK + 20",1,989,17,20,0]
 ,[28,"Noble Hat","Adrenaline Rush",1,1129,0]
-,[29,"Violet Fear","Ignore [Non-Boss] Monster Defense",1,935,22,1,0]
+,[29,"Violet Fear","Ignore [Non-Boss] Monster Defense",1,935,21,100,0]
 ,[30,"Bloody Eater","CRIT + 100, ATK + 50",1,819,10,100,17,50,0]
 ,[31,"Blue Ribbon","Attention Concentrate Lv2",1,885,0]
 ,[32,"Hodremlin Card","Perfect Dodge + 30",2,467,11,30,0]
