@@ -1809,6 +1809,11 @@ ItemOBJ = [
 ,[1758,100,0,0,0,0,0,0,"Skull Cap + Elven Ears[0]","",0,72,-3,0]
 ,[1759,100,0,0,0,0,0,0,"Skull Cap + Evil Bone Wand","",0,89,2,0]
 ,[1760,100,0,0,0,0,0,0,"Skull Cap + Dark Thorn Staff","",0,89,2,0]
+,[1761,50,0,3,0,0,10,1,"Monkey King's Helm of Longevity","","Banana Juice heals additional 200% when equipped with Loyal Yoyo pet.<br>A headgear used by the Monkey King, Sun Wukong, who was famous for wrecking havoc in the Jade Palace.",19,3,0]
+,[1762,50,0,3,0,0,10,1,"Monkey King's Helm of Abundance","","Banana Juice heals additional 200% when equipped with Loyal Yoyo pet.<br>A headgear used by the Monkey King, Sun Wukong, who was famous for wrecking havoc in the Jade Palace.",19,3,0]
+,[1763,50,0,3,0,0,10,1,"Monkey King's Helm of Mischief","","Banana Juice heals additional 200% when equipped with Loyal Yoyo pet.<br>A headgear used by the Monkey King, Sun Wukong, who was famous for wrecking havoc in the Jade Palace.",19,3,221,146,0]
+,[1764,50,0,3,0,0,10,1,"Monkey King's Helm of Riches","","Banana Juice heals additional 200% when equipped with Loyal Yoyo pet.<br>A headgear used by the Monkey King, Sun Wukong, who was famous for wrecking havoc in the Jade Palace.",19,3,221,146,221,147,0]
+,[1765,50,0,3,0,0,10,1,"Enchanted Monkey King's Helm of Riches","","Banana Juice heals additional 200% when equipped with Loyal Yoyo pet.<br>A headgear used by the Monkey King, Sun Wukong, who was famous for wrecking havoc in the Jade Palace.",1,4,2,4,10,4,19,3,12,6,221,146,221,147,0]
 ];
 
 //Test code for finding the values in Skill.js AutoSpellSkill
@@ -3603,6 +3608,11 @@ ItemID = [
 ,[1758,2,18539,2286]
 ,[1759,2,18539,1615]
 ,[1760,2,18539,1636]
+,[1761,1,20431]
+,[1762,1,20432]
+,[1763,1,20433]
+,[1764,1,20434]
+,[1765,1,20434]
 ];
 
 /*

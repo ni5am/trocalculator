@@ -6637,8 +6637,12 @@ function KakutyouKansuu(){
 		bonus = Math.floor(bonus * (100 + item_bonus[1]) / 100);
 		
 		// Individual item effectiveness bonus
-		bonus = Math.floor(bonus * (100 + item_bonus[2]) / 100);
+		// #43 - Yoyo + Monkey King's Helm#1761~1765 - Banana Juice#532 heals additional 200% when equipped with Loyal Yoyo pet
+		if (ITEM_HEAL[selected_item][0] == 532 && n_A_PassSkill8[0] == 43 && (EquipNumSearch(1761) || EquipNumSearch(1762) || EquipNumSearch(1763) || EquipNumSearch(1764) || EquipNumSearch(1765)))
+			item_bonus[2] += 200;
 		
+		bonus = Math.floor(bonus * (100 + item_bonus[2]) / 100);
+			
 		// Apply SC_INCHEALRATE bonus
 		bonus = Math.floor(bonus * (100 + heal_rate_bonus) / 100);
 		
