@@ -6905,13 +6905,9 @@ Race - n_B[2] = raceID - example n_B[2] = 3, Plant
 	if (Taijin == 0 && n_B_IJYOU[21]) // Eska set INT MDEF to 90
 			n_B[25] = 90;
 
-	if(n_B[19] == 0){
-		if(n_B_IJYOU[3]){
-			n_B[26] -= 25;
-			if(n_B[26] < 1)
-				n_B[26] = 1;
-		}
-	}
+	if(n_B[19] == 0 && n_B_IJYOU[3]) // SC_BLIND - HIT -25%
+			n_B[26] = Math.max(1, Math.floor(n_B[26] * 0.75));
+
 	if(n_B_KYOUKA[4])
 		n_B[26] = n_B[26] * 2;
 
