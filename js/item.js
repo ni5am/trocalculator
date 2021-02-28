@@ -1814,6 +1814,7 @@ ItemOBJ = [
 ,[1763,50,0,3,0,0,10,1,"Monkey King's Helm of Mischief","","Banana Juice heals additional 200% when equipped with Loyal Yoyo pet.<br>A headgear used by the Monkey King, Sun Wukong, who was famous for wrecking havoc in the Jade Palace.",19,3,221,146,0]
 ,[1764,50,0,3,0,0,10,1,"Monkey King's Helm of Riches","","Banana Juice heals additional 200% when equipped with Loyal Yoyo pet.<br>A headgear used by the Monkey King, Sun Wukong, who was famous for wrecking havoc in the Jade Palace.",19,3,221,146,221,147,0]
 ,[1765,50,0,3,0,0,10,1,"Enchanted Monkey King's Helm of Riches","","Banana Juice heals additional 200% when equipped with Loyal Yoyo pet.<br>A headgear used by the Monkey King, Sun Wukong, who was famous for wrecking havoc in the Jade Palace.",1,4,2,4,10,4,19,3,12,6,221,146,221,147,0]
+,[1766,50,0,4,0,0,100,10,"Thanksgiving Pilgrim Hat","","A special Thanksgiving Pilgrim Hat.<br>Has a chance (0.75%) of obtaining Mastela Fruit when killing a monster",7,2,19,5,0]
 ];
 
 //Test code for finding the values in Skill.js AutoSpellSkill
@@ -3613,6 +3614,7 @@ ItemID = [
 ,[1763,1,20433]
 ,[1764,1,20434]
 ,[1765,1,20434]
+,[1765,1,8866]
 ];
 
 /*
