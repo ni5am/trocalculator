@@ -3367,8 +3367,8 @@ with(document.calcForm){
 	musical_lesson_lv = n_A_PassSkill3[2]; // Musical Lesson
 	if (musical_lesson_lv)
 	{
-		// #69 - [Poem of Bragi] Aftercast Rate + 2%
-		bragi_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x == 69) > -1 || bragi_bonus ? 2 : 0);
+		// #70 - [Poem of Bragi] Aftercast Rate + 2%
+		bragi_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x == 70) > -1 || bragi_bonus ? 2 : 0);
 		
 		// custom TalonRO Poem of Bragi after cast delay
 		// "we strongly think that the stacking of Bragi with items that grant ACD reduction is something to avoid" - GM Team, applied only to PvM
