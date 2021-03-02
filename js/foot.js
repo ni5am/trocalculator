@@ -5776,14 +5776,14 @@ function KakutyouKansuu(){
 	else if(wKK == 6){
 		var JyoutaiTaisei = new Array();
 		var GensanTaisei = (n_A_BaseLV + n_A_LUK) / 10;
-		JyoutaiTaisei[0] = Math.floor(((3 + n_A_VIT) * 100) / 100);
+		JyoutaiTaisei[0] = n_A_VIT;
 		JyoutaiTaisei[1] = JyoutaiTaisei[0];
-		JyoutaiTaisei[2] = Math.floor(((3 + n_A_MDEF) * 100) / 100);
-		JyoutaiTaisei[3] = Math.floor(((3 + n_A_LUK) * 100) / 100);
-		JyoutaiTaisei[4] = Math.floor((n_A_INT * 100) / 180);
-		JyoutaiTaisei[5] = Math.floor(((3 + n_A_INT) * 100) / 100);
+		JyoutaiTaisei[2] = n_A_MDEF;
+		JyoutaiTaisei[3] = n_A_LUK;
+		JyoutaiTaisei[4] = (n_A_INT + n_A_VIT) * 50;
+		JyoutaiTaisei[5] = n_A_INT;
 		JyoutaiTaisei[6] = JyoutaiTaisei[0];
-		JyoutaiTaisei[7] = Math.floor(((3 + ((n_A_STR + n_A_INT)/2)) * 100) / 100);
+		JyoutaiTaisei[7] = (n_A_STR + n_A_INT) * 50;
 		JyoutaiTaisei[8] = JyoutaiTaisei[0];
 		JyoutaiTaisei[9] = JyoutaiTaisei[2];
 		for(var i=0;i<=9;i++){
