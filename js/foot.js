@@ -2333,9 +2333,6 @@ with(document.calcForm){
 	// SC_CLOAKING - CRIT * 2
 	n_A_CRI += n_A_CRI * Math.min(1, SkillSearch(82));
 	
-	if (n_A_WeaponType == 11) // Katar CRIT bonus, only applied to LUK CRIT and above SC
-		n_A_CRI *= 2;
-	
 	n_tok[10] += n_tok[110+n_B[2]];
 	
 	// Empty Liquor Bottle#1736 [Every Refine Level] - CRIT + 1
@@ -2510,6 +2507,9 @@ with(document.calcForm){
 	if(n_A_PassSkill8[16]){
 		n_A_CRI = 0;
 	}
+	
+	if (n_A_WeaponType == 11) // Katar CRIT bonus, only applied to LUK CRIT and above SC
+		n_A_CRI *= 2;
 
 	myInnerHtml("A_CRI",n_A_CRI,0);
 
