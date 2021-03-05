@@ -1896,13 +1896,6 @@ with(document.calcForm){
 			n_A_MDEF += 1;
 	}
 
-	//custom TalonRO Armor enchant MDEF
-	var wHSE = A_HSE.value;
-	if(wHSE){
-		if(111 <= wHSE && wHSE <= 119)
-			n_A_MDEF += parseInt(wHSE.substr(-1));
-	}
-
 	//custom TalonRO Kris enchant MDEF
 	var KEbonus = [document.calcForm.A_KE11.value,document.calcForm.A_KE12.value,document.calcForm.A_KE21.value,document.calcForm.A_KE22.value];
 	for (i=0;i<KEbonus.length;i++){
