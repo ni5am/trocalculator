@@ -2634,6 +2634,8 @@ function BattleCalc998()
 		MS_NEUTRAL = 1 - n_tok[60] / 100; 			// Neutral reduction
 		MS_RACE = 1 - n_tok[50 + n_B[2]] / 100; 	// Race reduction
 		MS_ELEMENT = 1 - n_tok[330 + n_B[3]] / 100;	// Monster element reduction
+		MS_MAGIC = 1 - n_tok[101] / 100;			// Magic reduction
+		MS_REGION = 1 - (MANUKU_MONSTER() && n_A_PassSkill8[24] ? 0.1 : 0) - (SUPURE_MONSTER() && n_A_PassSkill8[27] ? 0.1 : 0);
 		
 		// NPC_EARTHQUAKE Skill
 		EQ_LV = (EQ_MOBS.hasOwnProperty(n_B[0])) ? EQ_MOBS[n_B[0]] : EQB[3];
@@ -2649,9 +2651,9 @@ function BattleCalc998()
 			else
 			{
 				HITS = 3 - MS_KAUPE;
-				EQ_RATIO = 2 + 1 * EQ_LV + Math.floor(EQ_LV / 2) + ((EQ_LV > 4) ? 1 : 0);
+				EQ_RATIO = 2 + EQ_LV + EQ_LV / 2 + ((EQ_LV > 4) ? 1 : 0);
 
-				MS_REDUCTION = MS_BOSS * MS_ELEMENT * MS_NEUTRAL * MS_RACE * (blossoming_geographer_cocktail ? 0.9 : 1); // EQ is considered as short ranged attack, no damage reduction from bLongAtkDef
+				MS_REDUCTION = MS_BOSS * MS_ELEMENT * MS_NEUTRAL * MS_RACE * MS_MAGIC * MS_REGION * (blossoming_geographer_cocktail ? 0.9 : 1); // EQ is considered as short ranged attack, no damage reduction from bLongAtkDef
 
 				EQ_MINDMG = Math.floor(Math.floor(Math.floor(Math.floor(n_B[12] * EQ_RATIO * (1 - n_A_MDEF /100) - n_A_INTMDEF) * MS_REDUCTION) * MS_WOF * MS_ASSUMPTIO * MS_EC) / EQ_TARGETS);
 				EQ_MAXDMG = Math.floor(Math.floor(Math.floor(Math.floor(n_B[13] * EQ_RATIO * (1 - n_A_MDEF /100) - n_A_INTMDEF) * MS_REDUCTION) * MS_WOF * MS_ASSUMPTIO * MS_EC) / EQ_TARGETS);
