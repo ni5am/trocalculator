@@ -4355,6 +4355,8 @@ with(document.calcForm){
 		str += '<TR><TD id="EN836"></TD><TD id="EN837"></TD></TR>';
 		str += '<TR><TD colspan="2"><Font size=2 color=black><B>Eclage Food</B></Font></TD></TR>';
 		str += '<TR><TD colspan="2" id="EN842"></TD></TR>';
+		str += '<TR><TD colspan="2"><Font size=2 color=black><B>Eden Energy Crystal Buff</B></Font></TD></TR>';
+		str += '<TR><TD colspan="2" id="EN853"></TD></TR>';
 		str += '<TR><TD colspan="2"><Font size=2 color=black><B>Summer Cocktails</B></Font></TD></TR>';
 		str += '<TR><TD id="EN843"></TD></TR>';
 		str += '<TR><TD id="EN844"></TD></TR><TR><TD id="EN845"></TD></TR>';
@@ -4380,7 +4382,14 @@ with(document.calcForm){
 		eclage_food_list.options[2] = new Option("Slapping Herb [Increases all damage against and experience from [Earth] property monsters by 5%]",2);
 		eclage_food_list.options[3] = new Option("Peony Mommy [Increases all damage against and experience from [Fire] property monsters by 5%]",3);
 		eclage_food_list.options[4] = new Option("Yggdrasil Dust [Increases all damage against and experience from [Wind] property monsters by 5%]",4);
-
+		
+		// Added Eden energy crystal buff 
+		myInnerHtml("EN853",'<select name="eden_crystal_buff_list" onChange="Click_A8(1)"></select>',0);
+		eden_crystal_buff_list.options[0] = new Option("-",0,true,true);
+		eden_crystal_buff_list.options[1] = new Option("Rough Energy Crystal [ATK +3, MATK +3]",1);
+		eden_crystal_buff_list.options[2] = new Option("Purified Energy Crystal [ATK +6, MATK +6]",2);
+		eden_crystal_buff_list.options[3] = new Option("High Energy Crystal [ATK +6, MATK +6]",3);
+		
 		// Added Summer Cocktails under Additional Effects
 		myInnerHtml("EN843",'<input type="checkbox" name="venatu_beep_cocktail_check" 			onClick="Click_A8(1)">Venatu\'s Beep [Increase ATK by 5% for 30 minutes]',0);
 		myInnerHtml("EN844",'<input type="checkbox" name="old_dracula_mix_cocktail_check" 		onClick="Click_A8(1)">Old Dracula\'s Mix [15% more Job EXP for 30 minutes]',0);
@@ -4556,6 +4565,7 @@ with(document.calcForm){
 		A_IJYOU2.checked = n_A_IJYOU[2];
 		A_IJYOU3.checked = n_A_IJYOU[3];
 		eclage_food_list.value = eclage_food;
+		eden_crystal_buff_list.value = eden_crystal_buff;
 		abrasive_food_check.checked = abrasive_food;
 		
 		sting_slap_cocktail_check.checked = sting_slap_cocktail

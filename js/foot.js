@@ -562,6 +562,7 @@ with(document.calcForm){
 		n_A_IJYOU[2] = eval(A_IJYOU2.checked);
 		n_A_IJYOU[3] = eval(A_IJYOU3.checked);
 		eclage_food = eval(eclage_food_list.value);
+		eden_crystal_buff = eval(eden_crystal_buff_list.value);
 		abrasive_food = eval(abrasive_food_check.checked);
 		
 		sting_slap_cocktail = eval(sting_slap_cocktail_check.checked) 							// [sc_start SC_DEF_RATE,1800000,10;]
@@ -1137,6 +1138,13 @@ with(document.calcForm){
 	if (EquipNumSearch(1728)) {
 		n_tok[17] += n_A_BODY_DEF_PLUS;
 		n_tok[98] += n_A_BODY_DEF_PLUS;
+	}
+	
+	if (eden_crystal_buff)
+	{
+		eden_crystal_buff_value = Math.min(2, eden_crystal_buff) * 3;
+		n_tok[17] += eden_crystal_buff_value;
+		n_tok[98] += eden_crystal_buff_value;
 	}
 
 	n_A_ATK += n_tok[17];
@@ -10017,6 +10025,7 @@ n_A_PassSkill8[34] = 0;
 
 eclage_food = 0;
 abrasive_food = 0;
+eden_crystal_buff = 0;
 sting_slap_cocktail = 0;
 venatu_beep_cocktail = 0;
 old_dracula_mix_cocktail = 0;
