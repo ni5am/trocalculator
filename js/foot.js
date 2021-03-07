@@ -6717,6 +6717,61 @@ function KakutyouKansuu(){
 			}
 		}
 	}
+	else if (wKK == 20) // Refine System
+	{
+		refine_rates = [
+			[100,100,100,100,60,40,40,20,20,9],		// Armor
+			[100,100,100,100,100,100,100,60,40,19],	// Weapon Lv1
+			[100,100,100,100,100,100,60,40,20,19],	// Weapon Lv2
+			[100,100,100,100,100,60,50,20,20,19],	// Weapon Lv3
+			[100,100,100,100,60,40,40,20,20,9]];	// Weapon Lv4
+		
+		refine_catalysts = ["Elunium", "Phracon", "Emveretarcon", "Oridecon", "Oridecon"];
+		
+		equipment_type = eval(document.calcForm.equipment_type_select.value);
+		item_cost = eval(document.calcForm.refine_item_cost.value);
+		catalyst_cost = eval(document.calcForm.refine_catalyst_cost.value);
+		refine_rate = refine_rates[equipment_type];
+		
+		smith_job_lvl = eval(document.calcForm.smith_jlvl_select.value) + 1;
+		smith_bonus = Math.floor((smith_job_lvl - 50) / 2);
+		
+		if (equipment_type) // Only applied to weapon refine
+			refine_rate = refine_rate.map(x => Math.max(Math.min(x + smith_bonus, 100), 0));
+		
+		refine_table = document.getElementById("refine_table");
+		
+		function print_number_with_comma(x)
+		{
+			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+		
+		// Update refine table display
+		refine_table.rows[0].cells[5].innerHTML = "<b>Average " + refine_catalysts[equipment_type] + " Required</b>";
+		refine_table.rows[0].cells[6].innerHTML = "<b>Theoretical " + refine_catalysts[equipment_type] + " Cost</b>";
+		for (i = 0; i < 10; ++i)
+		{
+			cumulated_rate = refine_rate.reduce(function (a, b, c) { return c > i ? a : a * b/100;});
+			items_required = Math.ceil(100 / cumulated_rate);
+			
+			cumulated_catalysts = refine_rate.map(function (x, c) { return Math.ceil((c > i ? 0 : items_required) * x / 100);});
+			catalysts_required = cumulated_catalysts.reduce(function (a, b) { return a + b;});
+			
+			theoretical_item_cost = item_cost * items_required;
+			theoretical_catalyst_cost = catalyst_cost * catalysts_required;
+			total_cost = theoretical_item_cost + theoretical_catalyst_cost;
+			
+			refine_table.rows[i + 1].cells[1].innerHTML = refine_rate[i] + "%";
+			refine_table.rows[i + 1].cells[2].innerHTML = cumulated_rate.toPrecision(4) + "%";
+			refine_table.rows[i + 1].cells[3].innerHTML = items_required;
+			refine_table.rows[i + 1].cells[4].innerHTML = print_number_with_comma(theoretical_item_cost) + " z";
+			refine_table.rows[i + 1].cells[5].innerHTML = print_number_with_comma(catalysts_required);
+			refine_table.rows[i + 1].cells[6].innerHTML = print_number_with_comma(theoretical_catalyst_cost) + " z";
+			refine_table.rows[i + 1].cells[7].innerHTML = print_number_with_comma(total_cost) + " z";
+		}
+		
+		myInnerHtml("A_KakutyouData", "",0);
+	}
 }
 
 function manage_sqi_bonus()
@@ -7428,7 +7483,55 @@ function KakutyouKansuu2(){
 		}
 		return;
 	}
+	if (wKK == 20) // Refine System
+	{
+		refine_system_display = "";
+		refine_system_display += "<select name='equipment_type_select' onChange='update_equipment_list()|KakutyouKansuu()'></select>";
+		refine_system_display += "<select name='equipment_select' onChange='KakutyouKansuu()'></select>";
+		//refine_system_display += " Target Refine: <select name='target_refine_select' onChange='KakutyouKansuu()'></select>";
+		refine_system_display += " Smith Job Level: <select name='smith_jlvl_select' onChange='KakutyouKansuu()'></select>";
+		refine_system_display += " Item cost : <input type='text' onChange='KakutyouKansuu()' name='refine_item_cost' value='0' size=10>z";
+		refine_system_display += " Catalyst cost : <input type='text' onChange='KakutyouKansuu()' name='refine_catalyst_cost' value='0' size=5>z";
+		refine_system_display += "";
+		refine_system_display += "<br><br><table border=0 id='refine_table'>";
+		refine_system_display += "<tr><td><b>Refine Level</b></td><td><b>Refine Rate</b></td><td><b>Cumulated Refine Rate</b></td><td><b>Average Items Required</b></td><td><b>Theoretical Items Cost</b></td>";
+		refine_system_display += "<td><b>Average Catalyst Required</b></td><td><b>Theoretical Catalyst Cost</b></td><td><b>Theoretical Total Cost</b></td></tr>";
+		for (i = 1; i <= 10; ++i)
+			refine_system_display += "<tr><td><b>+" + i + "</b></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
+		refine_system_display += "</table>";
+		myInnerHtml("A_KakutyouSel", refine_system_display, 0);
+		
+		equipment_types = ["Armor", "Weapon Lv1", "Weapon Lv2", "Weapon Lv3", "Weapon Lv4"];
+		
+		for (i = 0; i < equipment_types.length ; ++i)
+			document.calcForm.equipment_type_select.options[i] = new Option(equipment_types[i], i);
+		
+		//for (i = 0; i <= 10 ; ++i)
+		//	document.calcForm.target_refine_select.options[i] = new Option(i, i);
+		
+		for (i = 0; i < 70 ; ++i)
+			document.calcForm.smith_jlvl_select.options[i] = new Option(i + 1, i);
+		
+		document.calcForm.smith_jlvl_select.value = 69;		// Default job level 70
+		//document.calcForm.target_refine_select.value = 7;	// Default +7 refine
+		document.calcForm.equipment_type_select.value = 0;
+	
+		update_equipment_list();
+		
+		return;
+	}
 	myInnerHtml("A_KakutyouSel","",0);
+}
+
+function update_equipment_list()
+{
+	equipment_type = document.calcForm.equipment_type_select.value;
+	
+	filtered_equipment_list = ItemOBJ.filter(x => (x[4] == equipment_type) && (x[1] != 100) && (equipment_type == 0 ? x[1] == 50 : true) && (x[8].slice(0,1) != '(')).concat().sort(function(a,b){return a[8].localeCompare(b[8])});
+	
+	document.calcForm.equipment_select.innerHTML = "";
+	for (i = 0; i < filtered_equipment_list.length ; ++i)
+			document.calcForm.equipment_select.options[i] = new Option(filtered_equipment_list[i][8], i);
 }
 
 function loadMonsterItemDropListStealCalc() {

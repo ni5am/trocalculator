@@ -732,6 +732,7 @@ EXTENDED_INFO = [
  ,[17,"Drain Rate"]
  ,[18,"Healing Items"]
  ,[19,"Steal Calculator"]
+ ,[20,"Refine System"]
 ];
 
 CARD_SHORTCUT = [
