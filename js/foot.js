@@ -6738,6 +6738,7 @@ function KakutyouKansuu(){
 		refine_catalysts = ["Elunium", "Phracon", "Emveretarcon", "Oridecon", "Oridecon"];
 		
 		equipment_type = eval(document.calcForm.equipment_type_select.value);
+		selected_equipment = eval(document.calcForm.equipment_select.value);
 		item_cost = eval(document.calcForm.refine_item_cost.value);
 		catalyst_cost = eval(document.calcForm.refine_catalyst_cost.value);
 		refine_rate = refine_rates[equipment_type];
@@ -6756,8 +6757,10 @@ function KakutyouKansuu(){
 		}
 		
 		// Update refine table display
-		refine_table.rows[0].cells[5].innerHTML = "<b>Average " + refine_catalysts[equipment_type] + " Required</b>";
-		refine_table.rows[0].cells[6].innerHTML = "<b>Theoretical " + refine_catalysts[equipment_type] + " Cost</b>";
+		refine_table.rows[0].cells[0].innerHTML = "<a href=\"https://panel.talonro.com/itemdb/" + selected_equipment + "/\" target=\"_blank\"><img src=\"https://panel.talonro.com/images/items/small/" + selected_equipment + ".gif\" alt=\"no picture available =(\"></a>";
+		refine_table.rows[1].cells[5].innerHTML = "<b>Average " + refine_catalysts[equipment_type] + " Required</b>";
+		refine_table.rows[1].cells[6].innerHTML = "<b>Theoretical " + refine_catalysts[equipment_type] + " Cost</b>";
+
 		for (i = 0; i < 10; ++i)
 		{
 			cumulated_rate = refine_rate.reduce(function (a, b, c) { return c > i ? a : a * b/100;});
@@ -6770,13 +6773,13 @@ function KakutyouKansuu(){
 			theoretical_catalyst_cost = catalyst_cost * catalysts_required;
 			total_cost = theoretical_item_cost + theoretical_catalyst_cost;
 			
-			refine_table.rows[i + 1].cells[1].innerHTML = refine_rate[i] + "%";
-			refine_table.rows[i + 1].cells[2].innerHTML = cumulated_rate.toPrecision(4) + "%";
-			refine_table.rows[i + 1].cells[3].innerHTML = items_required;
-			refine_table.rows[i + 1].cells[4].innerHTML = print_number_with_comma(theoretical_item_cost) + " z";
-			refine_table.rows[i + 1].cells[5].innerHTML = print_number_with_comma(catalysts_required);
-			refine_table.rows[i + 1].cells[6].innerHTML = print_number_with_comma(theoretical_catalyst_cost) + " z";
-			refine_table.rows[i + 1].cells[7].innerHTML = print_number_with_comma(total_cost) + " z";
+			refine_table.rows[i + 2].cells[1].innerHTML = refine_rate[i] + "%";
+			refine_table.rows[i + 2].cells[2].innerHTML = cumulated_rate.toPrecision(4) + "%";
+			refine_table.rows[i + 2].cells[3].innerHTML = items_required;
+			refine_table.rows[i + 2].cells[4].innerHTML = print_number_with_comma(theoretical_item_cost) + " z";
+			refine_table.rows[i + 2].cells[5].innerHTML = print_number_with_comma(catalysts_required);
+			refine_table.rows[i + 2].cells[6].innerHTML = print_number_with_comma(theoretical_catalyst_cost) + " z";
+			refine_table.rows[i + 2].cells[7].innerHTML = print_number_with_comma(total_cost) + " z";
 		}
 		
 		myInnerHtml("A_KakutyouData", "",0);
@@ -7494,15 +7497,17 @@ function KakutyouKansuu2(){
 	}
 	if (wKK == 20) // Refine System
 	{
+		refine_row = -1;
+		previous_refine_row = -1;
 		refine_system_display = "";
-		refine_system_display += "<select name='equipment_type_select' onChange='update_equipment_list()|KakutyouKansuu()'></select>";
-		refine_system_display += "<select name='equipment_select' onChange='KakutyouKansuu()'></select>";
+		refine_system_display += "<select name='equipment_type_select' onChange='update_equipment_list()|reset_refine()|KakutyouKansuu()'></select>";
+		refine_system_display += "<select name='equipment_select' onChange='reset_refine()|KakutyouKansuu()'></select>";
 		//refine_system_display += " Target Refine: <select name='target_refine_select' onChange='KakutyouKansuu()'></select>";
 		refine_system_display += " Smith Job Level: <select name='smith_jlvl_select' onChange='KakutyouKansuu()'></select>";
 		refine_system_display += " Item cost : <input type='text' onChange='KakutyouKansuu()' name='refine_item_cost' value='0' size=10>z";
 		refine_system_display += " Catalyst cost : <input type='text' onChange='KakutyouKansuu()' name='refine_catalyst_cost' value='0' size=5>z";
-		refine_system_display += "";
 		refine_system_display += "<br><br><table border=0 id='refine_table'>";
+		refine_system_display += "<tr><td></td><td><button type='button' onClick='simulate_refine()|KakutyouKansuu()'>Refine</button></td><td></td></tr>";
 		refine_system_display += "<tr><td><b>Refine Level</b></td><td><b>Refine Rate</b></td><td><b>Cumulated Refine Rate</b></td><td><b>Average Items Required</b></td><td><b>Theoretical Items Cost</b></td>";
 		refine_system_display += "<td><b>Average Catalyst Required</b></td><td><b>Theoretical Catalyst Cost</b></td><td><b>Theoretical Total Cost</b></td></tr>";
 		for (i = 1; i <= 10; ++i)
@@ -7540,7 +7545,45 @@ function update_equipment_list()
 	
 	document.calcForm.equipment_select.innerHTML = "";
 	for (i = 0; i < filtered_equipment_list.length ; ++i)
-			document.calcForm.equipment_select.options[i] = new Option(filtered_equipment_list[i][8], i);
+			document.calcForm.equipment_select.options[i] = new Option(filtered_equipment_list[i][8], ItemID[filtered_equipment_list[i][0]][2]);
+}
+
+function simulate_refine()
+{
+	previous_refine_row = refine_row;
+	refine_row = (refine_row + 1) % 10;
+	
+	refine_table = document.getElementById("refine_table");
+	
+	refine_success_rate = refine_table.rows[refine_row + 2].cells[1].innerText.match(/\d+/);
+	
+	refine_succeeded = Math.floor(Math.random() * 101) <= refine_success_rate;
+	
+	// Manage current refine
+	if (previous_refine_row > -1)
+		refine_table.rows[previous_refine_row + 2].innerHTML = refine_table.rows[previous_refine_row + 2].innerHTML.replaceAll("<td bgcolor=\"#DDDDFF\">", "<td>");
+	if (refine_row > -1 && refine_succeeded)
+	{
+		refine_table.rows[refine_row + 2].innerHTML = refine_table.rows[refine_row + 2].innerHTML.replaceAll("<td>", "<td bgcolor='#DDDDFF'>");
+		refine_table.rows[0].cells[2].innerHTML =  "<a target=\"_blank\"><img src=\"./images/refine_succeeded.png\" alt=\"no picture available =(\"></a>";
+	}
+	else
+	{
+		refine_table.rows[0].cells[2].innerHTML =  "<a target=\"_blank\"><img src=\"./images/refine_failed.png\" alt=\"no picture available =(\"></a>";
+		reset_refine(false);
+	}
+}
+
+function reset_refine(init = true)
+{
+	if (init)
+	{
+		refine_table = document.getElementById("refine_table");
+		refine_table.rows[0].cells[2].innerHTML =  "";
+	}
+	
+	previous_refine_row = -1;
+	refine_row = -1;
 }
 
 function loadMonsterItemDropListStealCalc() {
