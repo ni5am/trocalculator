@@ -3290,13 +3290,14 @@ with(document.calcForm){
 	//custom TalonRO Halloween Midas Whisper
 	if (SU_DEX >= 80 && EquipNumSearch(1526))
 		n_tok[73] -= 5;
-		
-	if (n_A_PassSkill3[2]) // Poem of Bragi, 3 * Skill LV + Musical Lesson LV + DEX / 10;
-		n_tok[73] -= n_A_PassSkill3[2] * 3 + n_A_PassSkill3[32] + Math.floor(n_A_PassSkill3[22] / 10);
 
 	n_tok[73] = Math.max(-100, n_tok[73]);
+	
+	bragi_cast_reduction = 1;
+	if (n_A_PassSkill3[2]) // Poem of Bragi, 3 * Skill LV + Musical Lesson LV + DEX / 10;
+		bragi_cast_reduction -= Math.min(1, (n_A_PassSkill3[2] * 3 + n_A_PassSkill3[32] + Math.floor(n_A_PassSkill3[22] / 10)) / 100);
 
-	n_A_CAST *= 1 + n_tok[73] / 100;
+	n_A_CAST *= (1 + n_tok[73] / 100) * bragi_cast_reduction;
 
 	// Skill cast time reduction script bonus
 	skill_cast_reduction = 100;
