@@ -3068,10 +3068,10 @@ with(document.calcForm){
 		A_SpeedPOT.options[2] = new Option("-",0);
 	if(n_A_JobSearch()==1 || n_A_JobSearch()==6 || n_A_JobSearch()==41 || n_A_JobSearch2()==14 || n_A_JobSearch2()==11 || n_A_JOB == 5 || n_A_JOB == 45)
 		A_SpeedPOT.options[3] = new Option(SpeedPotName[3]+"(Lv85)",3);
-	else if(n_A_JOB == 22)
-		A_SpeedPOT.options[3] = new Option("-Special("+ SkillOBJ[304][2] +"Lv85)/Poison Bottle",3);
 	else
 		A_SpeedPOT.options[3] = new Option("-Special("+ SkillOBJ[304][2] +")(Lv85)",3);
+	if(n_A_JOB == 22)
+		A_SpeedPOT.options[4] = new Option("Poison Bottle",4);
 
 
 	if(n_A_JOB != 20)
