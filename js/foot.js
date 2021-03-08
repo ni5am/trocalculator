@@ -562,9 +562,12 @@ with(document.calcForm){
 		n_A_IJYOU[2] = eval(A_IJYOU2.checked);
 		n_A_IJYOU[3] = eval(A_IJYOU3.checked);
 		eclage_food = eval(eclage_food_list.value);
-		eden_crystal_buff = eval(eden_crystal_buff_list.value);
 		abrasive_food = eval(abrasive_food_check.checked);
-		
+
+		eden_rough_crystal_buff = eval(eden_rough_crystal_buff_check.checked);
+		eden_purified_crystal_buff = eval(eden_purified_crystal_buff_check.checked);
+		eden_high_crystal_buff = eval(eden_high_crystal_buff_check.checked);
+
 		sting_slap_cocktail = eval(sting_slap_cocktail_check.checked) 							// [sc_start SC_DEF_RATE,1800000,10;]
 		venatu_beep_cocktail = eval(venatu_beep_cocktail_check.checked)							// [sc_start SC_INCATKRATE,1800000,5;]
 		old_dracula_mix_cocktail = eval(old_dracula_mix_cocktail_check.checked)					// [sc_start SC_JEXPBOOST,1800000,15;]
@@ -1140,12 +1143,10 @@ with(document.calcForm){
 		n_tok[98] += n_A_BODY_DEF_PLUS;
 	}
 	
-	if (eden_crystal_buff)
-	{
-		eden_crystal_buff_value = Math.min(2, eden_crystal_buff) * 3;
-		n_tok[17] += eden_crystal_buff_value;
-		n_tok[98] += eden_crystal_buff_value;
-	}
+	// Manage Eden crystal energy buff (stackable)
+	eden_crystal_buff_value = (eden_rough_crystal_buff ? 0.5 : 0) + (eden_purified_crystal_buff ? 1 : 0) + (eden_high_crystal_buff ? 1 : 0);
+	n_tok[17] += 6 * eden_crystal_buff_value;
+	n_tok[98] += 6 * eden_crystal_buff_value;
 
 	n_A_ATK += n_tok[17];
 
@@ -10023,9 +10024,12 @@ n_A_PassSkill8[7] = 7; //[Custom TalonRO - 6/4/2018 - Fixed the default value fo
 n_A_PassSkill8[33] = 0;
 n_A_PassSkill8[34] = 0;
 
+eden_rough_crystal_buff = 0;
+eden_purified_crystal_buff = 0;
+eden_high_crystal_buff = 0;
+
 eclage_food = 0;
 abrasive_food = 0;
-eden_crystal_buff = 0;
 sting_slap_cocktail = 0;
 venatu_beep_cocktail = 0;
 old_dracula_mix_cocktail = 0;
