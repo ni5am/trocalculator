@@ -405,6 +405,15 @@ PET_OBJ = [[0,"No Pet",0,0]
 ,[150,"Normal Pope [Increases effectiveness of your Heal, Sanctuary and Potion Pitcher by 5%. Add a 2% chance of gaining 5% of the damage inflicted on an enemy as HP with each attack.]",0,91,5,93,5,94,5,0]
 ,[151,"Sppo [Increase resistance against Water Property by 2%. Increase Physical and Magical damage against Water element monsters by 2%. Add a chance to get a Glacial Heart when killing a monster.]",0,61,2,41,2,351,2,0]
 ,[152,"Papare [AGI +1, reduces after-cast delay by 3%]",0,2,1,74,3,0]
+,[153,"Phreeoni [HIT+5, Increase Physical and Magical damage against Earth element monsters by 3%]",0,8,5,42,3,352,3,0]
+,[154,"Gloom Under Night [MATK +1%, Increase Physical and Magical damage against Fire and Ghost element monsters by 2%]",0,89,1,43,2,48,2,353,2,358,2,0]
+,[155,"Blue Moon Loli Ruri [MHP +3%, adds chance of auto casting Level 2 [Heal] on the user when the user receives Physical Damage]",0,15,3,0]
+,[156,"Ghost Quve [Perfect Dodge +1, AGI +2, Shadow element resistance increased by 2%]",0,2,2,11,1,67,2,0]
+,[157,"Grote [DEF +1, VIT +2, Shadow element resistance increased by 2%]",0,3,2,18,1,67,2,0]
+,[158,"Garling Lude [MHP +250, ASDP +2%, MDEF+1, Ghost element resistance increased by 2%]",0,12,2,13,250,19,1,68,2,0]
+,[159,"Wandering Duck Doll [AGI +2, DEX+1]",0,2,2,5,1,0]
+,[160,"Deviruchiling [Shadow element resistance increased by 3%]",0,67,3,0]
+,[161,"Capoo [AGI +2, ASPD +2%]",0,2,2,12,2,0]
 ];
 
 ITEM_SP_TIME_OBJ =[
