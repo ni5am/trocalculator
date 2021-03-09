@@ -6736,6 +6736,12 @@ function KakutyouKansuu(){
 			[100,100,100,100,100,60,50,20,20,19],	// Weapon Lv3
 			[100,100,100,100,60,40,40,20,20,9]];	// Weapon Lv4
 		
+		refine_fees = [	2000,	// All Armor Types - Elunium (Monster drop) + 2,000 Z Fee
+						50,		// Weapon Lv1 - Phracon (200 Z from NPC Shop) + 50 Z Fee
+						200,	// Weapon Lv2 - Emveretarcon (1,000 Z from NPC Shop) + 200 Z Fee
+						5000,	// Weapon Lv3 - Oridecon (Monster drop) + 5,000 Z Fee
+						20000];	// Weapon Lv4 - Oridecon + 20,000 Z Fee
+		
 		refine_catalysts = ["Elunium", "Phracon", "Emveretarcon", "Oridecon", "Oridecon"];
 		
 		equipment_type = eval(document.calcForm.equipment_type_select.value);
@@ -6743,14 +6749,17 @@ function KakutyouKansuu(){
 		item_cost = eval(document.calcForm.refine_item_cost.value);
 		catalyst_cost = eval(document.calcForm.refine_catalyst_cost.value);
 		refine_rate = refine_rates[equipment_type];
+		npc_refine = document.calcForm.npc_refine_check.checked;
 		
 		smith_job_lvl = eval(document.calcForm.smith_jlvl_select.value) + 1;
-		smith_bonus = Math.floor((smith_job_lvl - 50) / 2);
+		smith_bonus = (smith_job_lvl - 50) / 2;
+		smith_bonus = Math.sign(smith_bonus) * Math.floor(Math.abs(smith_bonus));
 		
 		if (equipment_type) // Only applied to weapon refine
 			refine_rate = refine_rate.map(x => Math.max(Math.min(x + smith_bonus, 100), 0));
 		
 		refine_table = document.getElementById("refine_table");
+		refine_header = document.getElementById("refine_system_header");
 		
 		function print_number_with_comma(x)
 		{
@@ -6758,7 +6767,8 @@ function KakutyouKansuu(){
 		}
 		
 		// Update refine table display
-		refine_table.rows[0].cells[0].innerHTML = "<a href=\"https://panel.talonro.com/itemdb/" + selected_equipment + "/\" target=\"_blank\"><img src=\"https://panel.talonro.com/images/items/small/" + selected_equipment + ".gif\" alt=\"no picture available =(\"></a>";
+		refine_header.rows[0].cells[2].innerHTML = "<a href=\"https://panel.talonro.com/itemdb/" + selected_equipment + "/\" target=\"_blank\"><img src=\"https://panel.talonro.com/images/items/small/" + selected_equipment + ".gif\" alt=\"no picture available =(\"></a>";
+		refine_header.rows[1].cells[1].innerHTML = "<td> " + 	refine_catalysts[equipment_type] + " cost : </td>";
 		refine_table.rows[1].cells[5].innerHTML = "<b>Average " + refine_catalysts[equipment_type] + " Required</b>";
 		refine_table.rows[1].cells[6].innerHTML = "<b>Theoretical " + refine_catalysts[equipment_type] + " Cost</b>";
 
@@ -6772,7 +6782,8 @@ function KakutyouKansuu(){
 			
 			theoretical_item_cost = item_cost * items_required;
 			theoretical_catalyst_cost = catalyst_cost * catalysts_required;
-			total_cost = theoretical_item_cost + theoretical_catalyst_cost;
+			refine_fee = (npc_refine || equipment_type == 0 ? refine_fees[equipment_type] : 0) * catalysts_required;
+			total_cost = theoretical_item_cost + theoretical_catalyst_cost + refine_fee;
 			
 			refine_table.rows[i + 2].cells[1].innerHTML = refine_rate[i] + "%";
 			refine_table.rows[i + 2].cells[2].innerHTML = cumulated_rate.toPrecision(4) + "%";
@@ -7500,20 +7511,35 @@ function KakutyouKansuu2(){
 	{
 		refine_row = -1;
 		previous_refine_row = -1;
+		
+		refine_succeeded = 0;
+		refine_timer_id = null;
+		
 		refine_system_display = "";
-		refine_system_display += "<select name='equipment_type_select' onChange='update_equipment_list()|reset_refine()|KakutyouKansuu()'></select>";
-		refine_system_display += "<select name='equipment_select' onChange='reset_refine()|KakutyouKansuu()'></select>";
-		//refine_system_display += " Target Refine: <select name='target_refine_select' onChange='KakutyouKansuu()'></select>";
-		refine_system_display += " Smith Job Level: <select name='smith_jlvl_select' onChange='KakutyouKansuu()'></select>";
-		refine_system_display += " Item cost : <input type='text' onChange='KakutyouKansuu()' name='refine_item_cost' value='0' size=10>z";
-		refine_system_display += " Catalyst cost : <input type='text' onChange='KakutyouKansuu()' name='refine_catalyst_cost' value='0' size=5>z";
+		refine_system_display += "<table id='refine_system_header' name='refine_system_header'>";
+		refine_system_display += "<tr>";
+		refine_system_display += "<td rowspan='3' style='height: 100%;'></td>"; //
+		refine_system_display += "<td style='height: 25%;'><select name='equipment_type_select' onChange='update_equipment_list()|reset_refine()|KakutyouKansuu()' style='max-width:100%; white-space:nowrap; width: 100%;'></select></td>";
+		refine_system_display += "<td rowspan='2'></td>";
+		refine_system_display += "<td style='white-space:nowrap;'>Item cost : </td><td><input type='text' onChange='KakutyouKansuu()' name='refine_item_cost' value='0' style='width: 100%;'></td>";
+		refine_system_display += "<td style='width: 5%;'/><td>Smith Job Level: <select name='smith_jlvl_select' onChange='KakutyouKansuu()'></select></td>";
+		refine_system_display += "</tr>";
+		refine_system_display += "<tr>";
+		refine_system_display += "<td style='height: 25%;'><select name='equipment_select' onChange='reset_refine()|KakutyouKansuu()' style='width: 100%;'></select></td>";
+		refine_system_display += "<td>Catalyst cost : </td><td><input type='text' onChange='KakutyouKansuu()' name='refine_catalyst_cost' value='0' style='width: 100%;'></td>";
+		refine_system_display += "<td style='width: 5%;'/><td><input type='checkbox' name='npc_refine_check' onClick='KakutyouKansuu()'/> NPC Refine Services</td>";
+		refine_system_display += "</tr>";
+		refine_system_display += "<tr><td></td><td></td><td></td><td></td></tr>";
+		refine_system_display += "</table>"
 		refine_system_display += "<br><br><table border=0 id='refine_table'>";
-		refine_system_display += "<tr><td></td><td><button type='button' onClick='simulate_refine()|KakutyouKansuu()'>Refine</button></td><td></td></tr>";
+		refine_system_display += "<tr><td align=\"center\"></td><td>";
+		refine_system_display += "</td><td></td></tr>";
 		refine_system_display += "<tr><td><b>Refine Level</b></td><td><b>Refine Rate</b></td><td><b>Cumulated Refine Rate</b></td><td><b>Average Items Required</b></td><td><b>Theoretical Items Cost</b></td>";
 		refine_system_display += "<td><b>Average Catalyst Required</b></td><td><b>Theoretical Catalyst Cost</b></td><td><b>Theoretical Total Cost</b></td></tr>";
 		for (i = 1; i <= 10; ++i)
 			refine_system_display += "<tr><td><b>+" + i + "</b></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>";
 		refine_system_display += "</table>";
+		
 		myInnerHtml("A_KakutyouSel", refine_system_display, 0);
 		
 		equipment_types = ["Armor", "Weapon Lv1", "Weapon Lv2", "Weapon Lv3", "Weapon Lv4"];
@@ -7527,12 +7553,13 @@ function KakutyouKansuu2(){
 		for (i = 0; i < 70 ; ++i)
 			document.calcForm.smith_jlvl_select.options[i] = new Option(i + 1, i);
 		
+		refine_header = document.getElementById("refine_system_header");
 		document.calcForm.smith_jlvl_select.value = 69;		// Default job level 70
 		//document.calcForm.target_refine_select.value = 7;	// Default +7 refine
 		document.calcForm.equipment_type_select.value = 0;
 	
 		update_equipment_list();
-		
+		set_refine_image();
 		return;
 	}
 	myInnerHtml("A_KakutyouSel","",0);
@@ -7551,11 +7578,15 @@ function update_equipment_list()
 
 function simulate_refine()
 {
+	set_refine_image(3);
+	// Manage previous refine failure
+	if (!refine_succeeded && previous_refine_row > -1)
+		reset_refine();
+	
 	previous_refine_row = refine_row;
 	refine_row = (refine_row + 1) % 10;
 	
 	refine_table = document.getElementById("refine_table");
-	
 	refine_success_rate = refine_table.rows[refine_row + 2].cells[1].innerText.match(/\d+/);
 	
 	refine_succeeded = Math.floor(Math.random() * 101) <= refine_success_rate;
@@ -7566,12 +7597,15 @@ function simulate_refine()
 	if (refine_row > -1 && refine_succeeded)
 	{
 		refine_table.rows[refine_row + 2].innerHTML = refine_table.rows[refine_row + 2].innerHTML.replaceAll("<td>", "<td bgcolor='#DDDDFF'>");
-		refine_table.rows[0].cells[2].innerHTML =  "<a target=\"_blank\"><img src=\"./images/refine_succeeded.png\" alt=\"no picture available =(\"></a>";
+		clearTimeout(refine_timer_id);
+		refine_timer_id = setTimeout(set_refine_image, 100, 1);
 	}
 	else
 	{
-		refine_table.rows[0].cells[2].innerHTML =  "<a target=\"_blank\"><img src=\"./images/refine_failed.png\" alt=\"no picture available =(\"></a>";
-		reset_refine(false);
+		refine_table.rows[refine_row + 1].innerHTML = refine_table.rows[refine_row + 1].innerHTML.replaceAll("<td>", "<td bgcolor='#FFDDDD'>");
+		clearTimeout(refine_timer_id);
+		refine_timer_id = setTimeout(set_refine_image, 100, 2);
+		refine_row = -1
 	}
 }
 
@@ -7581,10 +7615,34 @@ function reset_refine(init = true)
 	{
 		refine_table = document.getElementById("refine_table");
 		refine_table.rows[0].cells[2].innerHTML =  "";
+		set_refine_image();
+		
+		refine_table.rows[previous_refine_row + 2].innerHTML = refine_table.rows[previous_refine_row + 2].innerHTML.replaceAll("<td bgcolor=\"#FFDDDD\">", "<td>");
+		previous_refine_row = -1;
 	}
-	
-	previous_refine_row = -1;
-	refine_row = -1;
+}
+
+function set_refine_image(image_id = 0)
+{
+	switch (image_id)
+	{
+		case 1:
+			refine_header.rows[0].cells[0].innerHTML =  "<a target=\"_blank\"><img src=\"./images/refine_succeeded.png\" alt=\"no picture available =(\" onclick=\"simulate_refine()\"></a>";
+			clearTimeout(refine_timer_id);
+			refine_timer_id = setTimeout(set_refine_image, 300);
+			break;
+		case 2:
+			refine_header.rows[0].cells[0].innerHTML =  "<a target=\"_blank\"><img src=\"./images/refine_failed.png\" alt=\"no picture available =(\" onclick=\"simulate_refine()\"></a>";
+			clearTimeout(refine_timer_id);
+			refine_timer_id = setTimeout(set_refine_image, 300);
+			break;
+		case 3:
+			refine_header.rows[0].cells[0].innerHTML =  "<a target=\"_blank\"><img src=\"./images/refine_prepare.png\"  alt=\"no picture available =(\" onclick=\"simulate_refine()\"></a>";
+			break;
+		case 0:
+		default:
+			refine_header.rows[0].cells[0].innerHTML =  "<a target=\"_blank\"><img src=\"./images/refine_idle.png\" alt=\"no picture available =(\" onclick=\"simulate_refine()\"></a>";
+	}
 }
 
 function loadMonsterItemDropListStealCalc() {
