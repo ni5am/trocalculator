@@ -3093,6 +3093,12 @@ with(document.calcForm){
 		}
 	}
 
+	//custom TalonRO SQI Bonus interface - reset SQI-Bonus after class-change
+	SQI_Bonus_SW.checked=0;
+	Click_SQI_Bonus_SW();
+	for(var i=0;i < SQI_Bonus_Effect.length;i++)
+		SQI_Bonus_Effect[i] = 0;
+	Click_SQI_Bonus(0);
 
 	ClickWeaponType(0);
 
@@ -3172,14 +3178,6 @@ with(document.calcForm){
 	ClickActiveSkill();
 	WeaponSet2();
 	VanillaArmor();
-
-	//custom TalonRO SQI Bonus interface - reset SQI-Bonus after class-change
-	SQI_Bonus_SW.checked=0;
-	Click_SQI_Bonus_SW();
-	for(var i=0;i < SQI_Bonus_Effect.length;i++)
-		SQI_Bonus_Effect[i] = 0;
-	Click_SQI_Bonus(0);
-
 }}
 
 function ClickWeaponType(n){
@@ -4625,10 +4623,10 @@ with(document.calcForm){
 		str += '<TR><TD><Font size=2 color=black><B>SQI Effects</B></Font></TD></TR>';
 		str += '<TR><TD><Font size=2 color=black>Bonuses will be shown only if you equip an SQI!</Font></TD></TR>';
 		str += '<TR><TD>';
-		str += '<select name="SQI_Bonus_1" onChange="Click_SQI_Bonus(1)"></select><BR>';
-		str += '<select name="SQI_Bonus_2" onChange="Click_SQI_Bonus(1)"></select><BR>';
-		str += '<select name="SQI_Bonus_3" onChange="Click_SQI_Bonus(1)"></select><BR>';
-		str += '<select name="SQI_Bonus_4" onChange="Click_SQI_Bonus(1)"></select><BR>';
+		str += '<select name="SQI_Bonus_1" id="SQI_Bonus_1" onChange="Click_SQI_Bonus(1)"></select><BR>';
+		str += '<select name="SQI_Bonus_2" id="SQI_Bonus_2" onChange="Click_SQI_Bonus(1)"></select><BR>';
+		str += '<select name="SQI_Bonus_3" id="SQI_Bonus_3" onChange="Click_SQI_Bonus(1)"></select><BR>';
+		str += '<select name="SQI_Bonus_4" id="SQI_Bonus_4" onChange="Click_SQI_Bonus(1)"></select><BR>';
 		str += '</TD></TR></table>';
 		myInnerHtml("ID_SQI_Bonus",str,0);
 		SQI_Bonus_SW.checked=1;
@@ -4653,8 +4651,20 @@ with(document.calcForm){
 		SQI_Bonus_2.value=SQI_Bonus_Effect[1];
 		SQI_Bonus_3.value=SQI_Bonus_Effect[2];
 		SQI_Bonus_4.value=SQI_Bonus_Effect[3];
-
-	}else{
+		
+		// Ensure that Bonus are always valid
+		for (i = 0; i < SQI_Bonus_Effect.length; ++i)
+		{
+			current_sqi_bonus_select = document.getElementById("SQI_Bonus_" + (i + 1));
+			
+			if (current_sqi_bonus_select && current_sqi_bonus_select.value == "")
+			{
+				SQI_Bonus_Effect[i] = 0;
+				current_sqi_bonus_select.value = 0;
+			}
+		}
+	}
+	else{
 		var str;
 		str = '<table style="border: 1px solid #999; border-collapse: collapse; width: auto;">';
 		str += '<TR><TD id="SQI_Bonus_TD" Colspan="1" Bgcolor="#DDDDFF" class="subheader"><div style="float: left; padding: 3px;">SQI-Bonus<SPAN id="SQI_Bonus_used"></SPAN></div>';
