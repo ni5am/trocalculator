@@ -7559,7 +7559,13 @@ function KakutyouKansuu2(){
 		document.calcForm.equipment_type_select.value = 0;
 	
 		update_equipment_list();
+		
+		// Load all images for better fluidity
+		set_refine_image(3);
+		set_refine_image(2);
+		set_refine_image(1);
 		set_refine_image();
+		
 		return;
 	}
 	myInnerHtml("A_KakutyouSel","",0);
@@ -7609,17 +7615,14 @@ function simulate_refine()
 	}
 }
 
-function reset_refine(init = true)
+function reset_refine()
 {
-	if (init)
-	{
-		refine_table = document.getElementById("refine_table");
-		refine_table.rows[0].cells[2].innerHTML =  "";
-		set_refine_image();
-		
-		refine_table.rows[previous_refine_row + 2].innerHTML = refine_table.rows[previous_refine_row + 2].innerHTML.replaceAll("<td bgcolor=\"#FFDDDD\">", "<td>");
-		previous_refine_row = -1;
-	}
+	refine_table = document.getElementById("refine_table");
+	refine_table.rows[0].cells[2].innerHTML =  "";
+	set_refine_image();
+	
+	refine_table.rows[previous_refine_row + 2].innerHTML = refine_table.rows[previous_refine_row + 2].innerHTML.replaceAll("<td bgcolor=\"#FFDDDD\">", "<td>");
+	previous_refine_row = -1;
 }
 
 function set_refine_image(image_id = 0)
