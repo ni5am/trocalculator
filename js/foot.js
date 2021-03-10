@@ -6755,9 +6755,6 @@ function KakutyouKansuu(){
 		smith_bonus = (smith_job_lvl - 50) / 2;
 		smith_bonus = Math.sign(smith_bonus) * Math.floor(Math.abs(smith_bonus));
 		
-		if (equipment_type) // Only applied to weapon refine
-			refine_rate = refine_rate.map(x => Math.max(Math.min(x + smith_bonus, 100), 0));
-		
 		refine_table = document.getElementById("refine_table");
 		refine_header = document.getElementById("refine_system_header");
 		
@@ -6766,9 +6763,19 @@ function KakutyouKansuu(){
 			return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		}
 		
+		if (equipment_type) // Only applied to weapon refine
+		{
+			refine_header.rows[1].cells[5].style.visibility = "";
+			refine_rate = refine_rate.map(x => Math.max(Math.min(x + smith_bonus, 100), 0));
+		}
+		else
+			refine_header.rows[1].cells[5].style.visibility = "hidden";
+		
+		// Update refine header display
+		refine_header.rows[0].cells[2].innerHTML = "<a href=\"https://panel.talonro.com/itemdb/" + selected_equipment + "/\" target=\"_blank\"><img src=\"https://panel.talonro.com/images/items/small/" + selected_equipment + ".gif\" alt=\"no picture available =(\" style='text-decoration: none;height: 100%;width: 100%;'></a>";
+		refine_header.rows[1].cells[2].innerHTML = "<td> " + 	refine_catalysts[equipment_type] + " cost : </td>";
+		
 		// Update refine table display
-		refine_header.rows[0].cells[2].innerHTML = "<a href=\"https://panel.talonro.com/itemdb/" + selected_equipment + "/\" target=\"_blank\"><img src=\"https://panel.talonro.com/images/items/small/" + selected_equipment + ".gif\" alt=\"no picture available =(\"></a>";
-		refine_header.rows[1].cells[1].innerHTML = "<td> " + 	refine_catalysts[equipment_type] + " cost : </td>";
 		refine_table.rows[1].cells[5].innerHTML = "<b>Average " + refine_catalysts[equipment_type] + " Required</b>";
 		refine_table.rows[1].cells[6].innerHTML = "<b>Theoretical " + refine_catalysts[equipment_type] + " Cost</b>";
 
@@ -7521,12 +7528,12 @@ function KakutyouKansuu2(){
 		refine_system_display += "<td rowspan='3' style='height: 100%;'></td>"; //
 		refine_system_display += "<td style='height: 25%;'><select name='equipment_type_select' onChange='update_equipment_list()|reset_refine()|KakutyouKansuu()' style='max-width:100%; white-space:nowrap; width: 100%;'></select></td>";
 		refine_system_display += "<td rowspan='2'></td>";
-		refine_system_display += "<td style='white-space:nowrap;'>Item cost : </td><td><input type='text' onChange='KakutyouKansuu()' name='refine_item_cost' value='0' style='width: 100%;'></td>";
+		refine_system_display += "<td style='width: 5%;'/><td style='white-space:nowrap;'>Item cost : </td><td><input type='text' onChange='KakutyouKansuu()' name='refine_item_cost' value='0' style='width: 100%;'></td>";
 		refine_system_display += "<td style='width: 5%;'/><td>Smith Job Level: <select name='smith_jlvl_select' onChange='KakutyouKansuu()'></select></td>";
 		refine_system_display += "</tr>";
 		refine_system_display += "<tr>";
 		refine_system_display += "<td style='height: 25%;'><select name='equipment_select' onChange='reset_refine()|KakutyouKansuu()' style='width: 100%;'></select></td>";
-		refine_system_display += "<td>Catalyst cost : </td><td><input type='text' onChange='KakutyouKansuu()' name='refine_catalyst_cost' value='0' style='width: 100%;'></td>";
+		refine_system_display += "<td style='width: 5%;'/><td>Catalyst cost : </td><td><input type='text' onChange='KakutyouKansuu()' name='refine_catalyst_cost' value='0' style='width: 100%;'></td>";
 		refine_system_display += "<td style='width: 5%;'/><td><input type='checkbox' name='npc_refine_check' onClick='KakutyouKansuu()'/> NPC Refine Services</td>";
 		refine_system_display += "</tr>";
 		refine_system_display += "<tr><td></td><td></td><td></td><td></td></tr>";
@@ -7546,16 +7553,12 @@ function KakutyouKansuu2(){
 		
 		for (i = 0; i < equipment_types.length ; ++i)
 			document.calcForm.equipment_type_select.options[i] = new Option(equipment_types[i], i);
-		
-		//for (i = 0; i <= 10 ; ++i)
-		//	document.calcForm.target_refine_select.options[i] = new Option(i, i);
-		
+
 		for (i = 0; i < 70 ; ++i)
 			document.calcForm.smith_jlvl_select.options[i] = new Option(i + 1, i);
 		
 		refine_header = document.getElementById("refine_system_header");
 		document.calcForm.smith_jlvl_select.value = 69;		// Default job level 70
-		//document.calcForm.target_refine_select.value = 7;	// Default +7 refine
 		document.calcForm.equipment_type_select.value = 0;
 	
 		update_equipment_list();
@@ -7630,21 +7633,21 @@ function set_refine_image(image_id = 0)
 	switch (image_id)
 	{
 		case 1:
-			refine_header.rows[0].cells[0].innerHTML =  "<a target=\"_blank\"><img src=\"./images/refine_succeeded.png\" alt=\"no picture available =(\" onclick=\"simulate_refine()\"></a>";
+			refine_header.rows[0].cells[0].innerHTML =  "<img src=\"./images/refine_succeeded.png\" alt=\"no picture available =(\" onclick=\"simulate_refine()\" style='cursor:pointer;margin-left:10%'>";
 			clearTimeout(refine_timer_id);
 			refine_timer_id = setTimeout(set_refine_image, 300);
 			break;
 		case 2:
-			refine_header.rows[0].cells[0].innerHTML =  "<a target=\"_blank\"><img src=\"./images/refine_failed.png\" alt=\"no picture available =(\" onclick=\"simulate_refine()\"></a>";
+			refine_header.rows[0].cells[0].innerHTML =  "<img src=\"./images/refine_failed.png\" alt=\"no picture available =(\" onclick=\"simulate_refine()\" style='cursor:pointer;margin-left:10%'>";
 			clearTimeout(refine_timer_id);
 			refine_timer_id = setTimeout(set_refine_image, 300);
 			break;
 		case 3:
-			refine_header.rows[0].cells[0].innerHTML =  "<a target=\"_blank\"><img src=\"./images/refine_prepare.png\"  alt=\"no picture available =(\" onclick=\"simulate_refine()\"></a>";
+			refine_header.rows[0].cells[0].innerHTML =  "<img src=\"./images/refine_prepare.png\"  alt=\"no picture available =(\" onclick=\"simulate_refine()\" style='cursor:pointer;margin-left:10%'>";
 			break;
 		case 0:
 		default:
-			refine_header.rows[0].cells[0].innerHTML =  "<a target=\"_blank\"><img src=\"./images/refine_idle.png\" alt=\"no picture available =(\" onclick=\"simulate_refine()\"></a>";
+			refine_header.rows[0].cells[0].innerHTML =  "<img src=\"./images/refine_idle.png\" alt=\"no picture available =(\" onclick=\"simulate_refine()\" style='cursor:pointer;margin-left:10%'>";
 	}
 }
 
