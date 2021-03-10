@@ -8084,8 +8084,12 @@ function BattleCalc4(wBC4,wBC4_2,wBC4_3){
 	if(SkillSearch(364))
 		return wBC4 + wBC4_3;
 
+	eska_vit_bonus = [0, 0, 0];
+	if (Taijin == 0 && n_B_IJYOU[21]) // Eska increases the random part of the formula by 100
+		eska_vit_bonus = [0, 50, 100];
+
 	if(n_tok[23])
-		wBC4 = Math.floor(wBC4 * (n_B_DEF2[2 - wBC4_2]+n_B[14])/100) +wBC4_3;
+		wBC4 = Math.floor(wBC4 * (n_B_DEF2[2 - wBC4_2] + eska_vit_bonus[wBC4_2] + n_B[14])/100) +wBC4_3;
 	else
 		wBC4 = Math.floor(wBC4 * (100 - n_B[14]) /100) - n_B_DEF2[wBC4_2] + wBC4_3;
 
