@@ -8091,7 +8091,7 @@ function BattleCalc4(wBC4,wBC4_2,wBC4_3){
 	if(n_tok[23])
 		wBC4 = Math.floor(wBC4 * (n_B_DEF2[2 - wBC4_2] + eska_vit_bonus[wBC4_2] + n_B[14])/100) +wBC4_3;
 	else
-		wBC4 = Math.floor(wBC4 * (100 - n_B[14]) /100) - n_B_DEF2[wBC4_2] + wBC4_3;
+		wBC4 = Math.floor(wBC4 * (100 - n_B[14]) /100) - n_B_DEF2[wBC4_2] - eska_vit_bonus[2 - wBC4_2] + wBC4_3;
 
 	return wBC4;
 }

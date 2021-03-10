@@ -7528,13 +7528,13 @@ function KakutyouKansuu2(){
 		refine_system_display += "<td rowspan='3' style='height: 100%;'></td>"; //
 		refine_system_display += "<td style='height: 25%;'><select name='equipment_type_select' onChange='update_equipment_list()|reset_refine()|KakutyouKansuu()' style='max-width:100%; white-space:nowrap; width: 100%;'></select></td>";
 		refine_system_display += "<td rowspan='2'></td>";
-		refine_system_display += "<td style='width: 5%;'/><td style='white-space:nowrap;'>Item cost : </td><td><input type='text' onChange='KakutyouKansuu()' name='refine_item_cost' value='0' style='width: 100%;'></td>";
-		refine_system_display += "<td style='width: 5%;'/><td>Smith Job Level: <select name='smith_jlvl_select' onChange='KakutyouKansuu()'></select></td>";
+		refine_system_display += "<td style='width: 1%;'/><td style='white-space:nowrap;'>Item cost : </td><td><input type='text' onChange='KakutyouKansuu()' name='refine_item_cost' value='0' style='width: 100%;'></td>";
+		refine_system_display += "<td style='width: 1%;'/><td>Smith Job Level: <select name='smith_jlvl_select' onChange='KakutyouKansuu()'></select></td>";
 		refine_system_display += "</tr>";
 		refine_system_display += "<tr>";
 		refine_system_display += "<td style='height: 25%;'><select name='equipment_select' onChange='reset_refine()|KakutyouKansuu()' style='width: 100%;'></select></td>";
-		refine_system_display += "<td style='width: 5%;'/><td>Catalyst cost : </td><td><input type='text' onChange='KakutyouKansuu()' name='refine_catalyst_cost' value='0' style='width: 100%;'></td>";
-		refine_system_display += "<td style='width: 5%;'/><td><input type='checkbox' name='npc_refine_check' onClick='KakutyouKansuu()'/> NPC Refine Services</td>";
+		refine_system_display += "<td style='width: 1%;'/><td>Catalyst cost : </td><td><input type='text' onChange='KakutyouKansuu()' name='refine_catalyst_cost' value='0' style='width: 100%;'></td>";
+		refine_system_display += "<td style='width: 1%;'/><td><input type='checkbox' name='npc_refine_check' onClick='KakutyouKansuu()'/> NPC Refine Services</td>";
 		refine_system_display += "</tr>";
 		refine_system_display += "<tr><td></td><td></td><td></td><td></td></tr>";
 		refine_system_display += "</table>"
