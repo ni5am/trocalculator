@@ -1,3 +1,6 @@
+[2021-03-11]
+- Reworked Marionette Control
+
 [2021-03-09]
 - Fixed invalid bonus due to revamp not reset
 - Updated refine system based on @Isilla666 pull request

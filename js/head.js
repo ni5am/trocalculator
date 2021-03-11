@@ -3918,7 +3918,7 @@ with(document.calcForm){
 			'<select name="A3_Skill11_INT"onChange="Click_A3(1)"></select>'+
 			'<select name="A3_Skill11_DEX"onChange="Click_A3(1)"></select>'+
 			'<select name="A3_Skill11_LUK"onChange="Click_A3(1)"></select>'+
-			"<BR>"+'<input type="checkbox" name="A3_Skill11a"onClick="Click_A3(1)">'+"<Font size=2>+ Status compensation [adjustment for equipment/human calculation]</Font>",0);
+			"<BR>"+'<input type="checkbox" name="A3_Skill11a"onClick="Click_A3(1)">'+"<Font size=2>Fix Marionette Status Compensation</Font>",0);
 			A3_Skill11_STR.options[0] = new Option("STR",0);
 			A3_Skill11_AGI.options[0] = new Option("AGI",0);
 			A3_Skill11_VIT.options[0] = new Option("VIT",0);

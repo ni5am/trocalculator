@@ -4869,82 +4869,25 @@ function StPlusCalc()
 		}
 	}
 
-	if(n_A_PassSkill3[11] && n_A_PassSkill3[18]==0){
-		if(n_A_STR + n_tok[1] < 99){
-			if(n_A_STR + n_tok[1] + Math.floor(n_A_PassSkill3[12]/2) < 99)
-				n_tok[1] += Math.floor(n_A_PassSkill3[12]/2);
-			else
-				n_tok[1] = (99 - n_A_STR);
+	if (n_A_PassSkill3[11]) // Marionette Control
+	{
+		if (n_A_PassSkill3[18] && typeof(marionette_stats) != 'undefined')
+		{
+			for (i = 1; i <= marionette_stats.length; ++i)
+				n_tok[i] += marionette_stats[i - 1];
 		}
-		if(n_A_AGI + n_tok[2] < 99){
-			if(n_A_AGI + n_tok[2] + Math.floor(n_A_PassSkill3[13]/2) < 99)
-				n_tok[2] += Math.floor(n_A_PassSkill3[13]/2);
-			else
-				n_tok[2] = (99 - n_A_AGI);
+		else  // Compensate stats based on current equipment
+		{
+			marionette_stats = [];
+			base_stats = [n_A_STR, n_A_AGI, n_A_VIT, n_A_INT, n_A_DEX, n_A_LUK];
+			
+			for (i = 1; i <= base_stats.length; ++i)
+			{
+				marionette_bonus = Math.min(Math.max(0, 99 - (base_stats[i - 1] + n_tok[i])), Math.floor(n_A_PassSkill3[11 + i]/2));
+				n_tok[i] += marionette_bonus;
+				marionette_stats.push(marionette_bonus);
+			}
 		}
-		if(n_A_VIT + n_tok[3] < 99){
-			if(n_A_VIT + n_tok[3] + Math.floor(n_A_PassSkill3[14]/2) < 99)
-				n_tok[3] += Math.floor(n_A_PassSkill3[14]/2);
-			else
-				n_tok[3] = (99 - n_A_VIT);
-		}
-		if(n_A_INT + n_tok[4] < 99){
-			if(n_A_INT + n_tok[4] + Math.floor(n_A_PassSkill3[15]/2) < 99)
-				n_tok[4] += Math.floor(n_A_PassSkill3[15]/2);
-			else
-				n_tok[4] = (99 - n_A_INT);
-		}
-		if(n_A_DEX + n_tok[5] < 99){
-			if(n_A_DEX + n_tok[5] + Math.floor(n_A_PassSkill3[16]/2) < 99)
-				n_tok[5] += Math.floor(n_A_PassSkill3[16]/2);
-			else
-				n_tok[5] = (99 - n_A_DEX);
-		}
-		if(n_A_LUK + n_tok[6] < 99){
-			if(n_A_LUK + n_tok[6] + Math.floor(n_A_PassSkill3[17]/2) < 99)
-				n_tok[6] += Math.floor(n_A_PassSkill3[17]/2);
-			else
-				n_tok[6] = (99 - n_A_LUK);
-		}
-
-	//Marionette stat compensation rework - [Loa] - 2018-06-17
-	}else if(n_A_PassSkill3[11] && n_A_PassSkill3[18]){
-			if(n_A_STR + w2[0] + Math.floor(n_A_PassSkill3[12]/2) < 99){
-				n_tok[1] += Math.floor(n_A_PassSkill3[12]/2);
-			}
-			else{
-				n_tok[1] += Math.max((99 - n_A_STR - w2[0]), 0);
-			}
-			if(n_A_AGI + w2[1] + Math.floor(n_A_PassSkill3[13]/2) < 99){
-				n_tok[2] += Math.floor(n_A_PassSkill3[13]/2);
-			}
-			else{
-				n_tok[2] += Math.max((99 - n_A_AGI - w2[1]), 0);
-			}
-			if(n_A_VIT + w2[2] + Math.floor(n_A_PassSkill3[14]/2) < 99){
-				n_tok[3] += Math.floor(n_A_PassSkill3[14]/2);
-			}
-			else{
-				n_tok[3] += Math.max((99 - n_A_VIT - w2[2]), 0);
-			}
-			if(n_A_INT + w2[3] + Math.floor(n_A_PassSkill3[15]/2) < 99){
-				n_tok[4] += Math.floor(n_A_PassSkill3[15]/2);
-			}
-			else{
-				n_tok[4] += Math.max((99 - n_A_INT - w2[3]), 0);
-			}
-			if(n_A_DEX + w2[4] + Math.floor(n_A_PassSkill3[16]/2) < 99){
-				n_tok[5] += Math.floor(n_A_PassSkill3[16]/2);
-			}
-			else{
-				n_tok[5] += Math.max((99 - n_A_DEX - w2[4]), 0);
-			}
-			if(n_A_LUK + w2[5] + Math.floor(n_A_PassSkill3[17]/2) < 99){
-				n_tok[6] += Math.floor(n_A_PassSkill3[17]/2);
-			}
-			else{
-				n_tok[6] += Math.max((99 - n_A_LUK - w2[5]), 0);
-			}
 	}
 
 	//[Custom TalonRO - 2018-07-26 - Speedy Recovery Wand +3 INT to Acolyte/Priest/High Priest] [Amor]
