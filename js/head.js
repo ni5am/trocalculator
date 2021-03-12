@@ -3617,7 +3617,11 @@ with(document.calcForm){
 		for(i=0;i<=10;i++)
 			myInnerHtml("EN"+i+"_2",html_CS3SW_SKILL[i],0);
 
-		myInnerHtml("EN11_1",'<input type="checkbox" name="A3_Skill11"onClick="Skill3SW_2()|calc()">'+"Marionette Control",0);
+		marionette_tooltip = "Adjust your status points and equipment to obtain the expected bonus from Marionette\n";
+		marionette_tooltip += "Check the [Fix Marionette Status Point Compensation] option\n";
+		marionette_tooltip += "Re-adjust your equipment";
+		
+		myInnerHtml("EN11_1",'<input type="checkbox" title="' + marionette_tooltip + '" name="A3_Skill11"onClick="Skill3SW_2()|calc()">'+"Marionette Control",0);
 
 		for(i=0;i<=10;i++){
 			A3_Skill0_1.options[i] = new Option(i,i);
