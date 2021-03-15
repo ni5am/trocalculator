@@ -1003,14 +1003,14 @@ MonstersByName = MonsterOBJ.concat().sort(function(a,b){return a[1].localeCompar
 MonsterABC = MonstersByName.map(x => x[0])
 MonsterABC.push("N")
 
-var tiiki = ["All Regions","Seals","GMC","Abyss Lake Dungeon","Amatsu","Ancient Tower","Ant Hell","Ayothaya","Battlegrounds","Bibilan",
+var tiiki = ["All Regions","SQI Instances","GMC","Abyss Lake Dungeon","Amatsu","Ancient Tower","Ant Hell","Ayothaya","Battlegrounds","Bibilan",
 "Bio Labs","Bitfrost","Brasilis","Clock Tower","Coal Mine","Comodo Caves","Comodo Fields","Culverts","Dewata","Dimensional Crack","Eclage","Einbroch Dungeon",
 "Einbroch Fields","Elysian Garden","El Dicastes","Endless Tower Finale","Geffenia","Geffen Dungeon","Geffen Fields","Glast Heim","Glast Heim Dungeons","Gonryun",
 "Guild Dungeon [Aldebaran]","Guild Dungeon [Arunafeltz]","Guild Dungeon [Geffen]","Guild Dungeon [Payon]","Guild Dungeon [Prontera]",
 "Guild Dungeon [Schwartzvald]","Hidden Temple","Hugel Fields","Ice Cave","Juperos Dungeon","Kiel Dungeon","Lighthalzen Fields",
 "Louyang","Lutie & Toy Factory","Magma Dungeon","Malangdo","Malangdo Culvert","Manuk","Morroc Fields","Moscovia","Mt. Mjolnir","Nameless Island","Nidhoggr's Nest",
 "Niflheim","Odins Shrine","Old Glast Heim","Orc Dungeon","Payon Dungeon","Payon Fields","Poring Island","Port Malaya Instance","Prontera Fields","Pyramid","Pyramid [Nightmare]","Rachel Fields",
-"Rachel Sanctuary","Scaraba Hole","Sphinx","Splendide","SQI Instances","Sunken Ship","Thanatos Tower","Thors Volcano","Turtle Island","Umbala Dungeon",
+"Rachel Sanctuary","Scaraba Hole","Sphinx","Splendide","Seals(Old)","Sunken Ship","Thanatos Tower","Thors Volcano","Turtle Island","Umbala Dungeon",
 "Umbala Fields","Valkyries' Realm","Veins Fields","War of Emperium","Yuno Fields"];
 
 if(Taijin==0){
@@ -1020,7 +1020,7 @@ if(Taijin==0){
 
 MonMap = [
 [0],// All Regions
-[623,624,625,627,628,629,622,626,630,620,621,619,"N"],// Seals
+Array.from({ length: 861 + 1 - 806},(_,k) => 806 + k),// SQI Instances
 [631,678,632,633,634,635,636,637,638,639,640,641,642,643,644,645,"N"],// GMC
 [265,298,401,402,405,406,407,408,409,410,411,412,"N"],// Abyss Lake Dungeon
 [21,53,61,70,73,74,124,140,239,241,271,274,299,"N"],// Amatsu
@@ -1090,7 +1090,7 @@ MonMap = [
 [556,557,558,559,560,561,562,563,564,582,583,584,585,586,587,588,589,590,"N"],// Scaraba Hole
 [122,165,213,224,245,276,288,297,298,316,484,"N"],// Sphinx
 [525,526,529,532,533,"N"],// Splendide
-Array.from({ length: 861 + 1 - 806},(_,k) => 806 + k),// SQI Instances
+[623,624,625,627,628,629,622,626,630,620,621,619,"N"],// Seals
 [26,83,86,104,129,190,212,222,241,265,267,283,298,"N"],// Sunken Ship
 [13,39,46,47,298,309,412,413,414,415,416,417,418,419,420,421,422,423,424,425,426,427,"N"],// Thanatos Tower
 [341,464,465,466,467,468,469,470,471,472,"N"],// Thors Volcano

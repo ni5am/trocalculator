@@ -6708,14 +6708,18 @@ function KakutyouKansuu(){
 		
 		if (equipment_type) // Only applied to weapon refine
 		{
+			refine_header.rows[0].cells[7].style.visibility = "";
 			refine_header.rows[1].cells[5].style.visibility = "";
 			refine_rate = refine_rate.map(x => Math.max(Math.min(x + smith_bonus, 100), 0));
 		}
 		else
+		{
+			refine_header.rows[0].cells[7].style.visibility = "hidden";
 			refine_header.rows[1].cells[5].style.visibility = "hidden";
+		}
 		
 		// Update refine header display
-		refine_header.rows[0].cells[2].innerHTML = "<a href=\"https://panel.talonro.com/itemdb/" + selected_equipment + "/\" target=\"_blank\"><img src=\"https://panel.talonro.com/images/items/small/" + selected_equipment + ".gif\" alt=\"no picture available =(\" style='text-decoration: none;height: 100%;width: 100%;'></a>";
+		refine_header.rows[0].cells[2].innerHTML = "<a href=\"https://panel.talonro.com/itemdb/" + selected_equipment + "/\" target=\"_blank\"><img src=\"https://panel.talonro.com/images/items/small/" + selected_equipment + ".gif\" alt=\"no picture available =(\" style='text-decoration: none;height: auto;width: 100%;'></a>";
 		refine_header.rows[1].cells[2].innerHTML = "<td> " + 	refine_catalysts[equipment_type] + " cost : </td>";
 		
 		// Update refine table display
