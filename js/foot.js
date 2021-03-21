@@ -6835,10 +6835,6 @@ function manage_sqi_bonus()
 	// Artemis#1377 - Hunter/Sniper
 	if (1377 == n_A_Equip[0])
 	{
-		// #27 - Add a 10% chance to auto-cast Level 2 [NPC_BLEEDING] when attacking normally - HIT + 20
-		if (SQI_Bonus_Effect.findIndex(x => x == 27) > -1)
-			n_tok[8] += 20;
-
 		// #28 - + 15 FLEE on [Wind Walk]
 		if (SQI_Bonus_Effect.findIndex(x => x == 28) > -1 && SkillSearch(273))
 			n_tok[9] += 15;	

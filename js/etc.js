@@ -560,7 +560,7 @@ SQI_BONUS =[
 ,[24,1377,"Artemis Bow","10% more damage with Critical Hits",70,10,0]
 ,[25,1377,"Artemis Bow","50% more damage with [Claymore Trap], [Blast Mine] and [Land Mine]",5106,50,5112,50,5113,50,0]
 ,[26,1377,"Artemis Bow","[Blast Mine] gains a 7x7 AoE. [Blast Mine] and [Land Mine] durations are increased to 100 seconds when mastered",0]
-,[27,1377,"Artemis Bow","Add a 10% chance to auto-cast Level 2 [NPC_BLEEDING] when attacking normally (Toggle)",0]
+,[27,1377,"Artemis Bow","Add a 10% chance to auto-cast Level 2 [NPC_BLEEDING] when attacking normally (not calced)",0]
 ,[28,1377,"Artemis Bow","+ 15 FLEE on [Wind Walk]",0]
 ,[29,1377,"Artemis Bow","Enable use of Safety Wall Level 4",0]
 ,[30,1377,"Artemis Bow","Triple [True Sight] duration",0]
