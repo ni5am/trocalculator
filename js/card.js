@@ -520,7 +520,7 @@ cardOBJ = [
 ,[498,1,"Hillsrion",0,17,25,0]
 ,[499,1,"Centipede Larva",0,4,1,98,3,0]
 ,[500,4,"Banshee Master",0,4,1,98,10,0]
-,[501,4,"Entweihen Crothen",0,5,1,98,50,0]
+,[501,4,"Entweihen Crothen","<br><b>[Every 10 Base INT]</b><br>MATK + 10, limited to a maximum of 50 additional MATK",5,1,98,50,0]
 ,[502,3,"Aqua Elemental",0,61,20,41,5,0]
 ,[503,3,"Centipede",0,65,20,45,5,0]
 ,[504,3,"Cornus",0,66,20,46,5,0]
