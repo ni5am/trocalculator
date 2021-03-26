@@ -645,7 +645,7 @@ SQI_BONUS =[
 ,[109,1385,"Hira Shurikat","+25 CRIT, +20% more damage with Critical Hits",10,25,70,20,0]
 ,[110,1385,"Hira Shurikat","20% more damage with [Final Strike]. 10% of your current HP (not max) remains after using [Final Strike]",5405,20,5438,20,0]
 ,[111,1385,"Hira Shurikat","2 Cell Knockback and 50% more damage with [Crimson Fire Formation]",5408,50,0]
-,[112,1385,"Hira Shurikat","+50% more damage with Wind Blade",5413,50,0]
+,[112,1385,"Hira Shurikat","50% more damage with [Throw Humma Shuriken], [Throw Shuriken], and [Throw Kunai]. [Throw Huuma Shuriken] only splits damage once instead of using mob count.",5394,50,5395,50,5396,50,0]
 ,[113,1385,"Hira Shurikat","20% Aftercast reduction with [Falling Ice Pillar] and [Dragon Fire Formation]; 8 Cell Knockback with [Falling Ice Pillar]",8409,20,8412,20,0]
 ,[114,1385,"Hira Shurikat","20% Aftercast reduction with [Wind Blade]; 15% chance to auto-cast level 2 [Critical Wounds] after using [Wind Blade]",8413,20,0]
 ,[115,84,"Mjolnir","10% Ranged damage reduction",78,10,0]
