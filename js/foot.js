@@ -4277,20 +4277,22 @@ function StPlusCalc()
 	
 	n_tok[5] += SkillSearch(38);
 
+	// Improve Concentration#42
+	// Does not include cards bonus for % bonus computation
 	var w = SkillSearch(42);
 	if(w){
-		w += 102;
-		n_tok[5] = Math.floor((n_A_DEX + n_tok[5]) * w / 100) - n_A_DEX;
-		n_tok[2] = Math.floor((n_A_AGI + n_tok[2]) * w / 100) - n_A_AGI;
+		w += 2;
+		n_tok[5] += Math.floor((n_A_DEX + n_tok[5] - StPlusCard(5)) * w / 100);
+		n_tok[2] += Math.floor((n_A_AGI + n_tok[2] - StPlusCard(2)) * w / 100);
 	}else if(n_A_PassSkill6[3]){
-		n_tok[5] = Math.floor((n_A_DEX + n_tok[5]) * (102 + n_A_PassSkill6[3]) / 100) - n_A_DEX;
-		n_tok[2] = Math.floor((n_A_AGI + n_tok[2]) * (102 + n_A_PassSkill6[3]) / 100) - n_A_AGI;
+		n_tok[5] = Math.floor((n_A_DEX + n_tok[5] - StPlusCard(5)) * (102 + n_A_PassSkill6[3]) / 100) - n_A_DEX;
+		n_tok[2] = Math.floor((n_A_AGI + n_tok[2] - StPlusCard(2)) * (102 + n_A_PassSkill6[3]) / 100) - n_A_AGI;
 	}else if(TimeItemNumSearch(31)){
-		n_tok[5] = Math.floor((n_A_DEX + n_tok[5]) * 104 / 100) - n_A_DEX;
-		n_tok[2] = Math.floor((n_A_AGI + n_tok[2]) * 104 / 100) - n_A_AGI;
+		n_tok[5] = Math.floor((n_A_DEX + n_tok[5] - StPlusCard(5)) * 104 / 100) - n_A_DEX;
+		n_tok[2] = Math.floor((n_A_AGI + n_tok[2] - StPlusCard(2)) * 104 / 100) - n_A_AGI;
 	}else if(TimeItemNumSearch(4)){
-		n_tok[5] = Math.floor((n_A_DEX + n_tok[5]) * 103 / 100) - n_A_DEX;
-		n_tok[2] = Math.floor((n_A_AGI + n_tok[2]) * 103 / 100) - n_A_AGI;
+		n_tok[5] = Math.floor((n_A_DEX + n_tok[5] - StPlusCard(5)) * 103 / 100) - n_A_DEX;
+		n_tok[2] = Math.floor((n_A_AGI + n_tok[2] - StPlusCard(2)) * 103 / 100) - n_A_AGI;
 	}
 	if(SkillSearch(422)){
 
