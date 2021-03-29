@@ -6311,7 +6311,7 @@ function KakutyouKansuu(){
 
 			S_LV1 = eval(document.calcForm.S_LV.value);
 			E_DEX1 = eval(document.calcForm.E_DEX.value);
-			Strip = 5 + (5*S_LV1) + ((n_A_DEX - E_DEX1)/5);
+			Strip = Math.max(0, 5 + (5*S_LV1) + ((n_A_DEX - E_DEX1)/5));
 			S_Time = 60 + (15 * S_LV1) + Math.max(0, (n_A_DEX - E_DEX1)/2);
 
 			if(n_A_JOB == 28){
@@ -6366,7 +6366,7 @@ function KakutyouKansuu(){
 				target_dex = eval(document.calcForm.E2_DEX.value);
 				dex_diff = source_dex - target_dex;
 				
-				strip_rate = 5 * (strip_lv + 1) + 0.2 * (dex_diff);
+				strip_rate = Math.max(0, 5 * (strip_lv + 1) + 0.2 * (dex_diff));
 				strip_duration = 60 + (Taijin ? 0 : 15) + strip_lv * 15 + Math.max(0, strip_lv + 0.5 * dex_diff);
 				
 				wkk14 += "<br><table border=0><tr><td width=50%><b>Chance to Strip " + strip_type + ": </b></td><td>" + Math.floor(strip_rate * 10)/10 + " %</td></tr>";
@@ -7296,16 +7296,16 @@ function KakutyouKansuu2(){
 			striptext += "</td></tr></table>";
 			myInnerHtml("A_KakutyouSel",striptext,0);
 			
-			for(i=1;i<=5;i++){
+			for(i=1;i<=5;i++)
 				document.calcForm.S_LV.options[i-1] = new Option(i,i);
-				document.calcForm.S_LV.value=1;}
-			for(i=0;i<=300;i++){
+			document.calcForm.S_LV.value=1;
+			for(i=0;i<=300;i++)
 				document.calcForm.E_DEX.options[i] = new Option(i,i);
-				document.calcForm.E_DEX.value=0;}
+			document.calcForm.E_DEX.value = Taijin ? 0 : n_B[10];
 			if(n_A_JOB == 28){
-				for(i=1;i<=5;i++){
+				for(i=1;i<=5;i++)
 					document.calcForm.FS_LV.options[i-1] = new Option(i,i);
-					document.calcForm.FS_LV.value=1;}
+				document.calcForm.FS_LV.value=1;
 			}
 		}
 		else if (CardNumSearch(157) || CardNumSearch(413) || SQI_Bonus_Effect.findIndex(x => x == 178) > -1)
@@ -7315,7 +7315,7 @@ function KakutyouKansuu2(){
 			
 			for(i=0;i<=300;i++)
 				document.calcForm.E2_DEX.options[i] = new Option(i,i);
-			document.calcForm.E2_DEX.value = 0;
+			document.calcForm.E2_DEX.value = Taijin ? 0 : n_B[10];
 		}
 
 		return;
