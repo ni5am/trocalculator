@@ -6305,79 +6305,80 @@ function KakutyouKansuu(){
 		}else{wkk14 = "Not Available for this Class";}
 		myInnerHtml("A_KakutyouData",wkk14,0);
 	}*/
-	else if(wKK == 14){//banana
+	else if(wKK == 14){ // Strip Chance
 		var wkk14;
 		if(n_A_JOB == 14 || n_A_JOB == 28){
-			if(n_A_JOB == 14 || n_A_JOB == 28){
-				S_LV1 = eval(document.calcForm.S_LV.value);
-				E_DEX1 = eval(document.calcForm.E_DEX.value);
-				Strip = 5 + (5*S_LV1) + ((n_A_DEX - E_DEX1)/5);
-				S_Time = 60 + (15* S_LV1) + ((n_A_DEX - E_DEX1)/2);
-				if (Strip < 5+5*S_LV1){Strip = 5+5*S_LV1;}
-				if (S_Time < 60){S_Time = 60;}
+
+			S_LV1 = eval(document.calcForm.S_LV.value);
+			E_DEX1 = eval(document.calcForm.E_DEX.value);
+			Strip = 5 + (5*S_LV1) + ((n_A_DEX - E_DEX1)/5);
+			S_Time = 60 + (15 * S_LV1) + Math.max(0, (n_A_DEX - E_DEX1)/2);
 
 			if(n_A_JOB == 28){
 				FS_LV1 = eval(document.calcForm.FS_LV.value);
-				FStrip = 5 + (2*FS_LV1) + ((n_A_DEX - E_DEX1)/5);
-				FS_Time = 135 + ((n_A_DEX - E_DEX1)/2);
-				if (FStrip < 5+2*FS_LV1){FStrip = 5+2*FS_LV1;}
-				if (FS_Time < 135){FS_Time = 135;}
+				FStrip = Math.max(5 + 2 * FS_LV1, 5 + (2*FS_LV1) + ((n_A_DEX - E_DEX1)/5));
+				FS_Time = 60 + (Taijin ? 0 : 15) + (15 * FS_LV1) + Math.max(0, (n_A_DEX - E_DEX1)/2);
 			}
 
 			if(n_A_JOB == 14){
 				wkk14 = "<table border=0><tr><td><b>Chance to Strip [Helm], [Armor], [Weapon] or [Shield]: </b></td><td>" + Math.floor(Strip*10)/10 + " %</td></tr>";
-				wkk14 += "<tr><td><font color=red><b>Duration Time: </b></font></td><td>" + Math.floor(S_Time*10)/10 + " Seconds</td></tr></table>";}
+				wkk14 += "<tr><td><font color=red><b>Duration Time: </b></font></td><td>" + Math.floor(S_Time*10)/10 + " Seconds</td></tr></table>";
+			}
 			else if(n_A_JOB == 28){
 				wkk14 = "<table border = 0><tr><td><b>Chance to Strip [Helm], [Armor], [Weapon] or [Shield]: </b></td><td>" + Math.floor(Strip*10)/10 + " %</td></tr>";
 				wkk14 += "<tr><td><font color=red><b>Duration Time: </b></font></td><td>" + Math.floor(S_Time*10)/10 + " Seconds</td></tr>";
-				wkk14 += "<tr><td><b>Chance to Full Strip: </b></td><td>" + Math.floor(FStrip*10)/10 + " %</td></tr>";
-				wkk14 += "<tr><td><font color=red><b>Duration Time: </b></font></td><td>" + Math.floor(FS_Time*10)/10 + " Seconds</td></tr></table>";}
+				wkk14 += "<tr><td><b>Chance to Full Strip (disabled on boss protocol): </b></td><td>" + Math.floor(FStrip*10)/10 + " %</td></tr>";
+				wkk14 += "<tr><td><font color=red><b>Duration Time: </b></font></td><td>" + Math.floor(FS_Time*10)/10 + " Seconds</td></tr></table>";
 			}
 		}
-		else if(CardNumSearch(157) || CardNumSearch(413)){
-			// S_LV1 = eval(document.calcForm.S2_LV.value);
-			S_LV1 = 1;
-			E_DEX1 = eval(document.calcForm.E2_DEX.value);
-			Strip = 5 + (5*S_LV1) + ((n_A_DEX - E_DEX1)/5);
-			S_Time = 60 + (15* S_LV1) + ((n_A_DEX - E_DEX1)/2);
-			if (Strip < 5+5*S_LV1){Strip = 5+5*S_LV1;}
-			if (S_Time < 60){S_Time = 60;}
-
-			if(CardNumSearch(157) && CardNumSearch(413)){
-				strip_type = "[Weapon], [Armor]";
+		else
+		{
+			wkk14 = "";
+			strip_types = [];
+			strip_levels = [];
+			
+			
+			if(CardNumSearch(157)) // Metaling#157
+			{
+				strip_levels.push(1);
+				strip_types.push("[Weapon]");
 			}
-			else if(CardNumSearch(157)){
-				strip_type = "[Weapon]";
-			}
-			else if(CardNumSearch(413)){
-				strip_type = "[Armor]";
-			}
-			wkk14 = "<table border=0><tr><td><b>Chance to Strip " + strip_type + ": </b></td><td>" + Math.floor(Strip*10)/10 + " %</td></tr>";
-			wkk14 += "<tr><td><font color=red><b>Duration Time: </b></font></td><td>" + Math.floor(S_Time*10)/10 + " Seconds</td></tr></table>";}
-		// else if(CardNumSearch(413)){
-		// 	// S_LV1 = eval(document.calcForm.S3_LV.value);
-		// 	S_LV1 = 1;
-		// 	E_DEX1 = eval(document.calcForm.E2_DEX.value);
-		// 	Strip = 5 + (5*S_LV1) + ((n_A_DEX - E_DEX1)/5);
-		// 	S_Time = 60 + (15* S_LV1) + ((n_A_DEX - E_DEX1)/2);
-		// 	if (Strip < 5+5*S_LV1){Strip = 5+5*S_LV1;}
-		// 	if (S_Time < 60){S_Time = 60;}
 
-		// 	wkk14 = "<table border=0><tr><td><b>Chance to Strip [Armor]: </b></td><td>" + Math.floor(Strip*10)/10 + " %</td></tr>";
-		// 	wkk14 += "<tr><td><font color=red><b>Duration Time: </b></font></td><td>" + Math.floor(S_Time*10)/10 + " Seconds</td></tr></table>";}
-		// else if(CardNumSearch(157)){
-		// 	// S_LV1 = eval(document.calcForm.S2_LV.value);
-		// 	S_LV1 = 1;
-		// 	E_DEX1 = eval(document.calcForm.E2_DEX.value);
-		// 	Strip = 5 + (5*S_LV1) + ((n_A_DEX - E_DEX1)/5);
-		// 	S_Time = 60 + (15* S_LV1) + ((n_A_DEX - E_DEX1)/2);
-		// 	if (Strip < 5+5*S_LV1){Strip = 5+5*S_LV1;}
-		// 	if (S_Time < 60){S_Time = 60;}
+			if(CardNumSearch(413)) // Wikebine Tres#413
+			{
+				strip_levels.push(1);
+				strip_types.push("[Armor]");
+			}
 
-		// 	wkk14 = "<table border=0><tr><td><b>Chance to Strip [Weapon]: </b></td><td>" + Math.floor(Strip*10)/10 + " %</td></tr>";
-		// 	wkk14 += "<tr><td><font color=red><b>Duration Time: </b></font></td><td>" + Math.floor(S_Time*10)/10 + " Seconds</td></tr></table>";
-		// }
-		else {wkk14 = "Not Available for this Class";}
+			// #178 - Tome of Ymir - Enables use of level 3 [Strip Shield]
+			if (SQI_Bonus_Effect.findIndex(x => x == 178) > -1)
+			{
+				strip_levels.push(3);
+				strip_types.push("[Shield]");
+			}	
+
+			for (i = 0; i < strip_levels.length; ++i)
+			{
+				strip_lv = strip_levels[i];
+				strip_type = strip_types[i];
+
+				source_dex = n_A_DEX;
+				target_dex = eval(document.calcForm.E2_DEX.value);
+				dex_diff = source_dex - target_dex;
+				
+				strip_rate = 5 * (strip_lv + 1) + 0.2 * (dex_diff);
+				strip_duration = 60 + (Taijin ? 0 : 15) + strip_lv * 15 + Math.max(0, strip_lv + 0.5 * dex_diff);
+				
+				wkk14 += "<br><table border=0><tr><td width=50%><b>Chance to Strip " + strip_type + ": </b></td><td>" + Math.floor(strip_rate * 10)/10 + " %</td></tr>";
+				wkk14 += "<tr><td width=50%><font color=red><b>Duration Time: </b></font></td><td>" + Math.floor(strip_duration * 10)/10 + " Seconds</td></tr></table>";
+			}
+			
+			if (!i)
+			{
+				myInnerHtml("A_KakutyouSel","",0);
+				wkk14 = "Not Available for this Class";
+			}
+		}
 		myInnerHtml("A_KakutyouData",wkk14,0);
 	}
 	else if(wKK == 15){
@@ -7293,20 +7294,12 @@ function KakutyouKansuu2(){
 			if(n_A_JOB == 28){
 				striptext += "<tr><td>Full Strip Level:</td>" + '<td><select name="FS_LV" onChange="KakutyouKansuu()"></select>';}
 			striptext += "</td></tr></table>";
-		}
-		else if((CardNumSearch(157) || CardNumSearch(413)) && (n_A_JOB != 14 && n_A_JOB != 28)){
-			striptext += "<table border=0><tr><td>Enemy DEX:</td>" + '<td><select name="E2_DEX" onChange="KakutyouKansuu()"></select></td></tr>';
-			if(CardNumSearch(157)){
-				striptext += "<td>Strip [Weapon] Level: 1</td>";}
-			if(CardNumSearch(413)){
-			striptext += "<td>Strip [Armor] Level: 1</td>";}
-		}
-		myInnerHtml("A_KakutyouSel",striptext,0);
-		if(n_A_JOB == 14 || n_A_JOB == 28){
+			myInnerHtml("A_KakutyouSel",striptext,0);
+			
 			for(i=1;i<=5;i++){
 				document.calcForm.S_LV.options[i-1] = new Option(i,i);
 				document.calcForm.S_LV.value=1;}
-			for(i=0;i<=200;i++){
+			for(i=0;i<=300;i++){
 				document.calcForm.E_DEX.options[i] = new Option(i,i);
 				document.calcForm.E_DEX.value=0;}
 			if(n_A_JOB == 28){
@@ -7315,23 +7308,16 @@ function KakutyouKansuu2(){
 					document.calcForm.FS_LV.value=1;}
 			}
 		}
-		else if(CardNumSearch(157) || CardNumSearch(413)){
-			for(i=0;i<=200;i++){
+		else if (CardNumSearch(157) || CardNumSearch(413) || SQI_Bonus_Effect.findIndex(x => x == 178) > -1)
+		{
+			striptext += "<table border=0><tr><td width=50%>Enemy DEX:</td>" + '<td><select name="E2_DEX" onChange="KakutyouKansuu()"></select></td></tr>';
+			myInnerHtml("A_KakutyouSel",striptext,0);
+			
+			for(i=0;i<=300;i++)
 				document.calcForm.E2_DEX.options[i] = new Option(i,i);
-				document.calcForm.E2_DEX.value=0;}
-			// if(CardNumSearch(157)){
-			// 	document.calcForm.S2_LV.options[0] = new Option("1",0);
-			// 	document.calcForm.S2_LV.value=0;}
-			// else if(CardNumSearch(413)){
-			// 	document.calcForm.S3_LV.options[0] = new Option("1",0);
-			// 	document.calcForm.S3_LV.value=0;}
-			// else{
-			// 	document.calcForm.S2_LV.options[0] = new Option("1",0);
-			// 	document.calcForm.S2_LV.value=0;
-			// 	document.calcForm.S3_LV.options[0] = new Option("1",0);
-			// 	document.calcForm.S3_LV.value=0;
-			// }
+			document.calcForm.E2_DEX.value = 0;
 		}
+
 		return;
 	}
 	if(wKK == 15){
