@@ -2439,20 +2439,9 @@ with(document.calcForm){
 function HealCalc(HealLv,HealType)
 {
 	wHeal = Math.floor((n_A_BaseLV + n_A_INT) /8) * (HealLv *8 +4);
-	var wHealBAI = 100 + SkillSearch(269) *2;
+	wHealBAI = 100 + SkillSearch(269) *2;
 	wHeal = Math.floor(wHeal * wHealBAI /100);
-
-	var wX = 100 + n_tok[91];
-	if(HealType == 1)
-		wX += n_tok[92];
-	if(EquipNumSearch(644))
-		wX += n_A_Weapon_ATKplus * 1.5;
-	//custom TalonRO Recovery Light
-	if(EquipNumSearch(1511))
-		wX += Math.floor(n_A_Weapon_ATKplus * 3);
-	if(EquipNumSearch(1294) || EquipNumSearch(1299))
-		wX += 20;
-	wHeal = Math.floor(wHeal * wX /100);
+	wHeal = Math.floor(wHeal * (1 + n_tok[91] / 100) * (1 + (HealType ? n_tok[92] : 0) / 100));
 
 	return wHeal;
 }

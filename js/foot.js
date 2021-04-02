@@ -3841,6 +3841,12 @@ with(document.calcForm){
 		n_tok[94] += Math.floor(n_A_Weapon_ATKplus * 3);
 	}
 	
+	// Staff of Recovery - bHealPower refine * 1.5
+	if(EquipNumSearch(644)){
+		n_tok[91] += Math.floor(n_A_Weapon_ATKplus * 1.5);
+		n_tok[94] += Math.floor(n_A_Weapon_ATKplus * 1.5);
+	}
+	
 	// Bayani Buwaya Skin Clothes#1542, Buwaya Skin Clothes#1012
 	// [Every 3 Refines] - Received heal and healing item effectiveness increased by 1%
 	if (EquipNumSearch(1542) || EquipNumSearch(1012))
