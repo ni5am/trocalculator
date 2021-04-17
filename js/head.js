@@ -1212,6 +1212,9 @@ function BattleCalc999()
 		// Apply modifiers
 		damage = damage.map(x => BaiCI(x));
 		
+		// Take into consideration monster element
+		damage = damage.map(x => Math.floor(x * zokusei[n_B[3]][n_A_Weapon_zokusei]));
+		
 		total_damage = damage.map(x => Math.floor(x * nb_hits));
 		
 		for (i = 0; i <= 2; ++i)
