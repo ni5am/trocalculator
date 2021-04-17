@@ -455,7 +455,7 @@ with(document.calcForm){
 			n_A_PassSkill3[29] = eval(A3_Skill2_3.value);
 			n_A_PassSkill3[32] = eval(A3_Skill2_4.value);
 			n_A_PassSkill3[45] = eval(A3_Skill2_5.checked);
-			bragi_bonus = eval(bragi_bonus_check.checked)
+			bragi_bonus = eval(bragi_bonus_select.value)
 		}
 		if(n_A_PassSkill3[3]){
 			n_A_PassSkill3[23] = eval(A3_Skill3_2.value);
@@ -469,7 +469,7 @@ with(document.calcForm){
 		if(n_A_PassSkill3[5]){
 			n_A_PassSkill3[25] = eval(A3_Skill5_2.value);
 			n_A_PassSkill3[35] = eval(A3_Skill5_3.value);
-			fortune_bonus = eval(fortune_bonus_check.checked)
+			fortune_bonus = eval(fortune_bonus_select.value)
 		}
 		if(n_A_PassSkill3[6]){
 			n_A_PassSkill3[26] = eval(A3_Skill6_2.value);
@@ -2322,11 +2322,7 @@ with(document.calcForm){
 	
 	// SC_FORTUNE
 	if (n_A_PassSkill3[5]) // Fortune's Kiss
-	{
-		// #39 - [Fortune's Kiss] CRIT Rate + 5%; and buffs yourself without [Bard and Dancer Spirits]; when its user leaves the AoE it lasts 40 seconds
-		fortunes_kiss_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x == 39) > -1 || fortune_bonus ? 5 : 0);
-		n_A_CRI += 10 + n_A_PassSkill3[5] + Math.floor(n_A_PassSkill3[35] /2) + Math.floor(n_A_PassSkill3[25] /10) + fortunes_kiss_sqi_bonus;
-	}
+		n_A_CRI += 10 + n_A_PassSkill3[5] + Math.floor(n_A_PassSkill3[35] /2) + Math.floor(n_A_PassSkill3[25] /10) + fortune_bonus * 5;
 	
 	// SC_TRUESIGHT
 	if (n_A_JOB == 24)
@@ -3373,15 +3369,12 @@ with(document.calcForm){
 	musical_lesson_lv = n_A_PassSkill3[2]; // Musical Lesson
 	if (musical_lesson_lv)
 	{
-		// #70 - [Poem of Bragi] Aftercast Rate + 2%
-		bragi_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x == 70) > -1 || bragi_bonus ? 2 : 0);
-		
 		// custom TalonRO Poem of Bragi after cast delay
 		// "we strongly think that the stacking of Bragi with items that grant ACD reduction is something to avoid" - GM Team, applied only to PvM
 		if (n_A_PassSkill3[45]) // PvP Mode
-			n_tok[74] += musical_lesson_lv * 3 + 20 * Math.floor(musical_lesson_lv / 10) + n_A_PassSkill3[32] * 2 + Math.floor(n_A_PassSkill3[29] / 5) + bragi_sqi_bonus;
+			n_tok[74] += musical_lesson_lv * 3 + 20 * Math.floor(musical_lesson_lv / 10) + n_A_PassSkill3[32] * 2 + Math.floor(n_A_PassSkill3[29] / 5) + bragi_bonus;
 		else // PvM Mode
-			n_tok[74] = musical_lesson_lv * 3 + n_A_PassSkill3[32] * 2 + Math.floor(n_A_PassSkill3[29] / 5) + bragi_sqi_bonus; // Override all previous acd reduction bonus
+			n_tok[74] = musical_lesson_lv * 3 + n_A_PassSkill3[32] * 2 + Math.floor(n_A_PassSkill3[29] / 5) + bragi_bonus; // Override all previous acd reduction bonus
 	}
 	
 	n_tok[74] = Math.min(100, n_tok[74]);

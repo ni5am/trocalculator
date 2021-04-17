@@ -3754,21 +3754,23 @@ with(document.calcForm){
 			// custom TalonRO Poem of Bragi after cast delay
 			myInnerHtml("EN2_9","<label for=\"lab16\">PVP/WOE mode</label>",0);
 			myInnerHtml("EN2_10",'<input type="checkbox" name="A3_Skill2_5" id="lab16" onChange="Click_A3(1)"></input>',0);
-			myInnerHtml("EN2_11","<label for=\"song_sqi_bonus\">SQI Bonus</label>",0);
-			myInnerHtml("EN2_12",'<input type="checkbox" name="bragi_bonus_check" id="bragi_bonus_check" onChange="Click_A3(1)"></input>',0);
+			myInnerHtml("EN2_11","<label for=\"song_sqi_bonus\">Extra Bonus</label>",0);
+			myInnerHtml("EN2_12",'<select name="bragi_bonus_select" id="bragi_bonus_select" onChange="Click_A3(1)"></select>',0);
 			for(i=1;i<=200;i++)
 				A3_Skill2_2.options[i-1] = new Option(i,i);
 			for(i=1;i<=250;i++)
 				A3_Skill2_3.options[i-1] = new Option(i,i);
 			for(i=0;i<=10;i++)
 				A3_Skill2_4.options[i] = new Option(i,i);
+			for(i=0;i<=10;i++)
+				bragi_bonus_select.options[i] = new Option(i + "%",i);
 			SWs3sw[2] = 1;
 			A3_Skill2_2.value = n_A_PassSkill3[22];
 			A3_Skill2_3.value = n_A_PassSkill3[29];
 			A3_Skill2_4.value = n_A_PassSkill3[32];
 			// custom TalonRO Poem of Bragi after cast delay
 			A3_Skill2_5.checked = n_A_PassSkill3[45];
-			bragi_bonus_check.checked = bragi_bonus;
+			bragi_bonus_select.value = bragi_bonus;
 		}
 	}else{
 		SWs3sw[2] = 0;
@@ -3805,7 +3807,7 @@ with(document.calcForm){
 			SWs3sw[3] = 1;
 			A3_Skill3_2.value = n_A_PassSkill3[23];
 			A3_Skill3_3.value = n_A_PassSkill3[33];
-			apple_bonus_check = apple_bonus;
+			apple_bonus_check.checked = apple_bonus;
 		}
 	}else{
 		SWs3sw[3] = 0;
@@ -3854,16 +3856,18 @@ with(document.calcForm){
 			myInnerHtml("EN5_4",'<select name="A3_Skill5_2"onChange="Click_A3(1)"></select>',0);
 			myInnerHtml("EN5_5","Dancing Lessons",0);
 			myInnerHtml("EN5_6",'<select name="A3_Skill5_3"onChange="Click_A3(1)"></select>',0);
-			myInnerHtml("EN5_7","<label for=\"song_sqi_bonus\">SQI Bonus</label>",0);
-			myInnerHtml("EN5_8",'<input type="checkbox" name="fortune_bonus_check" id="fortune_bonus_check" onChange="Click_A3(1)"></input>',0);
+			myInnerHtml("EN5_7","<label for=\"song_sqi_bonus\">Extra Bonus</label>",0);
+			myInnerHtml("EN5_8",'<select name="fortune_bonus_select" id="fortune_bonus_select" onChange="Click_A3(1)"></select>',0);
 			for(i=1;i<=180;i++)
 				A3_Skill5_2.options[i-1] = new Option(i,i);
 			for(i=0;i<=10;i++)
 				A3_Skill5_3.options[i] = new Option(i,i);
+			for(i=0;i<=10;i++)
+				fortune_bonus_select.options[i] = new Option(i * 5 + "%",i);
 			SWs3sw[5] = 1;
 			A3_Skill5_2.value = n_A_PassSkill3[25];
 			A3_Skill5_3.value = n_A_PassSkill3[35];
-			fortune_bonus_check = fortune_bonus;
+			fortune_bonus_select.value = fortune_bonus;
 		}
 	}else{
 		SWs3sw[5] = 0;
