@@ -3942,7 +3942,7 @@ function Item_Setumei(nC1,nC2)
 	if(87 == nC1)
 		CBIstr += "ATK"+ wIS + nC2 +"%<BR>";
 	if(88 == nC1)
-		CBIstr += "MATK"+ wIS + nC2 +"% (Staff Type)<BR>";
+		CBIstr += "Increases short range damage by "+ nC2 +"%<BR>";
     //Increase MATK by %
 	if(89 == nC1)
 		CBIstr += "MATK"+ wIS + nC2 +"%<BR>";
@@ -3954,6 +3954,8 @@ function Item_Setumei(nC1,nC2)
 		CBIstr += "Potion Pitcher effectiveness increased by "+ wIS + nC2 +"%<BR>";
 	if(199 == nC1)
 		CBIstr += "Heal received from [Potion Pitcher] increased by "+ wIS + nC2 +"%<BR>";
+	if(200 == nC1)
+		CBIstr += "Heal received from [Slim Potion Pitcher] increased by "+ wIS + nC2 +"%<BR>";
 	if(94 == nC1)
 		CBIstr += "Sanctuary effectiveness increased by "+ wIS + nC2 +"%<BR>";
 	if(96 == nC1)
@@ -4075,7 +4077,7 @@ function Item_Setumei(nC1,nC2)
 	if(297 == nC1)
 		CBIstr += "On Bosstype monsters, ignore "+ nC2 +"% MDEF<BR>";
 	if(300 <= nC1 && nC1 <=309)
-		CBIstr += "On " + SyuzokuOBJ[nC1-300] +" race monsters, ignore "+ nC2 +"% DEF<BR>";
+		CBIstr += "Increases short range damage on [" + ZokuseiOBJ2[nC1-300] +"] monsters by "+ nC2 +"%<BR>";
 	if(310 <= nC1 && nC1 <=319)
 		CBIstr += "On " + SyuzokuOBJ[nC1-310] +" race monsters, ignore "+ nC2 +"% MDEF<BR>";
 	if(320 <= nC1 && nC1 <= 329)
@@ -4123,11 +4125,17 @@ function Item_Setumei(nC1,nC2)
       7000 = Basic Attack
       7001 = First Aid
     */
-	if(7000 <= nC1 && nC1 <= 8999){
+	if(7000 <= nC1 && nC1 <= 7999){
 		if(nC2 > 0)
-			CBIstr += "[" + SkillOBJ[nC1 -7000][2] +"] Cast Time "+ (-1 * nC2) +"%<BR>";
+			CBIstr += "[" + SkillOBJ[nC1 -7000][2] +"] Cast Time -"+ nC2 +"%<BR>";
 		else
-			CBIstr += "[" + SkillOBJ[nC1 -7000][2] +"] Cast Time "+ wIS + nC2 +"%<BR>";
+			CBIstr += "[" + SkillOBJ[nC1 -7000][2] +"] Cast Time + "+ (-1 * nC2) +"%<BR>";
+	}
+	if(8000 <= nC1 && nC1 <= 8999){
+		if(nC2 > 0)
+			CBIstr += "[" + SkillOBJ[nC1 -8000][2] +"] Cast Delay -"+ nC2 +"%<BR>";
+		else
+			CBIstr += "[" + SkillOBJ[nC1 -8000][2] +"] Cast Delay +"+ (-1 * nC2) +"%<BR>";
 	}
 }
 

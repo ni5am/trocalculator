@@ -118,7 +118,7 @@ Effect list:
 	85: Lowers your defence rate by [value]%
 	86: Increases your chance to hit all targets by a fixed [value]%
 	87: ATK + [value]%
-	88: MATK + [value]% (Staff Type)
+	88: Increases short range damage by [value]%
 	89: MATK + [value]%
 	90: Looks like it messes up with card set effect. [value] references the w_SC array index.
 	    However, it's not directly set as a item effect.
@@ -231,7 +231,8 @@ Effect list:
 	198: When [value] == 8, Armor becomes Ghost element
 	198: When [value] == 9, Armor becomes Undead element
 	199: Received heal effectiveness from [Potion Pitcher] increased by + [value]%
-	200-217: (unused)
+	200: Received heal effectiveness from [Slim Potion Pitcher] increased by + [value]%
+	201-217: (unused)
 	218: Increases HP recovered by n% for healing items
 	218: Increases HP recovered by n% for healing item id ([id, n, g = 1 for group bonus])
 	219: Increases SP recovered by n% for healing items
@@ -459,6 +460,16 @@ Effect list:
 	296: On Normal monsters, ignore [value]% MDEF
 	297: On Bosstype monsters, ignore [value]% MDEF
 	298-309: (unused)
+	300: Increases short range damage on [Neutral] monsters by [value]%
+	301: Increases short range damage on [Water] monsters by [value]%
+	302: Increases short range damage on [Earth] monsters by [value]%
+	303: Increases short range damage on [Fire] monsters by [value]%
+	304: Increases short range damage on [Wind] monsters by [value]%
+	305: Increases short range damage on [Poison] monsters by [value]%
+	306: Increases short range damage on [Holy] monsters by [value]%
+	307: Increases short range damage on [Shadow] monsters by [value]%
+	308: Increases short range damage on [Ghost] monsters by [value]%
+	309: Increases short range damage on [Undead] monsters by [value]%
 	310: On Formless race monsters, ignore [value]% MDEF
 	311: On Undead race monsters, ignore [value]% MDEF
 	312: On Brute race monsters, ignore [value]% MDEF
@@ -537,7 +548,7 @@ Effect list:
 	1000-1999: + [value]% Physical damage inflicted against a specific monster (MonsterOBJ[ID - 1000])
 	2000-4999: (unused)
 	5000-6999: specific skill damage + [value]% (SkillOBJ[ID - 5000])
-	7000-7999: When [value] > 0, specific skill Cast Time +[value]% (SkillOBJ[ID - 7000])
-	7000-7999: When [value] < 0, specific skill Cast Time -[value]% (SkillOBJ[ID - 7000])
+	7000-7999: When [value] > 0, specific skill Cast Time -[value]% (SkillOBJ[ID - 7000])
+	7000-7999: When [value] < 0, specific skill Cast Time +[value]% (SkillOBJ[ID - 7000])
 	8000-8999: When [value] > 0, specific skill Cast Delay -[value]% (SkillOBJ[ID - 8000])
 	8000-8999: When [value] < 0, specific skill Cast Delay +[value]% (SkillOBJ[ID - 8000])
