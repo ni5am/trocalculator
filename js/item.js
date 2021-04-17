@@ -1817,6 +1817,7 @@ ItemOBJ = [
 ,[1766,50,0,4,0,0,100,10,"Thanksgiving Pilgrim Hat","","A special Thanksgiving Pilgrim Hat.<br>Has a chance (0.75%) of obtaining Mastela Fruit when killing a monster",7,2,19,5,0]
 ,[1767,51,0,1,0,1,10,0,"+1 VIT [1]","",0,3,1,0] //custom TalonRO +1 VIT Middle Headgear
 ,[1768,51,0,1,0,1,10,0,"+1 LUK [1]","",0,6,1,0] //custom TalonRO +1 LUK Middle Headgear
+,[1769,100,0,0,0,0,0,0,"Surfer Swimsuit + Antonio's Red Bag","",0,152,-20,0]
 ];
 
 //Test code for finding the values in Skill.js AutoSpellSkill
@@ -3616,9 +3617,10 @@ ItemID = [
 ,[1763,1,20433]
 ,[1764,1,20434]
 ,[1765,1,20434]
-,[1765,1,8866]
-,[1766,1,4740]
-,[1767,1,4750]
+,[1766,1,8866]
+,[1767,1,4740]
+,[1768,1,4750]
+,[1769,2,21113,21150]
 ];
 
 /*
@@ -4006,7 +4008,7 @@ function Item_Setumei(nC1,nC2)
   162 - Undefined
   */
 	if(150 <= nC1 && nC1 <=169)
-		CBIstr += "Status effect ["+ IjyouOBJ[nC1-150] +"] resistance +"+ nC2 +"%<BR>";
+		CBIstr += "Status effect ["+ IjyouOBJ[nC1-150] +"] resistance " + (nC2 > 0 ? "+" : "") + nC2 +"%<BR>";
 	if(170 <= nC1 && nC1 <=179)
 		CBIstr += "Increases magical damage against ["+ SyuzokuOBJ[nC1-170] +"] race monsters by "+ nC2 +"%<BR>";
 	if(180 <= nC1 && nC1 <=189)
@@ -4290,6 +4292,7 @@ w_SE = [[737,436,475,"NULL"]
 ,[1758,1757,253,"NULL"] //Custom TalonRO - Skull Cap + Elven Ears[0]
 ,[1759,1757,89,"NULL"] //Custom TalonRO - Skull Cap + Evil Bone Wand
 ,[1760,1757,936,"NULL"] //Custom TalonRO - Skull Cap + Dark Thorn Staff
+,[1769,1682,1729,"NULL"] //Custom TalonRO - Surfer Swimsuit + Antonio's Red Bag
 ];
 
 SE_MAXnum = w_SE.length -1;
