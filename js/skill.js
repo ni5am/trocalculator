@@ -379,7 +379,7 @@ SkillOBJ = [
 [377,3,'Eska',100,80,60],
 [378,3,'Eske',55,35,15],
 [379,1,'Sprint [STR + State]'],
-[380,20,'Party Members [Fighting Chant Bonus]'],
+[380,7,'Party Members [Fighting Chant Bonus]'],
 [381,1,'Sonic Acceleration'],
 [382,1,'Ki Explosion',20],
 [383,1,'Close Confine',25],
