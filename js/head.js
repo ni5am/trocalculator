@@ -1345,7 +1345,7 @@ function BattleCalc999()
 
 
 		// #19 - Ignore [Grand Cross] holy self-damage
-		if (1376 != n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x == 19) == -1)
+		if (1376 != n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x == 19) == -1 && !CardNumSearch(126))
 		{
 			for(var i=0;i<=2;i++){
 				w_DMG[i] = BK_n_A_DMG[i] * (100 - n_A_DEF) /100 - work_A_VITDEF[i] + n_A_WeaponLV_seirenATK;
