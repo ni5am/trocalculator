@@ -657,7 +657,7 @@ with(document.calcForm){
 	for(var i=0;i<=6;i++)
 		n_Delay[i] = 0;
 
-	for(i=1;i<=199;i++){
+	for(i=1;i<=200;i++){
 		n_tok[i] = 0;
 		n_tok[i] += StPlusCalc2(i);
 		n_tok[i] += StPlusCard(i);
@@ -6081,13 +6081,14 @@ function KakutyouKansuu(){
 		is_source_linked = eval(document.calcForm.pp_source_link.checked);
 		learning_potion_lv = eval(document.calcForm.pp_learning_potion_lv.value);
 		pp_healpower2 = eval(document.calcForm.pp_received_heal_rate_bonus.value);
+		spp_healpower2 = eval(document.calcForm.spp_received_heal_rate_bonus.value);
 
 		// Common bonus
 	
 		if (selected_consumable < 4)
-			relative_bonus = (1 + n_A_VIT * 2 / 100) * (1 + hp_recovery_lv / 10);
+			relative_bonus = (1 + target_vit * 2 / 100) * (1 + hp_recovery_lv / 10);
 		else
-			relative_bonus = (1 + n_A_INT * 2 / 100) * (1 + sp_recovery_lv / 10);
+			relative_bonus = (1 + target_int * 2 / 100) * (1 + sp_recovery_lv / 10);
 
 		rank_bonus = 1
 		/* Rank not taken into consideration for PP/SPP
@@ -6146,6 +6147,9 @@ function KakutyouKansuu(){
 		
 		// Slim Potion Pitcher
 		bonus = (1 + (spp_lv * 10 + pp_lv * 10 + learning_potion_lv * 5) / 100) * relative_bonus * rank_bonus;
+		
+		// bHealPower2 bonus
+		bonus *=  1 + (spp_healpower2 / 100);
 		
 		min_heal = Math.floor(PP_POTIONS[selected_consumable][1] * bonus);
 		max_heal = Math.floor(PP_POTIONS[selected_consumable][2] * bonus);
@@ -6942,6 +6946,8 @@ function update_pp_calc()
 	{
 		document.calcForm.pp_source_lv.value = n_A_BaseLV;
 		document.calcForm.pp_heal_rate_bonus.value = n_tok[93];
+		document.calcForm.pp_received_heal_rate_bonus.value = 0;
+		document.calcForm.spp_received_heal_rate_bonus.value = 0;
 		document.calcForm.pp_learning_potion_lv.value = SkillSearch(442);
 	}
 	
@@ -6956,6 +6962,7 @@ function update_pp_calc()
 		document.calcForm.pp_irp_lv.value = SkillSearch(5);
 		document.calcForm.pp_isp_lv.value = SkillSearch(45);
 		document.calcForm.pp_received_heal_rate_bonus.value = n_tok[199];
+		document.calcForm.spp_received_heal_rate_bonus.value = n_tok[200];
 	}
 	
 	if (EquipNumSearch(1737)) // Empty Liquor Bottle + Beer Hat
@@ -7144,8 +7151,8 @@ function KakutyouKansuu2(){
 	if(wKK == 12)
 	{
 		pp_display =  'You are the : ';
-		pp_display += '<input type="checkbox" id="pp_source" name="pp_source" value="pp_source" onclick=update_pp_calc()><label for="pp_source">Source</label>';
-		pp_display += '<input type="checkbox" id="pp_target" name="pp_target" value="pp_target" onclick=update_pp_calc()><label for="pp_target">Target</label><br>';
+		pp_display += '<input type="checkbox" id="pp_source" name="pp_source" value="pp_source" onclick=update_pp_calc()|KakutyouKansuu()><label for="pp_source">Source</label>';
+		pp_display += '<input type="checkbox" id="pp_target" name="pp_target" value="pp_target" onclick=update_pp_calc()|KakutyouKansuu()><label for="pp_target">Target</label><br>';
 		
 		pp_display += "<table border=0>";
 		pp_display += "<tr><td>Alchemist LV:</td>" + '<td><select name="pp_source_lv" onChange="KakutyouKansuu()"></select></td>';
@@ -7160,10 +7167,11 @@ function KakutyouKansuu2(){
 				
 		pp_display += "<tr><td>Increase Recuperative Power: " + '<td><select name="pp_irp_lv" onChange="KakutyouKansuu()"></select></td>';
 		pp_display += "<td>Target's VIT:</td>" + '<td><select name="pp_target_vit" onChange="KakutyouKansuu()"></select></td>';
-		pp_display +=  "<td>Increase Heal Rate:</td>" + '<td><input type="text" onChange="KakutyouKansuu()" name="pp_heal_rate_bonus" value="0" size=2>%</td></tr>';
+		pp_display +=  "<td>Increase PP Heal Rate:</td>" + '<td><input type="text" onChange="KakutyouKansuu()" name="pp_heal_rate_bonus" value="0" size=2>%</td></tr>';
 		pp_display += "<tr><td>Increase Spiritual Power: " + '<td><select name="pp_isp_lv" onChange="KakutyouKansuu()"></select></td>';
 		pp_display += "<td>Target's INT:</td>" + '<td><select name="pp_target_int" onChange="KakutyouKansuu()"></select></td>';
-		pp_display +=  "<td>Increase Received Heal Rate:</td>" + '<td><input type="text" onChange="KakutyouKansuu()" name="pp_received_heal_rate_bonus" value="0" size=2>%</td></tr>';
+		pp_display +=  "<td>Increase PP Received Heal Rate:</td>" + '<td><input type="text" onChange="KakutyouKansuu()" name="pp_received_heal_rate_bonus" value="0" size=2>%</td></tr>';
+		pp_display +=  "<tr><td/><td/><td/><td/><td>Increase SPP Received Heal Rate:</td>" + '<td><input type="text" onChange="KakutyouKansuu()" name="spp_received_heal_rate_bonus" value="0" size=2>%</td></tr>';
 
 		pp_display += "</table><br>";
 
