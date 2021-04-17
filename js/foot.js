@@ -3100,7 +3100,7 @@ with(document.calcForm){
 
 	// Gatling Fever#433
 	if (n_A_WeaponType == 20 && SkillSearch(433))
-			n_tok[12] += 2 * SkillSearch(433);
+		n_tok[12] += 2 * SkillSearch(433);
 
 	// Sagittarius Crown#1288 - [Refine Rate 7~10] ASPD + 2%
 	if (n_A_HEAD_DEF_PLUS >= 7 && EquipNumSearch(1288))
@@ -3589,7 +3589,7 @@ with(document.calcForm){
 	}
 	//[TalonRO Custom - 2018-07-28 - Glorious Hunter Bow - For every refine, increases Critical damage by 2% for Archer Class] [Amor]
 	if (EquipNumSearch(1089) && n_A_JobSearch() == 4) {
-		w += (2 * n_A_Weapon_ATKplus);
+		n_tok[70] += (2 * n_A_Weapon_ATKplus);
 	}
 
 	// Petal Card#606 - [Every 10 Base LUK] - Critical Attack + 2%
@@ -3978,16 +3978,16 @@ with(document.calcForm){
 	}
 	//[TalonRO Custom - Glorious Cleaver 1088/Glorious Flamberge 1077/Glorious Gatiling Gun 1101/Glorious Guitar 1092/Glorious Lariat 1093/Glorious Rifle 1100/Glorious Shotgun 1102/Glorious Spear 1081/Glorious Tablet 1094/Glorious Two Handed Axe 1087 + 1% DEF Bypass for every upgrade] [Amor]
 	if(EquipNumSearch(1088) || EquipNumSearch(1077) || EquipNumSearch(1101) || EquipNumSearch(1092) || EquipNumSearch(1093) || EquipNumSearch(1100) || EquipNumSearch(1102) || EquipNumSearch(1081) || EquipNumSearch(1094) || EquipNumSearch(1087)){
-		n_tok[307] += n_A_Weapon_ATKplus;
+		n_tok[187] += n_A_Weapon_ATKplus;
 	}
 	//[TalonRO Custom - Glorious Lance - +1% DEF Bypass if Knight/Lord Knight] [Amor]
 	if(EquipNumSearch(1082) && n_A_JobSearch2() == 7){
-		n_tok[307] += n_A_Weapon_ATKplus;
+		n_tok[187] += n_A_Weapon_ATKplus;
 	}
 
-	//[TalonRO Custom - Glorious Lance - 100% DEF Bypass if Crusader/Palladin] [Amor]
+	//[TalonRO Custom - Glorious Lance - 100% DEF Bypass if Crusader/Paladin] [Amor]
 	if(EquipNumSearch(1082)){
-		n_tok[307] = 100;
+		n_tok[187] = 100;
 	}
 
 	/*
@@ -4004,7 +4004,7 @@ with(document.calcForm){
 		Adds 5% additional defense bypassing on DemiHuman monsters.
 	*/
 	if (EquipNumSearch(1099) && n_A_Weapon_ATKplus >= 8) {
-		n_tok[307] += 5;
+		n_tok[187] += 5;
 	}
 	/*
 		Soldier Gatling Gun
@@ -10071,8 +10071,10 @@ for(i=0;i<=46;i++)
 
 bragi_bonus = 0;
 apple_bonus = 0;
-whistle_bonus = 0;
 fortune_bonus = 0;
+service_bonus = 0;
+whistle_pd_bonus = 0;
+whistle_flee_bonus = 0;
 
 n_A_PassSkill5 = new Array();
 for(i=0;i<=5;i++)
