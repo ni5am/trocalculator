@@ -516,7 +516,7 @@ function BattleCalc999()
 						san[i] = 3;
 				}
 				str_bSUBname += "Raging Trifecta Blow Damage<BR>";
-				str_bSUB += san[0] +"~"+ san[2] +" ("+ (30 - SkillSearch(187)) +"% Chance)<BR>";
+				str_bSUB += san[0] +"~"+ san[2] +" ("+ (30 - SkillSearch(187) + 10 * CardNumSearch(619)) +"% Chance)<BR>";
 				TyouEnkakuSousa3dan = 0;
 				if(n_Min_DMG > san[0])
 					n_Min_DMG = san[0];
@@ -2992,6 +2992,10 @@ function BattleMagicCalc(wBMC)
 				wX += 5;
 		}
 	}
+		
+	// Yellow Lichtern Card#612 - [Ninja Class] - 25% more damage with [Wind Blade]
+	if (44 == n_A_JOB)
+		wX += 25 * CardNumSearch(612);
 
 	wBMC2 = wBMC2 * (100 + wX) / 100;
 
@@ -3571,7 +3575,7 @@ with(document.calcForm){
 		str += '<div style="float: right; padding-right: 3px;"><input id="lab10" type="checkbox" name="A3_SKILLSW"onClick="Click_Skill3SW()"><label for="lab10">Show</label></div>';
 		str += '<div style="clear: both;"></div></TD></TR>';
 		str += '<TR><TD RowSpan=2 id="EN0_1"></TD><TD RowSpan=2 id="EN0_2"></TD><TD id="EN0_3"></TD><TD id="EN0_4"></TD><TD id="EN0_7"></TD><TD id="EN0_8"></TD><TD id="EN0_9"></TD><TD id="EN0_10"></TD></TR>';
-		str += '<TR><TD id="EN0_5"></TD><TD id="EN0_6"></TD></TR>';
+		str += '<TR><TD id="EN0_5"></TD><TD id="EN0_6"></TD><TD></TD><TD></TD><TD id="EN0_11"></TD><TD id="EN0_12"></TD></TR>';
 		str += '<TR><TD id="EN1_1"></TD><TD id="EN1_2"></TD><TD id="EN1_3"></TD><TD id="EN1_4"></TD><TD id="EN1_5"></TD><TD id="EN1_6"></TD><TD id="EN1_7"></TD><TD id="EN1_8"></TD></TR>';
 		// custom TalonRO Poem of Bragi after cast delay: after cast delay is reduced for PVM but not for PVP/WOE, thus a checkbox is needed to decide which mode is active
 		str += '<TR><TD RowSpan=2 id="EN2_1"></TD><TD RowSpan=2 id="EN2_2"></TD><TD id="EN2_3"></TD><TD id="EN2_4"></TD><TD id="EN2_7"></TD><TD id="EN2_8"></TD><TD id="EN2_11"></TD><TD id="EN2_12"></TD></TR>';
@@ -3579,7 +3583,7 @@ with(document.calcForm){
 		str += '<TR><TD id="EN3_1"></TD><TD id="EN3_2"></TD><TD id="EN3_3"></TD><TD id="EN3_4"></TD><TD id="EN3_5"></TD><TD id="EN3_6"></TD><TD id="EN3_7"></TD><TD id="EN3_8"></TD></TR>';
 		str += '<TR><TD id="EN4_1"></TD><TD id="EN4_2"></TD><TD id="EN4_3"></TD><TD id="EN4_4"></TD><TD id="EN4_5"></TD><TD id="EN4_6"></TD></TR>';
 		str += '<TR><TD id="EN5_1"></TD><TD id="EN5_2"></TD><TD id="EN5_3"></TD><TD id="EN5_4"></TD><TD id="EN5_5"></TD><TD id="EN5_6"></TD></TD><TD id="EN5_7"></TD><TD id="EN5_8"></TD></TR>';
-		str += '<TR><TD id="EN6_1"></TD><TD id="EN6_2"></TD><TD id="EN6_3"></TD><TD id="EN6_4"></TD><TD id="EN6_5"></TD><TD id="EN6_6"></TD></TR>';
+		str += '<TR><TD id="EN6_1"></TD><TD id="EN6_2"></TD><TD id="EN6_3"></TD><TD id="EN6_4"></TD><TD id="EN6_5"></TD><TD id="EN6_6"></TD><TD id="EN6_7"></TD><TD id="EN6_8"></TD></TR>';
 		str += '<TR><TD id="EN7_1"></TD><TD id="EN7_2"></TD><TD id="EN8_1"></TD><TD id="EN8_2"></TD></TR>';
 		str += '<TR><TD id="EN9_1"></TD><TD id="EN9_2"></TD><TD id="EN10_1"></TD><TD id="EN10_2"></TD></TR>';
 		str += '<TR><TD colspan=4><span id="EN11_1"></span><span id="EN11_2"></span><span id="EN11_1a"></span></TD></TR></TABLE>';
@@ -3675,7 +3679,8 @@ with(document.calcForm){
 				n_A_PassSkill3[20] = 100;	// Bard's AGI
 				n_A_PassSkill3[30] = 10;	// Musical Lessons Lv
 				n_A_PassSkill3[46] = 100;	// Bard's LUK
-				whistle_bonus = 0;
+				whistle_pd_bonus = 0;
+				whistle_flee_bonus = 0;
 			}
 			myInnerHtml("EN0_3","Bard's AGI",0);
 			myInnerHtml("EN0_4",'<select name="A3_Skill0_2"onChange="Click_A3(1)"></select>',0);
@@ -3683,8 +3688,10 @@ with(document.calcForm){
 			myInnerHtml("EN0_6",'<select name="A3_Skill0_4"onChange="Click_A3(1)"></select>',0);
 			myInnerHtml("EN0_7","Musical Lessons",0);
 			myInnerHtml("EN0_8",'<select name="A3_Skill0_3"onChange="Click_A3(1)"></select>',0);
-			myInnerHtml("EN0_9","<label for=\"song_sqi_bonus\">SQI Bonus</label>",0);
-			myInnerHtml("EN0_10",'<input type="checkbox" name="whistle_bonus_check" id="whistle_bonus_check" onChange="Click_A3(1)"></input>',0);
+			myInnerHtml("EN0_9","<label for=\"whistle_pd_bonus_select\">Extra PD Bonus</label>",0);
+			myInnerHtml("EN0_10",'<select name="whistle_pd_bonus_select" id="whistle_pd_bonus_select" onChange="Click_A3(1)"></select>',0);
+			myInnerHtml("EN0_11","<label for=\"whistle_flee_bonus_select\">Extra Flee Bonus</label>",0);
+			myInnerHtml("EN0_12",'<select name="whistle_flee_bonus_select" id="whistle_flee_bonus_select" onChange="Click_A3(1)"></select>',0);
 			
 			for(i=1;i<=200;i++)
 				A3_Skill0_2.options[i-1] = new Option(i,i);
@@ -3692,11 +3699,16 @@ with(document.calcForm){
 				A3_Skill0_3.options[i] = new Option(i,i);
 			for(i=0;i<=230;i++)
 				A3_Skill0_4.options[i-1] = new Option(i,i);
+			for(i=0;i<=10;i++)
+				whistle_flee_bonus_select.options[i] = new Option(i * 5 + "%",i);
+			for(i=0;i<=10;i++)
+				whistle_pd_bonus_select.options[i] = new Option(i + "%",i);
 			SWs3sw[0] = 1;
 			A3_Skill0_2.value = n_A_PassSkill3[20];
 			A3_Skill0_3.value = n_A_PassSkill3[30];
 			A3_Skill0_4.value = n_A_PassSkill3[46];
-			whistle_bonus_check.checked = whistle_bonus;
+			whistle_pd_bonus_select.value = whistle_pd_bonus;
+			whistle_flee_bonus_select.value = whistle_flee_bonus;
 		}
 	}else{
 		SWs3sw[0] = 0;
@@ -3708,6 +3720,8 @@ with(document.calcForm){
 		myInnerHtml("EN0_8","",0);
 		myInnerHtml("EN0_9","",0);
 		myInnerHtml("EN0_10","",0);
+		myInnerHtml("EN0_11","",0);
+		myInnerHtml("EN0_12","",0);
 	}
 
 	if(n_A_PassSkill3[1] != 0){
@@ -3754,7 +3768,7 @@ with(document.calcForm){
 			// custom TalonRO Poem of Bragi after cast delay
 			myInnerHtml("EN2_9","<label for=\"lab16\">PVP/WOE mode</label>",0);
 			myInnerHtml("EN2_10",'<input type="checkbox" name="A3_Skill2_5" id="lab16" onChange="Click_A3(1)"></input>',0);
-			myInnerHtml("EN2_11","<label for=\"song_sqi_bonus\">Extra Bonus</label>",0);
+			myInnerHtml("EN2_11","<label for=\"bragi_bonus_select\">Extra Bonus</label>",0);
 			myInnerHtml("EN2_12",'<select name="bragi_bonus_select" id="bragi_bonus_select" onChange="Click_A3(1)"></select>',0);
 			for(i=1;i<=200;i++)
 				A3_Skill2_2.options[i-1] = new Option(i,i);
@@ -3798,7 +3812,7 @@ with(document.calcForm){
 			myInnerHtml("EN3_4",'<select name="A3_Skill3_2"onChange="Click_A3(1)"></select>',0);
 			myInnerHtml("EN3_5","Musical Lessons",0);
 			myInnerHtml("EN3_6",'<select name="A3_Skill3_3"onChange="Click_A3(1)"></select>',0);
-			myInnerHtml("EN3_7","<label for=\"song_sqi_bonus\">SQI Bonus</label>",0);
+			myInnerHtml("EN3_7","<label for=\"apple_bonus_check\">SQI Bonus</label>",0);
 			myInnerHtml("EN3_8",'<input type="checkbox" name="apple_bonus_check" id="apple_bonus_check" onChange="Click_A3(1)"></input>',0);
 			for(i=1;i<=150;i++)
 				A3_Skill3_2.options[i-1] = new Option(i,i);
@@ -3856,7 +3870,7 @@ with(document.calcForm){
 			myInnerHtml("EN5_4",'<select name="A3_Skill5_2"onChange="Click_A3(1)"></select>',0);
 			myInnerHtml("EN5_5","Dancing Lessons",0);
 			myInnerHtml("EN5_6",'<select name="A3_Skill5_3"onChange="Click_A3(1)"></select>',0);
-			myInnerHtml("EN5_7","<label for=\"song_sqi_bonus\">Extra Bonus</label>",0);
+			myInnerHtml("EN5_7","<label for=\"fortune_bonus_select\">Extra Bonus</label>",0);
 			myInnerHtml("EN5_8",'<select name="fortune_bonus_select" id="fortune_bonus_select" onChange="Click_A3(1)"></select>',0);
 			for(i=1;i<=180;i++)
 				A3_Skill5_2.options[i-1] = new Option(i,i);
@@ -3884,18 +3898,24 @@ with(document.calcForm){
 			if(n_A_PassSkill3[26]==0){
 				n_A_PassSkill3[26] = 50;
 				n_A_PassSkill3[36] = 10;
+				service_bonus = 0;
 			}
 			myInnerHtml("EN6_3","Dancer's INT",0);
 			myInnerHtml("EN6_4",'<select name="A3_Skill6_2"onChange="Click_A3(1)"></select>',0);
 			myInnerHtml("EN6_5","Dancing Lessons",0);
 			myInnerHtml("EN6_6",'<select name="A3_Skill6_3"onChange="Click_A3(1)"></select>',0);
+			myInnerHtml("EN6_7","<label for=\"service_bonus_select\">Extra Bonus</label>",0);
+			myInnerHtml("EN6_8",'<select name="service_bonus_select" id="service_bonus_select" onChange="Click_A3(1)"></select>',0);
 			for(i=1;i<=200;i++)
 				A3_Skill6_2.options[i-1] = new Option(i,i);
 			for(i=0;i<=10;i++)
 				A3_Skill6_3.options[i] = new Option(i,i);
+			for(i=0;i<=10;i++)
+				service_bonus_select.options[i] = new Option(i * 5 + "%",i);
 			SWs3sw[6] = 1;
 			A3_Skill6_2.value = n_A_PassSkill3[26];
 			A3_Skill6_3.value = n_A_PassSkill3[36];
+			service_bonus_select.value = service_bonus;
 		}
 	}else{
 		SWs3sw[6] = 0;
@@ -3903,6 +3923,8 @@ with(document.calcForm){
 		myInnerHtml("EN6_4","-",0);
 		myInnerHtml("EN6_5","",0);
 		myInnerHtml("EN6_6","",0);
+		myInnerHtml("EN6_7","",0);
+		myInnerHtml("EN6_8","",0);
 	}
 
 	if(n_A_PassSkill3[11] != 0){
@@ -6877,13 +6899,17 @@ Race - n_B[2] = raceID - example n_B[2] = 3, Plant
 	}
 	
 	// Apply item script bonus affecting defense
+	def_skill_reduction = 0;
+	if (292 == n_A_ActiveSkill)
+		def_skill_reduction += 10 * CardNumSearch(627);
+	
 	def_race_reduction = n_tok[180 + n_B[2]];
 	def_class_reduction = (n_B[19] ? n_tok[22] : n_tok[21]);
 	def_reduction = Math.min(100, def_race_reduction + def_class_reduction);
 
-	n_B[14] = Math.ceil(n_B[14] * (100 - def_reduction) / 100);
-	n_B[23] = Math.ceil(n_B[23] * (100 - def_reduction) / 100);
-	n_B[24] = Math.max(n_B[23], Math.ceil(n_B[24] * (100 - def_reduction) / 100));
+	n_B[14] = Math.ceil(n_B[14] * (100 - def_reduction) / 100 * (100 - def_skill_reduction) / 100);
+	n_B[23] = Math.ceil(n_B[23] * (100 - def_reduction) / 100 * (100 - def_skill_reduction) / 100);
+	n_B[24] = Math.max(n_B[23], Math.ceil(n_B[24] * (100 - def_reduction) / 100 * (100 - def_skill_reduction) / 100));
 	
 	// Belmont Whip#1378 - Dancer/Gypsy
 	// #38 - [Ugly Dance] reduces enemy INT by 20% for 7 seconds
@@ -7137,6 +7163,9 @@ function calc()
 	if(n_A_ActiveSkill==70 || n_A_ActiveSkill==6){
 		w_HIT *= 1+n_A_ActiveSkillLV *0.05;
 	}
+	// Cenere + Naga Combo#608 - [Mist Slash]#400 HIT Rate + 50%
+	if (400 == n_A_ActiveSkill && CardNumSearch(608))
+		w_HIT *= 1.5;
 	if((n_A_ActiveSkill==83 || n_A_ActiveSkill==388)&& SkillSearch(381)){
 		w_HIT *= 1.5;
 	}
@@ -7183,7 +7212,12 @@ function calc()
 	TyouEnkakuSousa3dan = 0;
 	wBC3_3danHatudouRitu = 0;
 	if(SkillSearch(187))
+	{
 		wBC3_3danHatudouRitu = 30 - SkillSearch(187);
+		
+		// Stalker Card#619 - [Rogue Class, Monk Class] - [Triple Attack] Rate + 10%
+		wBC3_3danHatudouRitu += 10 * CardNumSearch(619);
+	}
 
 	// Manage [Double Attack]
 	wDA = 0;
@@ -7211,6 +7245,10 @@ function calc()
 	// #151 - Enable [Double Attack] usage
 	if (1388 == n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x == 151) > -1)
 		wDA = Math.max(wDA, SkillSearch(13) * 5);
+	
+	// Stalker Card#619 - [Rogue Class, Super Novice] - [Double Attack] Rate + 10%
+	if (20 == n_A_JOB || n_A_JobSearch2() == 14)
+		wDA += 10 * CardNumSearch(619);
 	
 	// Chain Action#427 - Similar behaviour as Double Attack
 	if (n_A_WeaponType == 17){
@@ -7620,6 +7658,10 @@ function BaiCI(wBaiCI)
 		wBaiCI = Math.floor(wBaiCI * (100+w1) /100);
 		if(debug_dmg_avg)
 			debug_atk+="\na_wBaiCI:"+wBaiCI;
+		
+		// bShortAtkRate
+		if (!n_Enekyori)
+			wBaiCI = Math.floor(wBaiCI * (1 + n_tok[300 + Math.floor(n_B[3] / 10)] / 100));
 
 		if(debug_dmg_avg) {
 			debug_atk+="\n --- (BaiCI) Weapon/Card Size Modifier ---";
@@ -7965,6 +8007,17 @@ function ApplySkillAtkBonus(dmg)
 	if (1386 == n_A_Equip[0] && 2 == n_B[4] && (70 == n_A_ActiveSkill || 73 == n_A_ActiveSkill) && SQI_Bonus_Effect.findIndex(x => x == 127) > -1)
 		skill_atk_bonus_ratio += 15;
 
+	// [Two-Handed Spear] - 50% more damage with [Holy Cross]#161.
+	if (5 == n_A_WeaponType && 161 == n_A_ActiveSkill)
+		skill_atk_bonus_ratio += 50 * CardNumSearch(602);
+	
+	// Amdarais Card#604 - [Cart Termination] damage inflicted on Neutral Element monsters by 10%.
+	if (326 == n_A_ActiveSkill && n_B[3] < 5) // Neutral 0-4
+		skill_atk_bonus_ratio += 10 * CardNumSearch(604);
+	// Amdarais Card#604 - [Cart Termination] damage inflicted on Ghost Element monsters by 25%.
+	if (326 == n_A_ActiveSkill && n_B[3] > 80 && [3] < 85) // Ghost 81-84
+		skill_atk_bonus_ratio += 25 * CardNumSearch(604);
+	
 	dmg = dmg * (100 + StPlusCalc2 (5000 + n_A_ActiveSkill) + StPlusCard(5000 + n_A_ActiveSkill) + skill_atk_bonus_ratio) / 100;
 
 	return Math.floor(dmg);
@@ -8200,6 +8253,10 @@ function CastAndDelay(){
 		w = 1;
 	}
 	
+	// Champion Card#618 - Combo skills delay decreased by 12%
+	if (n_A_ActiveSkill == 188 || n_A_ActiveSkill == 189 || n_A_ActiveSkill == 289)
+		n_Delay[3] *= 1 - CardNumSearch(618) * 0.12;
+	
 	if (!(2 == n_Enekyori && support_autospell && SkillSearch(229)))
 	{
 		/*
@@ -8268,7 +8325,8 @@ function CastAndDelay(){
 	}
 	if(w == 3){
 		if(n_A_ActiveSkill == 188 || n_A_ActiveSkill == 189 || n_A_ActiveSkill == 289){
-			strSUB2name += "<Font size=2>Delay (+delay reception combo)</Font><BR>";
+			n_Delay[3] = +n_Delay[3].toFixed(4);
+			strSUB2name += "<Font size=2>Delay (Combo Delay)</Font><BR>";
 			strSUB2 += n_Delay[3] +"~"+ (n_Delay[3] + 0.3) +"s<BR>";
 		}else{
 			strSUB2name += "<Font size=2>Delay (Forced Motion)</Font><BR>";

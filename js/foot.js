@@ -444,7 +444,8 @@ with(document.calcForm){
 			n_A_PassSkill3[20] = eval(A3_Skill0_2.value);
 			n_A_PassSkill3[30] = eval(A3_Skill0_3.value);
 			n_A_PassSkill3[46] = eval(A3_Skill0_4.value);
-			whistle_bonus = eval(whistle_bonus_check.checked)
+			whistle_pd_bonus = eval(whistle_pd_bonus_select.value)
+			whistle_flee_bonus = eval(whistle_flee_bonus_select.value)
 		}
 		if(n_A_PassSkill3[1]){
 			n_A_PassSkill3[21] = eval(A3_Skill1_2.value);
@@ -474,6 +475,7 @@ with(document.calcForm){
 		if(n_A_PassSkill3[6]){
 			n_A_PassSkill3[26] = eval(A3_Skill6_2.value);
 			n_A_PassSkill3[36] = eval(A3_Skill6_3.value);
+			service_bonus = eval(service_bonus_select.value)
 		}
 
 	}
@@ -1141,6 +1143,15 @@ with(document.calcForm){
 	if (EquipNumSearch(1728)) {
 		n_tok[17] += n_A_BODY_DEF_PLUS;
 		n_tok[98] += n_A_BODY_DEF_PLUS;
+	}
+	
+	// Faithful Manager#610
+	nb_cards = CardNumSearch(610);
+	if (12 == n_A_WeaponType && nb_cards)
+	{
+		n_tok[17] += 20 * nb_cards; // ATK + 20
+		n_tok[10] += 12 * nb_cards; // CRIT + 12
+		n_tok[12] += n_A_Weapon_ATKplus * nb_cards; // [Every Refine Level] - ASPD + 1%
 	}
 	
 	// Manage Eden crystal energy buff (stackable)
@@ -2137,11 +2148,7 @@ with(document.calcForm){
 		n_A_FLEE += 33;
 	}
 	if(n_A_PassSkill3[0]) // A Whistle - Base_FLEE_Boost - Skill Lv + Floor(AGI / 10) + Floor(Music_Lessons_Lv / 2)
-	{
-		// #69 - [A Whistle] FLEE Rate + 20% and Perfect Dodge Rate + 3%
-		a_whistle_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x == 69) > -1 || whistle_bonus ? 20 : 0);
-		n_A_FLEE += n_A_PassSkill3[0] + Math.floor(n_A_PassSkill3[30] / 2) + Math.floor(n_A_PassSkill3[20] / 10) + a_whistle_sqi_bonus;
-	}
+		n_A_FLEE += n_A_PassSkill3[0] + Math.floor(n_A_PassSkill3[30] / 2) + Math.floor(n_A_PassSkill3[20] / 10) + whistle_flee_bonus * 5;
 
 	if(n_A_HEAD_DEF_PLUS >= 7 && EquipNumSearch(1276)){
 		n_A_FLEE += 10;
@@ -2244,11 +2251,7 @@ with(document.calcForm){
 	
 	// A Whistle Skill - Base_P._D._Boost - Floor((Skill Lv + 1) / 2 + LUK / 30) + Floor(Music_Lessons_Lv / 5)
 	if (n_A_PassSkill3[0])
-	{
-		// #69 - [A Whistle] FLEE Rate + 20% and Perfect Dodge Rate + 3%
-		a_whistle_sqi_bonus = (SQI_Bonus_Effect.findIndex(x => x == 69) > -1 || whistle_bonus ? 3 : 0);
-		n_tok[11] += Math.floor((n_A_PassSkill3[0] + 1) / 2 + n_A_PassSkill3[46] / 30) + Math.floor(n_A_PassSkill3[30] / 5) + a_whistle_sqi_bonus;
-	}
+		n_tok[11] += Math.floor((n_A_PassSkill3[0] + 1) / 2 + n_A_PassSkill3[46] / 30) + Math.floor(n_A_PassSkill3[30] / 5) + whistle_pd_bonus;
 
 	n_A_LUCKY = 1 + n_A_LUK * 0.1;
 	n_A_LUCKY += n_tok[11];
@@ -2565,7 +2568,14 @@ with(document.calcForm){
 		if (10 == n_A_HEAD_DEF_PLUS)
 			n_tok[73] -= 5;
 	}
-
+	
+	// Professor Celia Card#624
+	if (CardNumSearch(624))
+	{
+		n_tok[89] += Math.floor(SU_STR / 8); // [Every 8 Base STR] MATK + 1%
+		n_tok[12] += Math.floor(SU_INT / 8) * 2; // [Every 8 Base INT] ASPD + 2%
+	}
+	
 	w += n_tok[89];
 
 	if(n_A_Weapon_ATKplus >= 9 && EquipNumSearch(642))
@@ -3582,6 +3592,9 @@ with(document.calcForm){
 		w += (2 * n_A_Weapon_ATKplus);
 	}
 
+	// Petal Card#606 - [Every 10 Base LUK] - Critical Attack + 2%
+	n_tok[70] += 2 * Math.floor(SU_LUK / 10) * CardNumSearch(606);
+
 	if(CardNumSearch(452) && n_A_JobSearch()==3){
 		n_tok[51] += 30;
 		n_tok[56] += 30;
@@ -3912,6 +3925,10 @@ with(document.calcForm){
 	if(n_B[19] == 1)
 		n_tok[295] += n_tok[297];
 	
+	// Professor Card#617 - [Sage Class] - Pierce MDEF by 2%
+	if (n_A_JobSearch2() == 18)
+		n_tok[295] += 2 * CardNumSearch(617);
+	
 	/*
 		Detecting Staff#1735 - Ignores 10% MDEF of Kiel Dungeon Monsters (except Alice), Juperos Ruins Monsters, and Guardians
 		[Every Refine Level] Ignore MDEF % increased by 1%"
@@ -4002,19 +4019,6 @@ with(document.calcForm){
 	if (Taijin && (EquipNumSearch(388) || EquipNumSearch(607)))
 		n_tok[37] -= 30;
 
-	/*
-		Curupira Card (need to be here before the n_tok[340] logic is applied)
-		[Refine Rate +7 or higher]
-		Increases Water elemental magic damage by an additional 5%.
-		[Refine Rate +9 or higher]
-		Increases Water elemental magic damage by an additional 5%.
-	*/
-	if (CardNumSearch(570) && n_A_card[8] == 570) {
-		if(n_A_HEAD_DEF_PLUS >= 7) n_tok[341] += 5;
-		if(n_A_HEAD_DEF_PLUS >= 9) n_tok[341] += 5;
-	}
-
-
 	/*[Custom TalonRO 2018-06-15 - Malangdo Enchantment for Spell Element] [Kato]
 		Well I couldn't find a n_tok for magical damage based on element.
 		Since we don't have it, I will separate the skills by element (skills.js) and apply the magical damage for all races [170-179]
@@ -4089,17 +4093,43 @@ with(document.calcForm){
 	*/
 
 	//[TalonRO Custom 2018-07-17 - Add (4 * Refine/3) Magical Fire Damage Nightmare Ancient Mummy] [Kato]
-	/*
-	if(CardNumSearch(546)) {
-		if(TRO_MAGICALSKILL_ELEMENTS[3].indexOf(n_A_ActiveSkill) != -1){
-			for(j=0; j<10; j++) {
-				n_tok[170 + j] = ((n_tok[170 + j] + 100) * (100 + 	4 * Math.floor(n_A_SHOULDER_DEF_PLUS/3)) / 100) - 100; // ***
-			}
-		}
-	}
-	*/
-	if (n_A_card[12] == 546) {
+	if (n_A_card[12] == 546)
 		n_tok[343] += 4 * Math.floor(n_A_SHOULDER_DEF_PLUS/3)
+
+	/*
+		Curupira Card
+		[Refine Rate +7 or higher]
+		Increases Water elemental magic damage by an additional 5%.
+		[Refine Rate +9 or higher]
+		Increases Water elemental magic damage by an additional 5%.
+	*/
+	if (n_A_card[8] == 570) {
+		if(n_A_HEAD_DEF_PLUS >= 7) n_tok[341] += 5;
+		if(n_A_HEAD_DEF_PLUS >= 9) n_tok[341] += 5;
+	}
+	
+	/*
+		Green Lichtern Card
+		[Refine Rate +7 or higher]
+		Increases Earth elemental magic damage by an additional 5%.
+		[Refine Rate +9 or higher]
+		Increases Earth elemental magic damage by an additional 5%.
+	*/
+	if (n_A_card[8] == 613) {
+		if(n_A_HEAD_DEF_PLUS >= 7) n_tok[342] += 5;
+		if(n_A_HEAD_DEF_PLUS >= 9) n_tok[342] += 5;
+	}
+	
+	/*
+		Red Lichtern Card
+		[Refine Rate +7 or higher]
+		Increases Fire elemental magic damage by an additional 5%.
+		[Refine Rate +9 or higher]
+		Increases Fire elemental magic damage by an additional 5%.
+	*/
+	if (n_A_card[8] == 611) {
+		if(n_A_HEAD_DEF_PLUS >= 7) n_tok[343] += 5;
+		if(n_A_HEAD_DEF_PLUS >= 9) n_tok[343] += 5;
 	}
 
 	/*
@@ -4110,40 +4140,12 @@ with(document.calcForm){
 	[Refine Rate +9 or higher]
 	Add another 5% damage with Wind Magic.
 	*/
-	/*
-	if(CardNumSearch(558)) {
-		var iMDMG = 5 * CardNumSearch(558);
-		if(n_A_card[8] == 558) {
-			if(n_A_HEAD_DEF_PLUS >= 7) iMDMG = iMDMG + 5; // Refine >=7 +5%
-			if(n_A_HEAD_DEF_PLUS >= 9) iMDMG = iMDMG + 5; // Refine >=9 +5%
-		}
-			if(TRO_MAGICALSKILL_ELEMENTS[4].indexOf(n_A_ActiveSkill) != -1){
-				for(j=0; j<10; j++) {
-					n_tok[170 + j] = ((n_tok[170 + j] + 100) * (100 + iMDMG) / 100) - 100;
-				}
-			}
-	}
-	*/
 	if (n_A_card[8] == 558) {
 		if(n_A_HEAD_DEF_PLUS >= 7) n_tok[344] += 5;
 		if(n_A_HEAD_DEF_PLUS >= 9) n_tok[344] += 5;
 	}
 
 	//[TalonRO Custom 2018-07-17 - Add 3% Magical damage boost Nightmare Verit] [Kato]
-	/*
-	if(CardNumSearch(547)) {
-		var iMDMG = 3;
-		if(n_A_SHOES_DEF_PLUS >= 5) iMDMG++; // Refine >=5 +1%
-		if(n_A_SHOES_DEF_PLUS >= 7) iMDMG++;// Refine >=7 +1%
-		for(i=0;i<TRO_MAGICALSKILL_ELEMENTS.length;i++){
-			if(TRO_MAGICALSKILL_ELEMENTS[i].indexOf(n_A_ActiveSkill) != -1){
-				for(j=0; j<10; j++) {
-					n_tok[170 + j] = ((n_tok[170 + j] + 100) * (100 + iMDMG) / 100) - 100;
-				}
-			}
-		}
-	}
-	*/
 	if (n_A_card[13] == 547) {
 		var iMDmgAdd = 0
 		
@@ -4161,7 +4163,7 @@ with(document.calcForm){
 		[Refine Rate +9 or higher]
 		Increases magic damage against Demon race by an additional 5%.
 	*/
-	if (CardNumSearch(564) && n_A_card[8] == 564) {
+	if (n_A_card[8] == 564) {
 		if(n_A_HEAD_DEF_PLUS >= 7) n_tok[176] += 5;
 		if(n_A_HEAD_DEF_PLUS >= 9) n_tok[176] += 5;
 	}
@@ -4176,7 +4178,7 @@ with(document.calcForm){
 		[Refine Rate +9 or higher]
 		Increases magic damage against Fish race by an additional 5%.
 	*/
-	if (CardNumSearch(569) && n_A_card[8] == 569) {
+	if (n_A_card[8] == 569) {
 		if(n_A_HEAD_DEF_PLUS >= 7) n_tok[175] += 5;
 		if(n_A_HEAD_DEF_PLUS >= 9) n_tok[175] += 5;
 	}
@@ -4188,7 +4190,7 @@ with(document.calcForm){
 		[Refine Rate +9 or higher]
 		Increases magic damage against Insect race by an additional 5%.
 	*/
-	if (CardNumSearch(571) && n_A_card[8] == 571) {
+	if (n_A_card[8] == 571) {
 		if(n_A_HEAD_DEF_PLUS >= 7) n_tok[174] += 5;
 		if(n_A_HEAD_DEF_PLUS >= 9) n_tok[174] += 5;
 	}
@@ -4200,7 +4202,7 @@ with(document.calcForm){
 		[Refine Rate +9 or higher]
 		Increases magic damage against Brute race by an additional 5%.
 	*/
-	if (CardNumSearch(572) && n_A_card[8] == 572) {
+	if (n_A_card[8] == 572) {
 		if(n_A_HEAD_DEF_PLUS >= 7) n_tok[172] += 5;
 		if(n_A_HEAD_DEF_PLUS >= 9) n_tok[172] += 5;
 	}
@@ -4216,7 +4218,7 @@ with(document.calcForm){
 		[Refine Rate +9 or higher]
 		Increases magic damage against Boss monsters by an additional 5%.
 	*/
-	if (CardNumSearch(509) && n_A_card[8] == 509) {
+	if (n_A_card[8] == 509) {
 		if(n_A_HEAD_DEF_PLUS >= 7) n_tok[97] += 5;
 		if(n_A_HEAD_DEF_PLUS >= 9) n_tok[97] += 5;
 	}
@@ -4997,10 +4999,32 @@ function StPlusCalc()
 	if(n_A_IJYOU[3])
 		n_tok[6] = -1 * n_A_LUK;
 
-		//[Custom TalonRO - 2018-06-05 - Siorava gives LUK+3 * refine for Merchant and Above Classes] [Kato]
-		if(CardNumSearch(535) && n_A_HEAD_DEF_PLUS > 3 && (n_A_JobSearch() == 6 || n_A_JobSearch() == 12 || n_A_JobSearch() == 26 || n_A_JobSearch() == 19 || n_A_JobSearch() == 33)) {
-			n_tok[6] += Math.floor(n_A_HEAD_DEF_PLUS/3) * 1;
+	// Siorava Card#535 - [Merchant Class] - [Every 3 Refine Levels] - LUK + 1
+	if(CardNumSearch(535) && (n_A_JobSearch() == 6 || n_A_JobSearch() == 12 || n_A_JobSearch() == 26 || n_A_JobSearch() == 19 || n_A_JobSearch() == 33))
+		n_tok[6] += Math.floor(n_A_HEAD_DEF_PLUS/3);
+	
+	// Antique Book Card#609
+	if (CardNumSearch(609))
+	{
+		n_tok[12] += Math.floor(SU_AGI / 10); // [Every 10 Base AGI] - ASPD + 1%
+		n_tok[2]  += Math.floor(n_A_SHOULDER_DEF_PLUS / 2); // [Every 2 Refine Levels] - AGI + 1
+	}
+	
+	// Paladin Card#615
+	if (CardNumSearch(615))
+	{
+		// [Crusader Class] - Add FLEE and CRIT + 20 while under the effect of [Spear Quicken].
+		if (n_A_JobSearch2() == 13)
+		{
+			if (5 == n_A_WeaponType && SkillSearch(166))
+			{
+				n_tok[9]  += 20;
+				n_tok[10] += 20;
+			}
 		}
+		else // [Other Classes]
+			n_tok[2] += Math.floor(n_A_SHOULDER_DEF_PLUS / 2); // [Every 2 Refine Levels] - AGI + 1
+	}
 
 	wSPC_STR = n_tok[1] + n_tok[7];
 	wSPC_AGI = n_tok[2] + n_tok[7];

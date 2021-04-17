@@ -584,8 +584,8 @@ cardOBJ = [
 ,[557,4,"Mangkukulam",0,16,10,0]
 ,[558,2,"Tikbalang","[Refine Rate +7 or higher]<br/>Add another 5% damage with Wind Magic.<br/>[Refine Rate +9 or higher]<br/>Add another 5% damage with Wind Magic.",98,10,344,5,0]
 ,[559,7,"Tiyanak",0,117,7,112,7,115,7,0]
-,[560,5,"Wakwak","For every 10 Base STR, ATK + 5.",0]
-,[561,5,"Jejeling","For every 10 Base VIT, HP + 200",0]
+,[560,5,"Wakwak","<b>[Every 10 Base STR]</b> ATK + 5",0]
+,[561,5,"Jejeling","<b>[Every 10 Base VIT]</b> HP + 200",0]
 ,[562,4,"Wood Goblin","[Every Refine Level]<br/>Increase physical damage against Water and Earth by 1%",41,5,42,5,0]
 ,[563,7,"Les",0,5,2,364,4,365,4,0]
 ,[564,2,"Uzhas","[Refine Rate +7 or higher]<br/>Increases magic damage against Demon race by an additional 5%.<br/>[Refine Rate +9 or higher]<br/>Increases magic damage against Demon race by an additional 5%.",98,10,176,5,0]
@@ -625,6 +625,39 @@ cardOBJ = [
 ,[598,100,"Cobalt Mineral + Mineral","[Knight, Blacksmith, Assassin][Vanilla Mode]<br/>Horn Card Not Equipped: Long Range Resist + 20%",17,25,152,50,0]
 ,[599,2,"Hell Apocalypse",0,15,5,13,200,0]
 ,[600,100,"Hell Apocalypse + Apocalypse","[If Apocalypse Card Equipped on Meteor Plate]<br/>Gain protection from the Freeze status.",15,5,152,50,0]
+// Old Glast Heim
+,[601,1,"1st Commander of Destruction",0,8,5,5073,25,0]
+,[602,1,"2nd Commander of Destruction", "<b>[If Two-Handed Spear Equipped]</b><br/> 50% more damage with [Holy Cross].",8,5,0]
+,[603,4,"Root of Corruption","Add a 10% chance to cause Curse or Stone Curse status when attacked physically or magically.",18,5,19,5,0]
+,[604,2,"Amdarais","[Cart Termination] damage inflicted on [Ghost] Element monsters by 25%.<br>[Cart Termination] damage inflicted on [Neutral] Element monsters by 10%.",300,10,308,25,0]
+// Eclage
+,[605,1,"Menblatt",0,8,5,5394,25,5395,25,0]
+,[606,5,"Petal","<b>[Every 10 Base LUK]</b> Critical Attack + 2%",0]
+,[607,1,"Cenere",0,70,10,5401,25,0]
+,[608,100,"Cenere + Naga","[Mist Slash] HIT Rate + 50%.",5400,65,0]
+,[609,5,"Antique Book","<b>[Every 10 Base AGI]</b> ASPD + 1%<br><b>[Every 2 Refine Levels]</b> AGI + 1",0]
+,[610,2,"Faithful Manager","<b>[If Book Equipped]</b><br>ATK + 20<br>CRIT + 12<br><b>[Every Book Refine Level]</b><br>ASPD + 1%",0]
+,[611,2,"Red Lichtern","[Refine Rate +7 or higher]<br/>Increases Fire elemental magic damage by an additional 5%<br/>[Refine Rate +9 or higher]<br/>Increases Fire elemental magic damage by an additional 5%",98,10,343,5,0]
+,[612,2,"Yellow Lichtern","<b>[Ninja Class]</b><br>25% more damage with [Wind Blade].<br>Use the level learned instead of level 5.",98,10,221,148,0]
+,[613,2,"Green Lichtern","[Refine Rate +7 or higher]<br/>Increases Earth elemental magic damage by an additional 5%<br/>[Refine Rate +9 or higher]<br/>Increases Earth elemental magic damage by an additional 5%",98,10,342,5,0]
+,[614,2,"Blue Lichtern",0,18,1,152,20,0]
+// Bio Lab 4
+,[615,5,"Randel","<b>[Crusader Class]</b><br>Add FLEE and CRIT + 20 while under the effect of [Spear Quicken].<br><b>[Other Classes & Every 2 Refine Levels]</b><br>AGI + 1<br>",60,10,0]
+,[616,1,"Flamel",0,5244,25,5248,15,199,3,200,3,0]
+,[617,1,"Celia","<br><b>[Sage Class]</b><br>Pierce MDEF by 2%",4,1,8051,5,8054,5,8056,5,0]
+,[618,1,"Chen","Combo skills delay decreased by 12%",8,15,5188,15,5189,15,5290,15,0]
+,[619,2,"Gertie","<b>[Rogue Class, Super Novice]</b><br>[Double Attack] Rate + 10%<br><b>[Rogue Class, Monk Class]</b><br>[Triple Attack] Rate + 10%",12,5,0]
+,[620,7,"Alphoccio","<br><b>[PvM Only]</b><br>[Poem of Bragi] Aftercast Rate + 1%",3,2,4,2,0]
+,[621,7,"Trentini","[Fortune's Kiss] CRIT + 5%",2,2,6,2,0]
+,[622,3,"Paladin Randel",77,10,79,10,5159,20,5384,20,5324,20,5162,20,0]
+,[623,5,"Creator Flamel","<b>[PvM Only]</b><br>Add a 25% chance to ignore Fire Bottle, Acid Bottle, and Glistening Coat requirements when using skills that require them. Double these chances in Instance Maps.",4,3,5,2,190,10,191,10,192,10,0]
+,[624,6,"Professor Celia","No movement penalty when using [Free Cast].<br><b>[Every 8 Base INT]</b><br>ASPD + 2%<br><b>[Every 8 Base STR]</b><br>MATK + 1%",15,20,0]
+,[625,2,"Champion Chen","Ignore Spirit Sphere Requirement for All Combo Skills.",0]
+,[626,1,"Stalker Gertie",0,9,10,80,15,0]
+,[627,1,"Clown Alphoccio","Ignore 10% of enemy Defense with [Arrow Vulcan].",5292,20,0]
+,[628,100,"Clown Alphoccio + Clown", "<b>[PvM Only]</b><br>[Poem of Bragi] Aftercast Rate + 1% for each equipped Clown Card.",0]
+,[629,6,"Gypsy Trentini","Fast Movement all the time.<br>All Song and Dance buffs you recieve have an additional 40 second lasting duration.<br><b>[On Unequip]</b><br>Dispel Song/Dance Buffs.",15,20,16,10,0]
+,[630,100,"Trentini + Alphoccio", "[Bard] [A Whistle] Flee Rate + 10%.<br>[Dancer] [Service for You] SP Rate + 5%.",0]
 ];
 /*
 ID, Location, description, 0 - seperator, stat, value added/subtracted
@@ -1260,6 +1293,36 @@ cardID = [
 ,[598,2,0]
 ,[599,1,4477]
 ,[600,2,0]
+,[601,1,4605]
+,[602,1,4606]
+,[603,1,4603]
+,[604,1,4601]
+,[605,1,4593]
+,[606,1,4594]
+,[607,1,4595]
+,[608,2,0]
+,[609,1,4596]
+,[610,1,4607]
+,[611,1,4599]
+,[612,1,4598]
+,[613,1,4600]
+,[614,1,4597]
+,[615,1,4572]
+,[616,1,4570]
+,[617,1,4568]
+,[618,1,4569]
+,[619,1,4571]
+,[620,1,4567]
+,[621,1,4573]
+,[622,1,4565]
+,[623,1,4563]
+,[624,1,4561]
+,[625,1,4562]
+,[626,1,4564]
+,[627,1,4560]
+,[628,2,0]
+,[629,1,4566]
+,[630,2,0]
 ];
 
 CardNum = cardOBJ.length -1;
@@ -1472,7 +1535,10 @@ w_SC = [[429,235,306,"NULL"],
 [589,587,468,"NULL"],
 [596,595,190,"NULL"],
 [598,597,184,"NULL"],
-[600,599,225,"NULL"]
+[600,599,225,"NULL"],
+[608,607,591,"NULL"],
+[628,620,627,"NULL"],
+[630,621,620,"NULL"],
 ];
 SC_MAXnum = w_SC.length;
 
