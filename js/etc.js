@@ -1427,9 +1427,16 @@ MORA_ENCHANTABLE = [
 		,[1665,0] //Pendant Of Guardian
 ];
 
-//exceptions list for items and cards disabled in vanilla
+
+// Manage restriction regarding Vanilla Equipment
 restrictedEquips = [319,347,348,444,576,603,604,605,606,670,1320,1329,1334,1336,1339,1340,1344,1348,1354,1356,1365,1371,1375,1376,1377,1378,1379,1380,1381,1382,1383,1384,1385,1386,1387,1388,1389,1390,1391,1393,1491,1492,1493,1522,1526,1548,1560,1607,1608,1609,1610,1615];
+// April 2021 Patch - Equipment from seasonal events disabled in Vanilla
+restrictedEquips = restrictedEquips.concat([1681,1682,1683,1689,1690,1713,1728,1729,1730,1735,1736,1738]);
+
+// Manage restriction regarding Vanilla Cards
 restrictedCards = [32,42,44,45,47,52,95,119,120,126,127,134,136,138,140,141,152,161,162,166,178,219,255,256,277,284,310,312,313,320,322,323,332,338,349,357,361,363,374,375,392,394,404,409,420,421,423,424,425,463,475,478,486,492,515,521,526,529,532,551,552,553,567,574,578,579,581,582];
+// April 2021 Patch - Eclage, Biolab 4 and OGH cards
+restrictedCards = restrictedCards.concat(Array.from({ length: 630 + 1 - 601},(_,k) => 601 + k))
 
 //GameID, 1=HP 0=SP, minHeal, maxHeal, Name, Weight, Vanilla flag
 ITEM_HEAL = [
