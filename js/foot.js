@@ -7543,7 +7543,7 @@ function update_equipment_list()
 {
 	equipment_type = document.calcForm.equipment_type_select.value;
 	
-	filtered_equipment_list = ItemOBJ.filter(x => (x[4] == equipment_type) && (x[1] != 100) && (equipment_type == 0 ? x[1] == 50 : true) && (x[8].slice(0,1) != '(')).concat().sort(function(a,b){return a[8].localeCompare(b[8])});
+	filtered_equipment_list = ItemOBJ.filter(x => (x[4] == equipment_type) && (x[1] != 100) && (equipment_type == 0 ? x[1] == 50 || (x[1] >= 60 && x[1] < 64) : true) && (x[8].slice(0,1) != '(')).concat().sort(function(a,b){return a[8].localeCompare(b[8])});
 	
 	document.calcForm.equipment_select.innerHTML = "";
 	for (i = 0; i < filtered_equipment_list.length ; ++i)
