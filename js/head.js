@@ -2344,7 +2344,7 @@ function display_monster_stats()
 		monster_stats_html += '<tr><td>Type</td><td><select style="width: 100%;" name="monster_type" onChange="calc()"></select></td><td>HIT</td><td><input type="text" onChange="calc()" name="monster_hit" value="' + n_B[26] + '" size=1></td></td><td>FLEE</td><td><input type="text" onChange="calc()" name="monster_flee" value="' + n_B[27] + '" size=1></td></tr>';
 		monster_stats_html += '<tr><td>Size</td><td><select style="width: 100%;" name="monster_size" onChange="calc()"></select></td><td>VIT</td><td><input type="text" onChange="calc()" name="monster_vit" value="' + n_B[7] + '" size=1></td><td>INT</td><td><input type="text" onChange="calc()" name="monster_int" value="' + n_B[9] + '" size=1></td>';
 		monster_stats_html += '<tr><td>Element</td><td><select style="width: 100%;" name="monster_element" onChange="calc()"></td><td>AGI</td><td><input type="text" onChange="calc()" name="monster_agi" value="' + n_B[8] + '" size=1></td><td>LUK</td><td><input type="text" onChange="calc()" name="monster_luk" value="' + n_B[11] + '" size=1></td>';
-		monster_stats_html += '<tr><td>Race</td><td><select style="width: 100%;" name="monster_race" onChange="calc()"></select></td></td><td>DEX</td><td><input type="text" onChange="calc()" name="monster_dex" value="' + n_B[10] + '" size=1></td><';
+		monster_stats_html += '<tr><td>Race</td><td><select style="width: 100%;" name="monster_race" onChange="calc()"></select></td></td><td>DEX</td><td><input type="text" onChange="calc()" name="monster_dex" value="' + n_B[10] + '" size=1></td>';
 		monster_stats_html += "</table>";
 	
 		myInnerHtml("monster_stats", monster_stats_html, 0);
