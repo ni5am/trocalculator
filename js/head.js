@@ -7505,11 +7505,6 @@ function BattleCalc(w_atk,w_2)
 	if(debug_dmg_avg)
 		debug_atk+="\na_w_atk:"+w_atk;
 
-	if(debug_dmg_avg) {
-		debug_atk+="\n --- (BattleCalc) The Ring of Nibelungen ---";
-		debug_atk+="\nb_w_atk:"+w_atk;
-	}
-
 	if(debug_dmg_avg)
 		debug_atk+="\nb_DemonBane:"+w_atk;
 	if(n_B[2] == 6 || (90 <= n_B[3] && n_B[3] <= 99)){
