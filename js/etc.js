@@ -650,7 +650,7 @@ SQI_BONUS =[
 ,[114,1385,"Hira Shurikat","20% Aftercast reduction with [Wind Blade]; 15% chance to auto-cast level 2 [Critical Wounds] after using [Wind Blade]",8413,20,0]
 ,[115,84,"Mjolnir","10% Ranged damage reduction",78,10,0]
 ,[116,84,"Mjolnir","+15 CRIT, +20% more damage with Critical Hits",10,15,70,20,0]
-,[117,84,"Mjolnir","Reduce [Cart Termination] and [Mammonite] SP costs by 50%",6,15,0]
+,[117,84,"Mjolnir","Reduce [Cart Termination] and [Mammonite] SP costs by 50%",0]
 ,[118,84,"Mjolnir","Spend 75% less zeny with all Zeny Skills",0]
 ,[119,84,"Mjolnir","Triple the duration of [Cart Boost] and [Melt Down]",0]
 ,[120,84,"Mjolnir","[Over-Thrust] won't break party member weapons. Enable [Full Adrenaline Rush] without [Blacksmith Spirit]",0]

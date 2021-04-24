@@ -351,6 +351,7 @@ function BattleCalc999()
 	w_DMG = [0,0,0];
 	not_use_card = 0;
 	cast_kotei = 0;
+	zeny_cost = 0;
 
 	str_PerHIT_DMG = 0;
 	SG_Special_ch = 0;
@@ -369,7 +370,6 @@ function BattleCalc999()
 		myInnerHtml("CRIATKname","",0);
 		myInnerHtml("CRInumname","",0);
 	}
-
 
 	if(n_A_WeaponType==10 && n_A_ActiveSkill==0)
 		n_Enekyori=1;
@@ -692,8 +692,20 @@ function BattleCalc999()
 			n_Enekyori=1;
 			wCast = 1.5;
 			wbairitu += 0.5;
-		}else if(n_A_ActiveSkill==65)
+		}else if(n_A_ActiveSkill==65) // Mammonite#65
+		{
+			zeny_cost = n_A_ActiveSkillLV * 100;
+			
+			// #46#56 - 75% reduced zeny cost with [Mammonite]
+			if (SQI_Bonus_Effect.findIndex(x => x == 46) > -1 || SQI_Bonus_Effect.findIndex(x => x == 56) > -1)
+				zeny_cost = Math.ceil(zeny_cost * 0.25);
+			
+			// Goldsmithing Dagger#1677
+			if (EquipNumSearch(1677))
+				zeny_cost = Math.ceil(zeny_cost * 0.90);
+			
 			wbairitu += n_A_ActiveSkillLV *0.5;
+		}
 		else if(n_A_ActiveSkill==71){
 			wbairitu += n_A_ActiveSkillLV *0.2;
 			n_Enekyori=1;
@@ -877,8 +889,9 @@ function BattleCalc999()
 				str_bSUBname += "<Font size=2>SP damage</Font><BR>";
 				str_bSUB += "15<BR>";
 			}
-		}else if(n_A_ActiveSkill==326){
+		}else if(n_A_ActiveSkill==326){ // Cart Termination#326
 			not_use_card = 1;
+			zeny_cost = (5 + n_A_ActiveSkillLV) * 100;
 			wbairitu += Math.floor((eval(document.calcForm.SkillSubNum.value) / (16 - n_A_ActiveSkillLV) / 100 -1) * 100) /100;
 		}else if(n_A_ActiveSkill==382){
 			not_use_card = 1;
@@ -2563,10 +2576,53 @@ function BattleCalc998()
 			myInnerHtml("AtkJobExp",SubName[7],0);
 		}
 	}
+	
+	myInnerHtml("average_zeny_cost","",0);
+	myInnerHtml("average_zeny_cost_value","",0);
+	
 	if(w<10000)
 	{
 		myInnerHtml("AveATKnum",w,0);
-
+		
+		if (zeny_cost)
+		{
+			// #118 - 75% reduced zeny cost with all Zeny skills
+			if (SQI_Bonus_Effect.findIndex(x => x == 118) > -1)
+				zeny_cost = Math.ceil(zeny_cost * 0.25);
+			
+			// Valorous Insane Battle Axe#905 - Glorious Two-handed Axe#1087 - 20% reduced zeny cost with all Zeny skills
+			if (EquipNumSearch(905) || EquipNumSearch(1087))
+				zeny_cost = Math.ceil(zeny_cost * 0.80);
+			// Glorious Cleaver#1088 - 10% reduced zeny cost with all Zeny skills
+			if (EquipNumSearch(1088))
+				zeny_cost = Math.ceil(zeny_cost * 0.90);
+			
+			myInnerHtml("average_zeny_cost", "Average Zeny Cost",0);
+			myInnerHtml("average_zeny_cost_value", zeny_cost * w,0);
+		}
+		
+		if (n_A_ActiveSkill)
+		{
+			sp_cost = 0;
+			skill_info = SkillOBJ[n_A_ActiveSkill];
+			
+			if (skill_info.length > 3)
+				sp_cost = skill_info[Math.min(2 + n_A_ActiveSkillLV, skill_info.length - 1)];
+			
+			sp_cost = Math.ceil(sp_cost * (1 + n_tok[72] / 100));
+			
+		if ((65 == n_A_ActiveSkill || 326 == n_A_ActiveSkill) && (SQI_Bonus_Effect.findIndex(x => x == 117) > -1))
+			sp_cost = Math.ceil(sp_cost * 0.5);
+			
+			myInnerHtml("average_sp_cost", "Average SP Cost" ,0);
+			myInnerHtml("average_sp_cost_value", sp_cost * w,0);
+		}
+		else
+		{
+			myInnerHtml("average_sp_cost", "",0);
+			myInnerHtml("average_sp_cost_value", "",0);
+		}
+		
 		average_battle_duration = Math.floor(n_B[6] / damage_per_second * 100) / 100;
 
 		if(n_Delay[0])
