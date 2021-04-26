@@ -628,7 +628,7 @@ cardOBJ = [
 // Old Glast Heim
 ,[601,1,"1st Commander of Destruction",0,8,5,5073,25,0]
 ,[602,1,"2nd Commander of Destruction", "<b>[If Two-Handed Spear Equipped]</b><br/> 50% more damage with [Holy Cross].",8,5,0]
-,[603,4,"Root of Corruption","Add a 10% chance to cause Curse or Stone Curse status when attacked physically or magically.",18,5,19,5,0]
+,[603,4,"Corrupted Soul","Add a 10% chance to cause Curse or Stone Curse status when attacked physically.",18,5,19,5,0]
 ,[604,2,"Amdarais","[Cart Termination] damage inflicted on [Ghost] Element monsters by 25%.<br>[Cart Termination] damage inflicted on [Neutral] Element monsters by 10%.",300,10,308,25,0]
 // Eclage
 ,[605,1,"Menblatt",0,8,5,5394,25,5395,25,0]
@@ -650,7 +650,7 @@ cardOBJ = [
 ,[620,7,"Alphoccio","<br><b>[PvM Only]</b><br>[Poem of Bragi] Aftercast Rate + 1%",3,2,4,2,0]
 ,[621,7,"Trentini","[Fortune's Kiss] CRIT + 5%",2,2,6,2,0]
 ,[622,3,"Paladin Randel",0,77,10,79,10,5159,20,5384,20,5324,20,5162,20,0]
-,[623,5,"Creator Flamel","<b>[PvM Only]</b><br>Add a 25% chance to ignore Fire Bottle, Acid Bottle, and Glistening Coat requirements when using skills that require them. Double these chances in Instance Maps.",4,3,5,2,190,10,191,10,192,10,0]
+,[623,5,"Creator Flamel","<b>[PvM Only]</b><br>Add a 25% chance to ignore Fire Bottle, Acid Bottle, and Glistening Coat requirements when using skills that require them.",4,3,5,2,190,10,191,10,192,10,0]
 ,[624,6,"Professor Celia","No movement penalty when using [Free Cast].<br><b>[Every 8 Base INT]</b><br>ASPD + 2%<br><b>[Every 8 Base STR]</b><br>MATK + 1%",15,20,0]
 ,[625,2,"Champion Chen","Ignore Spirit Sphere Requirement for All Combo Skills.",0]
 ,[626,1,"Stalker Gertie",0,9,10,80,15,0]
