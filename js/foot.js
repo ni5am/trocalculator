@@ -4281,19 +4281,24 @@ function StPlusCalc()
 	// Improve Concentration#42
 	// Does not include cards bonus for % bonus computation
 	var w = SkillSearch(42);
+	
+	// Enchants are considered as card slot as well, but applied later on, only midgear enchants need to be excluded here	
+	ic_dex_bonus_exclusion = StPlusCard(5);
+	ic_agi_bonus_exclusion = StPlusCard(2) + EquipNumSearch(1373);
+	
 	if(w){
 		w += 2;
-		n_tok[5] += Math.floor((n_A_DEX + n_tok[5] - StPlusCard(5)) * w / 100);
-		n_tok[2] += Math.floor((n_A_AGI + n_tok[2] - StPlusCard(2)) * w / 100);
+		n_tok[5] += Math.floor((n_A_DEX + n_tok[5] - ic_dex_bonus_exclusion) * w / 100);
+		n_tok[2] += Math.floor((n_A_AGI + n_tok[2] - ic_agi_bonus_exclusion) * w / 100);
 	}else if(n_A_PassSkill6[3]){
-		n_tok[5] = Math.floor((n_A_DEX + n_tok[5] - StPlusCard(5)) * (102 + n_A_PassSkill6[3]) / 100) - n_A_DEX;
-		n_tok[2] = Math.floor((n_A_AGI + n_tok[2] - StPlusCard(2)) * (102 + n_A_PassSkill6[3]) / 100) - n_A_AGI;
+		n_tok[5] = Math.floor((n_A_DEX + n_tok[5] - ic_dex_bonus_exclusion) * (102 + n_A_PassSkill6[3]) / 100) - n_A_DEX;
+		n_tok[2] = Math.floor((n_A_AGI + n_tok[2] - ic_agi_bonus_exclusion) * (102 + n_A_PassSkill6[3]) / 100) - n_A_AGI;
 	}else if(TimeItemNumSearch(31)){
-		n_tok[5] = Math.floor((n_A_DEX + n_tok[5] - StPlusCard(5)) * 104 / 100) - n_A_DEX;
-		n_tok[2] = Math.floor((n_A_AGI + n_tok[2] - StPlusCard(2)) * 104 / 100) - n_A_AGI;
+		n_tok[5] = Math.floor((n_A_DEX + n_tok[5] - ic_dex_bonus_exclusion) * 104 / 100) - n_A_DEX;
+		n_tok[2] = Math.floor((n_A_AGI + n_tok[2] - ic_agi_bonus_exclusion) * 104 / 100) - n_A_AGI;
 	}else if(TimeItemNumSearch(4)){
-		n_tok[5] = Math.floor((n_A_DEX + n_tok[5] - StPlusCard(5)) * 103 / 100) - n_A_DEX;
-		n_tok[2] = Math.floor((n_A_AGI + n_tok[2] - StPlusCard(2)) * 103 / 100) - n_A_AGI;
+		n_tok[5] = Math.floor((n_A_DEX + n_tok[5] - ic_dex_bonus_exclusion) * 103 / 100) - n_A_DEX;
+		n_tok[2] = Math.floor((n_A_AGI + n_tok[2] - ic_agi_bonus_exclusion) * 103 / 100) - n_A_AGI;
 	}
 	if(SkillSearch(422)){
 
@@ -4639,226 +4644,13 @@ function StPlusCalc()
 	if(n_A_PassSkill7[8])
 		n_tok[6] += n_A_PassSkill7[8];
 
-	//Armor Hidden Slot Enchant STAT
-	/*
-	var wHSE = eval(document.calcForm.A_HSE.value);
-	if(wHSE){
-		var w = wHSE % 10;
-		if(1 <= wHSE && wHSE <= 9)
-			n_tok[1] += w;
-		if(11 <= wHSE && wHSE <= 19)
-			n_tok[2] += w;
-		if(21 <= wHSE && wHSE <= 29)
-			n_tok[3] += w;
-		if(31 <= wHSE && wHSE <= 39)
-			n_tok[4] += w;
-		if(41 <= wHSE && wHSE <= 49)
-			n_tok[5] += w;
-		if(51 <= wHSE && wHSE <= 59)
-			n_tok[6] += w;
-	}
-	*/
-	var wHSE = document.calcForm.A_HSE.value;
-	if(11 <= wHSE && wHSE <= 69) {
-		var op = wHSE.substr(0,1);
-		var val = parseInt(wHSE.substr(-1));
-
-		switch(op) {
-				case '1': n_tok[1] += val; break;
-				case '2': n_tok[2] += val; break;
-				case '3': n_tok[3] += val; break;
-				case '4': n_tok[4] += val; break;
-				case '5': n_tok[5] += val; break;
-				case '6': n_tok[6] += val; break;
-		}
-	}
-
-	//custom TalonRO Kris enchant stats
-	/*
-	var KEbonus = [document.calcForm.A_KE11.value,document.calcForm.A_KE12.value,document.calcForm.A_KE21.value,document.calcForm.A_KE22.value];
-	for (i=0;i<4;i++){
-		var wKE = KEbonus[i];
-		if(wKE){
-			var w = wKE % 10;
-			if(41 <= wKE && wKE <= 49)
-				n_tok[3] += w;
-			if(51 <= wKE && wKE <= 59)
-				n_tok[4] += w;
-			if(61 <= wKE && wKE <= 69)
-				n_tok[5] += w;
-			if(71 <= wKE && wKE <= 79)
-				n_tok[6] += w;
-		}
-	}
-	*/
-	//Custom TalonRO Kris Enchantment for stats
-	var KEbonus = [document.calcForm.A_KE11.value,document.calcForm.A_KE12.value,document.calcForm.A_KE21.value,document.calcForm.A_KE22.value];
-	for(i=0; i < KEbonus.length; i++) {
-		var wKE = KEbonus[i];
-
-		if(wKE == 0 || wKE.length > 2) continue;
-
-		var op = wKE.substr(0,1);
-		var val = parseInt(wKE.substr(-1));
-
-		switch(op) {
-				case '3': n_tok[3] += val; break;
-				case '4': n_tok[4] += val; break;
-				case '5': n_tok[5] += val; break;
-				case '6': n_tok[6] += val; break;
-		}
-	}
-
-	//[Custom TalonRO 2018-06-15 - Malangdo Enchantment for STR/AGI/VIT/INT/DEX/LUK] [Kato]
-	for(i=0; i < tRO_MalangdoEnchantment.length; i++) {
-		var vME = tRO_MalangdoEnchantment[i];
-
-		if(vME == 0 || vME.length > 2) continue;
-
-		var op = vME.substr(0,1);
-		var val = parseInt(vME.substr(-1));
-
-		switch(op) {
-				case '1': n_tok[1] += val; break;
-				case '2': n_tok[2] += val; break;
-				case '3': n_tok[3] += val; break;
-				case '4': n_tok[4] += val; break;
-				case '5': n_tok[5] += val; break;
-				case '6': n_tok[6] += val; break;
-		}
-	}
-
-	//[Custom TalonRO 2018-07-10 - Biolab Weapon Enchantment for STR/AGI/VIT/INT/DEX/LUK] [NattWara]
-	for(i=0; i < tRO_BiolabWeaponEnchantment.length; i++) {
-		var vBE = tRO_BiolabWeaponEnchantment[i];
-
-		if(vBE == 0 || vBE.length > 2) continue;
-
-		var op = vBE.substr(0,1);
-		var val = parseInt(vBE.substr(-1));
-
-		switch(op) {
-				case '1': n_tok[1] += val; break;
-				case '2': n_tok[2] += val; break;
-				case '3': n_tok[3] += val; break;
-				case '4': n_tok[4] += val; break;
-				case '5': n_tok[5] += val; break;
-				case '6': n_tok[6] += val; break;
-		}
-	}
-
-	//[Custom TalonRO 2018-07-10 - Biolab Armor Enchantment for STR/AGI/VIT/INT/DEX/LUK] [NattWara]
-	for(i=0; i < tRO_BiolabArmorEnchantment.length; i++) {
-		var vBE = tRO_BiolabArmorEnchantment[i];
-
-		if(vBE == 0 || vBE.length > 2) continue;
-
-		var op = vBE.substr(0,1);
-		var val = parseInt(vBE.substr(-1));
-
-		switch(op) {
-				case '1': n_tok[1] += val; break;
-				case '2': n_tok[2] += val; break;
-				case '3': n_tok[3] += val; break;
-				case '4': n_tok[4] += val; break;
-				case '5': n_tok[5] += val; break;
-				case '6': n_tok[6] += val; break;
-		}
-	}
-
-	//[Custom TalonRO 2018-07-12 - Eden Armor Enchantment for STR/AGI/VIT/INT/DEX/LUK] [NattWara]
-	for(i=0; i < tRO_EdenArmorEnchantment.length; i++) {
-		var vEE = tRO_EdenArmorEnchantment[i];
-
-		if(vEE == 0 || vEE.length > 2) continue;
-
-		var op = vEE.substr(0,1);
-		var val = parseInt(vEE.substr(-1));
-
-		switch(op) {
-				case '1': n_tok[1] += val; break;
-				case '2': n_tok[2] += val; break;
-				case '3': n_tok[3] += val; break;
-				case '4': n_tok[4] += val; break;
-				case '5': n_tok[5] += val; break;
-				case '6': n_tok[6] += val; break;
-		}
-	}
-
-	//[Custom TalonRO 2018-07-12 - El Dicaste Enchantment for STR/AGI/VIT/INT/DEX/LUK] [NattWara]
-	for(i=0; i < tRO_EDEnchantment.length; i++) {
-		var vED = tRO_EDEnchantment[i];
-
-		if(vED == 0 || vED.length > 2) continue;
-
-		var op = vED.substr(0,1);
-		var val = parseInt(vED.substr(-1));
-
-		switch(op) {
-				case '1': n_tok[1] += val; break;
-				case '2': n_tok[2] += val; break;
-				case '3': n_tok[3] += val; break;
-				case '4': n_tok[4] += val; break;
-				case '5': n_tok[5] += val; break;
-				case '6': n_tok[6] += val; break;
-		}
-	}
-
-	//[Custom TalonRO 2018-07-12 - Mora Enchantment for STR/AGI/VIT/INT/DEX/LUK] [NattWara]
-	for(i=0; i < tRO_MoraEnchantment.length; i++) {
-		var vMORA = tRO_MoraEnchantment[i];
-
-		if(vMORA == 0 || vMORA.length > 2) continue;
-
-		var op = vMORA.substr(0,1);
-		var val = parseInt(vMORA.substr(-1));
-
-		switch(op) {
-				case '1': n_tok[1] += val; break;
-				case '2': n_tok[2] += val; break;
-				case '3': n_tok[3] += val; break;
-				case '4': n_tok[4] += val; break;
-				case '5': n_tok[5] += val; break;
-				case '6': n_tok[6] += val; break;
-		}
-	}
-
-	/*var wHSE2 = eval(document.calcForm.A_HSE_HEAD1.value);
-	if(wHSE2){
-		var w = wHSE2 % 10;
-		if(1 <= wHSE2 && wHSE2 <= 9)
-			n_tok[1] += w;
-		if(11 <= wHSE2 && wHSE2 <= 19)
-			n_tok[2] += w;
-		if(21 <= wHSE2 && wHSE2 <= 29)
-			n_tok[3] += w;
-		if(31 <= wHSE2 && wHSE2 <= 39)
-			n_tok[4] += w;
-		if(41 <= wHSE2 && wHSE2 <= 49)
-			n_tok[5] += w;
-		if(51 <= wHSE2 && wHSE2 <= 59)
-			n_tok[6] += w;
-	}
-	if(Math.floor(wHSE / 10) == Math.floor(wHSE2 / 10)){
-		var w1 = wHSE % 10;
-		var w2 = wHSE2 % 10;
-		if(w1 > w2)
-			w1 = w2;
-		if(1 <= wHSE && wHSE <= 9)
-			n_tok[1] -= w1;
-		if(11 <= wHSE && wHSE <= 19)
-			n_tok[2] -= w1;
-		if(21 <= wHSE && wHSE <= 29)
-			n_tok[3] -= w1;
-		if(31 <= wHSE && wHSE <= 39)
-			n_tok[4] -= w1;
-		if(41 <= wHSE && wHSE <= 49)
-			n_tok[5] -= w1;
-		if(51 <= wHSE && wHSE <= 59)
-			n_tok[6] -= w1;
-	}*/
-	//E lá se foi todo o headgear calc e etc...
-	if(n_A_PassSkill8[17]){
+	stats_enchant_bonus = ManageStatEnchants();
+	
+	for (i = 0; i < stats_enchant_bonus.length; ++i)
+		n_tok[i + 1] +=  stats_enchant_bonus[i];
+	
+	if(n_A_PassSkill8[17]) // Advance 1st Spirit (max stats)
+	{
 		 if(n_Tensei && 1<= n_A_JOB && n_A_JOB <= 6 && n_A_BaseLV < 70){
 			if(n_A_STR + n_tok[1] <= 50)
 					n_tok[1] = 50 - n_A_STR;
@@ -5048,6 +4840,107 @@ function StPlusCalc()
 	myInnerHtml("A_INTp",(wSPC_INT >= 0 ? "+" : "") + wSPC_INT,0);
 	myInnerHtml("A_DEXp",(wSPC_DEX >= 0 ? "+" : "") + wSPC_DEX,0);
 	myInnerHtml("A_LUKp",(wSPC_LUK >= 0 ? "+" : "") + wSPC_LUK,0);
+}
+
+function ManageStatEnchants()
+{
+	stats_enchant_bonus = [0,0,0,0,0,0]
+
+	//Armor Hidden Slot Enchant STAT
+	var wHSE = document.calcForm.A_HSE.value;
+	if(11 <= wHSE && wHSE <= 69) {
+		var tok = parseInt(wHSE.substr(0,1)) - 1;
+		var val = parseInt(wHSE.substr(-1));
+
+		stats_enchant_bonus[tok] += val;
+	}
+
+	//Custom TalonRO Kris Enchantment for stats
+	var KEbonus = [document.calcForm.A_KE11.value,document.calcForm.A_KE12.value,document.calcForm.A_KE21.value,document.calcForm.A_KE22.value];
+	for(i=0; i < KEbonus.length; i++) {
+		var wKE = KEbonus[i];
+
+		if(wKE == 0 || wKE.length > 2) continue;
+
+		var tok = parseInt(wKE.substr(0,1)) - 1;
+		var val = parseInt(wKE.substr(-1));
+
+		stats_enchant_bonus[tok] += val;
+	}
+
+	//[Custom TalonRO 2018-06-15 - Malangdo Enchantment for STR/AGI/VIT/INT/DEX/LUK] [Kato]
+	for(i=0; i < tRO_MalangdoEnchantment.length; i++) {
+		var vME = tRO_MalangdoEnchantment[i];
+
+		if(vME == 0 || vME.length > 2) continue;
+
+		var tok = parseInt(vME.substr(0,1)) - 1;
+		var val = parseInt(vME.substr(-1));
+
+		stats_enchant_bonus[tok] += val;
+	}
+
+	//[Custom TalonRO 2018-07-10 - Biolab Weapon Enchantment for STR/AGI/VIT/INT/DEX/LUK] [NattWara]
+	for(i=0; i < tRO_BiolabWeaponEnchantment.length; i++) {
+		var vBE = tRO_BiolabWeaponEnchantment[i];
+
+		if(vBE == 0 || vBE.length > 2) continue;
+
+		var tok = parseInt(vBE.substr(0,1)) - 1;
+		var val = parseInt(vBE.substr(-1));
+		
+		stats_enchant_bonus[tok] += val;
+	}
+
+	//[Custom TalonRO 2018-07-10 - Biolab Armor Enchantment for STR/AGI/VIT/INT/DEX/LUK] [NattWara]
+	for(i=0; i < tRO_BiolabArmorEnchantment.length; i++) {
+		var vBE = tRO_BiolabArmorEnchantment[i];
+
+		if(vBE == 0 || vBE.length > 2) continue;
+
+		var tok = parseInt(vBE.substr(0,1)) - 1;
+		var val = parseInt(vBE.substr(-1));
+
+		stats_enchant_bonus[tok] += val;
+	}
+
+	//[Custom TalonRO 2018-07-12 - Eden Armor Enchantment for STR/AGI/VIT/INT/DEX/LUK] [NattWara]
+	for(i=0; i < tRO_EdenArmorEnchantment.length; i++) {
+		var vEE = tRO_EdenArmorEnchantment[i];
+
+		if(vEE == 0 || vEE.length > 2) continue;
+
+		var tok = parseInt(vEE.substr(0,1)) - 1;
+		var val = parseInt(vEE.substr(-1));
+		
+		stats_enchant_bonus[tok] += val;
+	}
+
+	//[Custom TalonRO 2018-07-12 - El Dicaste Enchantment for STR/AGI/VIT/INT/DEX/LUK] [NattWara]
+	for(i=0; i < tRO_EDEnchantment.length; i++) {
+		var vED = tRO_EDEnchantment[i];
+
+		if(vED == 0 || vED.length > 2) continue;
+
+		var tok = parseInt(vED.substr(0,1)) - 1;
+		var val = parseInt(vED.substr(-1));
+
+		stats_enchant_bonus[tok] += val;
+	}
+
+	//[Custom TalonRO 2018-07-12 - Mora Enchantment for STR/AGI/VIT/INT/DEX/LUK] [NattWara]
+	for(i=0; i < tRO_MoraEnchantment.length; i++) {
+		var vMORA = tRO_MoraEnchantment[i];
+
+		if(vMORA == 0 || vMORA.length > 2) continue;
+
+		var tok = parseInt(vMORA.substr(0,1)) - 1;
+		var val = parseInt(vMORA.substr(-1));
+
+		stats_enchant_bonus[tok] += val;
+	}
+
+	return stats_enchant_bonus;
 }
 
 function StPlusCalc2(nSTP2)
