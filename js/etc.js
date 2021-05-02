@@ -470,6 +470,7 @@ ITEM_SP_TIME_OBJ =[
 ,[50,"Ancient Horns","ATK + 100",1,1538,17,100,0] //custom TalonRO,
 ,[51,"Duneyrr Card","Perfect Dodge + 10, [Lord Knight] Additional + 10 under Berserk",2,511,11,10,0]
 ,[52,"Rhyncho Card","Increase Resistance to Fire property by 10%",2,513,63,10,0]
+,[53,"Minigun","[Every Refine Level] Add a 0.5% chance that you will increase damage on all enemies by 10% for 15 seconds.",1,1788,80,10,0]
 ];
 //ITEM_SP_TIME_OBJ_SORT = [0,5,10,4,27,3,44,37,30,31,26,39,49,45,46,18,48,15,11,12,14,13,17,32,1,7,47,35,33,21,16,40,28,34,38,42,19,22,23,24,36,41,25,6,20,8,29,43];
 

@@ -1979,6 +1979,9 @@ with(document.calcForm){
 
 	// Spoon#1738 [Every Refine Level] - HIT + 3
 	n_tok[8] += n_A_Weapon_ATKplus * 3 * EquipNumSearch(1738);
+	
+	// Death Fire#1791 [Every Refine Level] - HIT + 4
+	n_tok[8] += n_A_Weapon_ATKplus * 4 * EquipNumSearch(1791);
 
 	n_A_HIT += n_tok[8];
 
@@ -2204,6 +2207,11 @@ with(document.calcForm){
 	if(n_A_JobSearch()==2 && CardNumSearch(524)){
 		n_A_FLEE += 4*CardNumSearch(524);
 	}
+	
+	// Tenebris Latitantes#1776 - FLEE + 1 for every Base AGI while under the effect of [Illusionary Shadow#444]
+	if (SkillSearch(444) && EquipNumSearch(1776))
+		n_A_FLEE += SU_AGI;
+	
 	//flee reduction when mobbed updated [Loa] 2018-08-11
 	let fleeReduc = n_A_PassSkill8[12] + n_A_PassSkill8[33] + n_A_PassSkill8[34]
 	if(fleeReduc > 2){
@@ -3231,6 +3239,9 @@ with(document.calcForm){
 	if (SkillSearch(165))
 		n_tok[12] -= 25 - SkillSearch(165) * 5;
 	
+	if ((EquipNumSearch(1774) && EquipNumSearch(1777)) || (EquipNumSearch(1775) && EquipNumSearch(1778)) || (EquipNumSearch(1776) && EquipNumSearch(1779)))
+		n_tok[12] += n_A_BODY_DEF_PLUS;
+	
 	// Spammers Heaven Cocktail - ASPD +10%
 	if (spammers_heaven_cocktail)
 		n_tok[12] += 10;
@@ -3306,7 +3317,11 @@ with(document.calcForm){
 	if (n_A_PassSkill3[2]) // Poem of Bragi, 3 * Skill LV + Musical Lesson LV + DEX / 10;
 		bragi_cast_reduction -= Math.min(1, (n_A_PassSkill3[2] * 3 + n_A_PassSkill3[32] + Math.floor(n_A_PassSkill3[22] / 10)) / 100);
 
-	n_A_CAST *= (1 + n_tok[73] / 100) * bragi_cast_reduction;
+	// DEX and Bragi do not reduce Tracking#430 cast time
+	if (430 == n_A_ActiveSkill)
+		n_A_CAST = 1 + n_tok[73] / 100;
+	else
+		n_A_CAST *= (1 + n_tok[73] / 100) * bragi_cast_reduction;
 
 	// Skill cast time reduction script bonus
 	skill_cast_reduction = 100;
@@ -3338,6 +3353,10 @@ with(document.calcForm){
 	*/
 	if (n_A_Weapon_ATKplus >= 7 && n_A_ActiveSkill == 264 && EquipNumSearch(909))
 		skill_cast_reduction -= 15;
+	
+	// RAG203#1787 - [Every Refine Level] - Reduce [Tracking#430] cast time by 5%.
+	if (n_A_ActiveSkill == 430 && EquipNumSearch(1787))
+		skill_cast_reduction -= 5 * n_A_Weapon_ATKplus;
 	
 	skill_cast_reduction -= StPlusCalc2(7000 + n_A_ActiveSkill);
 	skill_cast_reduction = Math.max(0, skill_cast_reduction - StPlusCard(7000 + n_A_ActiveSkill));
@@ -3374,6 +3393,11 @@ with(document.calcForm){
 	// Skill delay reduction script bonus
 	skill_delay_reduction = StPlusCalc2(8000 + n_A_ActiveSkill);
 	skill_delay_reduction += StPlusCard(8000 + n_A_ActiveSkill);
+	
+	// Altea & Ares#1784 - [Every Refine Level] - 1% less aftercast delay with [Rapid Shower#428]
+	if (428 == n_A_ActiveSkill && EquipNumSearch(1784))
+		skill_delay_reduction += n_A_Weapon_ATKplus;
+	
 	n_tok[74] = Math.floor(100 - (100 - n_tok[74]) * (1 - skill_delay_reduction / 100));
 
 	musical_lesson_lv = n_A_PassSkill3[2]; // Musical Lesson
@@ -4018,6 +4042,10 @@ with(document.calcForm){
 	// Ice Pick[0]#388, Ice Pick[1]#607 - Decreases physical damage against players by 30%
 	if (Taijin && (EquipNumSearch(388) || EquipNumSearch(607)))
 		n_tok[37] -= 30;
+	
+	// RAG203#1787 - Decreases physical damage against players by 75%
+	if (Taijin && EquipNumSearch(1787))
+		n_tok[37] -= 75;
 
 	/*[Custom TalonRO 2018-06-15 - Malangdo Enchantment for Spell Element] [Kato]
 		Well I couldn't find a n_tok for magical damage based on element.
@@ -4228,6 +4256,14 @@ with(document.calcForm){
 	{
 		n_tok[41] += n_A_BODY_DEF_PLUS;
 		n_tok[42] += n_A_BODY_DEF_PLUS;
+	}
+	
+	// Southern Cross#1793 - [+Sphere Ammunition] - Increases damage inflicted on Neutral Property by 40%
+	if (EquipNumSearch(1793))
+	{
+		n_tok[40] += 40;
+		n_tok[21] += n_A_Weapon_ATKplus * 3;
+		n_tok[22] += n_A_Weapon_ATKplus * 3;
 	}
 	
 	/* 

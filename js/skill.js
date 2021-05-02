@@ -442,7 +442,8 @@ SkillOBJ = [
 [440,1,'Wink of Charm',40],
 [441,5,'Mana Recharge'],
 [442,10,'Learning Potion'],
-[443,5,'Double Casting',40,45,50,55,60]
+[443,5,'Double Casting',40,45,50,55,60],
+[444,10,'Illusionary Shadow',30,32,34,36,38,40,42,44,46,48]
 ];
 
 JobSkillPassOBJ = [
@@ -490,7 +491,7 @@ JobSkillPassOBJ = [
 [329,379,338,342,380,345,999,999,999,999,999,999,999,999,999],
 [329,379,338,342,380,352,353,354,355,356,357,367,361,364,365,999],
 [329,338,342,380,372,379,999,999,999,999,999,999,999,999,999],
-[393,404,999,999,999,999,999,999,999,999,999,999,999,999,999],
+[393,404,444,999,999,999,999,999,999,999,999,999,999,999,999],
 [425,426,427,416,420,421,422,433,999,999,999,999,999,999,999],
 ];
 
@@ -646,7 +647,7 @@ AutoSpellSkill = [
 [28,1,126,3,5,1], //When performing a ATK based attack, there's a chance 5 % to cast the skill [Jupitel Thunder]Lv 3
 [29,1,130,3,5,6], //When receiving ATK based damage, there's a chance 5 % to cast the skill [Frost Nova]Lv 3
 [30,1,430,5,2,1], //
-[31,1,436,6,0,1],
+[31,1,436,6,0,1], // When performing a ATK based attack, there's a 6% chance to cast [Spread Attack] Lv 6
 [32,1,52,1,15,1],
 [33,1,76,5,2,1],
 [34,1,283,2,3,1],
@@ -765,6 +766,7 @@ AutoSpellSkill = [
 [146,0,8,5,5,1],   //When performing a ATK based attack, there's a 5 % chance to cast the skill [Provoke]Lv 5
 [147,0,15,1,4,1],  //When performing a ATK based attack, there's a 4 % chance to cast the skill [Steal]Lv 1
 [148,0,413,5,10,1],  //When performing a ATK based attack, there's a 10% chance to cast the skill [Wind Blade]Lv 5
+[149,1,57,10,15,1],  // When performing a ATK based attack, there's a 10% chance to cast the skill [Thunder Storm]Lv 5 up to Lv10 based on weapon refine
 ];
 //ID - Gets called in second spot(221(effect),1(ID)), autocast id = 1 by default, skill Id,Skill Lvl, chance %, attacktype(1atkbased,2shortrange,3longrange,4magical,5attacking,6receivingATKbased,0 by default, 0=low chance, 1=medium chance, 2=high chance)
 

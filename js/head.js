@@ -749,7 +749,7 @@ function BattleCalc999()
 				wbairitu += skill_ratio / 4;
 			if(n_A_ActiveSkillLV > 9 && aoe_position == 2)
 				wbairitu += skill_ratio / 2;
-		}else if(n_A_ActiveSkill==83 || n_A_ActiveSkill==388){
+		}else if(n_A_ActiveSkill==83 || n_A_ActiveSkill==388){ // Sonic Blow#83#388 (Soul Linked)
 
 			wActiveHitNum = 8;
 			wbairitu += n_A_ActiveSkillLV *0.5 + 2;
@@ -761,11 +761,7 @@ function BattleCalc999()
 				else
 					wbairitu *= 2;
 			}
-//			if(n_A_ActiveSkill==388 && n_Ses==0)
-//				n_Delay[3] = 1;
-
-//			else
-				n_Delay[3] = 2;
+			n_Delay[3] = 2;
 		}else if(n_A_ActiveSkill==111){
 			n_Delay[0] = 1;
 			not_use_card = 1;
@@ -838,7 +834,7 @@ function BattleCalc999()
 			wbairitu += (3 + n_A_ActiveSkillLV);
 			if(n_A_ActiveSkillLV>6) n_Delay[2]=1;
 			else n_Delay[2]=0.8;
-		}else if(n_A_ActiveSkill==292){
+		}else if(n_A_ActiveSkill==292){ // Arrow Vulcan#292
 			wActiveHitNum = 9;
 			wbairitu += 1 + n_A_ActiveSkillLV;
 			n_A_Weapon_zokusei = ArrowOBJ[n_A_Arrow][1];
@@ -944,7 +940,7 @@ function BattleCalc999()
 			//n_Delay[2] = 1.7;
 			//new
 			n_Delay[2] = 1.7;
-		}else if(n_A_ActiveSkill==430){//tracking
+		}else if(n_A_ActiveSkill==430){ // Tracking#430
 			if(n_A_Weapon_ATKplus > 8 && EquipNumSearch(1100)){TCcast = 1.25;}
 			else if(EquipNumSearch(926)){TCcast = .75;}
 			else{TCcast = 1;}
@@ -952,11 +948,18 @@ function BattleCalc999()
 			//cast_kotei = 1;
 			n_Enekyori=1;
 			wbairitu += n_A_ActiveSkillLV *1 +1;
-			n_Delay[2] = 1;
+
 			w_HIT = w_HIT * 5 +5;
 			if(w_HIT > 100)
 				w_HIT = 100;
 			w_HIT_HYOUJI = w_HIT;
+			
+			if (EquipNumSearch(1787)) // RAG203#1787
+			{
+				n_tok[23] = 1; // Enable bDefRatioAtkClass
+				n_Delay[3] = 1; // 1 second irreducible delay
+			}
+				
 		}else if(n_A_ActiveSkill==431){
 			wCast = 2;
 			n_Delay[2] = 1;
@@ -968,8 +971,7 @@ function BattleCalc999()
 			n_Delay[2] = 0.5;
 			w_HIT = 100;
 			w_HIT_HYOUJI = 100;
-		}else if(n_A_ActiveSkill==434){
-			cast_kotei = 1;
+		}else if(n_A_ActiveSkill==434){ // Dust#434
 			wCast = 1;
 			n_Enekyori=0;
 			wbairitu += n_A_ActiveSkillLV *0.5;
@@ -993,7 +995,7 @@ function BattleCalc999()
 		ATKbai02(wbairitu,0);
 
 		if(cast_kotei == 0)
-			if(n_A_ActiveSkill==430){wCast = wCast;}else{wCast = wCast * n_A_CAST;}
+			wCast = wCast * n_A_CAST;
 
 		for(var i=0;i<=2;i++){
 			w_MagiclBulet = i;
@@ -1538,7 +1540,7 @@ function BattleCalc999()
 		BattleCalc998();
 	}
 
-	else if(n_A_ActiveSkill==197 || n_A_ActiveSkill==321) //asura
+	else if(n_A_ActiveSkill==197 || n_A_ActiveSkill==321) // Asura Strike#197#321 (MaxSP - 1)
 	{
 		n_PerHIT_DMG = 0;
 		w_HIT_HYOUJI = 100;
@@ -1580,12 +1582,7 @@ function BattleCalc999()
 
 		wCast = (4.5 - 0.5 * n_A_ActiveSkillLV) * n_A_CAST;
 
-		//original
-		//n_Delay[2] = 3.5 - 0.5 * n_A_ActiveSkillLV;
-		//custom TalonRO fixed delay for Asura: 15sec
-		//n_Delay[2] = 15;
-		//custom TalonRO adjusted Asura delay to 10 sec
-		n_Delay[2] = 10;
+		n_Delay[3] = 10; // 10 seconds irreducible delay
 
 		CastAndDelay();
 
@@ -2043,7 +2040,7 @@ function BattleCalc999()
 			n_Delay[6] = 4;
 			wbairitu = 0.8 + n_A_ActiveSkillLV * 0.2;
 		}
-		else if(n_A_ActiveSkill==128 || n_A_ActiveSkill==320){
+		else if(n_A_ActiveSkill==128 || n_A_ActiveSkill==320){ // Water Ball#128#320
 			n_A_Weapon_zokusei = 1;
 			if(n_A_ActiveSkillLV >= 4)
 				wHITsuu = 25
@@ -2611,8 +2608,23 @@ function BattleCalc998()
 			
 			sp_cost = Math.ceil(sp_cost * (1 + n_tok[72] / 100));
 			
-		if ((65 == n_A_ActiveSkill || 326 == n_A_ActiveSkill) && (SQI_Bonus_Effect.findIndex(x => x == 117) > -1))
-			sp_cost = Math.ceil(sp_cost * 0.5);
+			// #117 - Reduce [Cart Termination] and [Mammonite] SP costs by 50%
+			if ((65 == n_A_ActiveSkill || 326 == n_A_ActiveSkill) && (SQI_Bonus_Effect.findIndex(x => x == 117) > -1))
+				sp_cost = Math.ceil(sp_cost * 0.5);
+		
+			/*
+				Huuma Thunderstorm#1771 	- [Every Refine Level] - 3% less SP cost with [Wind Blade], [Lightning Crash], and [North Wind].",5,4,89,15,20,4,344,10,0]
+				Huuma Fluttering Snow#1772 	- [Every Refine Level] - 3% less SP cost with [Lightning Spear of Ice], [Water Escape Technique], and [Falling Ice Pillar].",5
+				Huuma Fierce Inferno#1773 	- [Every Refine Level] - 3% less SP cost with [Crimson Fire Blossom], [Crimson Fire Formation] and [Dragon Fire Formation]."
+			*/
+			if ((EquipNumSearch(1771) && (413 == n_A_ActiveSkill || 414 == n_A_ActiveSkill || 415 == n_A_ActiveSkill)) ||
+				(EquipNumSearch(1772) && (410 == n_A_ActiveSkill || 411 == n_A_ActiveSkill || 412 == n_A_ActiveSkill)) ||
+				(EquipNumSearch(1773) && (407 == n_A_ActiveSkill || 408 == n_A_ActiveSkill || 409 == n_A_ActiveSkill)))
+				sp_cost = Math.ceil(sp_cost * (1 - 0.03 * n_A_Weapon_ATKplus));
+				
+			// Rolling Thunder#1790 - [Every Refine Level] - 5% more damage with [Spread Attack#436]
+			if (436 == n_A_ActiveSkill && EquipNumSearch(1790))
+				sp_cost = Math.ceil(sp_cost * (1 - 0.05 * n_A_Weapon_ATKplus));
 			
 			myInnerHtml("average_sp_cost", "Average SP Cost" ,0);
 			myInnerHtml("average_sp_cost_value", sp_cost * w,0);
@@ -7300,6 +7312,11 @@ function calc()
 	if (EquipNumSearch(1495) && n_A_WeaponType)
 		wDA = Math.max(5, SkillSearch(13) * 5);
 	
+	// Tempest#1789 - If [Chain Action Learned] enables [Double Attack] according to the level of [Chain Action] learned
+	// [Every Refine Level] - Increase [Double Attack] rate further by 3%
+	if (EquipNumSearch(1789))
+		wDA = SkillSearch(427) * 5 + 3 * n_A_Weapon_ATKplus;
+	
 	// Sherwood Bow#1388 - Rogue/Stalker
 	// #151 - Enable [Double Attack] usage
 	if (1388 == n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x == 151) > -1)
@@ -8072,6 +8089,24 @@ function ApplySkillAtkBonus(dmg)
 	if (326 == n_A_ActiveSkill && n_B[3] > 80 && [3] < 85) // Ghost 81-84
 		skill_atk_bonus_ratio += 25 * CardNumSearch(604);
 	
+	// Throw Kunai#395
+	if (395 == n_A_ActiveSkill && ((EquipNumSearch(1771) && 2 == document.calcForm.SkillSubNum.value)
+		|| (EquipNumSearch(1772) && 1 == document.calcForm.SkillSubNum.value)
+		|| (EquipNumSearch(1773) && 0 == document.calcForm.SkillSubNum.value)))
+		skill_atk_bonus_ratio += 50;
+		
+	// Heaven's Feather & Hell's Fire#1785 - [Every Refine Level] - 2% more damage with [Desperado#429]
+	if (429 == n_A_ActiveSkill && EquipNumSearch(1785))
+		skill_atk_bonus_ratio += 2 * n_A_Weapon_ATKplus;
+
+	// Color Scope#1786 - [Every Refine Level] - 3% more damage with [Piercing Shot#432]
+	if (432 == n_A_ActiveSkill && EquipNumSearch(1786))
+		skill_atk_bonus_ratio += 3 * n_A_Weapon_ATKplus;
+	
+	// Rolling Thunder#1790 - [Every Refine Level] - 5% more damage with [Spread Attack#436]
+	if (436 == n_A_ActiveSkill && EquipNumSearch(1790))
+		skill_atk_bonus_ratio += 5 * n_A_Weapon_ATKplus;
+	
 	dmg = dmg * (100 + StPlusCalc2 (5000 + n_A_ActiveSkill) + StPlusCard(5000 + n_A_ActiveSkill) + skill_atk_bonus_ratio) / 100;
 
 	return Math.floor(dmg);
@@ -8378,12 +8413,19 @@ function CastAndDelay(){
 		strSUB2 += n_Delay[2] +"s<BR>";
 	}
 	if(w == 3){
-		if(n_A_ActiveSkill == 188 || n_A_ActiveSkill == 189 || n_A_ActiveSkill == 289){
+		if(n_A_ActiveSkill == 188 || n_A_ActiveSkill == 189 || n_A_ActiveSkill == 289)
+		{
 			n_Delay[3] = +n_Delay[3].toFixed(4);
 			strSUB2name += "<Font size=2>Delay (Combo Delay)</Font><BR>";
 			strSUB2 += n_Delay[3] +"~"+ (n_Delay[3] + 0.3) +"s<BR>";
-		}else{
-			strSUB2name += "<Font size=2>Delay (Forced Motion)</Font><BR>";
+		}
+		else
+		{
+			if (n_A_ActiveSkill == 83 || n_A_ActiveSkill == 388 || n_A_ActiveSkill == 292 ||
+				n_A_ActiveSkill == 434 || n_A_ActiveSkill == 128 || n_A_ActiveSkill == 320)
+				strSUB2name += "<Font size=2>Delay (Forced Motion)</Font><BR>";
+			else
+				strSUB2name += "<Font size=2>Delay (Irreducible)</Font><BR>";
 			strSUB2 += n_Delay[3] +"s<BR>";
 		}
 	}

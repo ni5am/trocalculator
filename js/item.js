@@ -575,9 +575,9 @@ ItemOBJ = [
 ,[552,18,59,50,1,3,50,0,"Branch","",0,0]
 ,[553,18,59,120,2,"1 / 2",70,24,"Cyclone","",0,8,10,10,10,0]
 ,[554,18,59,150,2,1,75,56,"Dusk","",0,8,10,10,10,0]
-,[555,19,59,135,1,1,90,14,"Rolling Stone","","Inflicts Splash Damage[Baphomet MVP Card Effect]",0]
-,[556,19,59,180,2,1,90,35,"Black Rose","","Inflicts Splash Damage[Baphomet MVP Card Effect]",0]
-,[557,19,59,210,2,0,100,24,"Gate Keeper","","Inflicts Splash Damage[Baphomet MVP Card Effect]",221,113,0]
+,[555,19,59,135,1,1,90,14,"Rolling Stone","","Inflicts splash damage.",0]
+,[556,19,59,180,2,1,90,35,"Black Rose","","Inflicts splash damage.",0]
+,[557,19,59,210,2,0,100,24,"Gate Keeper","","Inflicts splash damage.",221,113,0]
 ,[558,20,59,50,2,1,230,55,"Drifter","",0,0]
 ,[559,20,59,75,3,"0 / 1",250,68,"Butcher","",0,112,10,0]
 ,[560,21,59,220,2,"0 / 1",120,52,"Destroyer","",0,141,2,0]
@@ -674,12 +674,12 @@ ItemOBJ = [
 ,[651,15,131,100,4,2,200,70,"Electric Eel","","Made of a creature that gives out electric energy. The surface is slippery and feels weird.<br>The skill level of the autocast Arrow Vulcan changes depending on the refinement rate of this weapon (not yet calculated!)",20,4,2,2,4,2,221,28,0]
 ,[652,15,131,110,4,1,150,70,"Foot of the Sea Witch","","A whip made with a foot of the famous western sea witch. It says it steals your life essence, so be careful of the witch.<br>Whenever the enemy dies, <font color=blue>Recovers 5 SP</font><br>Every time you attack, small chance to cause Silence to all enemies within 5 x 5 (PBAoE) cells around you.",221,29,0]
 ,[653,15,131,185,4,0,130,70,"Carrot Whip","","Every time you attack, 1% chance to use AGI Up on yourself<br>The level of AGI Up cast depends on the refinement rate of this weapon",0]
-,[654,17,0,68,3,2,58,70,"Western Outlaw","","<b>For every 10 base AGI:</b><br>Hit + 1<br><b>For Every 14 base AGI:</b><br>ASPD + 1%",0]
-,[655,18,0,150,3,"0 / 1",100,70,"Long Barrel","",0,10,20,12,-3,221,30,0]
-,[656,18,0,170,3,"0 / 1",70,70,"Jungle Carbine","","<b>For every 3 base DEX</b><br>Hit - 1",8,10,10,4,12,10,0]
-,[657,18,0,138,3,2,77,70,"Lever Action Rifle","",0,8,20,10,50,12,-5,0]
-,[658,19,0,200,4,0,130,70,"Gatekeeper-DD","","Inflicts splash damage<br>DEF increases by Refine Rate",5,1,221,31,0]
-,[659,19,0,80,3,"1 / 2",70,70,"Thunder-P","","Inflicts splash damage",8,-5,12,20,0]
+,[654,17,145,68,3,2,58,70,"Western Outlaw","","<b>[Every 10 Base AGI]</b><br>HIT + 1<br><b>[Every 14 Base AGI]</b><br>ASPD + 1%",0]
+,[655,18,145,150,3,"0 / 1",100,70,"Long Barrel","",0,10,20,12,-3,221,30,0]
+,[656,18,145,170,3,"0 / 1",70,70,"Jungle Carbine","","<b>For every 3 base DEX</b><br>Hit - 1",8,10,10,4,12,10,0]
+,[657,18,145,138,3,2,77,70,"Lever Action Rifle","",0,8,20,10,50,12,-5,0]
+,[658,19,145,200,4,0,130,70,"Gate Keeper-DD","","Inflicts splash damage.<br>DEF increases by Refine Rate",5,1,221,31,0]
+,[659,19,145,80,3,"1 / 2",70,70,"Thunder-P","","Inflicts splash damage.",8,-5,12,20,0]
 ,[660,16,0,112,3,2,155,70,"Huuma Calm Mind","","Casting cannot be interrupted (does not work in WoE)",5396,30,0]
 ,[661,50,1,5,0,0,100,65,"Magni's Cap","",0,1,2,0]
 ,[662,50,1,3,0,1,50,65,"Ulle's Cap","",0,5,2,2,1,0]
@@ -948,7 +948,7 @@ ItemOBJ = [
 ,[925,17,0,70,3,0,0,80,"Soldier Revolver","","When attacking, there is a 1% chance that for 3 seconds your will receive ASPD + 100%",5,2,8,-10,37,55,187,20,194,1,0]
 ,[926,18,0,50,3,0,0,80,"Soldier Rifle","","When attacking normally, has a 2% chance of gaining ASPD +100% for 10 seconds.",5,2,8,10,10,30,37,75,187,20,7430,25,70,20,194,1,0]
 ,[927,20,0,80,3,0,0,80,"Soldier Gatling Gun","","When attacking normally or using long range skills, has a 1% chance to add ATK + 80 for 6 seconds.<br><b>[Refine level 7-10]</b><br>Increase damage inflicted on Medium size monsters by 2% per refine.",5,2,37,35,187,20,194,1,0]
-,[928,19,0,100,3,0,0,80,"Soldier Shotgun","","Inflicts splash damage<br>When attacking normally or using long range skills, has a 3% chance to add ATK + 80 for 6 seconds.<br><b>[Refine level 6-10]</b><br>DEF + 5.<br>Adds a 10% chance to cast Level 3 [Kyrie Eleison] when using [Full Buster].<br>Every refine +6 and above adds an additional 2% casting chance.",5,2,37,55,187,20,154,50,194,1,0]
+,[928,19,0,100,3,0,0,80,"Soldier Shotgun","","Inflicts splash damage.<br>When attacking normally or using long range skills, has a 3% chance to add ATK + 80 for 6 seconds.<br><b>[Refine level 6-10]</b><br>DEF + 5.<br>Adds a 10% chance to cast Level 3 [Kyrie Eleison] when using [Full Buster].<br>Every refine +6 and above adds an additional 2% casting chance.",5,2,37,55,187,20,154,50,194,1,0]
 ,[929,21,0,200,3,0,0,80,"Soldier Grenade Launcher","","When attacking normally or using long range skills, has a 3% chance to add ATK + 300 for 9 seconds.<br><b>[Refine level 6-10]</b><br>Increase damage of [Ground Drift] by 25%.",5,2,37,35,187,25,194,1,0]
 ,[930,16,0,55,3,0,0,80,"Brave Huuma Front Shuriken","","<b>[Refine level 8-10]</b><br>Enables Level 1 Hiding.",1,2,5,1,37,95,187,20,5400,25,5401,25,194,1,0]
 ,[931,16,0,55,3,0,0,80,"Valorous Huuma Front Shuriken","","When attacking, there is a 3% chance to add ASPD + 15% after using [Throw Shuriken] for 10 seconds.",1,2,5,1,37,95,187,20,5396,20,5395,20,5394,20,194,1,0]
@@ -1552,7 +1552,7 @@ ItemOBJ = [
 ,[1519,100,0,0,0,0,0,0,"Assassin's Glove & Chakram",0,0,10,2,15,-10,70,20,0] //Assassin's Glove & Chakram
 ,[1520,61,125,3,0,1,100,90,"Geffenia Water Book","","If Base INT is 99, adds MATK +1%, MaxHP + 800",4,1,19,2,0]
 ,[1521,100,0,0,0,0,0,0,"Geffenia Water Book & Lacrima Stick combo",0,"Reduces cast time of Storm Gust by 2% for every shield refine",0] //Geffenia Water Book & Lacrima Stick combo
-,[1522,18,0,170,3,0,0,0,"Lever Action Rifle [Rental]","",0,8,20,10,50,12,-5,80,30,193,1,0]
+,[1522,18,0,170,3,0,0,0,"Lever Action Rifle [Rental]","",0,8,20,10,50,12,10,80,30,193,1,0]
 //custom TalonRO [Update 2014-09-02]
 ,[1523,51,0,3,0,0,100,10,"Evil Mask","","Drain 1 SP from user every 2 seconds<br><b>Middle and Lower Headgear</b>",12,1,0]
 ,[1524,100,0,0,0,0,0,0,"Evil Mask & Succubus Horn",0,"Drain 3 SP from user every 2 seconds",12,9,99,1,0] //Evil Mask & Succubus Horn
@@ -1818,6 +1818,43 @@ ItemOBJ = [
 ,[1767,51,0,1,0,1,10,0,"+1 VIT [1]","",0,3,1,0] //custom TalonRO +1 VIT Middle Headgear
 ,[1768,51,0,1,0,1,10,0,"+1 LUK [1]","",0,6,1,0] //custom TalonRO +1 LUK Middle Headgear
 ,[1769,100,0,0,0,0,0,0,"Surfer Swimsuit + Antonio's Red Bag","",0,152,-20,0]
+// ---
+,[1770,16,58,175,4,3,150,60,"Huuma Swirling Petal","","<b>[Throw Huuma Shuriken]</b> only splits damage once instead of using mob count.<br><br><b>[With Black Earth Kunai]</b><br>50% more damage with [Throw Kunai].<br><b>[Every Refine Level]</b><br>5% more damage with [Throw Huuma Shuriken].<br>2% less aftercast delay with [Throw Huuma Shuriken].",8,25,5,4,20,2,0]
+,[1771,16,58,175,4,3,150,60,"Huuma Thunderstorm","","<br><b>[With High Wind Kunai]</b><br>50% more damage with [Throw Kunai].<br><b>[Every Refine Level]</b><br>3% less SP cost with [Wind Blade], [Lightning Crash], and [North Wind].",5,4,89,15,20,4,344,10,0]
+,[1772,16,58,175,4,3,150,60,"Huuma Fluttering Snow","","<br><b>[With Icicle Kunai]</b><br>50% more damage with [Throw Kunai].<br><b>[Every Refine Level]</b><br>3% less SP cost with [Lightning Spear of Ice], [Water Escape Technique], and [Falling Ice Pillar].",5,4,89,15,20,1,341,10,0]
+,[1773,16,58,175,4,3,150,60,"Huuma Fierce Inferno","","<br><b>[With Heat Wave Kunai]</b><br>50% more damage with [Throw Kunai].<br><b>[Every Refine Level]</b><br>3% less SP cost with [Crimson Fire Blossom], [Crimson Fire Formation] and [Dragon Fire Formation].",5,4,89,15,20,3,343,10,0]
+,[1774,60,58,3,0,1,75,80,"Special Ninja Suit","","<br><b>[If Fox Armguard equipped every refine level]</b><br>ASPD + 1%",19,5,74,20,0]
+,[1775,60,58,4,0,1,75,80,"Ninja Scale Armor","","<br><b>[If Wolf Armguard equipped every refine levell]</b><br>ASPD + 1% ",1,2,13,2000,0]
+,[1776,60,58,3,0,1,75,80,"Tenebris Latitantes","","FLEE + 1 for every Base AGI while under the effect of [Illusionary Shadow].<br>Disable [Cicada Skin Shedding] and Dispelled on Equip.<br><br><b>[If Crescent Armguard equipped every refine level]</b><br>ASPD + 1%",9,10,0]
+,[1777,61,58,5,0,1,20,80,"Fox Armguard","",0,5,1,19,5,0]
+,[1778,61,58,5,0,1,20,80,"Wolf Armguard","",0,1,1,19,5,0]
+,[1779,61,58,5,0,1,20,80,"Crescent Armguard","",0,2,1,19,5,0]
+,[1780,100,0,0,0,0,0,0,"Special Ninja Suit + Shinobi Sash","",0,13,300,72,-20,0]
+,[1781,100,0,0,0,0,0,0,"Ninja Scale Armor + Shinobi Sash","",0,13,300,72,-20,0]
+,[1782,100,0,0,0,0,0,0,"Tenebris Latitantes + Shinobi Sash","",0,13,300,72,-20,0]
+,[1783,16,58,300,3,0,0,1,"Huuma Calm Mind [Rental]","","Casting cannot be interrupted",89,20,5395,30,5396,30,0]
+// ---
+,[1784,17,145,75,3,2,100,60,"Altea & Ares","","<br><b>[Every Refine Level]</b><br>1% less aftercast delay with [Rapid Shower].<br><b>[Every Refine +6~8]</b><br>Reduce [Rapid Shower] bullet cost by 1.",8428,10,0]
+,[1785,17,145,75,3,2,100,60,"Heaven's Feather & Hell's Fire","","<br><b>[Every Refine Level]</b><br>2% more damage with [Desperado].<br><b>[Every Refine +6~9]</b><br>Reduce [Desperado] bullet cost by 2.<br><b>[Refine +9 or Higher]</b><br>Add a 2% chance to auto cast level 5 [Providence] on yourself when attacked.",186,15,188,15,5429,10,0]
+,[1786,18,145,150,4,3,120,60,"Color Scope","","Add a 5% chance to auto cast level 5 [Decrease Agility] when attacking normally.<br><br><b>[Every Refine Level]</b><br>3% more damage with [Piercing Shot].",10,50,5432,20,0]
+,[1787,18,145,70,3,0,130,60,"RAG203","","Decreases physical damage against other players by 75%.<br><br>[Tracking] Deals more damage depending on the target's Defense.<br>Add a 1 second cooldown to [Tracking] (irreducible).<br><br><b>[Every Refine Level]</b><br>Reduce [Tracking] cast time by 5%.",1063,-75,1064,-75,1065,-75,1575,-75,1576,-75,0]
+,[1788,20,145,100,4,2,200,60,"Minigun","","<br><b>[Every Refine Level]</b><br>Add a 0.5% chance to auto cast [Call Spirits] when attacking normally.",10,15,77,15,79,15,0]
+,[1789,20,145,100,4,1,200,60,"Tempest","","If [Chain Action Learned] enables [Double Attack] according to the level of [Chain Action] learned.<br><b>[Every Refine Level]</b><br>Increase [Double Attack] rate further by 3%.",0]
+,[1790,19,145,150,3,2,180,60,"Rolling Thunder","","Inflicts splash damage.<br><br><b>[Base INT >= 40]</b><br>Increase [Thunderstorm] rate by another 15%.<br><b>[Every Refine Level]</b><br>5% more damage and less SP cost with [Spread Attack].<br><b>[Every 2 Refine Levels]</b><br>Initially level 5, increases [Thunderstorm] level by 1.",8,-10,89,15,221,149,0]
+,[1791,19,145,250,3,1,200,60,"Death Fire","","Inflicts splash damage.<br>[Dust] pushes back enemies an additional 3 cells.<br><br><b>[Every Refine Level]</b><br>HIT + 4",8,-50,8435,10,0]
+,[1792,21,145,250,3,1,240,60,"End of the Horizon","","There is a 3% chance of destroying an enemy’s armor when attacking.<br>[Triple Action] shoves the enemy 2 cells back.<br>When using [Ground Drift] there is a 25% chance that you will not consume a Sphere.<br><br><b>[Every Refine Level]</b><br>Add a 2% chance to Stun the target when attacking.",0]
+,[1793,21,145,300,4,1,250,60,"Southern Cross","","Add a 10% chance to auto cast [Call Spirits] after using [Triple Action].<br><br><b>[Every Refine Level]</b><br>Increase [Call Spirits] chance by 2%.<br><br><b>[With Sphere Ammunition]</b><br>Increases damage inflicted on Neutral Property by 40%.<br><b>[Every Refine Level]</b><br>Bypass 3% of enemy DEF (both boss and non-boss).",0]
+,[1794,18,145,200,3,0,0,60,"Eden Group Rifle I","",0,8,10,10,10,12,10,193,1,0]
+,[1795,19,145,200,3,0,0,60,"Eden Group Shotgun I","","Inflicts splash damage.",193,1,0]
+,[1796,20,145,100,3,0,0,60,"Eden Group Gatling Gun I","",0,12,10,193,1,0]
+,[1797,21,145,300,3,0,0,60,"Eden Group Grenade Launcher I","","Add a 2% chance of destroying an enemy's armor when attacking.",193,1,0]
+,[1798,17,145,100,3,2,0,1,"Western Outlaw [Rental]","","<b>[Every 10 Base AGI]</b><br>HIT + 1<br><b>[Every 14 Base AGI]</b><br>ASPD + 1%",80,10,193,1,0]
+,[1799,19,145,200,4,0,0,1,"Gate Keeper-DD [Rental]","","Inflicts splash damage.",5,1,80,20,221,31,0]
+,[1800,20,145,75,3,0,0,1,"Butcher [Rental]","",0,80,40,112,10,0]
+,[1801,21,145,300,2,1,0,1,"Inferno [Rental]","",0,12,15,80,20,0]
+,[1802,64,145,0,0,1,20,80,"Rebellion Scarf","",0,5,1,14,50,0]
+,[1803,51,145,0,0,1,20,80,"Mob Scarf","",0,17,5,72,-10,0]
+,[1804,100,0,0,0,0,0,0,"Mob Scarf + Rebellion Scarf","","[Flip the Coin] is always successful.",13,300,0]
 ];
 
 //Test code for finding the values in Skill.js AutoSpellSkill
@@ -3621,6 +3658,41 @@ ItemID = [
 ,[1767,1,4740]
 ,[1768,1,4750]
 ,[1769,2,21113,21150]
+,[1770,1,13313]
+,[1771,1,13315]
+,[1772,1,13314]
+,[1773,1,13321]
+,[1774,1,15056]
+,[1775,1,15054]
+,[1776,1,15055]
+,[1777,1,2171]
+,[1778,1,2172]
+,[1779,1,2173]
+,[1780,2,15056,2654]
+,[1781,2,15054,2654]
+,[1782,2,15055,2654]
+,[1783,1,13317]
+,[1784,1,13122]
+,[1785,1,13120]
+,[1786,1,13189]
+,[1787,1,13195]
+,[1788,1,13197]
+,[1789,1,13198]
+,[1790,1,13193]
+,[1791,1,13192]
+,[1792,1,28200]
+,[1793,1,28202]
+,[1794,1,13180]
+,[1795,1,13181]
+,[1796,1,13182]
+,[1797,1,13184]
+,[1798,1,13109]
+,[1799,1,13184]
+,[1800,1,13185]
+,[1801,1,13186]
+,[1802,1,28502]
+,[1803,1,28484]
+,[1804,2,28502,28484]
 ];
 
 /*
@@ -4118,7 +4190,7 @@ function Item_Setumei(nC1,nC2)
    if(380 <= nC1 && nC1 <=383)
       CBIstr +="";
    if(1000 <= nC1 && nC1 <=1999)
-      CBIstr += wIS + nC2 + "% Physical damage inflicted against <b>" + MonsterOBJ[nC1-1000][1] + "</b><br>";
+	   CBIstr += "Decreases physical damage against <b>" + MonsterOBJ[nC1-1000][1] + "</b> by " + wIS + nC2 + "%<br>";
    //Incease Damage of skill by %
 	if(5000 <= nC1 && nC1 <= 6999)
 		CBIstr += "["+ SkillOBJ[nC1 -5000][2] +"] damage"+ wIS + nC2 +"%<BR>";
@@ -4293,6 +4365,10 @@ w_SE = [[737,436,475,"NULL"]
 ,[1759,1757,89,"NULL"] //Custom TalonRO - Skull Cap + Evil Bone Wand
 ,[1760,1757,936,"NULL"] //Custom TalonRO - Skull Cap + Dark Thorn Staff
 ,[1769,1682,1729,"NULL"] //Custom TalonRO - Surfer Swimsuit + Antonio's Red Bag
+,[1780,1774,724,"NULL"] //Custom TalonRO - Special Ninja Suit + Shinobi Sash
+,[1781,1775,724,"NULL"] //Custom TalonRO - Ninja Scale Armor + Shinobi Sash
+,[1782,1776,724,"NULL"] //Custom TalonRO - Tenebris Latitantes + Shinobi Sash
+,[1804,1802,1803,"NULL"] //Custom TalonRO - Mob Scarf + Rebellion Scarf
 ];
 
 SE_MAXnum = w_SE.length -1;
