@@ -6425,10 +6425,10 @@ function KakutyouKansuu(){
 		}else
 			myInnerHtml("A_KakutyouData","Not Available for this Class",0);
 	}
-	else if(wKK == 17)
+	else if(wKK == 17) // Drain Rate
 	{
 		wkk17 = "";
-		if (n_Enekyori == 2)
+		if (n_Enekyori == 2 && 162 != n_A_ActiveSkill)
 			myInnerHtml("A_KakutyouData","Skill not elligible for drain",0);
 		else if (n_tok[380] || n_tok[382])
 		{
