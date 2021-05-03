@@ -2662,43 +2662,9 @@ with(document.calcForm){
 			n_tok[73] -= 10;
 		}
 	}
-	//[TalonRO Custom - 2018-07-26 - Valorous Battle Strategy Book - Sage/Professor, Decrease [Fire Bolt], [Cold Bolt], and [Lightning Bolt] cast times by 15%.] [Amor]
-	if(EquipNumSearch(912) && (n_A_JobSearch2() == 18) && (n_A_ActiveSkill == 56 || n_A_ActiveSkill == 51 || n_A_ActiveSkill == 54 )){
-		n_tok[73] -= 15;
-	}
-	//[TalonRO Custom - 2018-07-27 - Glorious Apocalipse- Sage/Professor, Decrease [Fire Bolt], [Cold Bolt], and [Lightning Bolt] cast times by 20% plus 1% for every 2 refines.] [Amor]
-	if(EquipNumSearch(1095) && (n_A_JobSearch2() == 18) && (n_A_ActiveSkill == 56 || n_A_ActiveSkill == 51 || n_A_ActiveSkill == 54 )){
-		n_tok[73] -= 20 + Math.floor(n_A_Weapon_ATKplus / 2);
-	}
 	//[TalonRO Custom - 2018-07-27 - Glorious Apocalipse/Glorious Arc Wand  - Every Refine Level gives -1% Casting Time] [Amor]
 	if(EquipNumSearch(1095) || EquipNumSearch(1084)){
 		n_tok[73] -= n_A_Weapon_ATKplus;
-	}
-	//[TalonRO Custom - 2018-07-27 - Glorious Claymore - Gives -3% [Charge Attack] Casting Time] [Amor]
-	if(EquipNumSearch(1080) && n_A_ActiveSkill == 308){
-		n_tok[73] -= 3 * n_A_Weapon_ATKplus;
-	}
-	//[TalonRO Custom - 2018-07-27 - Glorious Claymore - Refine +6 > Gives -10% [Bowling Bash] Casting Time] [Amor]
-	if(EquipNumSearch(1080) && n_A_ActiveSkill == 76){
-		if(n_A_Weapon_ATKplus >= 6) {
-				n_tok[73] -= 10 * (n_A_Weapon_ATKplus - 5);
-		}
-	}
-	//[TalonRO Custom - 2018-07-28 - Glorious Fists - Gives -5% less casting time for [Asura Stike] per refine] [Amor]
-	if(EquipNumSearch(1097) && n_A_ActiveSkill == 197){
-				n_tok[73] -= 5 * (n_A_Weapon_ATKplus);
-	}
-	//[TalonRO Custom - 2018-07-28 - Glorious Holy Avenger - -5% [Grand Cross] cast time used with Aegis] [Amor]
-	if(EquipNumSearch(1079) && EquipNumSearch(1376) && n_A_ActiveSkill == 162) {
-			n_tok[73] -= 5;
-	}
-	//[TalonRO Custom - 2018-07-28 - Glorious Holy Avenger - [Grand Cross] -1% cast time per refine] [Amor]
-	if(EquipNumSearch(1079) && n_A_ActiveSkill == 162) {
-			n_tok[73] -= n_A_Weapon_ATKplus;
-	}
-	//[TalonRO Custom - 2018-07-29 - Glorious Rifle - [Tracking] -1% cast time per refine] [Amor]
-	if(EquipNumSearch(1100) && n_A_ActiveSkill == 430) {
-			n_tok[73] -= n_A_Weapon_ATKplus;
 	}
 	//[TalonRO Custom - 2018-07-29 - Glorious Staff of Destruction - Every Refine Level gives -2% Casting Time] [Amor]
 	if(EquipNumSearch(1083)){
@@ -3357,6 +3323,40 @@ with(document.calcForm){
 	// RAG203#1787 - [Every Refine Level] - Reduce [Tracking#430] cast time by 5%.
 	if (n_A_ActiveSkill == 430 && EquipNumSearch(1787))
 		skill_cast_reduction -= 5 * n_A_Weapon_ATKplus;
+	
+	// Glorious equipment cast time reduction
+	// Valorous Battle Strategy Book#912 - Sage/Professor, Decrease [Fire Bolt], [Cold Bolt], and [Lightning Bolt] cast times by 15%.] [Amor]
+	if (n_A_JobSearch2() == 18 && (n_A_ActiveSkill == 56 || n_A_ActiveSkill == 51 || n_A_ActiveSkill == 54) && EquipNumSearch(912))
+		skill_cast_reduction -= 15;
+
+	// Glorious Apocalipse#1095 - Sage/Professor, Decrease [Fire Bolt], [Cold Bolt], and [Lightning Bolt] cast times by 20% plus 1% for every 2 refines.] [Amor]
+	if (n_A_JobSearch2() == 18 && (n_A_ActiveSkill == 56 || n_A_ActiveSkill == 51 || n_A_ActiveSkill == 54) && EquipNumSearch(1095))
+		skill_cast_reduction -= 20 + Math.floor(n_A_Weapon_ATKplus / 2);
+
+	// Glorious Claymore#1080 - Gives -3% [Charge Attack] Casting Time] [Amor]
+	if (n_A_ActiveSkill == 308 && EquipNumSearch(1080))
+		skill_cast_reduction -= 3 * n_A_Weapon_ATKplus;
+
+	// Glorious Claymore#1080 - Refine +6 > Gives -10% [Bowling Bash] Casting Time] [Amor]
+	if (n_A_ActiveSkill == 76 && n_A_Weapon_ATKplus >= 6 && EquipNumSearch(1080))
+		skill_cast_reduction -= 10 * (n_A_Weapon_ATKplus - 5);
+
+	// Glorious Fists#1097 - Gives -5% less casting time for [Asura Stike] per refine] [Amor]
+	if (n_A_ActiveSkill == 197 && EquipNumSearch(1097))
+		skill_cast_reduction -= 5 * (n_A_Weapon_ATKplus);
+
+	// Glorious Holy Avenger#1079 - [Grand Cross] -1% cast time per refine] [Amor]
+	if (n_A_ActiveSkill == 162 && EquipNumSearch(1079))
+	{
+		skill_cast_reduction -= n_A_Weapon_ATKplus;
+		
+		if (EquipNumSearch(1376)) // Glorious Holy Avenger - -5% [Grand Cross] cast time used with Aegis#1376] [Amor]
+			skill_cast_reduction -= 5;
+	}
+
+	// Glorious Rifle#1100 - [Tracking] -1% cast time per refine] [Amor]
+	if (EquipNumSearch(1100) && n_A_ActiveSkill == 430)
+		skill_cast_reduction -= n_A_Weapon_ATKplus;
 	
 	skill_cast_reduction -= StPlusCalc2(7000 + n_A_ActiveSkill);
 	skill_cast_reduction = Math.max(0, skill_cast_reduction - StPlusCard(7000 + n_A_ActiveSkill));
