@@ -1637,21 +1637,28 @@ function BattleCalc999()
 		BattleCalc998();
 	}
 
-	else if(n_A_ActiveSkill==396){
-		wbairitu += (n_A_ActiveSkillLV * 1.5 +0.5);
+	else if (n_A_ActiveSkill == 396) // Throw Huuma Shuriken#396
+	{
 		n_Enekyori=1;
-		ATKbai02(wbairitu,0);
-		wCast = 3 * n_A_CAST;
 		n_Delay[2] = 3;
+		wCast = 3 * n_A_CAST;
+		wbairitu += (n_A_ActiveSkillLV * 1.5 +0.5);
 		wActiveHitNum = 2 + Math.round(n_A_ActiveSkillLV / 2);
+		
+		monsters_targeted_nb = eval(document.calcForm.SkillSubNum.value);
+		
+		// Huuma Swirling Petal#1770 - Hira Shurikat#112 - [Throw Huuma Shuriken] only splits damage once instead of using mob count.
+		if (SQI_Bonus_Effect.findIndex(x => x == 112) > -1 || EquipNumSearch(1770))
+			monsters_targeted_nb = Math.min(2, monsters_targeted_nb);
 
+		ATKbai02(wbairitu,0);
 		for(var b=0;b<=2;b++){
 			w_DMG[b] = BattleCalc(n_A_DMG[b],b);
 			w_DMG[b] = Math.floor(w_DMG[b] * zokusei[n_B[3]][0]);
 			if(wActiveHitNum > 1)
 				w_DMG[b] = Math.floor(w_DMG[b] / wActiveHitNum) * wActiveHitNum;
 
-			Last_DMG_A[b] = Last_DMG_B[b] = w_DMG[b];
+			Last_DMG_A[b] = Last_DMG_B[b] = Math.floor(w_DMG[b] / monsters_targeted_nb);
 			InnStr[b] += Last_DMG_A[b];
 			InnStr[b] += " ("+ (Last_DMG_A[b] / wActiveHitNum) +" x "+ wActiveHitNum +"Hit)";
 		}
@@ -3505,6 +3512,14 @@ with(document.calcForm){
 		for(i=0;i<=4;i++)
 			SkillSubNum.options[i] = new Option(CHATK_NAME[i],i);
 		SkillSubNum.value=4;
+	}
+	else if (n_A_ActiveSkill == 396) // Throw Huuma Shuriken#396
+	{
+		myInnerHtml("AASkillName","Monster(s):",0);
+		myInnerHtml("AASkill",'<select name="SkillSubNum"onChange="calc()"></select>',0);
+		for (i = 1; i <= 30; ++i)
+			SkillSubNum.options[i - 1] = new Option(i,i);
+		SkillSubNum.value = 1;
 	}
 	else{
 		myInnerHtml("AASkillName","",0);
