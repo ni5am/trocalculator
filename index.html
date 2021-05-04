@@ -892,7 +892,7 @@
 								<tr>
 									<td>
 										<!-- Monster picture -->
-										<table style="border: 1px solid rgb(153, 153, 153); border-collapse: collapse; width: 300px;">
+										<table style="border: 1px solid rgb(153, 153, 153); border-collapse: collapse; width: 100%;">
 											<tbody>
 												<tr>
 													<td align="center" valign="middle" height="150" id="B_Enemy_picture" >
@@ -905,21 +905,23 @@
 								</tr>
 								<tr>
 									<td>
-										<table style="border: 1px solid rgb(153, 153, 153); border-collapse: collapse; width: 300px;">
+										<table style="border: 1px solid rgb(153, 153, 153); border-collapse: collapse; width: auto;">
 											<tbody>
 												<tr>
-													<td colspan="4" class="subheader" bgcolor="#DDDDFF">
-														<span id="nm037">Monster: </span>
+													<td class="subheader" bgcolor="#DDDDFF">
+														<span id="nm037" style="width: 20px;">Monster </span>
+													</td>
+													<td colspan="3" class="subheader" bgcolor="#DDDDFF">	
 														<select name="B_Enemy" onchange="reset_monster_stats()|KakutyouKansuu2()|calc()"></select>
+														<a id="B_Enemy_mobdb" href="https://panel.talonro.com/mobdb/1219/" target="_blank" style="color:white;"><b>MobDB</b></a>
 													</td>
 												</tr>
-												<tr>
-													<td>More info</td>
-													<td id="B_Enemy_mobdb">
-														<a href="https://panel.talonro.com/mobdb/1219/" target="_blank"><b>MobDB</b></a>
+												<tr style="border: 1px solid rgb(153, 153, 153); border-collapse: collapse;">
+													<td>
+														<label for="ENEMY_SORT" style="width: 20px;">Sort by</label>
 													</td>
-													<td colspan="2">
-														<select name="ENEMY_SORT" onchange="sort_monsters_db()|calc()">
+													<td>
+														<select id="ENEMY_SORT" name="ENEMY_SORT" onchange="sort_monsters_db()|calc()" style="width: 100%;">
 															<option selected="selected" value="0">Alphabetical</option>
 															<option value="3">By attribute</option>
 															<option value="2">By race</option>
@@ -929,6 +931,11 @@
 															<option value="17">By JobExp</option>
 															<option value="7">By MaxATK</option>
 														</select>
+													<td>
+														<label for="mvp_filter"><span id="mvp_filter">Boss Only</span></label>
+													</td>
+													<td>
+														<input id="mvp_filter" name="mvp_filter" type="checkbox" onclick="sort_monsters_db()|calc()">
 													</td>
 												</tr>
 												<tr>
@@ -966,10 +973,10 @@
 													<td id="B_26" colspan="2"></td>
 												</tr>
 												<tr>
-													<td class="subheader" bgcolor="#DDDDFF">By Place</td>
-													<td colspan="3" class="subheader" bgcolor="#DDDDFF">
-														<select name="ENEMY_SORT2" onchange="sort_monsters_db()|calc()"></select>
-													</td>
+														<td class="subheader" bgcolor="#DDDDFF">By region</td>
+														<td colspan="3" class="subheader" bgcolor="#DDDDFF">
+															<select name="ENEMY_SORT2" onchange="sort_monsters_db()|calc()"></select>
+														</td>
 												</tr>
 											</tbody>
 										</table>

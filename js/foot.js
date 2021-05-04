@@ -7703,12 +7703,16 @@ for(i=0;i<=EnemyNum;i++)
 function sort_monsters_db()
 {
 	sort_type = eval(document.calcForm.ENEMY_SORT.value);
+	mvp_filter = eval(document.calcForm.mvp_filter.checked);
 	selected_region = eval(document.calcForm.ENEMY_SORT2.value);
 	
 	if (selected_region)
 		monsters_db = MonsterOBJ.filter(x => MonMap[selected_region].includes(x[0]));
 	else
 		monsters_db = MonsterOBJ;
+	
+	if (mvp_filter)
+		monsters_db = MonsterOBJ.filter(x => x[19]);
 	
 	if (!sort_type) // Alpha-numerical sort [1]
 		sorted_monsters_db = monsters_db.concat().sort(function(a,b){return a[1].localeCompare(b[1])});

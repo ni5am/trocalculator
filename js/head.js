@@ -6726,7 +6726,7 @@ with(document.calcForm){
 		//[Custom TalonRO = 2016-06-04 - Fixed the database link for Panel][Kato]
 		if (MonsterOBJ[B_Enemy.value][23]!=0){
 			document.getElementById("B_Enemy_picture").innerHTML="<img src=\"https://panel.talonro.com/images/monster/"+MonsterOBJ[B_Enemy.value][23]+".gif\" alt=\"no picture available =(\">";
-			document.getElementById("B_Enemy_mobdb").innerHTML="<a href=\"https://panel.talonro.com/mobdb/"+MonsterOBJ[B_Enemy.value][23]+"/\" target=\"_blank\"><b>MobDB</b></a>";
+			document.getElementById("B_Enemy_mobdb").innerHTML="<a style='color:white;' href=\"https://panel.talonro.com/mobdb/"+MonsterOBJ[B_Enemy.value][23]+"/\" target=\"_blank\">#"+MonsterOBJ[B_Enemy.value][23]+"</a>";
 		} else {
 			document.getElementById("B_Enemy_picture").innerHTML="<img src=\"\" alt=\"no picture available =(\">";
 			document.getElementById("B_Enemy_mobdb").innerHTML="<b>n/a</b>";
