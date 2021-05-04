@@ -2350,7 +2350,7 @@ function reset_monster_stats()
 function display_monster_stats()
 {
 	monster_stats_html =  '<table style="border: 1px solid #999; border-collapse: separate; width: auto;">';
-	monster_stats_html += '<TR><TD ColSpan="10" Bgcolor="#DDDDFF" class="subheader"><div style="float: left; padding: 3px;">Monster Stats</div>';
+	monster_stats_html += '<TR><TD ColSpan="10" Bgcolor="#DDDDFF" class="subheader"><div style="float: left; padding: 3px; width: 100px;">Monster Stats</div>';
 	monster_stats_html += '<div style="float: right; padding-right: 3px;"><input id="monster_stats_check" type="checkbox" name="monster_stats_check" onClick="display_monster_stats()"><label for="monster_stats_check">Show</label></div><div style="clear: both;"></div></TD></TR>';
 	
 	if (document.calcForm.monster_stats_check.checked)
@@ -2406,7 +2406,7 @@ with(document.calcForm){
 	if(n_ENSKSW){
 		var str;
 		str = '<table style="border: 1px solid #999; border-collapse: separate; width: auto;">';
-		str += '<TR><TD ColSpan="10" Bgcolor="#DDDDFF" class="subheader"><div style="float: left; padding: 3px;">'+ wstr +' Skills </div>';
+		str += '<TR><TD ColSpan="10" Bgcolor="#DDDDFF" class="subheader"><div style="float: left; padding: 3px; width: 100px;">'+ wstr +' Skills </div>';
 		str += '<div style="float: right; padding-right: 3px;"><input id="lab7" type="checkbox" name="B_ENSKSW"onClick="Click_EnemySkillsSW()"><label for="lab7">Show</label></div><div style="clear: both;"></div></TD></TR>';
 		if(Taijin == 0){//SK0 = EQ || SK1 = WF || SK2 = Kaupe
 			str += '<TD id="EN_SK3"></TD><TD id="B_SK3"></TD></TR>';
@@ -2447,7 +2447,7 @@ with(document.calcForm){
 	}else{
 		var str;
 		str = '<table style="border: 1px solid #999; border-collapse: separate; width: auto;">';
-		str += '<TR><TD ColSpan="6" Bgcolor="#DDDDFF" class="subheader"><div style="float: left; padding: 3px;">'+ wstr +' Skills </div>';
+		str += '<TR><TD ColSpan="6" Bgcolor="#DDDDFF" class="subheader"><div style="float: left; padding: 3px; width: 100px;">'+ wstr +' Skills </div>';
 		str += '<div style="float: right; padding-right: 3px;"><input id="lab7" type="checkbox" name="B_ENSKSW"onClick="Click_EnemySkillsSW()"><label for="lab7">Show</label></div><div style="clear: both;"></div></TD></TR></table>';
 		myInnerHtml("MONSTER_SKILLS",str,0);
 		B_ENSKSW.checked = 0;
@@ -6394,7 +6394,7 @@ with(document.calcForm){
 	if(n_IjyouSW){
 		var str;
 		str = '<table style="border: 1px solid #999; border-collapse: separate; width: auto;">';
-		str += '<TR><TD id="AITD" ColSpan="6" Bgcolor="#DDDDFF"  class="subheader"><div style="float: left; padding: 3px;">'+ wstr +' Debuffs <span id="AIused"></span></div>';
+		str += '<TR><TD id="AITD" ColSpan="6" Bgcolor="#DDDDFF"  class="subheader"><div style="float: left; padding: 3px; width: 100px;">'+ wstr +' Debuffs <span id="AIused"></span></div>';
 		str += '<div style="float: right; padding-right: 3px;"><input id="lab6" type="checkbox" name="B_IJYOUSW" onClick="Click_IjyouSW()"><label for="lab6">Show</label></div><div style="clear: both;"></div></TD></TR>';
 		str += '<TR><TD id="BI0_1"></TD><TD id="BI0_2"></TD>';
 		str += '<TD id="BI1_1"></TD><TD id="BI1_2"></TD></TR>';
@@ -6513,7 +6513,7 @@ with(document.calcForm){
 	else{
 		var str;
 		str = '<table style="border: 1px solid #999; border-collapse: separate; width: auto;">';
-		str += '<TR><TD id="AITD" ColSpan="2" Bgcolor="#DDDDFF"  class="subheader"><div style="float: left; padding: 3px;">'+ wstr +' Debuffs <span id="AIused"></span></div>';
+		str += '<TR><TD id="AITD" ColSpan="2" Bgcolor="#DDDDFF"  class="subheader"><div style="float: left; padding: 3px; width: 100px;">'+ wstr +' Debuffs <span id="AIused"></span></div>';
 		str += '<div style="float: right; padding-right: 3px;"><input id="lab6" type="checkbox" name="B_IJYOUSW" onClick="Click_IjyouSW()"><label for="lab6">Show</label></div><div style="clear: both;"></div></TD></TR></TABLE>';
 		myInnerHtml("MONSTER_IJYOU",str,0);
 		B_IJYOUSW.checked = 0;
@@ -6551,7 +6551,7 @@ with(document.calcForm){
 	if(n_KyoukaSW){
 		var str;
 		str = '<table align="left" style="border: 1px solid #999; border-collapse: separate; width: auto;">';
-		str += '<TR><TD id="AKTD" ColSpan="6" Bgcolor="#DDDDFF" class="subheader"><div style="float: left; padding: 3px;">'+ wstr +' Buffs <span id="AKused"></span></div>';
+		str += '<TR><TD id="AKTD" ColSpan="6" Bgcolor="#DDDDFF" class="subheader"><div style="float: left; padding: 3px; width: 100px;">'+ wstr +' Buffs <span id="AKused"></span></div>';
 		str += '<div style="float: right; padding-right: 3px;"><input id="lab5" type="checkbox" name="B_KYOUKASW"onClick="Click_EnemyKyoukaSW()"><label for="lab5">Show</label></div></TD></TR>';
 		str += '<TR><TD id="ID_K0"></TD><TD id="ID_Kb0"></TD>';
 		str += '<TD id="ID_K1"></TD><TD id="ID_Kb1"></TD></TR>';
@@ -6625,7 +6625,7 @@ with(document.calcForm){
 	else{
 		var str;
 		str = '<table align="left" style="border: 1px solid #999; border-collapse: separate; width: auto;">';
-		str += '<TR><TD id="AKTD" ColSpan="6" Bgcolor="#DDDDFF" class="subheader"><div style="float: left; padding: 3px;">'+ wstr +' Buffs <span id="AKused"></span></div>';
+		str += '<TR><TD id="AKTD" ColSpan="6" Bgcolor="#DDDDFF" class="subheader"><div style="float: left; padding: 3px; width: 100px;">'+ wstr +' Buffs <span id="AKused"></span></div>';
 		str += '<input id="lab5" type="checkbox" name="B_KYOUKASW"onClick="Click_EnemyKyoukaSW()"><label for="lab5">Show</label></TD></TR></TABLE>';
 		myInnerHtml("MONSTER_KYOUKA",str,0);
 		B_KYOUKASW.checked = 0;
