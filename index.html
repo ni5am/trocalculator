@@ -932,10 +932,12 @@
 															<option value="7">By MaxATK</option>
 														</select>
 													<td>
-														<label for="mvp_filter"><span id="mvp_filter">Boss Only</span></label>
+														<input id="non_boss_filter" name="non_boss_filter" type="checkbox" onclick="manage_boss_property_sort(0)|sort_monsters_db()|calc()" checked>
+														<label for="non_boss_filter"><span id="non_boss_filter">Non-Boss</span></label>
 													</td>
 													<td>
-														<input id="mvp_filter" name="mvp_filter" type="checkbox" onclick="sort_monsters_db()|calc()">
+														<input id="boss_filter" name="boss_filter" type="checkbox" onclick="manage_boss_property_sort(1)|sort_monsters_db()|calc()" checked>
+														<label for="boss_filter"><span id="boss_filter">Boss</span></label>
 													</td>
 												</tr>
 												<tr>
