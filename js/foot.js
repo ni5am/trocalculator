@@ -695,14 +695,20 @@ with(document.calcForm){
 	// Manage weapon attack bonus, those bonus are impacted by the Size multiplier
 	// A Drum on the Battlefield - Weapon ATK + 25 + 25 * SkillLV
 	if (n_A_PassSkill3[9]) {
-		n_A_Weapon_ATK += (25 + 25 * n_A_PassSkill3[9]);
-		n_A_Weapon2_ATK += (25 + 25 * n_A_PassSkill3[9]) * n_Nitou;
+		dmgReduction = 0;
+		// TalonRO Update 01.05.21 Bows + Guns -50%
+		dmgReduction += (n_A_WeaponType == 10 || n_A_WeaponType==17 || 18 == n_A_WeaponType || 19 == n_A_WeaponType || 20 == n_A_WeaponType || 21 == n_A_WeaponType) ? 50 : 0;
+		n_A_Weapon_ATK += (25 + 25 * n_A_PassSkill3[9]) * (100 - dmgReduction) / 100;
+		n_A_Weapon2_ATK += (25 + 25 * n_A_PassSkill3[9]) * n_Nitou * (100 - dmgReduction) / 100;
 	}
 	
 	// The Ring of Nibelugen - Weapon ATK + 50 + 25 * SkillLV
 	if (n_A_PassSkill3[10] && n_A_WeaponLV == 4) {
-		n_A_Weapon_ATK += 50 + 25 * n_A_PassSkill3[10];
-		n_A_Weapon2_ATK += (50 + 25 * n_A_PassSkill3[10]) * n_Nitou;
+		dmgReduction = 0;
+		// TalonRO Update 01.05.21 Bows + Guns -50%
+		dmgReduction += (n_A_WeaponType == 10 || n_A_WeaponType==17 || 18 == n_A_WeaponType || 19 == n_A_WeaponType || 20 == n_A_WeaponType || 21 == n_A_WeaponType) ? 50 : 0;
+		n_A_Weapon_ATK += (50 + 25 * n_A_PassSkill3[10]) * (100 - dmgReduction) / 100;
+		n_A_Weapon2_ATK += (50 + 25 * n_A_PassSkill3[10]) * n_Nitou * (100 - dmgReduction) / 100;
 	}
 	
 	// Volcano - ATK bonus on Fire Armor - Weapon ATK + 10 * SkillLV
