@@ -7737,7 +7737,7 @@ function sort_monsters_db()
 	else
 		monsters_db = MonsterOBJ;
 	
-	monsters_db = monsters_db.filter(x => (boss_filter ? x[19] : 0) || (non_boss_filter ? !x[19] : 0));
+	monsters_db = monsters_db.filter(x => (boss_filter ? x[19] == 1 : 0) || (non_boss_filter ? x[19] != 1 : 0));
 	
 	if (!sort_type) // Alpha-numerical sort [1]
 		sorted_monsters_db = monsters_db.concat().sort(function(a,b){return a[1].localeCompare(b[1])});
