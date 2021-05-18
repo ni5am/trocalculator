@@ -4255,7 +4255,7 @@ with(document.calcForm){
 		if(n_A_HEAD_DEF_PLUS >= 9) n_tok[97] += 5;
 	}
 	
-	// Wood Goblin#562 - [Every Refine Level] Increase physical damage against Water and Earth by 1%
+	// Wood Goblin#562 - [Every Refine Level] - Increase physical damage against Water and Earth by 1%
 	if (CardNumSearch(562))
 	{
 		n_tok[41] += n_A_BODY_DEF_PLUS;
@@ -4263,6 +4263,7 @@ with(document.calcForm){
 	}
 	
 	// Southern Cross#1793 - [+Sphere Ammunition] - Increases damage inflicted on Neutral Property by 40%
+	//										  		[Every Refine Level] - Ignore [Normal] and [Boss] class monsters defense by 3%
 	if (EquipNumSearch(1793))
 	{
 		n_tok[40] += 40;

@@ -766,7 +766,7 @@ AutoSpellSkill = [
 [146,0,8,5,5,1],   //When performing a ATK based attack, there's a 5 % chance to cast the skill [Provoke]Lv 5
 [147,0,15,1,4,1],  //When performing a ATK based attack, there's a 4 % chance to cast the skill [Steal]Lv 1
 [148,1,413,5,10,1],  //When performing a ATK based attack, there's a 10% chance to cast the skill [Wind Blade]Lv 5
-[149,1,57,10,15,1],  // When performing a ATK based attack, there's a 10% chance to cast the skill [Thunder Storm]Lv 5 up to Lv10 based on weapon refine
+[149,1,57,5,15,1],  // When performing a ATK based attack, there's a 10% chance to cast the skill [Thunder Storm]Lv 5 up to Lv10 based on weapon refine
 ];
 //ID - Gets called in second spot(221(effect),1(ID)), autocast id = 1 by default, skill Id,Skill Lvl, chance %, attacktype(1atkbased,2shortrange,3longrange,4magical,5attacking,6receivingATKbased,0 by default, 0=low chance, 1=medium chance, 2=high chance)
 

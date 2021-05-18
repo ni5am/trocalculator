@@ -3418,6 +3418,13 @@ with(document.calcForm){
 function ClickActiveSkill(){
 with(document.calcForm){
 	n_A_ActiveSkill = eval(A_ActiveSkill.value);
+
+	refine_skill_lv_bonus = 0;
+				
+	// Rolling Thunder#1790 - [Every 2 Refine Level] - Increase [Thunderstorm] level by 1.
+	if (EquipNumSearch(1790))
+		refine_skill_lv_bonus = Math.floor(n_A_Weapon_ATKplus / 2);
+				
 	if(n_A_ActiveSkill >= 3000){
 		n_A_ActiveSkillLV = InsertSkill[n_A_ActiveSkill -3000][3];
 		n_A_ActiveSkill = InsertSkill[n_A_ActiveSkill -3000][2];
@@ -3431,7 +3438,7 @@ with(document.calcForm){
 	for(i=0;i<len;i++)
 		A_ActiveSkillLV.options[0] = null;
 	if(n_A_ActiveSkill >= 0)
-		for(i=1;i<=n_A_ActiveSkillLV;i++)
+		for(i=1;i<=n_A_ActiveSkillLV + refine_skill_lv_bonus;i++)
 			A_ActiveSkillLV.options[i-1] = new Option(i,i);
 
 	if(SkillOBJ[n_A_ActiveSkill][1] == 1)
