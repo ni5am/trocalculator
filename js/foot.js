@@ -3398,6 +3398,10 @@ with(document.calcForm){
 	if (428 == n_A_ActiveSkill && EquipNumSearch(1784))
 		skill_delay_reduction += n_A_Weapon_ATKplus;
 	
+	// Huuma Swirling Petal#1770 - [Every Refine Level] - 2% less aftercast delay with [Throw Huuma Shuriken#396]
+	if (396 == n_A_ActiveSkill && EquipNumSearch(1770))
+		skill_delay_reduction += 2 * n_A_Weapon_ATKplus;
+	
 	n_tok[74] = Math.floor(100 - (100 - n_tok[74]) * (1 - skill_delay_reduction / 100));
 
 	musical_lesson_lv = n_A_PassSkill3[2]; // Musical Lesson

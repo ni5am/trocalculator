@@ -8109,12 +8109,16 @@ function ApplySkillAtkBonus(dmg)
 	if (326 == n_A_ActiveSkill && n_B[3] > 80 && [3] < 85) // Ghost 81-84
 		skill_atk_bonus_ratio += 25 * CardNumSearch(604);
 	
-	// Throw Kunai#395
+	// Elemental Huuma#1771#1772#1773 - 50% more damage with [Throw Kunai#395] when equipped with elemental kunais.
 	if (395 == n_A_ActiveSkill && ((EquipNumSearch(1771) && 2 == document.calcForm.SkillSubNum.value)
 		|| (EquipNumSearch(1772) && 1 == document.calcForm.SkillSubNum.value)
 		|| (EquipNumSearch(1773) && 0 == document.calcForm.SkillSubNum.value)))
 		skill_atk_bonus_ratio += 50;
-		
+	
+	// Huuma Swirling Petal#1770 - [Every Refine Level] - 5% more damage with [Throw Huuma Shuriken#396]
+	if (396 == n_A_ActiveSkill && EquipNumSearch(1770))
+		skill_atk_bonus_ratio += 5 * n_A_Weapon_ATKplus;
+	
 	// Heaven's Feather & Hell's Fire#1785 - [Every Refine Level] - 2% more damage with [Desperado#429]
 	if (429 == n_A_ActiveSkill && EquipNumSearch(1785))
 		skill_atk_bonus_ratio += 2 * n_A_Weapon_ATKplus;
