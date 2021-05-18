@@ -354,7 +354,7 @@ cardOBJ = [
 ,[332,2,"Bacsojin",0,57,-10,72,15,91,20,93,20,94,20,0] //custom TalonRO heal-stuff +20% instead of +30; +10% dmg from demi-human
 ,[333,4,"Sky Deleter","Regain 100 HP each time a monster is killed with a ATK based attack",75,-100,0]
 ,[334,4,"Earth Deleter","Regain 10 SP each time a monster is killed with a ATK based attack<BR>Drains 100 SP when the armor is unequipped",76,-100,0]
-,[335,7,"Greatest General","0.2% chance of casting level 5 Summon Spirit Sphere when doing a ATK based attack<BR>If equipped by an Acolyte job type: 2% chance instead",0]
+,[335,7,"Greatest General","0.2% chance of casting level 5 Summon Spirit Sphere when doing a ATK based attack<BR>2% chance instead if equipped by [Acolyte] or [Gunslinger]",0]
 ,[336,7,"Cloud Hermit","1% chance of [Box of Gloom] item dropping when killing a Plant race monster",0]
 ,[337,2,"Evil Nymph",0,4,1,14,50,0]
 ,[338,3,"Toad",0,57,35,0] //custom TalonRO -35% dmg from demi-human - diff position
