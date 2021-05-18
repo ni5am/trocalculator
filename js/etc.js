@@ -1115,6 +1115,15 @@ ME_ENCHANTABLE = [
 	,[951,0] //Stem of Nepenthes [2]
 	,[1454,0] //Stem Whip [1]
 	,[1622,0] //Rosevine
+/* [Huuma] */
+	,[660, 0] //Huuma Calm Mind
+/* [Guns] */
+	,[550, 0] //Garrison [1/2]
+	,[657, 0] //Lever Action Rifle [2]
+	,[655, 0] //Long Barrel [1]
+	,[559, 0] //Butcher [0/1]
+	,[659, 0] //Thunder P [2]
+	,[561, 0] //Inferno [1]
 ];
 
 BIOLAB_ENCHANTS_WEAPON = [
