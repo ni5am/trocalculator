@@ -626,7 +626,7 @@ cardOBJ = [
 ,[599,2,"Hell Apocalypse",0,15,5,13,200,0]
 ,[600,100,"Hell Apocalypse + Apocalypse","[If Apocalypse Card Equipped on Meteor Plate]<br/>Gain protection from the Freeze status.",15,5,152,50,0]
 // Old Glast Heim
-,[601,1,"1st Commander of Destruction",0,8,5,5073,25,0]
+,[601,1,"1st Commander of Destruction",0,8,5,5073,50,0]
 ,[602,1,"2nd Commander of Destruction", "<b>[If Two-Handed Spear Equipped]</b><br/> 50% more damage with [Holy Cross].",8,5,0]
 ,[603,4,"Corrupted Soul","Add a 10% chance to cause Curse or Stone Curse status when attacked physically.",18,5,19,5,0]
 ,[604,2,"Amdarais","[Cart Termination] damage inflicted on [Ghost] Element monsters by 25%.<br>[Cart Termination] damage inflicted on [Neutral] Element monsters by 10%.",300,10,308,25,0]

@@ -8092,6 +8092,10 @@ function ApplySkillAtkBonus(dmg)
 	// #127 - Increase damage inflicted on Large size monster by 15% when using [Pierce#70] or [Brandish Spear#73]
 	if (1386 == n_A_Equip[0] && 2 == n_B[4] && (70 == n_A_ActiveSkill || 73 == n_A_ActiveSkill) && SQI_Bonus_Effect.findIndex(x => x == 127) > -1)
 		skill_atk_bonus_ratio += 15;
+	
+	// Nibelungen#1386 + 1st Commander of Destruction#601 - Brandish damage bonus reduced by 10%
+	if (1386 == n_A_Equip[0] && 73 == n_A_ActiveSkill)
+		skill_atk_bonus_ratio -= 10 * CardNumSearch(601);
 
 	// [Two-Handed Spear] - 50% more damage with [Holy Cross]#161.
 	if (5 == n_A_WeaponType && 161 == n_A_ActiveSkill)
