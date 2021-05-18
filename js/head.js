@@ -843,9 +843,11 @@ function BattleCalc999()
 				n_A_Weapon_zokusei = eval(document.calcForm.A_Weapon_zokusei.value);
 			n_Enekyori=1;
 			wCast = 1.8 + n_A_ActiveSkillLV *0.2;
-			if(n_A_ActiveSkillLV>=6) n_Delay[2]=1;
-			else n_Delay[2]=0.8;
-			n_Delay[3]=3;
+			if (n_A_ActiveSkillLV > 5)
+				n_Delay[2] = 3;
+			else
+				n_Delay[2] = 2.8;
+			n_Delay[3] = 2;
 		}else if(n_A_ActiveSkill==302){
 			n_Enekyori=1;
 			not_use_card = 1;
