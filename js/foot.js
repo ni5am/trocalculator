@@ -3073,9 +3073,9 @@ with(document.calcForm){
 	if (SkillSearch(258))
 		n_tok[12] += 30;
 
-	// Madness Canceller#420
+	// Madness Canceller#420 - + 20% ASPD
 	if (SkillSearch(420))
-		n_tok[12] += 30;
+		n_tok[12] += 20;
 
 	// Gatling Fever#433
 	if (n_A_WeaponType == 20 && SkillSearch(433))
