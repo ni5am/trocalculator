@@ -8407,7 +8407,7 @@ function CastAndDelay(){
 	}
 	
 	if(n_A_ActiveSkill != 0 && n_A_ActiveSkill != 284)
-		n_Delay[4] = 0.33; // [Custom TalonRO 2016-06-02 - Added fixed TRO's Minimun Delay for Skills] [Kato]
+		n_Delay[4] = eval(document.calcForm.minimum_skill_delay.value);
 
 	if(n_Delay[4] > (wDelay + wCast)){
 		wDelay = n_Delay[4] - wCast;

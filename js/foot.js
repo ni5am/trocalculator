@@ -1,4 +1,3 @@
-myInnerHtml("PR1","",0);
 myInnerHtml("DELHTML",' <Font size=2><A Href="del.html">[delete saved data]</A></Font>',0);
 //array of armor select elements
 armorLoc = [document.calcForm.A_head1, document.calcForm.A_head2, document.calcForm.A_head3, document.calcForm.A_body, document.calcForm.A_left, document.calcForm.A_shoulder, document.calcForm.A_shoes, document.calcForm.A_acces1, document.calcForm.A_acces2];
@@ -8582,47 +8581,7 @@ with(document.calcForm){
 	StAllCalc();
 	ActiveSkillSetPlus();
 }}
-/*
-function LoadCookieSP(){
-with(document.calcForm){
-	var wStr = "";
-	//custom TalonRO adding char saves
-	//old
-	//for(var k=0;k<=18;k++){
-	//new
-	for(var k=0;k<=49;k++){
-		var SaveData = new Array();
-		if(k <= 7)
-			var	cookieNum = "num0"+k;
-		if(k == 8)
-			var	cookieNum = "num09";
-		if(k == 9)
-			var	cookieNum = "num10";
-		if(k > 10)
-			var cookieNum = "num"+k;
-		SaveData = document.cookie.split("; ");
-		var ch=0;
-		for(i=0;SaveData[i];i++){
-			if (SaveData[i].substr(0,6) == cookieNum +"="){
-				wStr += SaveData[i].substr(6,SaveData[i].length);
-				ch = 1;
-				var x=0;
-				for(var i=0;i<=88;i++)
-					x += SaveStr1[i];
-				for(i=x;i<=159;i++)
-					wStr += 0;
-				wStr += "<BR>";
-			}
-		}
-		if(ch==0){
-			for(var i=0;i<=159;i++)
-				wStr += 0;
-			wStr += "<BR>";
-		}
-	}
-	myInnerHtml("PR1",wStr,0);
-}}
-*/
+
 function LoadCookie3(){
 
 	SaveData = new Array();
@@ -8677,93 +8636,6 @@ function LoadCookie3(){
 			document.calcForm.A_SaveSlot.options[k-1] = new Option("Save "+k +": No Data",cookieNum);
 	}
 }
-/*
-function SaveCookieConf(){
-	SaveData = new Array();
-
-	wDay = 99000;
-
-	wCookie = new Date();
-	wCookie.setTime(wCookie.getTime()+(wDay*1000*60*60*24));
-	expDay = wCookie.toGMTString();
-
-	wStr = "a" + NtoS2(eval(document.calcForm.Conf01.value),2) + "00000";
-
-	document.cookie = "ConfData" +"="+ wStr +"; expires="+ expDay;
-}
-*/
-/*
-function LoadCookieConf(){
-
-	SaveData = new Array();
-	SaveData = document.cookie.split("; ");
-	wStr = "";
-
-	wLCF = 0;
-	for(i=0;SaveData[i];i++){
-		if(SaveData[i].substr(0,9) == "ConfData" +"="){
-			wStr = SaveData[i].substr(9,SaveData[i].length);
-			wLCF = 1;
-			break;
-		}
-	}
-
-	//if(wLCF == 1){
-	//	if(wStr.substr(0,1) == "0"){
-	//		document.calcForm.Conf01.value = wStr.substr(1,2);
-	//		SaveCookieConf();
-	//	}else
-	//		document.calcForm.Conf01.value = StoN2(wStr.substr(1,2));
-	//}else{
-	//	document.calcForm.Conf01.value = 33;
-	//}
-}
-*/
-/*
-function SaveCookieChangelogDisplay(){
-	var disp;
-	if (document.getElementById('ChangelogDisplay').style.display=='inline'){
-		document.getElementById('ChangelogDisplay').style.display='none';
-		disp=0;
-	}else if (document.getElementById('ChangelogDisplay').style.display=='none'){
-		document.getElementById('ChangelogDisplay').style.display='inline';
-		disp=1;
-	}
-	wDay = 99000;
-
-	wCookie = new Date();
-	wCookie.setTime(wCookie.getTime()+(wDay*1000*60*60*24));
-	expDay = wCookie.toGMTString();
-
-	//wStr = "a" + NtoS2(eval(document.calcForm.Conf01.value),2) + "00000";
-
-	document.cookie = "ChangelogDisplay" +"="+ disp +"; expires="+ expDay;
-}
-*/
-
-/*
-function LoadCookieChangelogDisplay(){
-
-	SaveData = new Array();
-	SaveData = document.cookie.split("; ");
-	wStr = "";
-	wLCF = 0;
-	for(i=0;SaveData[i];i++){
-		if(SaveData[i].substr(0,17) == "ChangelogDisplay" +"="){
-			wStr = SaveData[i].substr(17,SaveData[i].length);
-			wLCF = 1;
-			break;
-		}
-	}
-	if(wLCF == 1){
-		if (wStr.substr(0,1) == "0"){
-			document.getElementById('ChangelogDisplay').style.display='none';
-		}else if (wStr.substr(0,1) == "1"){
-			document.getElementById('ChangelogDisplay').style.display='inline';
-		}
-	}
-}
-*/
 
 function NtoS2(n,keta){
 	var strX = "";
@@ -9512,7 +9384,6 @@ with(document.calcForm){
 			x+=14;
 		}
 
-		//document.calcForm.Conf01.value = StoN2(w.substr(x+1,2));
 		x+=2;
 		if(w_Version >= 1){
 			document.calcForm.A_HSE.value = StoN2(w.substr(x+1,2));
@@ -9522,21 +9393,8 @@ with(document.calcForm){
 			document.calcForm.A_HSE_HEAD1.value = StoN2(w.substr(x+1,2));
 			x+=2;
 		}
+		
 		//custom TalonRO Kris Enchantment LOAD URL
-		/*
-		if(A_weapon1.value == 1472){
-			A_KE11.value = StoN2(w.substr(x+1,2));
-			A_KE12.value = StoN2(w.substr(x+3,2));
-			x+=4
-		}
-		if (typeof(A_weapon2) != "undefined"){
-			if(A_weapon2.value == 1472){
-				A_KE21.value = StoN2(w.substr(x+1,2));
-				A_KE22.value = StoN2(w.substr(x+3,2));
-				x+=4
-			}
-		}
-		*/
 		A_KE11.value = StoN2(w.substr(x+1,2));
 		A_KE12.value = StoN2(w.substr(x+3,2));
 		A_KE21.value = StoN2(w.substr(x+5,2));
