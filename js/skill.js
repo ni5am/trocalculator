@@ -609,6 +609,7 @@ InsertSkill = [
 [61,1,10,1], // Combo Beer Hat + Empty Liquor Bottle - Moving HP Recovery lv 1
 [62,1,162,10], // custom TalonRO SQI Bonus - Blade of Angel - Grand Cross lv 10
 [63,1,128,10], // custom TalonRO SQI Bonus - Staff of Magi - Water Ball lv 10
+[64,1,65,2], // custom TalonRO - Orange Hat - Mammonite lv 2
 ];
 
 

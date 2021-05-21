@@ -1855,6 +1855,8 @@ ItemOBJ = [
 ,[1802,64,145,0,0,1,20,80,"Rebellion Scarf","",0,5,1,14,50,0]
 ,[1803,51,145,0,0,1,20,80,"Mob Scarf","",0,17,5,72,-10,0]
 ,[1804,100,0,0,0,0,0,0,"Mob Scarf + Rebellion Scarf","","[Flip the Coin] is always successful.",13,300,0]
+// ---
+,[1805,50,1,3,0,0,40,20,"Orange Hat","",0,220,64,0]
 ];
 
 //Test code for finding the values in Skill.js AutoSpellSkill
@@ -3693,6 +3695,7 @@ ItemID = [
 ,[1802,1,28502]
 ,[1803,1,28484]
 ,[1804,2,28502,28484]
+,[1805,1,18696]
 ];
 
 /*
