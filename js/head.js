@@ -8182,9 +8182,6 @@ function BattleCalc3left(w998)
 
 function SkillSearch(n)
 {
-	if(n==258 && TimeItemNumSearch(35))
-		return 1;
-
 	for(var k=0;k<=14;k++)
 	{
 		if(JobSkillPassOBJ[n_A_JOB][k] == n)
