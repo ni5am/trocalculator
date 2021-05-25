@@ -983,12 +983,12 @@ function BattleCalc999()
 			n_Enekyori=1;
 			wbairitu += n_A_ActiveSkillLV * 1 + 2;
 			n_Delay[2] = 1 + n_A_ActiveSkillLV *0.2;
-		}else if(n_A_ActiveSkill==436){
+		}else if (n_A_ActiveSkill == 436) // Spread Attack#436
+		{
 			n_Enekyori=1;
 			wbairitu += n_A_ActiveSkillLV * 0.2 - 0.2;
-			wCast = 1;
-			n_Delay[2] = 1;
-		}else if(n_A_ActiveSkill==437){
+		}
+		else if(n_A_ActiveSkill==437){
 			n_Enekyori=1;
 			not_use_card = 1;
 			wCast = 1;
