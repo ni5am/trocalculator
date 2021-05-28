@@ -7449,12 +7449,12 @@ function calc()
 	n_A_CriATK[0] = n_A_ATK + n_A_WeaponLV_Minplus + Math.floor(n_A_Weapon_ATK * wCSize);
 	n_A_CriATK[2] = n_A_ATK + n_A_WeaponLV_Maxplus + Math.floor(n_A_Weapon_ATK * wCSize);
 
-	if(n_A_WeaponType==10 || 17<=n_A_WeaponType && n_A_WeaponType <= 21){
+	if (n_A_WeaponType==10 || 17<=n_A_WeaponType && n_A_WeaponType <= 21)
+	{
 		n_Enekyori=1;
-		if(n_A_WeaponType==10){
-			for(i=0;i<=2;i++)
-				n_A_CriATK[i] += Math.floor((ArrowOBJ[n_A_Arrow][0]) * wCSize);
-		}
+		
+		for(i=0;i<=2;i++)
+			n_A_CriATK[i] += Math.floor((ArrowOBJ[n_A_Arrow][0]) * wCSize);
 	}
 
 
