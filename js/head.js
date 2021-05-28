@@ -1071,12 +1071,14 @@ function BattleCalc999()
 			wCast = (1 + w) * n_A_CAST;
 			n_Delay[2] = 0.5;
 			n_Enekyori=1;
-		}else if(n_A_ActiveSkill==418){
-			n_Enekyori=1;
-			n_Delay[2] = 1;
-			wbairitu += 0.5;
+		}
+		else if(n_A_ActiveSkill==418) // Triple Action#427
+		{
 			wHITsuu = 3;
-		}else if(n_A_ActiveSkill==391){
+			n_Enekyori = 1;
+			wbairitu += 0.5;
+		}
+		else if(n_A_ActiveSkill==391){
 			n_Delay[0] = 1;
 			n_Enekyori=1;
 			wbairitu += n_A_STR *0.08 - 0.5;
