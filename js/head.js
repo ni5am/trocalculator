@@ -144,6 +144,7 @@ BulletOBJ = [
 [15,2,"Earth Bullet"],
 [15,1,"Water Bullet"],
 [15,7,"Shadow Bullet"],
+[15,8,"Immaterial Bullet"],
 ];
 
 GrenadeOBJ = [
@@ -3269,22 +3270,21 @@ with(document.calcForm){
 			j=18;
 			for (i=0; i<=4; i++)
 				ArrowOBJ[i] = ArrowOBJbackup[i];
-		}else if(n==17||n==18||n==19||n==20){
-			//custom TalonRO elemental bullets
-			//before
-			//j=2
-			//new
-			j=7;
-			//before
-			//for (i=0; i<=2; i++)
-			//new
-			for (i=0; i<=7; i++)
+		}
+		else if (n >= 17 && n <= 20)
+		{
+			j=8;
+			for (i=0; i<=8; i++)
 				ArrowOBJ[i] = BulletOBJ[i];
-		}else if(n==21){
+		}
+		else if (n==21)
+		{
 			j=4;
 			for (i=0; i<=4; i++)
 				ArrowOBJ[i] = GrenadeOBJ[i]
-		}else{
+		}
+		else
+		{
 			j=1;
 			ArrowOBJ[0] = [0,0,"No Arrows"];
 			ArrowOBJ[1] = ArrowOBJ[16];
