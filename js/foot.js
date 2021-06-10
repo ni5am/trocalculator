@@ -4294,6 +4294,35 @@ with(document.calcForm){
 			n_tok[370 + eclage_food] += 5;
 	}
 
+	if (EquipNumSearch(1806)) // Vanargand Helm#1086
+	{
+		//[Refine Rate > 4] Add an additional 2% HP drain.
+		if (n_A_HEAD_DEF_PLUS > 4)
+			n_tok[381] += 2;
+		//[Refine Rate > 6] Add an additional 2% HP drain, 1% SP drain and an additional 1% chance of HP and SP being drained.
+		if (n_A_HEAD_DEF_PLUS > 6)
+		{
+			n_tok[380] += 1;
+			n_tok[381] += 2;
+			n_tok[382] += 1;
+			n_tok[383] += 1;
+		}
+		//[Refine Rate > 7] Add an additional 1% chance of HP and SP being drained.
+		if (n_A_HEAD_DEF_PLUS > 7)
+		{
+			n_tok[380] += 1;
+			n_tok[382] += 1;
+		}
+		//[Refine Rate > 8] Add an additional 3% HP drain, 2% SP drain and an additional 1% chance of HP and SP being drained.
+		if (n_A_HEAD_DEF_PLUS > 8)
+		{
+			n_tok[380] += 1;
+			n_tok[381] += 3;
+			n_tok[382] += 1;
+			n_tok[383] += 2;
+		}
+	}
+
 	ClickB_Enemy(0 == Taijin && document.calcForm.monster_stats_check.checked);
 	
 	// Update Extended Information

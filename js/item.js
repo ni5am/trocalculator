@@ -1742,7 +1742,7 @@ ItemOBJ = [
 ,[1694,100,0,0,0,0,0,0,"Prison Uniform + Thief Handcuff + Shackles + Bloodied Shackle Ball","", "Casting can't be interrupted",5,5,9,5,15,5,67,10,68,10,69,10,121,10,126,10,0]
 // ---
 ,[1695,50,0,0,0,0,100,10,"Star Dust Hairband","","<br>A hairband with a romantic glowing large star",50,-10,120,5,0]
-// Eclase
+// Eclage
 ,[1696,62,1,2,0,1,40,60,"Menblatt Wing Manteau","","A short coat that immitates Menblatt's feathers.<br>[Every Refine Level]<br>SP Recovery + 3%<br>[Every 2 Refine Levels]<br>MDEF + 1",25,2,76,10,0]
 ,[1697,61,1001,3,0,1,100,70,"Rose of Eden","","A shield made with Heaven's Roses.",0]
 ,[1698,100,0,0,0,0,0,0,"Rose of Eden + Angelic Ring","","[Vanilla Mode] DEX + 2 instead.",5,3,91,10,93,10,94,10,0]
@@ -1857,6 +1857,9 @@ ItemOBJ = [
 ,[1804,100,0,0,0,0,0,0,"Mob Scarf + Rebellion Scarf","","[Flip the Coin] is always successful.",13,300,0]
 // ---
 ,[1805,50,1,3,0,0,40,20,"Orange Hat","",0,220,64,0]
+,[1806,50,0,4,0,1,150,80,"Vanargand Helm","","When attacking with an ATK based attack, adds a 1% chance to absorb 1% of the damage inflicted on the enemy as HP and SP.<br><br>[Refine Rate > 4] Add an additional 2% HP drain.<br>[Refine Rate > 6] Add an additional 2% HP drain, 1% SP drain and an additional 1% chance of HP and SP being drained.<br>[Refine Rate > 7] Add an additional 1% chance of HP and SP being drained.<br>[Refine Rate > 8] Add an additional 3% HP drain, 2% SP drain and an additional 1% chance of HP and SP being drained.",380,1,381,1,382,1,383,1,0]
+// Malangdo Rentals
+
 ];
 
 //Test code for finding the values in Skill.js AutoSpellSkill
@@ -3696,6 +3699,7 @@ ItemID = [
 ,[1803,1,28484]
 ,[1804,2,28502,28484]
 ,[1805,1,18696]
+,[1806,1,18652]
 ];
 
 /*
