@@ -7801,17 +7801,26 @@ function BaiCI(wBaiCI)
 		if(debug_dmg_avg)
 			debug_atk+="\n\tw1:"+w1+"(%)\na_wBaiCI:"+wBaiCI;
 
-		if(debug_dmg_avg) {
-			debug_atk+="\n --- (BaiCI) crit Modifier ---";
-			debug_atk+="\nb_wBaiCI:"+wBaiCI;
+		// Manage critical damage modifier
+		if (wCriTyuu)
+		{
+			// This modifier does not increase Shadow Slash#401 and Sharpshoot#272 damage
+			crit_dmg_modifier = (272 == n_A_ActiveSkill || 401 == n_A_ActiveSkill) ? 0 : n_tok[70];
+			
+			// #24 - 10% more damage with Critical Hits - Artemis bonus also increases Sharpshoot damage
+			if (272 == n_A_ActiveSkill && 1377 == n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x == 24) > -1) // Sharpshoot#272
+				crit_dmg_modifier = 10;
+
+			if (401 == n_A_ActiveSkill) // Shadow Slash#401
+			{
+				crit_dmg_modifier = 10 * CardNumSearch(607); // Cenere card#607
+				// #109 - 20% more damage with Critical Hits - Hira bonus also increases Shadow Slash damage
+				if (1385 == n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x == 109) > -1)
+					crit_dmg_modifier += 20;
+			}
+
+			wBaiCI = Math.floor(wBaiCI * (100 + crit_dmg_modifier) /100);
 		}
-		//custom TalonRO fix so critical damage bonus increases Sharp Shooting too
-		if(wCriTyuu==1 && n_A_ActiveSkill != 401)
-		//original
-		//if(wCriTyuu==1 && n_A_ActiveSkill != 272 && n_A_ActiveSkill != 401)
-			wBaiCI = Math.floor(wBaiCI * (100+ n_tok[70]) /100);
-		if(debug_dmg_avg)
-			debug_atk+="\na_wBaiCI:"+wBaiCI;
 
 		if(108<=n_B[0] && n_B[0]<=115 || n_B[0]==319 || n_B[0] == 233) 
 			wBaiCI = Math.floor(wBaiCI * (100+n_tok[81]) /100);
