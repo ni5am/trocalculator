@@ -994,6 +994,18 @@ with(document.calcForm){
 			}
 	}
 
+	/* Malangdo Rentals
+	   Hairtail [Rental]#1808 - [Base Level  > 94] - ATK + 50
+	   Marlin 	[Rental]#1810 - [Base Level  > 94] - ATK + 30
+	   Saurel 	[Rental]#1811 - [Base Level  > 94] - ATK + 10, MATK + 5%
+	   Tuna 	[Rental]#1812 - [Base Level  > 94] - ATK + 20
+	*/
+	if (n_A_BaseLV > 94)
+	{
+		n_tok[17] += 50 * EquipNumSearch(1808) + 30 * EquipNumSearch(1810) + 10 * EquipNumSearch(1811) + 20 * EquipNumSearch(1812);
+		n_tok[89] += 5 * EquipNumSearch(1811);
+	}
+
 	/*
 		Valorous Battlefield Morning Star (damage)
 		[Refine level 8-10]
@@ -3546,8 +3558,12 @@ with(document.calcForm){
 		n_tok[25] += 5;}//sagittarius crown
 
 	//custom TalonRO Evil Marching Hat: if refine rate >=9 +5% ranged damage
-	if(n_A_HEAD_DEF_PLUS >= 9 &&EquipNumSearch(1539)){
-		n_tok[25] += 5;}
+	if(n_A_HEAD_DEF_PLUS >= 9 &&EquipNumSearch(1539))
+		n_tok[25] += 5;
+	
+	// Brindle Eel [Rental]#1807 - Malang Snow Crab [Rental]#1809 - [Base Level  > 94] - Ranged physical attack damage + 10%
+	if (n_A_BaseLV > 94 && (EquipNumSearch(1807) || EquipNumSearch(1809)))
+		n_tok[25] += 10;
 
 	//[Custom TalonRO - 2018-07-09 Ancient Gold Adornment 5% Range Physical Damage] [NattWara]
 	if(EquipNumSearch(1663)){

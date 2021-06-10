@@ -1851,7 +1851,7 @@ ItemOBJ = [
 ,[1798,17,145,100,3,2,0,1,"Western Outlaw [Rental]","","<b>[Every 10 Base AGI]</b><br>HIT + 1<br><b>[Every 14 Base AGI]</b><br>ASPD + 1%",80,10,193,1,0]
 ,[1799,19,145,200,4,0,0,1,"Gate Keeper-DD [Rental]","","Inflicts splash damage.",5,1,80,20,221,31,0]
 ,[1800,20,145,75,3,0,0,1,"Butcher [Rental]","",0,80,40,112,10,0]
-,[1801,21,145,300,2,1,0,1,"Inferno [Rental]","",0,12,15,80,20,0]
+,[1801,21,145,300,2,0,0,1,"Inferno [Rental]","",0,12,15,80,20,0]
 ,[1802,64,145,0,0,1,20,80,"Rebellion Scarf","",0,5,2,14,50,0]
 ,[1803,51,145,0,0,1,20,80,"Mob Scarf","",0,17,10,72,-10,0]
 ,[1804,100,0,0,0,0,0,0,"Mob Scarf + Rebellion Scarf","","[Flip the Coin] is always successful.",13,300,0]
@@ -1859,7 +1859,12 @@ ItemOBJ = [
 ,[1805,50,1,3,0,0,40,20,"Orange Hat","",0,220,64,0]
 ,[1806,50,0,4,0,1,150,80,"Vanargand Helm","","When attacking with an ATK based attack, adds a 1% chance to absorb 1% of the damage inflicted on the enemy as HP and SP.<br><br>[Refine Rate > 4] Add an additional 2% HP drain.<br>[Refine Rate > 6] Add an additional 2% HP drain, 1% SP drain and an additional 1% chance of HP and SP being drained.<br>[Refine Rate > 7] Add an additional 1% chance of HP and SP being drained.<br>[Refine Rate > 8] Add an additional 3% HP drain, 2% SP drain and an additional 1% chance of HP and SP being drained.",380,1,381,1,382,1,383,1,0]
 // Malangdo Rentals
-
+,[1807,10,64,180,1,0,0,50,"Brindle Eel [Rental]","","<b>[Base Level > 94]</b> Ranged physical attack damage +10%.<br>",2,3,0]
+,[1808,3,51,220,1,0,0,50,"Hairtail [Rental]","","<b>[Base Level > 94]</b> ATK + 50",10,20,70,50,0]
+,[1809,10,92,120,1,0,0,50,"Malang Snow Crab [Rental]","","<b>[Base Level > 94]</b> Ranged physical attack damage + 10%.",6,3,70,50,0]
+,[1810,5,1051,220,1,0,550,50,"Marlin [Rental]","","Adds a chance to inflict Bleeding status on target when using [Pierce] or [Spiral Pierce].<br><b>[Base Level > 94]</b> ATK + 30",0]
+,[1811,1,0,160,1,0,0,50,"Saurel [Rental]","","<b>[Base Level > 94]</b> ATK + 10, MATK + 5%.<br>",89,20,0]
+,[1812,8,0,180,1,0,0,50,"Tuna [Rental]","","When attacking, has a chance to Stun the enemy or cast Level 5[Bash].<br><b>[Base Level > 94]</b> ATK + 20.",0]
 ];
 
 //Test code for finding the values in Skill.js AutoSpellSkill
@@ -3700,6 +3705,12 @@ ItemID = [
 ,[1804,2,28502,28484]
 ,[1805,1,18696]
 ,[1806,1,18652]
+,[1807,1,18108]
+,[1808,1,1198]
+,[1809,1,18107]
+,[1810,1,1489]
+,[1811,1,13068]
+,[1812,1,16016]
 ];
 
 /*

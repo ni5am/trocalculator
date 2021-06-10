@@ -471,6 +471,9 @@ ITEM_SP_TIME_OBJ =[
 ,[51,"Duneyrr Card","Perfect Dodge + 10, [Lord Knight] Additional + 10 under Berserk",2,511,11,10,0]
 ,[52,"Rhyncho Card","Increase Resistance to Fire property by 10%",2,513,63,10,0]
 ,[53,"Color Scope","[Every Refine Level] Add a 0.5% chance that you will increase Critical ATK by 10% for 15 seconds.",1,1786,70,10,0]
+,[54,"Brindle Eel [Rental]","When long range attacking, has a chance of adding ASPD + 10% for 7 seconds.",1,1807,12,10,0]
+,[55,"Saurel [Rental]","When using a melee attack, has a chance of adding ATK + 30 for 7 seconds.",1,1811,17,30,0]
+,[56,"Saurel [Rental]","When doing a magical attack, has a chance of adding MATK + 10% for 7 seconds.",1,1811,89,10,0]
 ];
 //ITEM_SP_TIME_OBJ_SORT = [0,5,10,4,27,3,44,37,30,31,26,39,49,45,46,18,48,15,11,12,14,13,17,32,1,7,47,35,33,21,16,40,28,34,38,42,19,22,23,24,36,41,25,6,20,8,29,43];
 
