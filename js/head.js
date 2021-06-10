@@ -939,11 +939,7 @@ function BattleCalc999()
 			n_Enekyori=1;
 			wActiveHitNum = 5;
 			wbairitu += n_A_ActiveSkillLV *0.5 + 4;
-			//custom TalonRO adjust skill delay to ingame value (1sec)
-			//before
-			//n_Delay[2] = 1.7;
-			//new
-			n_Delay[2] = 1.7;
+			n_Delay[2] = 1;
 		}else if(n_A_ActiveSkill==430){ // Tracking#430
 			if(n_A_Weapon_ATKplus > 8 && EquipNumSearch(1100)){TCcast = 1.25;}
 			else if(EquipNumSearch(926)){TCcast = .75;}
@@ -1039,7 +1035,21 @@ function BattleCalc999()
 
 		CastAndDelay();
 		BattleCalc998();
-	}else if(n_A_ActiveSkill==40||n_A_ActiveSkill==70||n_A_ActiveSkill==111||n_A_ActiveSkill==192||n_A_ActiveSkill==76||n_A_ActiveSkill==418||n_A_ActiveSkill==391||n_A_ActiveSkill==429){
+	}
+	else if (22 == n_A_ActiveSkill) // Throw Stone#22
+	{
+		n_Enekyori = 1;
+
+		for (i = 0; i <=2; ++i)
+		{
+			w_DMG[i] = 50;
+			InnStr[i] += w_DMG[i];
+		}
+
+		CastAndDelay();
+		BattleCalc998();
+	}
+	else if(n_A_ActiveSkill==40||n_A_ActiveSkill==70||n_A_ActiveSkill==111||n_A_ActiveSkill==192||n_A_ActiveSkill==76||n_A_ActiveSkill==418||n_A_ActiveSkill==391||n_A_ActiveSkill==429){
 		if(n_A_ActiveSkill==40){
 			n_Enekyori=1;
 			wbairitu += n_A_ActiveSkillLV *0.1 -0.1;
