@@ -677,7 +677,7 @@ SQI_BONUS =[
 ,[137,1387,"Scouter","CRIT + 15 (30 with Rifles) and 20% more damage with Critical Hits",10,15,70,20,0]
 ,[138,1387,"Scouter","Shotgun Equipped: 15% Aftercast reduction and immunity to Blind status",0]
 ,[139,1387,"Scouter","Grenade Launcher Equipped: Add a 10% chance to pierce 20% of enemy defense for 10 seconds after using [Triple Action]",0]
-,[140,1387,"Scouter","Ignore [Gatling Fever] FLEE and Movement Speed penalties. Dispell [Gatling Fever] on unequip",12,10,0]
+,[140,1387,"Scouter","Ignore [Gatling Fever] FLEE and Movement Speed penalties. Dispell [Gatling Fever] on unequip",0]
 ,[141,1387,"Scouter","Autocast [Call Spirits] when using [Flip Coin]",0]
 ,[142,1387,"Scouter","50% more damage with [Ground Drift], [Triple Action], and [Bull's Eye]",5437,50,5418,50,5419,50,0]
 ,[143,1387,"Scouter","5% chance to auto cast Stone Curse status when attacking",221,116,0]

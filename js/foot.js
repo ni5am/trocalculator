@@ -2252,11 +2252,12 @@ with(document.calcForm){
 	//adjustment
 	if(SkillSearch(421)){
 		n_A_FLEE += 30;}
-	//gatling fever
-	if(SkillSearch(433)){
-		if(n_A_WeaponType==20 || n_A_WeaponType==0){
+	
+	// Gatling Fever#433 - Decreases Flee by 5 * SkillLV
+	// #140 - Ignore [Gatling Fever] FLEE and Movement Speed penalties. Dispell [Gatling Fever] on unequip
+	if (20 == n_A_WeaponType && SkillSearch(433) && SQI_Bonus_Effect.findIndex(x => x == 140) == -1)
 			n_A_FLEE -= 5 * SkillSearch(433);
-	}}
+
 	//berserk
 	if(SkillSearch(258)){
 		n_A_FLEE /= 2;}
@@ -6791,10 +6792,6 @@ function manage_sqi_bonus()
 			n_tok[200] += 20;
 			n_tok[201] += 20;
 		}
-		
-		// #140 - Ignore [Gatling Fever] FLEE and Movement Speed penalties. Dispell [Gatling Fever] on unequip
-		if (20 == n_A_WeaponType && SQI_Bonus_Effect.findIndex(x => x == 140) > -1)
-			n_A_FLEE -= 5 * SkillSearch(433);
 	}
 
 	// Eversong Greaves#1383 - Taekwon
