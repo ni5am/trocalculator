@@ -6789,8 +6789,8 @@ function manage_sqi_bonus()
 		// #139 - Grenade Launcher Equipped: Add a 10% chance to pierce 20% of enemy defense for 10 seconds after using [Triple Action]
 		if (21 == n_A_WeaponType && SQI_Bonus_Effect.findIndex(x => x == 139) > -1)
 		{
-			n_tok[200] += 20;
-			n_tok[201] += 20;
+			n_tok[21] += 20;
+			n_tok[22] += 20;
 		}
 	}
 
