@@ -3808,9 +3808,9 @@ with(document.calcForm){
 			for(i=0;i<=230;i++)
 				A3_Skill0_4.options[i-1] = new Option(i,i);
 			for(i=0;i<=10;i++)
-				whistle_flee_bonus_select.options[i] = new Option(i * 5 + "%",i);
+				whistle_flee_bonus_select.options[i] = new Option("+ " + i * 5,i);
 			for(i=0;i<=10;i++)
-				whistle_pd_bonus_select.options[i] = new Option(i + "%",i);
+				whistle_pd_bonus_select.options[i] = new Option("+ " + i,i);
 			SWs3sw[0] = 1;
 			A3_Skill0_2.value = n_A_PassSkill3[20];
 			A3_Skill0_3.value = n_A_PassSkill3[30];
@@ -3985,7 +3985,7 @@ with(document.calcForm){
 			for(i=0;i<=10;i++)
 				A3_Skill5_3.options[i] = new Option(i,i);
 			for(i=0;i<=10;i++)
-				fortune_bonus_select.options[i] = new Option(i * 5 + "%",i);
+				fortune_bonus_select.options[i] = new Option("+ " + i * 5,i);
 			SWs3sw[5] = 1;
 			A3_Skill5_2.value = n_A_PassSkill3[25];
 			A3_Skill5_3.value = n_A_PassSkill3[35];
@@ -4019,7 +4019,7 @@ with(document.calcForm){
 			for(i=0;i<=10;i++)
 				A3_Skill6_3.options[i] = new Option(i,i);
 			for(i=0;i<=10;i++)
-				service_bonus_select.options[i] = new Option(i * 5 + "%",i);
+				service_bonus_select.options[i] = new Option(i * 5 + "%",i)
 			SWs3sw[6] = 1;
 			A3_Skill6_2.value = n_A_PassSkill3[26];
 			A3_Skill6_3.value = n_A_PassSkill3[36];
