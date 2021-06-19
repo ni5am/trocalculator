@@ -1865,6 +1865,8 @@ ItemOBJ = [
 ,[1810,5,1051,220,1,0,550,50,"Marlin [Rental]","","Adds a chance to inflict Bleeding status on target when using [Pierce] or [Spiral Pierce].<br><b>[Base Level > 94]</b> ATK + 30",0]
 ,[1811,1,0,160,1,0,0,50,"Saurel [Rental]","","<b>[Base Level > 94]</b> ATK + 10, MATK + 5%.<br>",89,20,0]
 ,[1812,8,0,180,1,0,0,50,"Tuna [Rental]","","When attacking, has a chance to Stun the enemy or cast Level 5[Bash].<br><b>[Base Level > 94]</b> ATK + 20.",0]
+// ---
+,[1813,50,0,1,0,0,40,1,"Majestic Evil Horn","","When attacking with an ATK based attack, adds a 1% chance to absorb 7% of the damage inflicted on the enemy as SP<br>When attacking with an ATK based attack, adds a 3% chance to absorb 15% of the damage inflicted on the enemy as HP",56,3,380,3,381,15,382,1,383,7,0]
 ];
 
 //Test code for finding the values in Skill.js AutoSpellSkill
@@ -3711,6 +3713,7 @@ ItemID = [
 ,[1810,1,1489]
 ,[1811,1,13068]
 ,[1812,1,16016]
+,[1812,1,5584]
 ];
 
 /*
