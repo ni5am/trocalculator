@@ -7368,23 +7368,30 @@ function KakutyouKansuu2(){
 		healtext +=  "<td>Fame Top:</td>" + '<td><select name="potion_rank" onChange="KakutyouKansuu()"></select></td></tr>';
 		healtext +=  '<tr><td>Item:</td>' + '<td><select name="selected_item" onChange="KakutyouKansuu()"></select></td></tr></table>';
 		myInnerHtml("A_KakutyouSel",healtext + "<br>",0);
-		for(i=0;i<=10;i++){
+		
+		for (i = 0; i <= 10; ++i)
+		{
 			document.calcForm.hp_recovery_lv.options[i] = new Option(i,i);
-			document.calcForm.hp_recovery_lv.value=0;}
-		for(i=0;i<=10;i++){
-			document.calcForm.learning_potion_lv.options[i] = new Option(i,i);
-			document.calcForm.learning_potion_lv.value=0;}
-		for(i=0;i<=10;i++){
 			document.calcForm.sp_recovery_lv.options[i] = new Option(i,i);
-			document.calcForm.sp_recovery_lv.value=0;}
-		for(i=0;i<FAME_TOP.length;i++){
+			document.calcForm.learning_potion_lv.options[i] = new Option(i,i);
+		}
+
+		for (i = 0; i < FAME_TOP.length; ++i)
 			document.calcForm.potion_rank.options[i] = new Option(FAME_TOP[i][1],i);
-			document.calcForm.potion_rank.value=0;}
-		for(i=0;i<ITEM_HEAL.length;i++){
-			if (document.calcForm.vanilla.checked && !ITEM_HEAL[i][6])
-				continue;
-			document.calcForm.selected_item.options[i] = new Option(ITEM_HEAL[i][4],i);
-			document.calcForm.selected_item.value=0;}
+		
+		healing_items = ITEM_HEAL;
+		if (document.calcForm.vanilla.checked)
+			healing_items = ITEM_HEAL.filter(x => x[6]);
+		
+		for (i= 0; i < healing_items.length; ++i)
+			document.calcForm.selected_item.options[i] = new Option(healing_items[i][4],i);
+
+		document.calcForm.potion_rank.value = 0;
+		document.calcForm.selected_item.value = 0;
+		document.calcForm.sp_recovery_lv.value = 0;
+		document.calcForm.hp_recovery_lv.value = 0;
+		document.calcForm.learning_potion_lv.value = 0;
+		
 		document.calcForm.rogue_spirit.options[0] = new Option("No",0);
 		document.calcForm.rogue_spirit.options[1] = new Option("Yes",1);
 		document.calcForm.rogue_spirit.value=0;
