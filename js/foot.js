@@ -3428,7 +3428,10 @@ with(document.calcForm){
 		// custom TalonRO Poem of Bragi after cast delay
 		// "we strongly think that the stacking of Bragi with items that grant ACD reduction is something to avoid" - GM Team, applied only to PvM
 		if (n_A_PassSkill3[45]) // PvP Mode
-			n_tok[74] += musical_lesson_lv * 3 + 20 * Math.floor(musical_lesson_lv / 10) + n_A_PassSkill3[32] * 2 + Math.floor(n_A_PassSkill3[29] / 5) + bragi_bonus;
+		{
+			pvp_bragi_delay_reduction = musical_lesson_lv * 3 + 20 * Math.floor(musical_lesson_lv / 10) + n_A_PassSkill3[32] * 2 + Math.floor(n_A_PassSkill3[29] / 5) + bragi_bonus;
+			n_tok[74] = Math.floor(100 - (100 - n_tok[74]) * (1 - pvp_bragi_delay_reduction / 100));
+		}
 		else // PvM Mode
 			n_tok[74] = musical_lesson_lv * 3 + n_A_PassSkill3[32] * 2 + Math.floor(n_A_PassSkill3[29] / 5) + bragi_bonus; // Override all previous acd reduction bonus
 	}
