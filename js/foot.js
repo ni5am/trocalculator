@@ -6530,7 +6530,7 @@ function KakutyouKansuu(){
 			
 			avergeAtk = parseInt(document.getElementById("strID_1").textContent);
 			
-			if (avergeAtk >= 0)
+			if (avergeAtk >= 0  && (!n_Nitou || typeof w_left_Aveatk != 'undefined'))
 			{
 				critAtk = parseInt(document.getElementById("CRIATK").textContent);
 				critChance = parseInt(document.getElementById("CRInum").textContent);
