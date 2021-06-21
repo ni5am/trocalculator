@@ -6488,13 +6488,37 @@ function KakutyouKansuu(){
 	{
 		wkk17 = "";
 		if (n_Enekyori == 2 && 162 != n_A_ActiveSkill)
-			myInnerHtml("A_KakutyouData","Skill not elligible for drain",0);
+			myInnerHtml("A_KakutyouData","Skill not eligible for drain",0);
 		else if (n_tok[380] || n_tok[382])
 		{
-			hp_drain_value = n_tok[381];
-			sp_drain_value = n_tok[383];
-			hp_drain_chance = Math.min(100, n_tok[380]);
-			sp_drain_chance = Math.min(100, n_tok[382]);
+			// Left hand carding are managed independently on left hand damage
+			lh_hp_drain_value = 0;
+			lh_sp_drain_value = 0;
+			lh_hp_drain_chance = 0;
+			lh_sp_drain_chance = 0;
+			
+			if (n_Nitou)
+			{
+				left_hand_weapon = [...ItemOBJ[n_A_Equip[1]], ...cardOBJ[n_A_card[4]], ...cardOBJ[n_A_card[5]], ...cardOBJ[n_A_card[6]], ...cardOBJ[n_A_card[7]]];
+				
+				for (i = 11; i < left_hand_weapon.length; ++i)
+				{
+
+					if (left_hand_weapon[i] == 380)
+						lh_hp_drain_chance += left_hand_weapon[++i];
+					else if (left_hand_weapon[i] == 381)
+						lh_hp_drain_value += left_hand_weapon[++i];
+					else if (left_hand_weapon[i] == 382)
+						lh_sp_drain_chance += left_hand_weapon[++i];
+					else if (left_hand_weapon[i] == 383)
+						lh_sp_drain_value += left_hand_weapon[++i];
+				}
+			}
+			
+			hp_drain_value = Math.min(100, n_tok[381] - lh_hp_drain_value);
+			sp_drain_value = Math.min(100, n_tok[383] - lh_sp_drain_value);
+			hp_drain_chance = Math.min(100, n_tok[380] - lh_hp_drain_chance);
+			sp_drain_chance = Math.min(100, n_tok[382] - lh_sp_drain_chance);
 			
 			monsters_count = eval(document.calcForm.A_KakutyouSelNum.value)
 			
@@ -6516,14 +6540,23 @@ function KakutyouKansuu(){
 
 				wkk17+="<table border=0>";
 				wkk17+="<tr><td><b>HP</b></td>"+"<td></td>"+"<td><b>SP</b></td></tr>";
-				wkk17+="<tr><td>Chance: " + hp_drain_chance + "%</td>"+"<td></td>"+"<td>Chance: " + sp_drain_chance +"%</td></tr>";
-				wkk17+="<tr><td>Absorb " + hp_drain_value +"% of the damage inflicted on the enemy as HP</td>"+"<td></td>"+"<td>Absorb " + sp_drain_value +"% of the damage inflicted on the enemy as SP</td></tr>";
-				wkk17+="<tr><td>Result: ~<b>"+Math.floor(monsters_count * hp_drain_chance * hp_drain_value * avergeAtk / 10000)+"</b> ("+Math.floor(monsters_count * hp_drain_value * avergeAtk / 100)+" maximum) per hit</td>"+"<td></td>";
-				wkk17+="<td>Result: ~<b>"+Math.floor(monsters_count * sp_drain_chance * sp_drain_value * avergeAtk / 10000)+"</b> ("+(monsters_count * sp_drain_value * avergeAtk / 100)+" maximum) per hit</td></tr>";
-				var dps = parseInt(document.getElementById("AveSecondATK").textContent);
-				if(dps>=0)
-					wkk17+="<tr><td>~<b>"+Math.floor(monsters_count * hp_drain_chance * hp_drain_value * dps / 10000)+"</b> per second</td>"+"<td></td>"+"<td>~<b>"+Math.floor(monsters_count * sp_drain_chance * sp_drain_value * dps / 10000)+"</b> per second</td></tr>";
+				wkk17+="<tr><td>Chance: " + hp_drain_chance + "% " + (n_Nitou ? "(" + lh_hp_drain_chance + "%)" : "") + "</td>"+"<td></td>"+"<td>Chance: " + sp_drain_chance + "% " + (n_Nitou ? "(" + lh_sp_drain_chance + "%)" : "") + "</td></tr>";
+				wkk17+="<tr><td>Absorb " + hp_drain_value + "% " + (n_Nitou ? "(" + lh_hp_drain_value + "%)" : "") + " of the physical damage inflicted on the enemy as HP</td>"+"<td></td>"+"<td>Absorb " + sp_drain_value + "% " + (n_Nitou ? "(" + lh_sp_drain_value + "%)" : "") + " of the physical damage inflicted on the enemy as SP</td></tr>";
+				wkk17+="<tr><td>Result: ~<b>"+Math.floor(monsters_count * hp_drain_chance * hp_drain_value * avergeAtk / 10000) + "</b> out of "+Math.floor(monsters_count * hp_drain_value * avergeAtk / 100)+" per hit";
+				wkk17+= (n_Nitou ? " (~<b>"+Math.floor(monsters_count * lh_hp_drain_chance * lh_hp_drain_value * w_left_Aveatk / 10000) + "</b> out of "+ Math.floor(monsters_count * lh_hp_drain_value * w_left_Aveatk / 100) +" per hit)": "") + "</td><td></td>";
+				wkk17+="<td>Result: ~<b>"+Math.floor(monsters_count * sp_drain_chance * sp_drain_value * avergeAtk / 10000) + "</b> out of "+ Math.floor(monsters_count * sp_drain_value * avergeAtk / 100) +" per hit"
+				wkk17+= (n_Nitou ? " (~<b>"+Math.floor(monsters_count * lh_sp_drain_chance * lh_sp_drain_value * w_left_Aveatk / 10000) + "</b> out of "+ Math.floor(monsters_count * lh_sp_drain_value * w_left_Aveatk / 100) +" per hit)": "") + "</td></tr>";
+				
+				left_hand_dps = (n_Nitou ? n_Delay[1] * w_left_Aveatk : 0);
+				dps = parseInt(document.getElementById("AveSecondATK").textContent) - left_hand_dps;
+				
+				if (dps>=0)
+				{
+					wkk17+="<tr><td>~<b>"+Math.floor(monsters_count * hp_drain_chance * hp_drain_value * dps / 10000) + (n_Nitou ? " (~<b>"+Math.floor(monsters_count * lh_hp_drain_chance * lh_hp_drain_value * left_hand_dps / 10000) + "</b>)" : "") + " per second</td>";
+					wkk17+="<td></td>"+"<td>~<b>"+Math.floor(monsters_count * sp_drain_chance * sp_drain_value * dps / 10000) + (n_Nitou ? " (~<b>"+Math.floor(monsters_count * lh_sp_drain_chance * lh_sp_drain_value * left_hand_dps / 10000) + "</b>" : "") + " per second</td></tr>";
+				}
 				wkk17+="</table>";
+				
 				myInnerHtml("A_KakutyouData",wkk17,0);
 			}
 			else
