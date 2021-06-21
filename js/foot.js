@@ -6547,13 +6547,13 @@ function KakutyouKansuu(){
 				wkk17+="<td>Result: ~<b>"+Math.floor(monsters_count * sp_drain_chance * sp_drain_value * avergeAtk / 10000) + "</b> out of "+ Math.floor(monsters_count * sp_drain_value * avergeAtk / 100) +" per hit"
 				wkk17+= (n_Nitou ? " (~<b>"+Math.floor(monsters_count * lh_sp_drain_chance * lh_sp_drain_value * w_left_Aveatk / 10000) + "</b> out of "+ Math.floor(monsters_count * lh_sp_drain_value * w_left_Aveatk / 100) +" per hit)": "") + "</td></tr>";
 				
-				left_hand_dps = (n_Nitou ? n_Delay[1] * w_left_Aveatk : 0);
+				left_hand_dps = Math.floor(n_Nitou ? n_Delay[1] * w_left_Aveatk * w_HIT_HYOUJI / 100 : 0);
 				dps = parseInt(document.getElementById("AveSecondATK").textContent) - left_hand_dps;
 				
 				if (dps>=0)
 				{
-					wkk17+="<tr><td>~<b>"+Math.floor(monsters_count * hp_drain_chance * hp_drain_value * dps / 10000) + (n_Nitou ? " (~<b>"+Math.floor(monsters_count * lh_hp_drain_chance * lh_hp_drain_value * left_hand_dps / 10000) + "</b>)" : "") + " per second</td>";
-					wkk17+="<td></td>"+"<td>~<b>"+Math.floor(monsters_count * sp_drain_chance * sp_drain_value * dps / 10000) + (n_Nitou ? " (~<b>"+Math.floor(monsters_count * lh_sp_drain_chance * lh_sp_drain_value * left_hand_dps / 10000) + "</b>" : "") + " per second</td></tr>";
+					wkk17+="<tr><td>~<b>"+Math.floor(monsters_count * hp_drain_chance * hp_drain_value * dps / 10000) + (n_Nitou ? " </b>(~<b>"+Math.floor(monsters_count * lh_hp_drain_chance * lh_hp_drain_value * left_hand_dps / 10000) + "</b>)" : "") + " per second</td>";
+					wkk17+="<td></td>"+"<td>~<b>"+Math.floor(monsters_count * sp_drain_chance * sp_drain_value * dps / 10000) + (n_Nitou ? "</b> (~<b>"+Math.floor(monsters_count * lh_sp_drain_chance * lh_sp_drain_value * left_hand_dps / 10000) + "</b>)	" : "") + " per second</td></tr>";
 				}
 				wkk17+="</table>";
 				
