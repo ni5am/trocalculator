@@ -2422,17 +2422,17 @@ function display_monster_status()
 	if (document.calcForm.monster_status_check.checked)
 	{
 		
-		stun_duration = 0;
-		blind_duration = 0;
-		sleep_duration = 0;
-		curse_duration = 0;
-		stone_duration = 0;
-		freeze_duration = 0;
-		poison_duration = 0;
-		silence_duration = 0;
-		bleeding_duration = 0;
-		confusion_duration = 0;
-		deadly_poison_duration = 0;
+		stun_duration = 5;
+		blind_duration = 30;
+		sleep_duration = 30;
+		curse_duration = 30;
+		stone_duration = 20;
+		freeze_duration = 12;
+		poison_duration = 60;
+		silence_duration = 30;
+		bleeding_duration = 120;
+		confusion_duration = 30;
+		deadly_poison_duration = 60;
 		
 		deadly_poison_chance = 0;
 		// #9 - Twin Fang#1375 - Add a 15% chance to inflict Deadly Poison status on the target when attacking
