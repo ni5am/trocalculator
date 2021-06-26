@@ -964,13 +964,10 @@ function BattleCalc999()
 			wCast = 2;
 			n_Delay[2] = 1;
 			n_Enekyori=1;
-		}else if(n_A_ActiveSkill==432){
+		}else if(n_A_ActiveSkill==432){ // Piercing Shot#432
 			wCast = 1.5;
 			n_Enekyori=1;
 			wbairitu += n_A_ActiveSkillLV *0.2;
-			n_Delay[2] = 0.5;
-			w_HIT = 100;
-			w_HIT_HYOUJI = 100;
 		}else if(n_A_ActiveSkill==434){ // Dust#434
 			wCast = 1;
 			n_Enekyori=0;
