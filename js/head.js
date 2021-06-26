@@ -335,7 +335,7 @@ SyuzokuOBJ = ["Formless","Undead","Brute","Plant","Insect","Fish","Demon","Demi-
 ZokuseiOBJ = ["<b><font color='#A8A682'>Neutral</font></b>","<b><font color='blue'>Water</font></b>","<b><font color='brown'>Earth</font></b>","<b><font color='red'>Fire</font></b>","<b><font color='green'>Wind</font></b>","<b><font color='#7B2488'>Poison</font></b>","<b><font color='#CDCD40'>Holy</font></b>","<b><font color='black'>Shadow</font></b>","<b><font color='#9F9E9B'>Ghost</font></b>","<b><font color='#252520'>Undead</font></b>"];
 ZokuseiOBJ2 =["Neutral","Water","Earth","Fire","Wind","Poison","Holy","Shadow","Ghost","Undead"];
 SizeOBJ = ["Small","Medium","Large"];
-IjyouOBJ = ["Poison","Stun","Freeze","Curse","Blind","Sleep","Silence","Chaos","Bleeding","Stone","Weapon Break","Armor Break"];
+IjyouOBJ = ["Poison","Stun","Freeze","Curse","Blind","Sleep","Silence","Confusion","Bleeding","Stone","Weapon Break","Armor Break"];
 EnergyCoatOBJ = ["0","6% Reduction","12% Reduction","18% Reduction","24% Reduction","30% Reduction"];
 SpecialTypeOBJ = ["None","Goblin","Golem","Guardian","Kobold","Orc","Satan Morroc"];
 BossTypeOBJ = ["Normal","Boss"];
@@ -2408,6 +2408,257 @@ function display_monster_stats()
 		monster_stats_html += '</table>';
 		myInnerHtml("monster_stats", monster_stats_html, 0);
 		document.calcForm.monster_stats_check.checked = 0;
+	}
+}
+
+function display_monster_status()
+{
+	monster_status_html =  '<table style="border: 1px solid #999; border-collapse: separate; width: auto;">';
+	monster_status_html += '<TR><TD ColSpan="10" Bgcolor="#DDDDFF" class="subheader"><div style="float: left; padding: 3px; width: 100px;">Monster Status</div>';
+	monster_status_html += '<div style="float: right; padding-right: 3px;"><input id="monster_status_check" type="checkbox" name="monster_status_check" onClick="display_monster_status()"><label for="monster_status_check">Show</label></div><div style="clear: both;"></div></TD></TR>';
+	
+	if (document.calcForm.monster_status_check.checked)
+	{
+		
+		stun_duration = 0;
+		blind_duration = 0;
+		sleep_duration = 0;
+		curse_duration = 0;
+		stone_duration = 0;
+		freeze_duration = 0;
+		poison_duration = 0;
+		silence_duration = 0;
+		bleeding_duration = 0;
+		confusion_duration = 0;
+		deadly_poison_duration = 0;
+		
+		deadly_poison_chance = 0;
+		// #9 - Twin Fang#1375 - Add a 15% chance to inflict Deadly Poison status on the target when attacking
+		if (1375 == n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x == 9) > -1)
+			deadly_poison_chance += 15;
+		
+		monster_status_html += '<tr><td></td><td>Initial<br>Chance (%)</td><td>Initial<br>Duration (s)</td><td width="20px"></td><td width="50px">Chance</td><td>Duration</td></tr>';
+		monster_status_html += '<tr><td style="color: purple;font-weight: bold;">Poison</td><td><input type="text" onChange="update_poison_status(0)" name="initial_poison_chance" value="' + n_tok[130]+ '" size=1></td><td><input type="text" onChange="update_poison_status(0)" name="initial_poison_duration" value="' + poison_duration + '" size=1></td><td></td><td><label id="comp_poison_chance"></label></td><td><label id="comp_poison_duration"></label></td></tr>';
+		monster_status_html += '<tr><td style="color: purple;font-weight: bold;">Deadly Poison</td><td><input type="text" onChange="update_poison_status(1)" name="initial_deadly_poison_chance" value="' + deadly_poison_chance + '" size=1></td><td><input type="text" onChange="update_poison_status(1)" name="initial_deadly_poison_duration" value="' + deadly_poison_duration + '" size=1></td><td></td><td><label id="comp_deadly_poison_chance"></label></td><td><label id="comp_deadly_poison_duration"></label></td></tr>';
+		monster_status_html += '<tr><td style="color: #FFC30B;font-weight: bold;">Stun</td><td><input type="text" onChange="update_stun_status()" name="initial_stun_chance" value="' + n_tok[131] + '" size=1></td><td><input type="text" onChange="update_stun_status()" name="initial_stun_duration" value="' + stun_duration + '" size=1></td><td></td><td><label id="comp_stun_chance"></label></td><td><label id="comp_stun_duration"></label></td></tr>';
+		monster_status_html += '<tr><td style="color: blue;font-weight: bold;">Freeze</td><td><input type="text" onChange="update_freeze_status()" name="initial_freeze_chance" value="' + n_tok[132] + '" size=1></td><td><input type="text" onChange="update_freeze_status()" name="initial_freeze_duration" value="' + freeze_duration + '" size=1></td><td></td><td><label id="comp_freeze_chance"></label></td><td><label id="comp_freeze_duration"></label></td></tr>';
+		monster_status_html += '<tr><td style="color: red;font-weight: bold;">Curse</td><td><input type="text" onChange="update_curse_status()" name="initial_curse_chance" value="' + n_tok[133] + '" size=1></td><td><input type="text" onChange="update_curse_status()" name="initial_curse_duration" value="' + curse_duration + '" size=1></td><td></td><td><label id="comp_curse_chance"></label></td><td><label id="comp_curse_duration"></label></td></tr>';
+		monster_status_html += '<tr><td style="color: black;font-weight: bold;">Blind</td><td><input type="text" onChange="update_blind_status()" name="initial_blind_chance" value="' + n_tok[134] + '" size=1></td><td><input type="text" onChange="update_blind_status()" name="initial_blind_duration" value="' + blind_duration + '" size=1></td><td></td><td><label id="comp_blind_chance"></label></td><td><label id="comp_blind_duration"></label></td></tr>';
+		monster_status_html += '<tr><td style="color: #FF66BB;font-weight: bold;">Sleep</td><td><input type="text" onChange="update_sleep_status()" name="initial_sleep_chance" value="' + n_tok[135] + '" size=1></td><td><input type="text" onChange="update_sleep_status()" name="initial_sleep_duration" value="' + sleep_duration + '" size=1></td><td></td><td><label id="comp_sleep_chance"></label></td><td><label id="comp_sleep_duration"></label></td></tr>';
+		monster_status_html += '<tr><td style="color: gray;font-weight: bold;">Silence</td><td><input type="text" onChange="update_silence_status()" name="initial_silence_chance" value="' + n_tok[136] + '" size=1></td><td><input type="text" onChange="update_silence_status()" name="initial_silence_duration" value="' + silence_duration + '" size=1></td><td></td><td><label id="comp_silence_chance"></label></td><td><label id="comp_silence_duration"></label></td></tr>';
+		monster_status_html += '<tr><td style="color: brown;font-weight: bold;">Stone</td><td><input type="text" onChange="update_stone_status()" name="initial_stone_chance" value="' + n_tok[137] + '" size=1></td><td><input type="text" onChange="update_stone_status()" name="initial_stone_duration" value="' + stone_duration + '" size=1></td><td></td><td><label id="comp_stone_chance"></label></td><td><label id="comp_stone_duration"></label></td></tr>';
+		monster_status_html += '<tr><td style="color: #32CD32;font-weight: bold;">Confusion</td><td><input type="text" onChange="update_confusion_status()" name="initial_confusion_chance" value="' + n_tok[138] + '" size=1></td><td><input type="text" onChange="update_confusion_status()" name="initial_confusion_duration" value="' + confusion_duration + '" size=1></td><td></td><td><label id="comp_confusion_chance"></label></td><td><label id="comp_confusion_duration"></label></td></tr>';
+		monster_status_html += '<tr><td style="color: red;font-weight: bold;">Bleeding</td><td><input type="text" onChange="update_bleeding_status()" name="initial_bleeding_chance" value="' + n_tok[139] + '" size=1></td><td><input type="text" onChange="update_bleeding_status()" name="initial_bleeding_duration" value="' + bleeding_duration + '" size=1></td><td></td><td><label id="comp_bleeding_chance"></label></td><td><label id="comp_bleeding_duration"></label></td></tr>';
+		monster_status_html += "</table>";
+	
+
+		myInnerHtml("monster_status", monster_status_html, 0);
+		document.calcForm.monster_status_check.checked = 1;
+		update_monster_status();
+	}
+	else
+	{
+		monster_status_html += '</table>';
+		myInnerHtml("monster_status", monster_status_html, 0);
+		document.calcForm.monster_status_check.checked = 0;
+	}
+}
+
+function update_monster_status()
+{
+	if (document.calcForm.monster_status_check.checked)
+	{
+		update_stun_status();
+		update_blind_status();
+		update_curse_status();
+		update_sleep_status();
+		update_stone_status();
+		update_freeze_status();
+		update_poison_status(0);
+		update_poison_status(1);
+		update_silence_status();
+		update_bleeding_status();
+		update_confusion_status();
+	}		
+}
+
+function update_poison_status(is_deadly_poison_status)
+{
+	initial_poison_chance = 0;
+	initial_poison_duration = 0;
+	
+	if (is_deadly_poison_status)
+	{
+		initial_poison_chance = eval(document.calcForm.initial_deadly_poison_chance.value);
+		initial_poison_duration = eval(document.calcForm.initial_deadly_poison_duration.value);
+	}
+	else
+	{
+		initial_poison_chance = eval(document.calcForm.initial_poison_chance.value);
+		initial_poison_duration = eval(document.calcForm.initial_poison_duration.value);	
+	}
+
+	sc_def = n_B[7]; // Target VIT
+	sc_def2 = (n_B[11] + n_B[5] - n_A_BaseLV) * 0.1; // (Target LUK + Target Lv - Source Lv) * 0.1
+	
+	tick_def = n_B[7] * 0.75; // Target VIT * 0.75
+	tick_def2 = n_B[11] * 0.01; // Target LUK * 0.01
+	
+	if (!Taijin) // Different behaviour against monsters
+	{
+		initial_poison_duration /= 2; // duration is halved for monsters
+		tick_def = n_B[7] * 2 / 3; // Target VIT * 2 / 3
+		tick_def2 = 0;
+	}
+
+	if (is_deadly_poison_status)
+		update_status("deadly_poison", initial_poison_chance, initial_poison_duration, sc_def, sc_def2, tick_def, tick_def2);
+	else
+		update_status("poison", initial_poison_chance, initial_poison_duration, sc_def, sc_def2, tick_def, tick_def2);
+}
+
+function update_stun_status() // OK
+{
+	initial_stun_chance = eval(document.calcForm.initial_stun_chance.value);
+	initial_stun_duration = eval(document.calcForm.initial_stun_duration.value);
+
+	sc_def = n_B[7]; // Target VIT
+	sc_def2 = (n_B[11] + n_B[5] - n_A_BaseLV) * 0.1; // (Target LUK + Target Lv - Source Lv) * 0.1
+	tick_def = sc_def;
+	tick_def2 = n_B[11] * 0.01; // Target LUK * 0.01
+
+	update_status("stun", initial_stun_chance, initial_stun_duration, sc_def, sc_def2, tick_def, tick_def2);
+}
+
+function update_stone_status() // OK
+{
+	initial_stone_chance = eval(document.calcForm.initial_stone_chance.value);
+	initial_stone_duration = eval(document.calcForm.initial_stone_duration.value);
+
+	sc_def = n_B[15]; // Target MDEF
+	sc_def2 = (n_B[11] + n_B[5] - n_A_BaseLV) * 0.1; // (Target LUK + Target Lv - Source Lv) * 0.1
+	
+	// No duration reduction
+	tick_def = 0;
+	tick_def2 = 0;
+
+	update_status("stone", initial_stone_chance, initial_stone_duration, sc_def, sc_def2, tick_def, tick_def2);
+}
+
+function update_curse_status()
+{
+	initial_curse_chance = eval(document.calcForm.initial_curse_chance.value);
+	initial_curse_duration = eval(document.calcForm.initial_curse_duration.value);
+
+	if (n_B[11] > 0)
+	{
+		sc_def = n_B[11]; // Target LUK
+		sc_def2 = (n_B[11] - n_A_BaseLV) * 0.1; // Target LUK * 0.1 - Source Lv * 10
+	}
+	else // immunity if LUK is null
+	{
+		sc_def = 100;
+		sc_def2 = 0;
+	}
+
+	tick_def =  n_B[7]; // Target VIT
+	tick_def2 = n_B[11] * 0.01; // Target LUK * 0.01
+
+	update_status("curse", initial_curse_chance, initial_curse_duration, sc_def, sc_def2, tick_def, tick_def2);
+}
+
+function update_blind_status()
+{
+	initial_blind_chance = eval(document.calcForm.initial_blind_chance.value);
+	initial_blind_duration = eval(document.calcForm.initial_blind_duration.value);
+
+	sc_def = (n_B[7] + n_B[9]) * 0.5; // Target (VIT + INT) * 0.5
+	sc_def2 = (n_B[11] + n_B[5] - n_A_BaseLV) * 0.1; // (Target LUK + Target Lv - Source Lv) * 0.1
+	tick_def = sc_def;
+	tick_def2 = n_B[11] * 0.01; // Target LUK * 0.01
+
+	update_status("blind", initial_blind_chance, initial_blind_duration, sc_def, sc_def2, tick_def, tick_def2);
+}
+
+function update_sleep_status()
+{
+	initial_sleep_chance = eval(document.calcForm.initial_sleep_chance.value);
+	initial_sleep_duration = eval(document.calcForm.initial_sleep_duration.value);
+	
+	sc_def = n_B[9]; // Target INT
+	sc_def2 = (n_B[11] + n_B[5] - n_A_BaseLV) * 0.1; // (Target LUK + Target Lv - Source Lv) * 0.1
+	tick_def = sc_def;
+	tick_def2 = n_B[11] * 0.01; // Target LUK * 0.01
+
+	update_status("sleep", initial_sleep_chance, initial_sleep_duration, sc_def, sc_def2, tick_def, tick_def2);
+}
+
+function update_silence_status()
+{
+	initial_silence_chance = eval(document.calcForm.initial_silence_chance.value);
+	initial_silence_duration = eval(document.calcForm.initial_silence_duration.value);
+	
+	sc_def = n_B[7]; // Target VIT
+	sc_def2 = (n_B[11] + n_B[5] - n_A_BaseLV) * 0.1; // (Target LUK + Target Lv - Source Lv) * 0.1
+	tick_def = sc_def;
+	tick_def2 = n_B[11] * 0.01; // Target LUK * 0.01
+
+	update_status("silence", initial_silence_chance, initial_silence_duration, sc_def, sc_def2, tick_def, tick_def2);
+}
+
+function update_freeze_status()
+{
+	initial_freeze_chance = eval(document.calcForm.initial_freeze_chance.value);
+	initial_freeze_duration = eval(document.calcForm.initial_freeze_duration.value);
+	
+	sc_def = n_B[15]; // Target MDEF
+	sc_def2 = (n_B[11] + n_B[5] - n_A_BaseLV) * 0.1; // (Target LUK + Target Lv - Source Lv) * 0.1
+	tick_def = sc_def;
+	tick_def2 = n_A_LUK * -0.01; // Source LUK * -0.1
+
+	update_status("freeze", initial_freeze_chance, initial_freeze_duration, sc_def, sc_def2, tick_def, tick_def2);
+}
+
+function update_confusion_status()
+{
+	initial_confusion_chance = eval(document.calcForm.initial_confusion_chance.value);
+	initial_confusion_duration = eval(document.calcForm.initial_confusion_duration.value);
+	
+	sc_def = n_B[9] * 0.5; // (Target STR + INT) * 0.5 // FIXME no STR available for monsters
+	sc_def2 = (n_A_BaseLV - n_B[5] - n_B[11]) * 0.1; // (Source Lv - Target LUK - Target Lv) * 0.1
+	tick_def = sc_def;
+	tick_def2 = n_B[11] * 0.01; // Target LUK * 0.01
+	
+	update_status("confusion", initial_confusion_chance, initial_confusion_duration, sc_def, sc_def2, tick_def, tick_def2);
+}
+
+function update_bleeding_status()
+{
+	initial_bleeding_chance = eval(document.calcForm.initial_bleeding_chance.value);
+	initial_bleeding_duration = eval(document.calcForm.initial_bleeding_duration.value);
+	
+	sc_def = n_B[7]; // Target VIT
+	sc_def2 = (n_B[11] + n_B[5] - n_A_BaseLV) * 0.1; // (Target LUK + Target Lv - Source Lv) * 0.1
+	tick_def = sc_def;
+	tick_def2 = n_B[11] * 0.01; // Target LUK * 0.01
+	
+	update_status("bleeding", initial_bleeding_chance, initial_bleeding_duration, sc_def, sc_def2, tick_def, tick_def2);
+}
+
+function update_status(status_name, rate, duration, sc_def, sc_def2, tick_def, tick_def2)
+{
+	status_chance = Math.min(100, Math.max(0, (rate - rate * sc_def / 100 - sc_def2)));
+	status_duration = Math.max(0, (duration - duration * tick_def / 100 - tick_def2));
+	
+	if (rate && status_chance && n_B[19] != 1)
+	{
+		document.getElementById('comp_' + status_name + '_chance').innerHTML = "" + status_chance.toFixed(2) + "%";
+		document.getElementById('comp_' + status_name + '_duration').innerHTML = "" + status_duration.toFixed(2) +"s";
+	}
+	else
+	{
+		document.getElementById('comp_' + status_name + '_chance').innerHTML = rate ? "Immune" : "N/A";
+		document.getElementById('comp_' + status_name + '_duration').innerHTML = "";
 	}
 }
 
@@ -7564,6 +7815,7 @@ function calc()
 		myInnerHtml("strID_"+i,InnStr[i],0);
 	
 	KakutyouKansuu();
+	update_monster_status();
 }
 
 
