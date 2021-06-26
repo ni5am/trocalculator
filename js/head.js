@@ -7220,11 +7220,8 @@ Race - n_B[2] = raceID - example n_B[2] = 3, Plant
 	if (n_B_IJYOU[12] && (n_B[2]==6||n_B[3]>=90)) // SC_SIGNUMCRUCIS
 		def_sc_reduction *= 1 + 0.1 + n_B_IJYOU[12] * 0.04;
 	
-	if (!n_B[19] && n_B[2] != 1)
-	{
-		def_sc_reduction *= 1 + 0.5 * n_B_IJYOU[2]; // SC_FREEZE
-		def_sc_reduction *= 1 + 0.5 * n_B_IJYOU[2]; // SC_STONE
-	}
+	if (!n_B[19] && n_B[2] != 1) // SC_FREEZE & SC_STONE divide hard def by 2
+		def_sc_reduction *= 1 + 0.5 * (n_B_IJYOU[4] || n_B_IJYOU[9]) ;
 	
 	def_sc_reduction -= 1;
 	def_sc_reduction = Math.min(1, def_sc_reduction);
@@ -7296,14 +7293,9 @@ Race - n_B[2] = raceID - example n_B[2] = 3, Plant
 			w = 0;
 		n_B[15] -= Math.floor(n_B[15] * w /100);
 	}
-	if(n_B[19] == 0){
-		if(n_B_IJYOU[4] && n_B[2]!=1)
-			n_B[15] += Math.floor(n_B[15] * 25 /100);
-	}
-	if(n_B[19] == 0){
-		if(n_B_IJYOU[9] && n_B[2]!=1)
-			n_B[15] += Math.floor(n_B[15] * 25 /100);
-	}
+	
+	if (n_B[19] == 0 && n_B[2] != 1) // SC_FREEZE & SC_STONE increase MDEF by 25%
+			n_B[15] += Math.floor(n_B[15] * 25 /100) * (n_B_IJYOU[4] || n_B_IJYOU[9]);
 
 	if(n_B[19] == 0){
 		if(n_B_IJYOU[18] && n_B[3]<90)
