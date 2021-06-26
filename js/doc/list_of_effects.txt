@@ -170,7 +170,7 @@ Effect list:
 	134: When attacking, adds a [value]% chance to inflict [Blind] on the enemy
 	135: When attacking, adds a [value]% chance to inflict [Sleep] on the enemy
 	136: When attacking, adds a [value]% chance to inflict [Silence] on the enemy
-	137: When attacking, adds a [value]% chance to inflict [Chaos] on the enemy
+	137: When attacking, adds a [value]% chance to inflict [Confusion] on the enemy
 	138: When attacking, adds a [value]% chance to inflict [Bleeding] on the enemy
 	139: When attacking, adds a [value]% chance to inflict [Stone] on the enemy
 	140: When attacking, adds a [value]% chance to inflict [Weapon Break] on the enemy
@@ -183,7 +183,7 @@ Effect list:
 	154: Status effect [Blind] resistance +[value]%
 	155: Status effect [Sleep] resistance +[value]%
 	156: Status effect [Silence] resistance +[value]%
-	157: Status effect [Chaos] resistance +[value]%
+	157: Status effect [Confusion] resistance +[value]%
 	158: Status effect [Bleeding] resistance +[value]%
 	159: Status effect [Stone] resistance +[value]%
 	160: Status effect [Weapon Break] resistance +[value]%
@@ -544,7 +544,18 @@ Effect list:
 	381: Amount of drain HP.
 	382: Chance of drain SP.
 	383: Amount of drain SP.
-	384-999: (unused)
+	384-389:
+	390: When receiving physical attacks, adds a [value]% chance to inflict [Poison] on the enemy
+	391: When receiving physical attacks, adds a [value]% chance to inflict [Stun] on the enemy
+	392: When receiving physical attacks, adds a [value]% chance to inflict [Freeze] on the enemy
+	393: When receiving physical attacks, adds a [value]% chance to inflict [Curse] on the enemy
+	394: When receiving physical attacks, adds a [value]% chance to inflict [Blind] on the enemy
+	395: When receiving physical attacks, adds a [value]% chance to inflict [Sleep] on the enemy
+	396: When receiving physical attacks, adds a [value]% chance to inflict [Silence] on the enemy
+	397: When receiving physical attacks, adds a [value]% chance to inflict [Confusion] on the enemy
+	398: When receiving physical attacks, adds a [value]% chance to inflict [Bleeding] on the enemy
+	399: When receiving physical attacks, adds a [value]% chance to inflict [Stone] on the enemy
+	400-999: (unused)
 	1000-1999: + [value]% Physical damage inflicted against a specific monster (MonsterOBJ[ID - 1000])
 	2000-4999: (unused)
 	5000-6999: specific skill damage + [value]% (SkillOBJ[ID - 5000])

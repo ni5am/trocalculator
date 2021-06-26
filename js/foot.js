@@ -4345,6 +4345,26 @@ with(document.calcForm){
 
 	ClickB_Enemy(0 == Taijin && document.calcForm.monster_stats_check.checked);
 	
+	// Chimera card#264 - [Assassin, Assassin Cross] [Poison] chance is increased by 6%.
+	if (CardNumSearch(264) && n_A_JobSearch2() == 8)
+		n_tok[390] += 6;
+	
+	// Disguise card#214 - [Base Vitality >= 77] [Silence] chance is increased by 6%.
+	if (SU_VIT >= 77 && CardNumSearch(214))
+		n_tok[396] += 6;
+	
+	// Karakasa card#261 - [Base Strenght >= 77] [Confusion] chance is increased by 6%.
+	if (SU_STR >= 77 && CardNumSearch(261))
+		n_tok[397] += 6;
+	
+	// Pest card#367 - [Base Intelligence >= 77] [Stone Curse] chance is increased by 6%.
+	if (SU_INT >= 77 && CardNumSearch(367))
+		n_tok[399] += 6;
+	
+	// Rybio card#384 - [Base Dexterity >= 77] [Stun] chance is increased by 6%.
+	if (SU_DEX >= 77 && CardNumSearch(384))
+		n_tok[391] += 6;
+	
 	// Update Extended Information
 	KakutyouKansuu();
 	//KakutyouKansuu2();

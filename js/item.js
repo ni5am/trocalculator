@@ -853,7 +853,7 @@ ItemOBJ = [
 ,[830,60,1072,7,0,1,60,60,"Diablos Armor","",0,1,2,5,1,13,150,151,5,159,5,0]
 ,[831,61,63,5,0,0,60,50,"Sacred Scripture","",0,4,1,75,3,76,3,0]
 ,[832,61,113,6,0,1,200,80,"Cross Shield","",0,1,1,72,10,5324,30,5159,30,5384,30,0]
-,[833,61,55,2,0,1,100,70,"Book of Charms Vol. 1","","10% chance of auto casting Stun on an enemy when the user receives Physical Damage",4,2,19,3,0]
+,[833,61,55,2,0,1,100,70,"Book of Charms Vol. 1","",0,4,2,19,3,391,10,0]
 ,[834,62,1,2,0,1,25,60,"Skin of Ventoss","",0,9,10,13,200,19,2,0]
 ,[835,62,1079,5,0,1,25,0,"Diablos Manteau","",0,13,100,60,5,1495,10,1496,10,0]
 ,[836,63,1079,4,0,1,25,0,"Diablos Boots","","Maximum HP + 10 * Base Level",0]
@@ -1001,7 +1001,7 @@ ItemOBJ = [
 ,[978,64,87,1,0,0,0,70,"Medal of Honor (Swordman)","","Add 1% chance of auto casting Stun on the enemy when attacking",80,5,89,5,8,10,13,500,14,50,0]
 ,[979,64,52,1,0,0,0,70,"Medal of Honor (Thief)","","Add 1% chance of auto casting Poison on the enemy when attacking.",80,5,89,5,9,10,13,300,14,80,0]
 ,[980,64,53,1,0,0,0,70,"Medal of Honor (Acolyte)","","Add 1% chance of auto casting Silence on the enemy when attacking",80,5,89,5,19,6,13,600,0]
-,[981,64,55,1,0,0,0,70,"Medal of Honor (Mage)","","Add 1% chance of auto casting Stone on the enemy when attacking.",80,5,89,5,19,6,13,600,0]
+,[981,64,55,1,0,0,0,70,"Medal of Honor (Mage)","",0,80,5,89,5,19,6,13,600,399,1,0]
 ,[982,64,54,1,0,0,0,70,"Medal of Honor (Archer)","","Add 1% chance of auto casting Blind on the enemy when attacking.",80,5,89,5,10,10,13,300,14,80,0]
 ,[983,64,56,1,0,0,0,70,"Medal of Honor (Merchant)","","Add 1% chance of auto casting Curse on the enemy when attacking.",80,5,89,5,12,10,13,500,14,50,0]
 ,[984,64,59,1,0,0,0,70,"Sheriff Badge","","Add 10% chance of auto casting Blind on the enemy with long-range attacks.",80,5,89,5,10,10,13,300,14,80,0]
@@ -1151,7 +1151,7 @@ ItemOBJ = [
 ,[1128,50,0,2,0,0,70,10,"Notice Board","",0,0]
 ,[1129,50,0,2,0,0,30,30,"Noble Hat","","0.7% chance of auto casting [Adrenaline Rush]Lv 1 when receiving ATK based damage",1,2,0]
 ,[1130,50,0,3,0,0,100,0,"Emperor's Laurel Crown","",0,7,1,19,3,0]
-,[1131,50,79,0,0,0,70,75,"Lion Mask","","<b>Upper and Middle Headgear</b>",19,1,136,5,0]
+,[1131,50,79,0,0,0,70,75,"Lion Mask","","<b>Upper and Middle Headgear</b>",19,1,396,5,0]
 ,[1132,51,0,1,0,0,10,70,"Fox Hat","",0,2,1,11,2,0]
 ,[1133,50,1,4,0,1,10,0,"Evolved Demon Student Hat","",0,3,2,1,2,6,1,0]
 ,[1134,100,0,0,0,0,0,0,"Evolved Demon Student Hat + Blue Pencil in Mouth","",0,80,2,0]
@@ -1650,7 +1650,7 @@ ItemOBJ = [
 ,[1606,50,0,4,0,1,40,0,"Legionnaire Hat","","It's feel like you're on the marching band just by wearing this hat.",1,1,80,3,0]
 ,[1607,51,0,2,0,1,50,50,"Lude Mask","","Has a chance of obtaining Pumpkin Pie when killing a monster<br><b>Middle and Lower Headgear</b>",80,1,89,2,57,1,0]
 ,[1608,50,0,4,0,0,20,30,"Xmas Rudolph Hairband","","A Christmas hairband. Rudolf's excited mind for christmas is dwelled on it<br/>Movement speed +25% (non-stacking)",1,3,5,2,6,3,2,3,12,5,0]
-,[1609,50,0,4,0,0,20,30,"Xmas Snowman Hat","","A Christmas Snowman Hat. Wearing this always makes you look forward to a White Christmas.<br/>Add a 3% chance of freezing an enemy when receiving Physical Damage.",4,3,5,2,3,3,2,3,73,-10,0]
+,[1609,50,0,4,0,0,20,30,"Xmas Snowman Hat","","A Christmas Snowman Hat. Wearing this always makes you look forward to a White Christmas.",4,3,5,2,3,3,2,3,73,-10,392,3,0]
 ,[1610,50,0,2,0,0,20,40,"Xmas Rudolph Santa Hat","","[Potion Pitcher] bonus only works if equipped on the caster.<br>Gain a Christmas Firecracker when killing monsters of Non-Boss type by low chance",7,1,73,-5,80,5,93,5,218,[520,5,1],218,[521,5,1],218,[522,5,1],218,[545,5,1],218,[508,5,1],218,[501,5,1],218,[507,5,1],218,[569,5,1],218,[549,5,1],218,[529,5,1],218,[528,5,1],218,[550,5,1],0]
 ,[1611,64,0,0,0,0,10,0,"Bakonawa Agimat Tattoo","","Agimat Tattoo with a dragon swallowing the moon pattern. It is told that the one who owns this tattoo will possess extreme power.",80,5,12,5,0]
 ,[1612,64,0,0,0,0,10,0,"Bangungot Agimat Tattoo","","Agimat Tattoo with a plump lady pattern. It is told that the one who owns this tattoo will possess extreme power.",92,7,91,4,94,4,0]
@@ -1867,6 +1867,7 @@ ItemOBJ = [
 ,[1812,8,0,180,1,0,0,50,"Tuna [Rental]","","When attacking, has a chance to Stun the enemy or cast Level 5[Bash].<br><b>[Base Level > 94]</b> ATK + 20.",0]
 // ---
 ,[1813,50,0,1,0,0,40,1,"Majestic Evil Horn","","When attacking with an ATK based attack, adds a 1% chance to absorb 7% of the damage inflicted on the enemy as SP<br>When attacking with an ATK based attack, adds a 3% chance to absorb 15% of the damage inflicted on the enemy as HP",56,3,380,3,381,15,382,1,383,7,0]
+,[1814,50,0,4,0,1,10,1,"Curupira Hat","",0,5,3,97,1,0]
 ];
 
 //Test code for finding the values in Skill.js AutoSpellSkill
@@ -3713,7 +3714,8 @@ ItemID = [
 ,[1810,1,1489]
 ,[1811,1,13068]
 ,[1812,1,16016]
-,[1812,1,5584]
+,[1813,1,5584]
+,[1814,1,18857]
 ];
 
 /*
@@ -4093,7 +4095,7 @@ function Item_Setumei(nC1,nC2)
   154 - Blind
   155 - Sleep
   156 - Silence
-  157 - Chaos
+  157 - Confusion
   158 - Bleeding
   159 - Stone
   160 - Weapon Break
@@ -4193,24 +4195,23 @@ function Item_Setumei(nC1,nC2)
       348 = Ghost
       349 = Undead
     */
-   if(340 <= nC1 && nC1 <=349)
-      CBIstr += "Increases damage of ["+ ZokuseiOBJ2[nC1-340] + "] magic by "+ nC2 +"%<BR>";
-   // //Recieve more Damage of [element] by % //Use 60-69 with negative values instead
-   // if(350 <= nC1 && nC1 <=359)
-   //    CBIstr += "Recieve "+ nC2 + "%" + " more damage from " + ZokuseiOBJ2[nC1-350] + " attacks.<BR>";
-   //Magical damage against element monster
-   if(350 <= nC1 && nC1 <=359)
-      CBIstr += "Increases magical damage against [" + ZokuseiOBJ[nC1-350] +"] element monsters by "+ nC2 +"%<BR>";
-   //Pierce MDEF of element monster
-   if(360 <= nC1 && nC1 <=369)
-      CBIstr += "Pierce MDEF of [" + ZokuseiOBJ[nC1-360] +"] element monsters by "+ nC2 +"%<BR>";
-   //Physical damage against specific monster
-   if(370 <= nC1 && nC1 <=379)
-      CBIstr += "Experience gained from [" + ZokuseiOBJ[nC1-370] +"] elements monsters " + wIS + nC2 +"%<BR>";
-   /*When attacking with an ATK based attack, adds a (nC1 380/382)% chance to absorb (nC1 381/383)% of the damage inflicted on the enemy as (HP/SP)*/
-   if(380 <= nC1 && nC1 <=383)
-      CBIstr +="";
-   if(1000 <= nC1 && nC1 <=1999)
+	if(340 <= nC1 && nC1 <=349)
+		CBIstr += "Increases damage of ["+ ZokuseiOBJ2[nC1-340] + "] magic by "+ nC2 +"%<BR>";
+	//Magical damage against element monster
+	if (350 <= nC1 && nC1 <=359)
+		CBIstr += "Increases magical damage against [" + ZokuseiOBJ[nC1-350] +"] element monsters by "+ nC2 +"%<BR>";
+	//Pierce MDEF of element monster
+	if(360 <= nC1 && nC1 <=369)
+		CBIstr += "Pierce MDEF of [" + ZokuseiOBJ[nC1-360] +"] element monsters by "+ nC2 +"%<BR>";
+	//Physical damage against specific monster
+	if(370 <= nC1 && nC1 <=379)
+		CBIstr += "Experience gained from [" + ZokuseiOBJ[nC1-370] +"] elements monsters " + wIS + nC2 +"%<BR>";
+	/*When attacking with an ATK based attack, adds a (nC1 380/382)% chance to absorb (nC1 381/383)% of the damage inflicted on the enemy as (HP/SP)*/
+	if(380 <= nC1 && nC1 <=383)
+		CBIstr +="";
+	if (390 <= nC1 && nC1 <= 399)
+		CBIstr += "When receiving physical attacks, adds a "+ nC2 +"% chance to inflict ["+ IjyouOBJ[nC1-390] +"] on the enemy<BR>";
+	if(1000 <= nC1 && nC1 <=1999)
 	   CBIstr += "Decreases physical damage against <b>" + MonsterOBJ[nC1-1000][1] + "</b> by " + wIS + nC2 + "%<br>";
    //Incease Damage of skill by %
 	if(5000 <= nC1 && nC1 <= 6999)
