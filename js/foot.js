@@ -667,7 +667,7 @@ with(document.calcForm){
 	n_tok[218] = 0;
 	n_tok[219] = 0;
 	
-	for(i=290;i<=383;i++){
+	for(i=290;i<=399;i++){
 		n_tok[i] = 0;
 		n_tok[i] += StPlusCalc2(i);
 		n_tok[i] += StPlusCard(i);
@@ -3543,8 +3543,11 @@ with(document.calcForm){
 	if(CardNumSearch(595) && n_A_JobSearch2() == 15)
 		n_tok[37] -= 10;
 
-	if(EquipNumSearch(628) && n_A_Arrow == 4)
+	if(EquipNumSearch(628) && n_A_Arrow == 4) // Earthen Bow#628
+	{
 		n_tok[25] += 25;
+		n_tok[139] += 10;
+	}
 	if(EquipNumSearch(626) && n_A_Arrow == 2)
 		n_tok[25] += 25;
 	if(EquipNumSearch(627) && n_A_Arrow == 5)
@@ -4364,6 +4367,25 @@ with(document.calcForm){
 	// Rybio card#384 - [Base Dexterity >= 77] [Stun] chance is increased by 6%.
 	if (SU_DEX >= 77 && CardNumSearch(384))
 		n_tok[391] += 6;
+	
+	// Manage status arrow
+	if (n_A_Arrow)
+	{
+		if (13 == n_A_Arrow) // Frozen Arrow#13
+			n_tok[132] += 10;
+		else if (14 == n_A_Arrow) // Poison Arrow#14
+			n_tok[130] += 10;
+		else if (19 == n_A_Arrow) // Curse Arrow#19
+			n_tok[133] += 10;
+		else if (20 == n_A_Arrow) // Flash Arrow#20
+			n_tok[134] += 10;
+		else if (21 == n_A_Arrow) // Mute Arrow#21
+			n_tok[136] += 10;
+		else if (22 == n_A_Arrow) // Sleep Arrow#22
+			n_tok[135] += 10;
+		else if (23 == n_A_Arrow) // Stun Arrow#23
+			n_tok[131] += 10;
+	}
 	
 	// Update Extended Information
 	KakutyouKansuu();
@@ -9844,7 +9866,7 @@ SpeedPotName = ["None","Concentration Potion","Awakening Potion","Berserk Potion
 document.calcForm.A_SpeedPOT.options[0] = new Option(SpeedPotName[0],0);
 document.calcForm.A_SpeedPOT.options[1] = new Option(SpeedPotName[1],1);
 
-for (i=0;i<=16;i++)
+for (i=0;i<=23;i++)
 	document.calcForm.A_Arrow.options[i] = new Option(ArrowOBJ[i][2],i);
 
 EnName =["Neutral","Water","Earth","Fire","Wind","Poison","Holy","Shadow","Ghost","Undead"];

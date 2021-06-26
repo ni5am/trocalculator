@@ -124,6 +124,11 @@ ArrowOBJ = [
 [50,6,"Holy Arrow"],//16
 [35,0,"Hunting Arrow"],//17
 [45,0,"Elven Arrow"],//18
+[ 1,0,"Curse Arrow"],//19
+[ 1,0,"Flash Arrow"],//20
+[ 1,0,"Mute Arrow"],//21
+[ 1,0,"Sleep Arrow"],//22
+[ 1,0,"Stun Arrow"]//23
 ];
 
 ArrowOBJbackup = [
@@ -3525,7 +3530,7 @@ with(document.calcForm){
 		for(var i=0;i<len;i++)
 			A_Arrow.options[0] = null;
 		if(n==10||n==14||n==15){
-			j=18;
+			j=23;
 			for (i=0; i<=4; i++)
 				ArrowOBJ[i] = ArrowOBJbackup[i];
 		}
@@ -3554,11 +3559,16 @@ with(document.calcForm){
 			A_Arrow.options[i] = new Option(ArrowOBJ[i][2],i);
 		}
 		if (j==1 && addSharpArrow == 1)
-			A_Arrow.options[2] = new Option(ArrowOBJ[15][2],15);
-		//new
-		//before
-		for(i=0; i<=j; i++)
-			A_Arrow.options[i] = new Option(ArrowOBJ[i][2],i);
+		{
+			A_Arrow.options[2] = new Option(ArrowOBJ[15][2],15); // Sharp Arrow#15
+			A_Arrow.options[3] = new Option(ArrowOBJ[13][2],13); // Frozen Arrow#13
+			A_Arrow.options[4] = new Option(ArrowOBJ[14][2],14); // Poison Arrow#14
+			A_Arrow.options[5] = new Option(ArrowOBJ[19][2],19); // Curse Arrow#19
+			A_Arrow.options[6] = new Option(ArrowOBJ[20][2],20); // Flash Arrow#20
+			A_Arrow.options[7] = new Option(ArrowOBJ[21][2],21); // Mute Arrow#21
+			A_Arrow.options[8] = new Option(ArrowOBJ[22][2],22); // Sleep Arrow#22
+			A_Arrow.options[9] = new Option(ArrowOBJ[23][2],23); // Stun Arrow#23
+		}
 	}else{
 		A_Arrow.value = 0;
 		A_Arrow.style.visibility = "hidden";
