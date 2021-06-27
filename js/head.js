@@ -2544,8 +2544,16 @@ function update_stone_status() // OK
 	initial_stone_chance = eval(document.calcForm.initial_stone_chance.value);
 	initial_stone_duration = eval(document.calcForm.initial_stone_duration.value);
 
-	sc_def = n_B[15]; // Target MDEF
-	sc_def2 = (n_B[11] + n_B[5] - n_A_BaseLV) * 0.1; // (Target LUK + Target Lv - Source Lv) * 0.1
+	if (n_B[2] != 1)
+	{
+		sc_def = n_B[15]; // Target MDEF
+		sc_def2 = (n_B[11] + n_B[5] - n_A_BaseLV) * 0.1; // (Target LUK + Target Lv - Source Lv) * 0.1
+	}
+	else  // Immunity for Undead
+	{
+		sc_def = 100;
+		sc_def2 = 0;
+	}
 	
 	// No duration reduction
 	tick_def = 0;
@@ -2620,8 +2628,17 @@ function update_freeze_status()
 	initial_freeze_chance = eval(document.calcForm.initial_freeze_chance.value);
 	initial_freeze_duration = eval(document.calcForm.initial_freeze_duration.value);
 	
-	sc_def = n_B[15]; // Target MDEF
-	sc_def2 = (n_B[11] + n_B[5] - n_A_BaseLV) * 0.1; // (Target LUK + Target Lv - Source Lv) * 0.1
+	if (n_B[2] != 1)
+	{
+		sc_def = n_B[15]; // Target MDEF
+		sc_def2 = (n_B[11] + n_B[5] - n_A_BaseLV) * 0.1; // (Target LUK + Target Lv - Source Lv) * 0.1
+	}
+	else  // Immunity for Undead
+	{
+		sc_def = 100;
+		sc_def2 = 0;
+	}
+	
 	tick_def = sc_def;
 	tick_def2 = n_A_LUK * -0.01; // Source LUK * -0.1
 

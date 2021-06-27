@@ -52,7 +52,7 @@ ItemOBJ = [
 ,[29,2,1,130,3,"1 / 2",120,27,"Tsurugi","",0,0]
 ,[30,2,61,150,3,"0 / 2",150,27,"Flamberge","",0,0]
 ,[31,2,1,85,4,0,120,40,"Solar Sword","","Regains 1% of the damage inflicted on his target as HP with each attack<BR>Drains 15 SP from his owner every 10 seconds",380,100,381,1,20,3,0]
-,[32,2,1,100,4,0,60,40,"Ice Falchion","","Freeze enemies by 5% chance when hit<br>Freeze its owner by 1% chance when used",20,1,220,1,221,1,0]
+,[32,2,1,100,4,0,60,40,"Ice Falchion","","Freeze its owner by 0.1% chance when used",20,1,220,1,221,1,132,5,0]
 ,[33,2,1,100,4,0,50,40,"Fireblend","",0,20,3,220,2,221,2,0]
 ,[34,2,1,150,4,"0 / 1",90,40,"Cutlus","",0,1,2,18,1,220,3,0]
 ,[35,2,1,170,4,0,100,40,"Mysteltainn","","",20,7,48,15,5,3,221,3,0]
@@ -97,7 +97,7 @@ ItemOBJ = [
 ,[74,8,1,69,2,"2 / 3",90,14,"Flail","",0,0]
 ,[75,8,1,84,2,"2 / 3",80,14,"Chain","",0,0]
 ,[76,8,1,110,3,"1 / 2",150,27,"Morning Star","",0,0]
-,[77,8,53,115,3,0,250,55,"Wrench","","1% of randomly inflict Stun, Blind, Poison or Freeze Status with each melee attack",0]
+,[77,8,53,115,3,0,250,55,"Wrench","",0,130,1,131,1,132,1,134,1,0]
 ,[78,8,1,130,3,"0 / 1",120,27,"Sword Mace","",0,0]
 ,[79,8,53,140,3,"0 / 2",200,27,"Stunner","",0,131,10,0]
 ,[80,8,63,155,3,0,300,78,"Iron Driver","",0,0]
@@ -601,7 +601,7 @@ ItemOBJ = [
 ,[578,2,72,185,4,0,0,0,"Cutlus [Rental]","",0,1,2,18,1,193,1,220,3,0] //custom TalonRO Rental
 ,[579,1,1,85,4,0,0,0,"Moonlight Dagger [Rental]","","Regain 3 SP with each attack",16,10,193,1,0] //custom TalonRO Rental
 ,[580,12,0,135,3,0,0,0,"Sage's Diary [Rental]","",0,89,20,12,5,193,1,0] //custom TalonRO Rental
-,[581,8,53,150,3,0,0,0,"Wrench [Rental]","","Small chance of randomly inflict Stun, Blind, Poison or Freeze Status with each melee attack",193,1,0] //custom TalonRO Rental
+,[581,8,53,150,3,0,0,0,"Wrench [Rental]","",0,130,1,131,1,132,1,134,1,193,1,0] //custom TalonRO Rental
 ,[582,2,1,120,4,0,0,0,"Solar Sword [Rental]","","Regains 1% of the damage inflicted on his target as HP with each attack<BR>Drains 15 SP from his owner every 10 seconds",380,100,381,1,20,3,193,1,0] //custom TalonRO Rental
 ,[583,7,1,200,4,0,0,0,"Tomahawk [Rental]","",0,20,4,193,1,220,8,0] //custom TalonRO Rental
 ,[584,4,0,159,3,0,480,0,"Pole Axe [Rental]","",0,1,1,4,2,5,1,193,1,0] //custom TalonRO Rental
@@ -696,7 +696,7 @@ ItemOBJ = [
 ,[673,50,0,3,0,1,40,60,"Ayam","","<b>[TaeKwon Class]</b><br>INT + 1<br>SP Recovery + 3%",0]
 ,[674,64,0,0,0,0,0,0,"Bloody Ring [Rental]","",0,127,15,0]
 ,[675,50,0,4,0,1,50,40,"Bride Mask","","<b>[TaeKwon Class]</b><br>LUK + 2<br>Critical Rate + 5<br><b>Upper, Middle, and Lower Headgear</b>",0]
-,[676,50,0,5,0,1,50,40,"Mythical Lion Mask","","<b>[TaeKwon Class]</b><br>DEX + 2<br>ATK increases by Refine Rate * 2<br>Add a 10% chance of auto casting Stun on the enemy when attacking<br><b>Upper and Middle Headgear</b>",0]
+,[676,50,0,5,0,1,50,40,"Mythical Lion Mask","","<b>[TaeKwon Class]</b><br>DEX + 2<br>ATK increases by Refine Rate * 2<br>Add a 10% chance of auto casting Stun on the enemy with melee attack<br><b>Upper and Middle Headgear</b>",0]
 ,[677,51,0,0,0,0,10,0,"Censor Bar","",0,19,1,8,-5,153,5,0]
 ,[678,51,0,2,0,0,10,30,"Hahoe Mask","","<b>[TaeKwon Class]</b><br>LUK + 1<br>Perfect Dodge + 2<br><b>Middle and Lower Headgear</b>",0]
 ,[679,50,0,3,0,0,10,30,"Dolor Hat","","1.5% chance to cast Lex Aeterna with physical attacks",194,1,0]
@@ -958,15 +958,15 @@ ItemOBJ = [
 ,[935,3,1000,275,4,2,220,80,"Violet Fear","","When dealing physical damage there is a 5% chance that for 5 seconds, you will completely bypass enemy defense",221,51,221,52,0]
 ,[936,9,1001,60,4,0,70,75,"Dark Thorn Staff","","Each refine adds magic defense bypassing to your magic attacks<br>Each refine reduces the aftercast delay of your skills",20,7,89,20,4,3,5,3,0]
 ,[937,1,128,120,3,3,70,70,"Trackers Dagger","","Adds a 10% chance of using [Bash]Lv 10 when [Back Stab] is casted",1,1,2,2,5,1,5169,20,0]
-,[938,1,1001,130,3,2,70,50,"Ivory Knife","","Adds a 3% chance of using [Critical Wound]Lv 1 on the target attacking<br>Adds 3% chance to cast Bleeding on yourself when attacking",2,2,12,3,0]
+,[938,1,1001,130,3,2,70,50,"Ivory Knife","","Adds a 3% chance of using [Critical Wound]Lv 1 on the target attacking.",2,2,12,3,138,3,0]
 ,[939,2,1001,105,3,3,120,70,"Elemental Sword","","Adds a 5% chance of using [Cold Bolt]Lv 3 on the target when doing a physical attack<br>Casts [Fire Bolt]Lv 3 on the target when [Cold Bolt] is used<br>Casts [Lightening Bolt]Lv 3 on the target when [Fire Bolt] is used<br>Casts [Earth Spike]Lv 3 on the target when [Lightening Bolt] is used",1,2,4,4,5,1,89,5,40,10,0]
 ,[940,3,1001,200,4,2,200,70,"Invoker Of Death","","1% chance that you or the enemy will get a random status effect when physically attacking<br>When physically attacking, add a chance that an 11 * 11 area will get hit for 100% damage while you regain 100% damage worth of HP<br><b>[Refine Rate 9~10]</b><br>Area becomes 15 * 15, and you will do 200% damage to the area while you regaining 200% damage worth of HP",1,5,2,2,11,20,0]
-,[941,5,1001,160,3,1,100,50,"Ivory Lance","","Causes Bleeding effect to enemies or Level 1 Joint Beat on enemy when attacking",2,2,12,3,220,15,221,134,0]
+,[941,5,1001,160,3,1,100,50,"Ivory Lance","","1% chance to cast Level 1 Joint Beat on enemy when attacking",2,2,12,3,220,15,221,134,138,3,0]
 ,[942,5,121,150,4,1,560,70,"Carled","","Every two upgrades made to the weapon gives Def +1",12,-10,0]
 ,[943,5,1001,112,2,4,70,50,"Battle Fork","",0,0]
-,[944,8,1053,110,3,3,70,50,"Luna Kaleet","","If user's base Str is 77 or higher: ASPD +4% and Causes Stun effect to enemies by 15% chance.<BR>When a Brute is killed, 5% chance to drop +3 STR Food<BR>When a Plant is killed,0.5% chance to drop +5 DEX Food<BR>When a Fish is killed, 5% chance to drop +4 LUK Food",0]
+,[944,8,1053,110,3,3,70,50,"Luna Kaleet","","[Base Strength >= 77]<br>ASPD +4% and Causes Stun effect to enemies by 15% chance.<BR>When a Brute is killed, 5% chance to drop +3 STR Food<BR>When a Plant is killed,0.5% chance to drop +5 DEX Food<BR>When a Fish is killed, 5% chance to drop +4 LUK Food",0]
 ,[945,10,124,105,4,2,100,60,"Nepentis Bow","","While using Double Strafing, 2% chance to Arrow Repel at the same time",0]
-,[946,10,1054,125,4,1,125,80,"Cursed Lyre","","Curse on an enemy with Long Range Physical attack (Success Chance 4%)",6,-2,0]
+,[946,10,1054,125,4,1,125,80,"Cursed Lyre","",0,6,-2,133,4,0]
 ,[947,13,129,95,3,3,60,60,"Horn of Hillslion","","Adds a 10% chance of using [Critical Wounds]Lv 1 on the target when doing a physical attack<br>Adds a 10% chance of using [Summon Spirit Sphere]Lv 1 when doing a physical attack<br>10% chance of using [Investigate]Lv 1 when [Palm Push Strike] is casted",0]
 ,[948,9,1001,80,4,0,50,70,"Eraser","","There is a small chance while magically attacking, on a radius 11 * 11 of your cell and drain every enemies SP by 20%<br><b>[Refine Rate 10]</b><br>The area becomes 19 * 19 and you drain every enemies SP by 60%",89,20,4,3,5,2,76,8,0]
 ,[949,14,130,110,3,3,70,70,"Chello","","The Musical Strike skill shoves the enemy 2 cells back<br>The Arrow Vulcan skill shoves the enemy 3 cells back",2,2,5,3,0]
@@ -1027,8 +1027,8 @@ ItemOBJ = [
 ,[1004,100,0,0,0,0,0,0,"Cold Heart Set","","Increases Attack speed by the refine rate of your weapon",28,8,0]
 ,[1005,64,128,1,0,0,10,80,"Black Cat","",0,5,3,0]
 ,[1006,100,0,0,0,0,0,0,"Black Cat Set","","Increases HIT and decreases casting time by the refine level of your weapon",29,8,0]
-,[1007,64,1054,0,0,0,20,84,"Cursed Star","","Add a 2% chance inflict Curse on the enemy when received long range attack<br>When equipped, HP -50 every 10 seconds<br>When unequipped, you will lose 300 HP",5,2,6,-1,19,3,0]
-,[1008,100,0,0,0,0,0,0,"Cursed Star Set",0,"Adds 2% chance inflict Curse on the enemy",17,25,0]
+,[1007,64,1054,0,0,0,20,84,"Cursed Star","","[Curse] only applies with long range attack.<br>When equipped, HP -50 every 10 seconds<br>When unequipped, you will lose 300 HP",5,2,6,-1,19,3,133,2,0]
+,[1008,100,0,0,0,0,0,0,"Cursed Star Set",0,"[Curse] only applies with long range attack.",17,25,133,2,0]
 ,[1009,64,1079,1,0,1,12,90,"Linen Glove","",0,2,2,5,1,19,1,0]
 ,[1010,100,0,0,0,0,0,0,"Refined Tights Set",0,0,11,5,0]
 ,[1011,50,0,2,0,0,150,50,"Antenna","",0,9,5,10,5,19,5,220,18,221,118,0]
@@ -1529,7 +1529,7 @@ ItemOBJ = [
 ,[1496,60,0,15,0,0,0,0,"Used Mage Coat","",0,2,1,13,300,14,30,17,10,0]
 ,[1497,50,0,2,0,1,20,10,"Holy Marching Hat","","When doing physical damage, holy property is given to the weapon for 90 seconds at a 3% rate.",1,2,0]
 ,[1498,62,1151,1,0,0,40,93,"Salvage Cape","","Allows usage of Soul level 2<br>Upon casting Soul, auto cast Illusionary Shadow level 1<br>When equipping, HP - 500<br>When unequipping, SP - 1500",72,100,0]
-,[1499,8,53,170,4,0,150,90,"Bloody Cross","","Adds a 1% chance to cast Level 1 Critical Wounds o Bleeding when attacking<br>The chance increases by the refine level of the weapon",20,7,0]
+,[1499,8,53,170,4,0,150,90,"Bloody Cross","","Adds a 1% chance to cast Level 1 Critical Wounds 	when attacking<br>Chance increased by 0.1% for each refine level.",20,7,138,1,0]
 ,[1500,61,1051,7,0,1,280,90,"Giant Shield","","<b>[Refine Rate 9-10]</b><br>Reduces damage by an additional 5%",192,5,0]
 ,[1501,50,0,2,0,0,30,0,"Polar Bear Cap","",0,2,1,5,1,19,3,76,3,0]
 ,[1502,50,0,5,0,1,20,90,"Magician's Night Cap","","",4,1,5,1,0]
@@ -1665,8 +1665,8 @@ ItemOBJ = [
 ,[1621,100,0,0,0,0,0,0,"Entweihen Hairband + Dark Thorn Staff","","<br><b>[Refine Rate 5~10]</b><br>For every refine, add +1% MATK.<br><br>When equipping [Entweihen Hairband]+[Dark Thorn Staff] at the same time:<br><b>[Refine Rate 5~10 Dark Thorn Staff]</b><br>For every 2 refines on the Dark Thorn Staff, add +10 MATK",0]
 ,[1622,15,131,150,4,0,100,92,"Rosevine","","A whip created from a magically enchanted rose that radiates the smell of roses.",7,2,10,5,89,10,221,130,0]
 ,[1623,2,1070,180,3,0,220,90,"Chrome Metal Sword","","A cold blue dagger crafted from the other world mineral Bradium",2,1,15,-5,194,1,0]
-,[1624,1,1072,160,4,0,50,92,"Scarletto Nail","","Has a chance of activating Stone Curse status while physically attacking and increases the chance with each refine level.",20,3,89,5,0]
-,[1625,1,1072,160,4,0,50,92,"Aztoe Nail","","A dagger that shines blue and enchanted with binding magic.<Br>Has a chance of activating Freeze status while physically attacking and increases the chance with each refine level.",20,4,89,5,0]
+,[1624,1,1072,160,4,0,50,92,"Scarletto Nail","","[Stone] chance is increased by 0.5% for each refine level.",20,3,89,5,139,1,0]
+,[1625,1,1072,160,4,0,50,92,"Aztoe Nail","","A dagger that shines blue and enchanted with binding magic.<Br>[Freeze] chance is increased by 0.5% for each refine level.",20,4,89,5,132,1,0]
 ,[1626,63,1001,3,0,1,50,85,"Enhanced Variant Shoes","","Shoes that seem to be wrong somewhere. The intention of the maker to perfect the shoes can be seen but it seems to be a failure.",15,12,16,12,0]
 ,[1627,11,122,170,3,1,120,90,"Agent Katar","","Add 1 HIT for every 2 LUK.",0]
 ,[1628,50,0,2,0,1,20,20,"Maiden Hat","","An adorable hat which is always worn on the side of head.<br>If the wearer carries an umbrella with this hat on, the wearer will look as if one is going for a picnic.<br><b>[Refine Rate 7~10]</b><br>Additional ATK + 1%<br>Additional MATK +1%<br>Additional Heal effectiveness + 1%",1,1,4,1,19,7,80,2,89,2,91,5,93,5,94,5,0]
@@ -1867,7 +1867,8 @@ ItemOBJ = [
 ,[1812,8,0,180,1,0,0,50,"Tuna [Rental]","","When attacking, has a chance to cast Level 5[Bash].<br><b>[Base Level > 94]</b> ATK + 20.",131,1.5,0]
 // ---
 ,[1813,50,0,1,0,0,40,1,"Majestic Evil Horn","","When attacking with an ATK based attack, adds a 1% chance to absorb 7% of the damage inflicted on the enemy as SP<br>When attacking with an ATK based attack, adds a 3% chance to absorb 15% of the damage inflicted on the enemy as HP",56,3,380,3,381,15,382,1,383,7,0]
-,[1814,50,0,4,0,1,10,1,"Curupira Hat","",0,5,3,97,1,0]
+,[1814,50,0,4,0,1,10,1,"Curupira Hat","",0,5,3,397,1,0]
+,[1815,50,0,2,0,0,30,30,"Goat Horn","",0,131,5,0]
 ];
 
 //Test code for finding the values in Skill.js AutoSpellSkill
@@ -3716,6 +3717,7 @@ ItemID = [
 ,[1812,1,16016]
 ,[1813,1,5584]
 ,[1814,1,18857]
+,[1815,1,8519]
 ];
 
 /*

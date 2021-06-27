@@ -380,7 +380,7 @@ cardOBJ = [
 ,[358,3,"Parasite",0,60,5,18,1,0]
 ,[359,1,"False Angel","Regain 5 SP when killing a Angel race monster with a ATK based attack<BR>Drains 5 SP when the weapon is unequipped",0]
 ,[360,1,"Phendark","Regain 5 SP when killing a Demi-human race monster with a ATK based attack<BR>Drains 5 SP when the weapon is unequipped",0]
-,[361,2,"Bloody Knight","Add a 2% chance to cause External Bleeding on target when attacking",17,30,0] //custom TalonRO atk+30 - diff position
+,[361,2,"Bloody Knight",0,17,30,138,2,0] //custom TalonRO atk+30 - diff position
 ,[362,6,"Freezer","If shoes are upgraded to +9 or higher: +10% damage with Bash",13,300,0]
 ,[363,1,"Valkyrie Randgris",0,80,10,221,77,0] //custom TalonRO dispell chance increased to 4%; weap not unbreakable anymore
 ,[364,4,"Brilight",0,396,6,0]
@@ -514,7 +514,7 @@ cardOBJ = [
 ,[492,7,"Ifrit","Increases your ATK and HIT by 1 for every 5 job levels you have<BR>Increases your Crit by 1 for every 10 job levels you have",0] //custom TalonRO atk+hit increase every 5jlvl; removed autocast
 ,[493,7,"Imp",0,5051,25,7051,25,0]
 ,[494,7,"Ragged Zombie","When dealing ATK based damage there is a 0.1% chance to cause [Bleeding] status on the opponent.",117,5,37,1,177,1,0]
-,[495,7,"Hell Poodle","When dealing ATK based damage there's a 0.5% chance to cause [Bleeding] status on the opponent",8,1,218,[517,100,0],0]
+,[495,7,"Hell Poodle","[Bleeding] only applies on melee attack.",8,1,218,[517,100,0],138,0.5,0]
 ,[496,100,0,"Recover 2SP each time you kill a monster with a ATK based attack",0]
 ,[497,999,"Beelzebub NPC Card","<br><b>*Warning*</b>Having more then one Beelzebub NPC Card doesn't give -60% cast, it will give you -30% always.<b>*Warning*</b>",73,-30,0] //replace me
 ,[498,1,"Hillsrion",0,17,25,0]
@@ -543,7 +543,7 @@ cardOBJ = [
 ,[520,1,"Banaspaty",0,139,2,0]
 ,[521,5,"Leak","Chance of causing Confusion on target enemy when doing magic damage",4,5,190,10,191,10,192,10,0]
 ,[522,4,"Comodo",0,9,-20,18,8,0]
-,[523,1,"Sropho",0,17,5,152,3,158,3,0]
+,[523,1,"Sropho",0,17,5,132,3,138,3,0]
 ,[524,1,"Sedora","<b>[Thief Class]</b><br>Flee Rate +4",70,15,0]
 ,[525,4,"Pot Dofle",0,55,10,64,10,63,-10,198,1,0]
 ,[526,5,"Kraken","25% chance of causing Sleep effect when using Raid",9,20,220,22,220,54,0]

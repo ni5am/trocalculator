@@ -1061,9 +1061,12 @@ with(document.calcForm){
 			n_tok[17] += 6;
 	}
 
-	// Doom Slayer#621 - [If Base STR >= 95] ATK + 340
-	if(SU_STR >= 95)
-		n_tok[17] += 340 * EquipNumSearch(621);
+	// Doom Slayer#621 - [If Base STR >= 95] ATK + 340, Causes Stun effect to enemies by 30% 
+	if (SU_STR >= 95 && EquipNumSearch(621))
+	{
+		n_tok[17] += 340;
+		n_tok[131] += 30;
+	}
 	// Holgren's Refining Hammer#625 - [If Base STR >= 44] ATK + 44
 	if(SU_STR >= 44)
 		n_tok[17] += 44 * EquipNumSearch(625);
@@ -1098,7 +1101,10 @@ with(document.calcForm){
 		n_tok[17] += 100 * EquipNumSearch(1087); // FIXME : Only applies to PvP
 	// Mythical Lion Mask#676 - [Taekwon Class] [Every Refine Level] ATK + 2
 	if (n_A_JobSearch() == 41)
+	{
 		n_tok[17] += n_A_HEAD_DEF_PLUS * 2 * EquipNumSearch(676);
+		n_tok[131] += 10; // Add a 10% chance of auto casting Stun on the enemy with melee attack.
+	}
 	// Aquarius Crown#1274, Aquarius Diadem#1275, Cancer Crown#1276 - [If Refine Level >= 7] ATK + 15
 	if (n_A_HEAD_DEF_PLUS >= 7)
 		n_tok[17] += 15 * (EquipNumSearch(1274) + EquipNumSearch(1275) + EquipNumSearch(1276));
@@ -4356,7 +4362,7 @@ with(document.calcForm){
 	if (SU_VIT >= 77 && CardNumSearch(214))
 		n_tok[396] += 6;
 	
-	// Karakasa card#261 - [Base Strenght >= 77] [Confusion] chance is increased by 6%.
+	// Karakasa card#261 - [Base Strength >= 77] [Confusion] chance is increased by 6%.
 	if (SU_STR >= 77 && CardNumSearch(261))
 		n_tok[397] += 6;
 	
@@ -4387,6 +4393,26 @@ with(document.calcForm){
 			n_tok[131] += 10;
 	}
 	
+	// Scarletto Nail#1624 - [Stone] chance is increased by 0.5% for each refine level.
+	n_tok[139] += EquipNumSearch(1624) * 0.5 * n_A_Weapon2_ATKplus;
+
+	// Aztoe Nail#1625 - [Freeze] chance is increased by 0.5% for each refine level.
+	n_tok[132] += EquipNumSearch(1625) * 0.5 * n_A_Weapon2_ATKplus;
+	
+	// Bloody Cross#1499 - [Bleeding] chance is increased by 0.1% for each refine level.
+	n_tok[138] += EquipNumSearch(1499) * 0.1 * n_A_Weapon2_ATKplus;
+	
+	// Glorious Morning Star#1086 - [Stun] chance is increased by 1% for each refine level.
+	n_tok[131] += EquipNumSearch(1086) * 1 * n_A_Weapon2_ATKplus;
+	
+	// Luna Kaleet#944 - [Base Strength >= 77] [Stun] chance is increased by 15%.
+	if (SU_STR >= 77 && EquipNumSearch(944))
+		n_tok[131] += 15;
+	
+	// Red Square Bag#1559 - [Base Strength >= 90] [Stun] chance is increased by 5%.
+	if (SU_STR >= 90 && EquipNumSearch(1559))
+		n_tok[131] += 5;
+
 	// Update Extended Information
 	KakutyouKansuu();
 	//KakutyouKansuu2();
