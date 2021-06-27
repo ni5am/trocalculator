@@ -4213,6 +4213,8 @@ function Item_Setumei(nC1,nC2)
 		CBIstr +="";
 	if (390 <= nC1 && nC1 <= 399)
 		CBIstr += "When receiving physical attacks, adds a "+ nC2 +"% chance to inflict ["+ IjyouOBJ[nC1-390] +"] on the enemy<BR>";
+	if (400 <= nC1 && nC1 <= 409)
+		CBIstr += "When dealing magical attacks, adds a "+ nC2 +"% chance to inflict ["+ IjyouOBJ[nC1-400] +"] on the enemy<BR>";
 	if(1000 <= nC1 && nC1 <=1999)
 	   CBIstr += "Decreases physical damage against <b>" + MonsterOBJ[nC1-1000][1] + "</b> by " + wIS + nC2 + "%<br>";
    //Incease Damage of skill by %

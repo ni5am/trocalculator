@@ -555,6 +555,16 @@ Effect list:
 	397: When receiving physical attacks, adds a [value]% chance to inflict [Confusion] on the enemy
 	398: When receiving physical attacks, adds a [value]% chance to inflict [Bleeding] on the enemy
 	399: When receiving physical attacks, adds a [value]% chance to inflict [Stone] on the enemy
+	400: When dealing magical attacks, adds a [value]% chance to inflict [Poison] on the enemy
+	401: When dealing magical attacks, adds a [value]% chance to inflict [Stun] on the enemy
+	402: When dealing magical attacks, adds a [value]% chance to inflict [Freeze] on the enemy
+	403: When dealing magical attacks, adds a [value]% chance to inflict [Curse] on the enemy
+	404: When dealing magical attacks, adds a [value]% chance to inflict [Blind] on the enemy
+	405: When dealing magical attacks, adds a [value]% chance to inflict [Sleep] on the enemy
+	406: When dealing magical attacks, adds a [value]% chance to inflict [Silence] on the enemy
+	407: When dealing magical attacks, adds a [value]% chance to inflict [Confusion] on the enemy
+	408: When dealing magical attacks, adds a [value]% chance to inflict [Bleeding] on the enemy
+	409: When dealing magical attacks, adds a [value]% chance to inflict [Stone] on the enemy
 	400-999: (unused)
 	1000-1999: + [value]% Physical damage inflicted against a specific monster (MonsterOBJ[ID - 1000])
 	2000-4999: (unused)

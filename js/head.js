@@ -2463,7 +2463,7 @@ function init_monster_status(is_add_effect_when_hit = 0)
 		for (i = 0; i < status_duration.length; ++i)
 		{
 			current_status_lower = IjyouOBJ[i].toLowerCase();
-			monster_status_html += '<tr><td style="color: ' + status_color[i] + ';font-weight: bold;">' + IjyouOBJ[i] + '</td><td><input type="text" onChange="update_' + current_status_lower + '_status()" name="initial_' + current_status_lower + '_chance" value="' + (is_add_effect_when_hit ? n_tok[390 + i] : n_tok[130 + i]) + '" size=1></td>';
+			monster_status_html += '<tr><td style="color: ' + status_color[i] + ';font-weight: bold;">' + IjyouOBJ[i] + '</td><td><input type="text" onChange="update_' + current_status_lower + '_status()" name="initial_' + current_status_lower + '_chance" value="' +  (is_add_effect_when_hit ? n_tok[390 + i] : (n_Enekyori == 2 ? n_tok[400 + i] : n_tok[130 + i])) + '" size=1></td>';
 			monster_status_html += '<td><input type="text" onChange="update_' + current_status_lower + '_status()" name="initial_' + current_status_lower + '_duration" value="' + status_duration[i] + '" size=1></td><td></td><td><label id="comp_' + current_status_lower + '_chance"></label></td><td><label id="comp_' + current_status_lower + '_duration"></label></td></tr>';
 		}
 		

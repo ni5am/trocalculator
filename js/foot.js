@@ -667,7 +667,7 @@ with(document.calcForm){
 	n_tok[218] = 0;
 	n_tok[219] = 0;
 	
-	for(i=290;i<=399;i++){
+	for(i=290;i<=409;i++){
 		n_tok[i] = 0;
 		n_tok[i] += StPlusCalc2(i);
 		n_tok[i] += StPlusCard(i);
@@ -4419,16 +4419,16 @@ with(document.calcForm){
 	}
 	
 	// Scarletto Nail#1624 - [Stone] chance is increased by 0.5% for each refine level.
-	n_tok[139] += EquipNumSearch(1624) * 0.5 * n_A_Weapon2_ATKplus;
+	n_tok[139] += EquipNumSearch(1624) * 0.5 * n_A_Weapon_ATKplus;
 
 	// Aztoe Nail#1625 - [Freeze] chance is increased by 0.5% for each refine level.
-	n_tok[132] += EquipNumSearch(1625) * 0.5 * n_A_Weapon2_ATKplus;
+	n_tok[132] += EquipNumSearch(1625) * 0.5 * n_A_Weapon_ATKplus;
 	
 	// Bloody Cross#1499 - [Bleeding] chance is increased by 0.1% for each refine level.
-	n_tok[138] += EquipNumSearch(1499) * 0.1 * n_A_Weapon2_ATKplus;
+	n_tok[138] += EquipNumSearch(1499) * 0.1 * n_A_Weapon_ATKplus;
 	
 	// Glorious Morning Star#1086 - [Stun] chance is increased by 1% for each refine level.
-	n_tok[131] += EquipNumSearch(1086) * 1 * n_A_Weapon2_ATKplus;
+	n_tok[131] += EquipNumSearch(1086) * 1 * n_A_Weapon_ATKplus;
 	
 	// Luna Kaleet#944 - [Base Strength >= 77] [Stun] chance is increased by 15%.
 	if (SU_STR >= 77 && EquipNumSearch(944))
@@ -4437,6 +4437,10 @@ with(document.calcForm){
 	// Red Square Bag#1559 - [Base Strength >= 90] [Stun] chance is increased by 5%.
 	if (SU_STR >= 90 && EquipNumSearch(1559))
 		n_tok[131] += 5;
+	
+	// Warlock's Magic Wand#917 - [Refine Level > 6] [Stun] chance is increased by 5% when dealing magical attack.
+	if (n_A_Weapon_ATKplus > 6 && EquipNumSearch(917))
+		n_tok[401] += 5;
 
 	// Update Extended Information
 	KakutyouKansuu();
