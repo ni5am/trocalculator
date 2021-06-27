@@ -2416,12 +2416,30 @@ function display_monster_stats()
 function display_monster_status()
 {
 	monster_status_html =  '<table style="border: 1px solid #999; border-collapse: separate; width: auto;">';
-	monster_status_html += '<TR><TD ColSpan="10" Bgcolor="#DDDDFF" class="subheader"><div style="float: left; padding: 3px; width: 100px;">Monster Status</div>';
+	monster_status_html += '<TR><TD ColSpan="5" Bgcolor="#DDDDFF" class="subheader"><div style="float: left; padding: 3px; width: 100px;">Monster Status</div>';
 	monster_status_html += '<div style="float: right; padding-right: 3px;"><input id="monster_status_check" type="checkbox" name="monster_status_check" onClick="display_monster_status()"><label for="monster_status_check">Show</label></div><div style="clear: both;"></div></TD></TR>';
+
 	
 	if (document.calcForm.monster_status_check.checked)
 	{
+		monster_status_html += '<tr><td colspan="2"><input type="radio" id="status_on_attack_button" name="add_effect_button" onclick="init_monster_status(0)" value="0" checked><label for="status_on_attack_button">When attacking</label></input></td>';
+		monster_status_html += '<td colspan="3"><input type="radio" id="status_when_hit_button" name="add_effect_button" onclick="init_monster_status(1)" value="1"><label for="status_when_hit_button">When receiving attack</label></input></td><tr>';
+		monster_status_html += '<tr><td colspan="5"><table id="monster_status_table" width: auto;"/></td></tr></table>';
+		myInnerHtml("monster_status", monster_status_html, 0);
 		
+		document.calcForm.monster_status_check.checked = 1;
+		init_monster_status();
+	}
+	else
+	{
+		monster_status_html += '</table>';
+		myInnerHtml("monster_status", monster_status_html, 0);
+		document.calcForm.monster_status_check.checked = 0;
+	}
+}
+
+function init_monster_status(is_add_effect_when_hit = 0)
+{
 		stun_duration = 5;
 		blind_duration = 30;
 		sleep_duration = 30;
@@ -2434,36 +2452,25 @@ function display_monster_status()
 		confusion_duration = 30;
 		deadly_poison_duration = 60;
 		
+		status_color = ["purple", "#FFC30B", "blue", "red", "black", "#FF66BB", "gray", "#32CD32", "red", "brown"];
+		status_duration = [poison_duration, stun_duration, freeze_duration, curse_duration, blind_duration, sleep_duration, silence_duration, confusion_duration, bleeding_duration, stone_duration];
+		monster_status_html = '<tr><td></td><td>Initial<br>Chance (%)</td><td>Initial<br>Duration (s)</td><td width="20px"></td><td width="50px">Chance</td><td>Duration</td></tr>';
+		
+		for (i = 0; i < status_duration.length; ++i)
+		{
+			current_status_lower = IjyouOBJ[i].toLowerCase();
+			monster_status_html += '<tr><td style="color: ' + status_color[i] + ';font-weight: bold;">' + IjyouOBJ[i] + '</td><td><input type="text" onChange="update_' + current_status_lower + '_status()" name="initial_' + current_status_lower + '_chance" value="' + (is_add_effect_when_hit ? n_tok[390 + i] : n_tok[130 + i]) + '" size=1></td>';
+			monster_status_html += '<td><input type="text" onChange="update_' + current_status_lower + '_status()" name="initial_' + current_status_lower + '_duration" value="' + status_duration[i] + '" size=1></td><td></td><td><label id="comp_' + current_status_lower + '_chance"></label></td><td><label id="comp_' + current_status_lower + '_duration"></label></td></tr>';
+		}
+		
 		deadly_poison_chance = 0;
 		// #9 - Twin Fang#1375 - Add a 15% chance to inflict Deadly Poison status on the target when attacking
 		if (1375 == n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x == 9) > -1)
 			deadly_poison_chance += 15;
-		
-		monster_status_html += '<tr><td></td><td>Initial<br>Chance (%)</td><td>Initial<br>Duration (s)</td><td width="20px"></td><td width="50px">Chance</td><td>Duration</td></tr>';
-		monster_status_html += '<tr><td style="color: purple;font-weight: bold;">Poison</td><td><input type="text" onChange="update_poison_status(0)" name="initial_poison_chance" value="' + n_tok[130]+ '" size=1></td><td><input type="text" onChange="update_poison_status(0)" name="initial_poison_duration" value="' + poison_duration + '" size=1></td><td></td><td><label id="comp_poison_chance"></label></td><td><label id="comp_poison_duration"></label></td></tr>';
-		monster_status_html += '<tr><td style="color: purple;font-weight: bold;">Deadly Poison</td><td><input type="text" onChange="update_poison_status(1)" name="initial_deadly_poison_chance" value="' + deadly_poison_chance + '" size=1></td><td><input type="text" onChange="update_poison_status(1)" name="initial_deadly_poison_duration" value="' + deadly_poison_duration + '" size=1></td><td></td><td><label id="comp_deadly_poison_chance"></label></td><td><label id="comp_deadly_poison_duration"></label></td></tr>';
-		monster_status_html += '<tr><td style="color: #FFC30B;font-weight: bold;">Stun</td><td><input type="text" onChange="update_stun_status()" name="initial_stun_chance" value="' + n_tok[131] + '" size=1></td><td><input type="text" onChange="update_stun_status()" name="initial_stun_duration" value="' + stun_duration + '" size=1></td><td></td><td><label id="comp_stun_chance"></label></td><td><label id="comp_stun_duration"></label></td></tr>';
-		monster_status_html += '<tr><td style="color: blue;font-weight: bold;">Freeze</td><td><input type="text" onChange="update_freeze_status()" name="initial_freeze_chance" value="' + n_tok[132] + '" size=1></td><td><input type="text" onChange="update_freeze_status()" name="initial_freeze_duration" value="' + freeze_duration + '" size=1></td><td></td><td><label id="comp_freeze_chance"></label></td><td><label id="comp_freeze_duration"></label></td></tr>';
-		monster_status_html += '<tr><td style="color: red;font-weight: bold;">Curse</td><td><input type="text" onChange="update_curse_status()" name="initial_curse_chance" value="' + n_tok[133] + '" size=1></td><td><input type="text" onChange="update_curse_status()" name="initial_curse_duration" value="' + curse_duration + '" size=1></td><td></td><td><label id="comp_curse_chance"></label></td><td><label id="comp_curse_duration"></label></td></tr>';
-		monster_status_html += '<tr><td style="color: black;font-weight: bold;">Blind</td><td><input type="text" onChange="update_blind_status()" name="initial_blind_chance" value="' + n_tok[134] + '" size=1></td><td><input type="text" onChange="update_blind_status()" name="initial_blind_duration" value="' + blind_duration + '" size=1></td><td></td><td><label id="comp_blind_chance"></label></td><td><label id="comp_blind_duration"></label></td></tr>';
-		monster_status_html += '<tr><td style="color: #FF66BB;font-weight: bold;">Sleep</td><td><input type="text" onChange="update_sleep_status()" name="initial_sleep_chance" value="' + n_tok[135] + '" size=1></td><td><input type="text" onChange="update_sleep_status()" name="initial_sleep_duration" value="' + sleep_duration + '" size=1></td><td></td><td><label id="comp_sleep_chance"></label></td><td><label id="comp_sleep_duration"></label></td></tr>';
-		monster_status_html += '<tr><td style="color: gray;font-weight: bold;">Silence</td><td><input type="text" onChange="update_silence_status()" name="initial_silence_chance" value="' + n_tok[136] + '" size=1></td><td><input type="text" onChange="update_silence_status()" name="initial_silence_duration" value="' + silence_duration + '" size=1></td><td></td><td><label id="comp_silence_chance"></label></td><td><label id="comp_silence_duration"></label></td></tr>';
-		monster_status_html += '<tr><td style="color: brown;font-weight: bold;">Stone</td><td><input type="text" onChange="update_stone_status()" name="initial_stone_chance" value="' + n_tok[137] + '" size=1></td><td><input type="text" onChange="update_stone_status()" name="initial_stone_duration" value="' + stone_duration + '" size=1></td><td></td><td><label id="comp_stone_chance"></label></td><td><label id="comp_stone_duration"></label></td></tr>';
-		monster_status_html += '<tr><td style="color: #32CD32;font-weight: bold;">Confusion</td><td><input type="text" onChange="update_confusion_status()" name="initial_confusion_chance" value="' + n_tok[138] + '" size=1></td><td><input type="text" onChange="update_confusion_status()" name="initial_confusion_duration" value="' + confusion_duration + '" size=1></td><td></td><td><label id="comp_confusion_chance"></label></td><td><label id="comp_confusion_duration"></label></td></tr>';
-		monster_status_html += '<tr><td style="color: red;font-weight: bold;">Bleeding</td><td><input type="text" onChange="update_bleeding_status()" name="initial_bleeding_chance" value="' + n_tok[139] + '" size=1></td><td><input type="text" onChange="update_bleeding_status()" name="initial_bleeding_duration" value="' + bleeding_duration + '" size=1></td><td></td><td><label id="comp_bleeding_chance"></label></td><td><label id="comp_bleeding_duration"></label></td></tr>';
-		monster_status_html += "</table>";
-	
 
-		myInnerHtml("monster_status", monster_status_html, 0);
-		document.calcForm.monster_status_check.checked = 1;
+		monster_status_html += '<tr><td style="color: purple;font-weight: bold;">Deadly Poison</td><td><input type="text" onChange="update_poison_status(1)" name="initial_deadly_poison_chance" value="' + deadly_poison_chance + '" size=1></td><td><input type="text" onChange="update_poison_status(1)" name="initial_deadly_poison_duration" value="' + deadly_poison_duration + '" size=1></td><td></td><td><label id="comp_deadly_poison_chance"></label></td><td><label id="comp_deadly_poison_duration"></label></td></tr>';
+		document.getElementById("monster_status_table").innerHTML = monster_status_html;
 		update_monster_status();
-	}
-	else
-	{
-		monster_status_html += '</table>';
-		myInnerHtml("monster_status", monster_status_html, 0);
-		document.calcForm.monster_status_check.checked = 0;
-	}
 }
 
 function update_monster_status()
@@ -2476,7 +2483,7 @@ function update_monster_status()
 		update_sleep_status();
 		update_stone_status();
 		update_freeze_status();
-		update_poison_status(0);
+		update_poison_status();
 		update_poison_status(1);
 		update_silence_status();
 		update_bleeding_status();
@@ -2484,7 +2491,7 @@ function update_monster_status()
 	}		
 }
 
-function update_poison_status(is_deadly_poison_status)
+function update_poison_status(is_deadly_poison_status = 0)
 {
 	initial_poison_chance = 0;
 	initial_poison_duration = 0;
