@@ -2420,7 +2420,7 @@ function display_monster_stats()
 function display_monster_status()
 {
 	monster_status_html =  '<table style="border: 1px solid #999; border-collapse: separate; width: auto;">';
-	monster_status_html += '<TR><TD ColSpan="5" Bgcolor="#DDDDFF" class="subheader"><div style="float: left; padding: 3px; width: 100px;">Monster Status</div>';
+	monster_status_html += '<TR><TD ColSpan="6" Bgcolor="#DDDDFF" class="subheader"><div style="float: left; padding: 3px; width: 100px;">Monster Status</div>';
 	monster_status_html += '<div style="float: right; padding-right: 3px;"><input id="monster_status_check" type="checkbox" name="monster_status_check" onClick="display_monster_status()"><label for="monster_status_check">Show</label></div><div style="clear: both;"></div></TD></TR>';
 
 	
@@ -2428,7 +2428,7 @@ function display_monster_status()
 	{
 		monster_status_html += '<tr><td colspan="2"><input type="radio" id="status_on_attack_button" name="add_effect_button" onclick="init_monster_status(0)" value="0" checked><label for="status_on_attack_button">When attacking</label></input></td>';
 		monster_status_html += '<td colspan="3"><input type="radio" id="status_when_hit_button" name="add_effect_button" onclick="init_monster_status(1)" value="1"><label for="status_when_hit_button">When receiving attack</label></input></td><tr>';
-		monster_status_html += '<tr><td colspan="5"><table id="monster_status_table" width: auto;"/></td></tr></table>';
+		monster_status_html += '<tr><td colspan="6"><table id="monster_status_table" width: auto;"/></td></tr></table>';
 		myInnerHtml("monster_status", monster_status_html, 0);
 		
 		document.calcForm.monster_status_check.checked = 1;
@@ -2458,13 +2458,18 @@ function init_monster_status(is_add_effect_when_hit = 0)
 		
 		status_color = ["purple", "#FFC30B", "blue", "red", "black", "#FF66BB", "gray", "#32CD32", "red", "brown"];
 		status_duration = [poison_duration, stun_duration, freeze_duration, curse_duration, blind_duration, sleep_duration, silence_duration, confusion_duration, bleeding_duration, stone_duration];
-		monster_status_html = '<tr><td></td><td>Initial<br>Chance (%)</td><td>Initial<br>Duration (s)</td><td width="20px"></td><td width="50px">Chance</td><td>Duration</td></tr>';
+		monster_status_html = '<tr><td></td><td>Initial<br>Chance (%)</td><td>Initial<br>Duration (s)</td><td>' + (Taijin ? "Resistance" : "") + '</td><td width="20px"></td><td width="50px">Chance</td><td>Duration</td></tr>';
 		
 		for (i = 0; i < status_duration.length; ++i)
 		{
 			current_status_lower = IjyouOBJ[i].toLowerCase();
 			monster_status_html += '<tr><td style="color: ' + status_color[i] + ';font-weight: bold;">' + IjyouOBJ[i] + '</td><td><input type="text" onChange="update_' + current_status_lower + '_status()" name="initial_' + current_status_lower + '_chance" value="' +  (is_add_effect_when_hit ? n_tok[390 + i] : (n_Enekyori == 2 ? n_tok[400 + i] : n_tok[130 + i])) + '" size=1></td>';
-			monster_status_html += '<td><input type="text" onChange="update_' + current_status_lower + '_status()" name="initial_' + current_status_lower + '_duration" value="' + status_duration[i] + '" size=1></td><td></td><td><label id="comp_' + current_status_lower + '_chance"></label></td><td><label id="comp_' + current_status_lower + '_duration"></label></td></tr>';
+			monster_status_html += '<td><input type="text" onChange="update_' + current_status_lower + '_status()" name="initial_' + current_status_lower + '_duration" value="' + status_duration[i] + '" size=1></td><td>';
+			
+			if (Taijin)
+				monster_status_html += '<input type="text" onChange="update_' + current_status_lower + '_status()" id="'+ current_status_lower + '_resistance" name="'+ current_status_lower + '_resistance" value="0" size=1>';
+			
+			monster_status_html += '</td><td></td><td><label id="comp_' + current_status_lower + '_chance"></label></td><td><label id="comp_' + current_status_lower + '_duration"></label></td></tr>';
 		}
 		
 		deadly_poison_chance = 0;
@@ -2472,7 +2477,7 @@ function init_monster_status(is_add_effect_when_hit = 0)
 		if (1375 == n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x == 9) > -1)
 			deadly_poison_chance += 15;
 
-		monster_status_html += '<tr><td style="color: purple;font-weight: bold;">Deadly Poison</td><td><input type="text" onChange="update_poison_status(1)" name="initial_deadly_poison_chance" value="' + deadly_poison_chance + '" size=1></td><td><input type="text" onChange="update_poison_status(1)" name="initial_deadly_poison_duration" value="' + deadly_poison_duration + '" size=1></td><td></td><td><label id="comp_deadly_poison_chance"></label></td><td><label id="comp_deadly_poison_duration"></label></td></tr>';
+		monster_status_html += '<tr><td style="color: purple;font-weight: bold;">Deadly Poison</td><td><input type="text" onChange="update_poison_status(1)" name="initial_deadly_poison_chance" value="' + deadly_poison_chance + '" size=1></td><td><input type="text" onChange="update_poison_status(1)" name="initial_deadly_poison_duration" value="' + deadly_poison_duration + '" size=1></td><td>' + (Taijin ? "N/A" : "") + '</td><td></td><td><label id="comp_deadly_poison_chance"></label></td><td><label id="comp_deadly_poison_duration"></label></td></tr>';
 		document.getElementById("monster_status_table").innerHTML = monster_status_html;
 		update_monster_status();
 }
@@ -2677,7 +2682,12 @@ function update_bleeding_status()
 
 function update_status(status_name, rate, duration, sc_def, sc_def2, tick_def, tick_def2)
 {
-	status_chance = Math.min(100, Math.max(0, (rate - rate * sc_def / 100 - sc_def2)));
+	status_resistance = 0;
+	
+	if (Taijin && "deadly_poison" != status_name)
+		status_resistance = document.getElementById(status_name + '_resistance').value;
+	
+	status_chance = Math.min(100, Math.max(0, (rate - rate * sc_def / 100 - sc_def2))) * (1 - Math.min(100, status_resistance) / 100);
 	status_duration = Math.max(0, (duration - duration * tick_def / 100 - tick_def2));
 	
 	if (rate && status_chance && n_B[19] != 1)
