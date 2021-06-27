@@ -142,7 +142,7 @@ ArrowOBJbackup = [
 BulletOBJ = [
 [10,0,"Bullet"],
 [15,6,"Silver Bullet"],
-[30,0,"Blood Bullet"],
+[30,0,"Bloody Bullet"],
 //custom TalonRO elemental bullets
 [15,3,"Fire Bullet"],
 [15,4,"Wind Bullet"],
@@ -158,14 +158,16 @@ GrenadeOBJ = [
 [50,4,"Lightning Sphere"],
 [50,7,"Blind Sphere"],
 [50,5,"Poison Sphere"],
+[50,0,"Gong Bug"],
 ];
 
 SyurikenOBJ = [
 [10,0,"Shuriken"],
-[30,0,"Numbus Shuriken"],
+[30,0,"Raincloud Shuriken"],
 [45,0,"Flash Shuriken"],
 [70,0,"Sharp Leaf Shuriken"],
 [100,0,"Thorn Needle Shuriken"],
+[110,0,"Starfish"],
 ];
 
 KunaiOBJ = [
@@ -174,6 +176,8 @@ KunaiOBJ = [
 [30,4,"High Wind Kunai"],
 [30,2,"Black Earth Kunai"],
 [30,5,"Fell Poison Kunai"],
+[50,0,"Dried Fish"],
+[50,0,"Flying Fish"],
 ];
 
 JobEquipItemOBJ = [
@@ -3546,43 +3550,45 @@ with(document.calcForm){
 
 function ClickWeaponType(n){
 with(document.calcForm){
-	addSharpArrow = 0;
+	add_status_arrow = 0;
 	n_A_JobSet();
 	if(n_A_JobSearch()==2 || n_A_JobSearch()==4 || (n_A_JOB==45 && n!=0)){
 		A_Arrow.style.visibility = "visible";
 		var len = A_Arrow.length;
 		for(var i=0;i<len;i++)
 			A_Arrow.options[0] = null;
-		if(n==10||n==14||n==15){
-			j=23;
-			for (i=0; i<=4; i++)
+		
+		if(n==10||n==14||n==15)
+		{
+			j = ArrowOBJ.length;
+			for (i=0; i < ArrowOBJbackup.length; i++)
 				ArrowOBJ[i] = ArrowOBJbackup[i];
 		}
 		else if (n >= 17 && n <= 20)
 		{
-			j=8;
-			for (i=0; i<=8; i++)
+			j = BulletOBJ.length;
+			for (i = 0; i < j; ++i)
 				ArrowOBJ[i] = BulletOBJ[i];
 		}
 		else if (n==21)
 		{
-			j=4;
-			for (i=0; i<=4; i++)
+			j = GrenadeOBJ.length;
+			for (i = 0; i < j; ++i)
 				ArrowOBJ[i] = GrenadeOBJ[i]
 		}
 		else
 		{
-			j=1;
+			j = 2;
 			ArrowOBJ[0] = [0,0,"No Arrows"];
 			ArrowOBJ[1] = ArrowOBJ[16];
 			//custom TalonRO fix, add Sharp Arrow if no range weapon is equipped, so +5% crit damage still works if equipped with Little Feather Hat
-			addSharpArrow = 1
+			add_status_arrow = 1;
 		}
 		//custom TalonRO fix, add Sharp Arrow if no range weapon is equipped, so +5% crit damage still works if equipped with Little Feather Hat
-		for(i=0; i<=j; i++){
+		for(i=0; i < j; i++){
 			A_Arrow.options[i] = new Option(ArrowOBJ[i][2],i);
 		}
-		if (j==1 && addSharpArrow == 1)
+		if (add_status_arrow)
 		{
 			A_Arrow.options[2] = new Option(ArrowOBJ[15][2],15); // Sharp Arrow#15
 			A_Arrow.options[3] = new Option(ArrowOBJ[13][2],13); // Frozen Arrow#13
@@ -3785,14 +3791,14 @@ with(document.calcForm){
 	else if(n_A_ActiveSkill==394){
 		myInnerHtml("AASkillName","",0);
 		myInnerHtml("AASkill",'<select name="SkillSubNum"onChange="calc()"></select>',0);
-		for(i=0;i<=4;i++)
+		for (i = 0; i < SyurikenOBJ.length; ++i)
 			SkillSubNum.options[i] = new Option(SyurikenOBJ[i][2],i);
 		SkillSubNum.value = 0;
 	}
 	else if(n_A_ActiveSkill==395){
 		myInnerHtml("AASkillName","",0);
 		myInnerHtml("AASkill",'<select name="SkillSubNum"onChange="calc()"></select>',0);
-		for(i=0;i<=4;i++)
+		for(i=0; i < KunaiOBJ.length; ++i)
 			SkillSubNum.options[i] = new Option(KunaiOBJ[i][2],i);
 		SkillSubNum.value = 0;
 	}

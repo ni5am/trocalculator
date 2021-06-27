@@ -2451,6 +2451,7 @@ with(document.calcForm){
 	//[TalonRO Custom - 2018-07-26 - Valorous Battle CrossBow +25 CRIT for Archer Classes] [Amor]
 	if(EquipNumSearch(913) && n_A_JobSearch() == 4) {
 		n_tok[10] += 25;
+		n_tok[133] += 5;
 	}
 	//[TalonRO Custom - 2018-07-28 - Glorious Gatiling Gun +3 CRIT per refine] [Amor]
 	if(EquipNumSearch(1101)) {
@@ -3881,10 +3882,13 @@ with(document.calcForm){
 	if(EquipNumSearch(1084)) {
 		n_tok[177] += (1 * Math.floor(n_A_Weapon_ATKplus/2));
 	}
-	//[Custom TalonRO - 2018-07-28 Glorious Gladius - Every 2 refine 1% MATK for demi-human for 6+ >] [Amor]
-	if(EquipNumSearch(1076)) {
-		if(n_A_Weapon_ATKplus >= 6)
-				n_tok[177] += (n_A_Weapon_ATKplus - 5);
+	// Glorious Gladius#1076 - [Every Refine Level 6~10] 1% chance to inflict the Bleeding status when attacking.
+	if (EquipNumSearch(1076) && n_A_Weapon_ATKplus >= 6)
+	{
+		n_tok[138] += (n_A_Weapon_ATKplus - 5);
+		
+		if (n_A_JOB == 44) // [Ninja] Every refine level +6 and higher increases magical damage against DemiHuman monsters by 1%.
+			n_tok[177] += (n_A_Weapon_ATKplus - 5);
 	}
 	//[Custom TalonRO - 2018-07-29 Glorious Staff of Destruction - +1% MATK every refine for demi-human] [Amor]
 	if(EquipNumSearch(1083)) {
@@ -4374,7 +4378,7 @@ with(document.calcForm){
 	if (SU_DEX >= 77 && CardNumSearch(384))
 		n_tok[391] += 6;
 	
-	// Manage status arrow
+	// Manage status ammunitions
 	if (n_A_Arrow)
 	{
 		if (13 == n_A_Arrow) // Frozen Arrow#13
@@ -4390,6 +4394,27 @@ with(document.calcForm){
 		else if (22 == n_A_Arrow) // Sleep Arrow#22
 			n_tok[135] += 10;
 		else if (23 == n_A_Arrow) // Stun Arrow#23
+			n_tok[131] += 10;
+		else if (n_A_WeaponType >= 17 && n_A_WeaponType <= 20 && 2 == n_A_Arrow) // Bloody Shell#2
+			n_tok[138] += 1;
+		else if (21 == n_A_WeaponType) // Manage grenade launcher ammunitions
+		{
+			if (3 == n_A_Arrow) // Blind Sphere#3
+				n_tok[134] += 5;
+			else if (4 == n_A_Arrow) // Poison Sphere#4
+				n_tok[130] += 5;
+			else if (5 == n_A_Arrow) // Gong Bug#5 - [Stun] chance is increased by 10%.
+				n_tok[131] += 10;
+		}
+	}
+	else if (394 == n_A_ActiveSkill && 5 == eval(document.calcForm.SkillSubNum.value)) // Throw Shuriken#394 - Starfish#5 - [Stun] chance is increased by 10%.
+		n_tok[131] += 10;
+	else if (395 == n_A_ActiveSkill) // Throw Kunai#395
+	{
+		selected_kunai = eval(document.calcForm.SkillSubNum.value);
+		if (4 == selected_kunai) // Fell Poison Kunai#4
+			n_tok[130] += 5;
+		else if (5 == selected_kunai) // Dried Fish#5 - [Stun] chance is increased by 10%.
 			n_tok[131] += 10;
 	}
 	
