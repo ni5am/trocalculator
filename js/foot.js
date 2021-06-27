@@ -6484,7 +6484,18 @@ function KakutyouKansuu(){
 				wkk14 += "<br><table border=0><tr><td width=50%><b>Chance to Strip " + strip_type + ": </b></td><td>" + Math.floor(strip_rate * 10)/10 + " %</td></tr>";
 				wkk14 += "<tr><td width=50%><font color=red><b>Duration Time: </b></font></td><td>" + Math.floor(strip_duration * 10)/10 + " Seconds</td></tr></table>";
 			}
-			
+
+			if (431 == n_A_ActiveSkill)
+			{
+				i = 1;
+				strip_rate = n_A_DEX / (4 * (7 - n_A_ActiveSkillLV)) + n_A_LUK / (4 * (6 - n_A_ActiveSkillLV));
+				strip_rate = Math.max(0, strip_rate + n_A_BaseLV - (n_B[8] * strip_rate / 100) - n_B[11] - n_B[5]);
+				strip_duration = 30;
+				
+				wkk14 += "<br><table border=0><tr><td width=50%><b>Chance to Strip [Weapon]: </b></td><td>" + Math.floor(strip_rate * 10)/10 + " %</td></tr>";
+				wkk14 += "<tr><td width=50%><font color=red><b>Duration Time: </b></font></td><td>" + strip_duration + " Seconds</td></tr></table>";
+			}
+
 			if (!i)
 			{
 				myInnerHtml("A_KakutyouSel","",0);
