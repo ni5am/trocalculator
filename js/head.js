@@ -5601,6 +5601,12 @@ function tRO_Click_MalangdoEnchantment(w1,w2){
 				A_ME12.options[j].classList.remove('prohibited');
 			}
 		}
+		
+		// Giant Encyclopedia#640, Krasnaya#1160 can only be enchanted once
+		if (640 == w1 || 1160 == w1)
+			A_ME12.disabled = true;
+		else
+			A_ME12.disabled = false;
 
 		if(ME_ENCHANTABLE[kID2][1] != 0) {
 			var arEx = [];

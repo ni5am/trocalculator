@@ -974,6 +974,7 @@ ME_ENCHANTABLE = [
 	,[388,0] //Ice Pick
 	,[395,41,42,43,53,0] //Bazerald Except INT enchants or DEX+3
 	,[1618,0] //Ancient Dagger
+	,[816,0] //Desert Twilight [2]
 /* [Katars] */
 	,[634,0] //Bloody Blades [2]
 	,[482,0] //Unholy Touch
@@ -1000,6 +1001,7 @@ ME_ENCHANTABLE = [
 	,[624,0] //Hurricane Fury [1]
 	,[69,0] //Light Epsilon
 	,[621,0] //Doom Slayer
+	,[622,0] //Bardiche [2]
 /* [One Handed Swords] */
 	,[32,0] //Ice Falchion
 	,[33,0] //Fireblend
@@ -1016,6 +1018,7 @@ ME_ENCHANTABLE = [
 	,[402,41,42,43,53,0] //Excalibur - Except INT Enchant and DEX+3
 	,[399,0] //Nagan
 	,[400,0] //Edge
+	,[613,0] //Thin Blade[2]
 /* [Two Handed Swords] */
 	,[44,0] //Muramasa
 	,[405,0] //Dragon Slayer
@@ -1042,6 +1045,7 @@ ME_ENCHANTABLE = [
 	,[409,0] //Brocca
 	,[617,0] //Battle Hook [1]
 	,[618,0] //Hunting Spear [1]
+	,[51,0] //Pole Axe [1]
 /* [Two Handed Spears] */
 	,[60,0] //Crescent Scythe
 	,[411,0] //Bill Guisarme
@@ -1061,6 +1065,7 @@ ME_ENCHANTABLE = [
 	,[1508,52,53,0] //Mental Stick
 	,[936,52,53,0] //Dark Thorn Staff
 	,[948,52,53,0] //Eraser
+	,[1169,52,53,0] //Lacrima Stick
 /* [Two Handed Staves] - Staves Except DEX+2/+3 */
 	,[92,52,53,0] //Wizardry Staff
 	,[1172,52,53,0] //Chronos
@@ -1078,6 +1083,7 @@ ME_ENCHANTABLE = [
 	,[420,0] //Spike
 	,[421,0] //Slash
 	,[83,0] //Grand Cross
+	,[1161,0] //Veteran Hammer [2]
 /* [Books] */
 	,[122,0] //Book of the Apocalypse
 	,[121,0] //Girl's Diary [1]
@@ -1085,6 +1091,7 @@ ME_ENCHANTABLE = [
 	,[485,0] //Hardcover Book [1]
 	,[812,0] //Battlefield Textbook [1]
 	,[641,0] //Book of the Dead  [2]
+	,[640,0] //Giant Encyclopedia [2]
 /* [Knuckles] */
 	,[423,0] //Kaiser Knuckle
 	,[424,0] //Berserk
@@ -1101,6 +1108,8 @@ ME_ENCHANTABLE = [
 	,[1174,0] //Falken Blitz [2]
 	,[1457,0] //Mystic Bow
 	,[104,0] //Rudra Bow
+	,[630,0] //Orc Archer's Bow
+	,[521,0] //Luna Bow
 /* [Instruments] */
 	,[492,0] //Oriental Lute
 	,[649,0] //Spirited Guitar
