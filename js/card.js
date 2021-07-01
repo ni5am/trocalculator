@@ -655,7 +655,7 @@ cardOBJ = [
 ,[625,2,"Champion Chen","Ignore Spirit Sphere Requirement for All Combo Skills.",0]
 ,[626,1,"Stalker Gertie",0,9,10,80,15,0]
 ,[627,1,"Clown Alphoccio","Ignore 10% of enemy Defense with [Arrow Vulcan].",5292,20,0]
-,[628,100,"Clown Alphoccio + Clown", "<b>[PvM Only]</b><br>[Poem of Bragi] Aftercast Rate + 1% for each equipped Clown Card.",0]
+,[628,100,"Clown Alphoccio + Alphoccio", "<b>[PvM Only]</b><br>[Poem of Bragi] Aftercast Rate + 1% for each equipped Alphoccio Card.",0]
 ,[629,6,"Gypsy Trentini","Fast Movement all the time.<br>All Song and Dance buffs you recieve have an additional 40 second lasting duration.<br><b>[On Unequip]</b><br>Dispel Song/Dance Buffs.",15,20,16,10,0]
 ,[630,100,"Trentini + Alphoccio", "[Bard] [A Whistle] Flee Rate + 10%.<br>[Dancer] [Service for You] SP Rate + 5%.",0]
 ];
