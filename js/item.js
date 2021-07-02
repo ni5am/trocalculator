@@ -638,7 +638,7 @@ ItemOBJ = [
 ,[615,3,1001,160,4,2,220,55,"Muscle Cutter","","Add a 3% chance of auto casting Level 1 Decrease Agi on the enemy when attacking",138,8,0]
 ,[616,4,1001,150,4,1,100,65,"Long Horn","","Enables the use of [Detoxify]Lv 1",20,6,138,5,194,1,0]
 ,[617,4,1001,140,4,1,90,65,"Battle Hook","",0,37,20,131,5,220,11,0]
-,[618,4,1001,180,4,1,420,60,"Hunting Spear","","A spear designed specifically to hunt. The end tip looks like a leaf. This spear focused on using its weight to bring damage rather than to piercing the enemy.<br>Adds a 10% chance of the Meat item dropping when killing a [Brute] race monster",182,1,221,20,0]
+,[618,4,1001,180,4,1,420,60,"Hunting Spear","","A spear designed specifically to hunt. The end tip looks like a leaf. This spear focused on using its weight to bring damage rather than to piercing the enemy.<br>Adds a 10% chance of the Meat item dropping when killing a [Brute] race monster",182,100,221,20,0]
 ,[619,5,1,170,4,"0 / 1",200,75,"Phantom Spear","","If the target enemy dies, Recovers 50 HP<BR>Small chance to cause Chaos on yourself",31,20,36,20,47,20,51,10,56,10,67,10,0]
 ,[620,5,61,120,4,0,100,65,"Ahlspiess","","Auger shaped spear that is effective at attacking enemy's weak points.",21,100,22,100,37,10,221,21,0]
 ,[621,7,1,10,4,"0 / 1",600,80,"Doom Slayer","","<b>If base STR >= 95:</b><br>ATK + 340<br>Causes Stun effect to enemies by 30% chance when receiving damage<br>Add a 5% chance of breaking the enemy's armor when attacking",12,-40,72,100,0]
