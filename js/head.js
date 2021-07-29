@@ -8416,11 +8416,6 @@ function ApplySkillAtkBonus(dmg)
 			skill_atk_bonus_ratio += 20;
 	}
 	
-	// Nibelungen#1386 - Knight/Lord Knight
-	// #127 - Increase damage inflicted on Large size monster by 15% when using [Pierce#70] or [Brandish Spear#73]
-	if (1386 == n_A_Equip[0] && 2 == n_B[4] && (70 == n_A_ActiveSkill || 73 == n_A_ActiveSkill) && SQI_Bonus_Effect.findIndex(x => x == 127) > -1)
-		skill_atk_bonus_ratio += 15;
-	
 	// Nibelungen#1386 + 1st Commander of Destruction#601 - Brandish damage bonus reduced by 10%
 	if (1386 == n_A_Equip[0] && 73 == n_A_ActiveSkill)
 		skill_atk_bonus_ratio -= 10 * CardNumSearch(601);
