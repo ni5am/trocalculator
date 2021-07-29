@@ -414,6 +414,14 @@ PET_OBJ = [[0,"No Pet",0,0]
 ,[159,"Wandering Duck Doll [AGI +2, DEX+1]",0,2,2,5,1,0]
 ,[160,"Deviruchiling [Shadow element resistance increased by 3%]",0,67,3,0]
 ,[161,"Capoo [AGI +2, ASPD +2%]",0,2,2,12,2,0]
+,[162,"Boiled Rice [Adds a chance to drop Rice Ball when killing Fish race monsters, Increase resistance to Water Property attacks by 2%]",0,61,2,0]
+,[163,"Shellfish [Adds a chance to drop Fresh Fish when killing Fish race monsters, Increase resistance to Water Property attacks by 2%]",0,61,2,0]
+,[164,"Volcaring [VIT +1, Increase Physical and Magical damage against Fire element monsters by 3%]",0,3,1,43,3,353,3,0]
+,[165,"Menblatt [VIT +2, Increase Physical and Magical damage against Wind element monsters by 2%]",0,3,1,44,2,354,2,0]
+,[166,"Chimera Litus [Increases duration of Stat foods by 25%]",0,0]
+,[167,"Firewind Kite [Increase Physical and Magical damage against Fire and Wind element monsters by 2%]",0,43,2,353,2,44,2,354,2,0]
+,[168,"Omega Cleaner [HIT +5, FLEE +3, DEX +1, ASPD +2%]",0,8,5,9,3,5,1,12,2,0]
+,[169,"Empathizer [VIT +2, MATK +2%, Increases magical damage to DemiHuman monsters by 2%]",0,3,2,89,2,177,2,0]
 ];
 
 ITEM_SP_TIME_OBJ =[
