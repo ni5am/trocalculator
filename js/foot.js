@@ -578,6 +578,14 @@ with(document.calcForm){
 		drip_of_yggdrasil_cocktail = eval(drip_of_yggdrasil_cocktail_check.checked)				// [sc_start SC_LIFEINSURANCE,1800000,0; sc_start SC_EXPBOOST,1800000,10;]
 		moscow_headless_mule_cocktail = eval(moscow_headless_mule_cocktail_check.checked)		// [specialeffect2 320; sc_start4 SC_L_LIFEPOTION,600000,-3,10,0,0; sc_start SC_INCFLEE,600000,30;]
 		blossoming_geographer_cocktail = eval(blossoming_geographer_cocktail_check.checked)		// [sc_start SC_MDEF_RATE,1800000,10;]
+		
+		bobo_boba_cocktail = eval(bobo_boba_cocktail_check.checked)
+		wolfchev_nightcap_cocktail = eval(wolfchev_nightcap_cocktail_check.checked)
+		chepet_match_cocktail = eval(chepet_match_cocktail_check.checked)
+		dullahan_ale_cocktail = eval(dullahan_ale_cocktail_check.checked)
+		sippin_galapago_cocktail = eval(sippin_galapago_cocktail_check.checked) 
+		sleeper_dream_cocktail = eval(sleeper_dream_cocktail_check.checked)
+		mobster_paradise_cocktail = eval(mobster_paradise_cocktail_check.checked)
 	}
 	//custom TalonRO SQI
 	if(n_SQI_Bonus_SW){
@@ -1444,6 +1452,10 @@ with(document.calcForm){
 		}
 	}
 
+	// Sleeper's Dream Cocktail - MaxHP + 5%
+	if (sleeper_dream_cocktail)
+		n_tok[15] += 5;
+
 	//custom TalonRO Lady Tanee Card: +1% HP per 8 base AGI
 	if(CardNumSearch(409))
 		n_tok[15] += Math.floor(SU_AGI / 8);
@@ -1630,6 +1642,10 @@ with(document.calcForm){
 		n_A_MaxSP = 0;
 
 	w=0;
+
+	// Mobster's Paradise Cocktail - MaxSP + 5%
+	if (mobster_paradise_cocktail)
+		n_tok[16] += 5;
 
 	w += n_tok[16];
 	if(n_A_SHOES_DEF_PLUS >= 9 && CardNumSearch(304))
@@ -2272,6 +2288,10 @@ with(document.calcForm){
 		n_A_FLEE = 0;}
 
 	myInnerHtml("A_FLEE",n_A_FLEE + "<br><b>WOE: </b>" + Math.floor(n_A_FLEE*.8),0);
+
+	// Dullahan's Ale - Perfect Dodge + 10
+	if (dullahan_ale_cocktail)
+		n_tok[11] += 10;
 
 	// Duneyrr Card#511 [Lord Knight] When activated during Frenzy, add another Perfect Dodge + 10.
 	if (CardNumSearch(511) && SkillSearch(258) && TimeItemNumSearch(51))
@@ -4307,6 +4327,31 @@ with(document.calcForm){
 		n_tok[40] += 40;
 		n_tok[21] += n_A_Weapon_ATKplus * 3;
 		n_tok[22] += n_A_Weapon_ATKplus * 3;
+	}
+	
+	// Bobo's Boba - Ignore 10% DEF and MDEF
+	if (bobo_boba_cocktail)
+	{
+		n_tok[21] += 10;
+		n_tok[22] += 10;
+		n_tok[295] += 10;
+	}
+	
+	// Chepet's Match - Increases heal power of [Heal], [Sanctuary] and [Potion Pitcher] by 10%
+	if (chepet_match_cocktail)
+	{
+		n_tok[91] += 10;
+		n_tok[93] += 10;
+		n_tok[94] += 10;
+	}
+	
+	// Sippin' Galapago - Increases received heal from any skills by 10% for 15 minutes
+	if (sippin_galapago_cocktail)
+	{
+		n_tok[92] += 10;
+		n_tok[95] += 10;
+		n_tok[199] += 10;
+		n_tok[200] += 10;
 	}
 	
 	/* 
@@ -7989,6 +8034,11 @@ function IsAKielDungeonMonster(){
 	return (n_B[0] >= 430 && n_B[0] <= 435)
 }
 
+// Biolab Dungeon
+function IsABiolabMonster() {
+	return (MonMap[10].findIndex( (x) => x == n_B[0] ) > -1);
+}
+
 n_NtoS =["0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
 n_NtoS2 =["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","0","1","2","3","4","5","6","7","8","9"];
 function NtoS(n,keta){
@@ -10119,10 +10169,17 @@ eden_high_crystal_buff = 0;
 
 eclage_food = 0;
 abrasive_food = 0;
+bobo_boba_cocktail = 0;
 sting_slap_cocktail = 0;
 venatu_beep_cocktail = 0;
+chepet_match_cocktail = 0;
+dullahan_ale_cocktail = 0;
+sleeper_dream_cocktail = 0;
+sippin_galapago_cocktail = 0;
 old_dracula_mix_cocktail = 0;
 spammers_heaven_cocktail = 0;
+mobster_paradise_cocktail = 0;
+wolfchev_nightcap_cocktail = 0;
 seductive_bathory_cocktail = 0;
 myst_case_suprise_cocktail = 0;
 drip_of_yggdrasil_cocktail = 0;

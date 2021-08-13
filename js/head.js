@@ -3385,14 +3385,15 @@ function BattleMagicCalc(wBMC)
 	wBMC2 = wBMC2 * (100 + wX) / 100;
 
 
-	if(n_A_PassSkill8[23]){
-		if(MANUKU_MONSTER())
-			wBMC2 = wBMC2 * 110 / 100
-	}
-	if(n_A_PassSkill8[26]){
-		if(SUPURE_MONSTER())
-			wBMC2 = wBMC2 * 110 / 100
-	}
+	if (n_A_PassSkill8[23] && MANUKU_MONSTER())
+		wBMC2 = wBMC2 * 110 / 100;
+
+	if (n_A_PassSkill8[26] && SUPURE_MONSTER())
+		wBMC2 = wBMC2 * 110 / 100;
+	
+	// Wolfchev's Nightcap - Increases magical damage against Biolab monsters by 15%
+	if (wolfchev_nightcap_cocktail && IsABiolabMonster())
+		wBMC2 = wBMC2 * 1.15;
 
 	wBMC2 = Math.floor(wBMC2);
 
@@ -4788,6 +4789,10 @@ with(document.calcForm){
 		str += '<TR><TD id="EN846"></TD></TR><TR><TD id="EN847"></TD></TR>';
 		str += '<TR><TD id="EN848"></TD></TR><TR><TD id="EN849"></TD></TR>';
 		str += '<TR><TD id="EN850"></TD></TR><TR><TD id="EN851"></TD></TR>';
+		str += '<TR><TD id="EN856"></TD></TR><TR><TD id="EN857"></TD></TR>';
+		str += '<TR><TD id="EN858"></TD></TR><TR><TD id="EN859"></TD></TR>';
+		str += '<TR><TD id="EN860"></TD></TR><TR><TD id="EN861"></TD></TR>';
+		str += '<TR><TD id="EN862"></TD></TR>';
 		str += '<TR><TD colspan="2"><Font size=2 color=black><B>Other Food</B></Font></TD></TR>';
 		str += '<TR><TD id="EN852"></TD></TR>';
 		str += '<TR><TD id="EN816"></TD></TR>';
@@ -4822,7 +4827,14 @@ with(document.calcForm){
 		myInnerHtml("EN848",'<input type="checkbox" name="sting_slap_cocktail_check"			onClick="Click_A8(1)">Sting\'s Slap [10% resistance to Physical Attacks for 30 minutes]',0);
 		myInnerHtml("EN849",'<input type="checkbox" name="blossoming_geographer_cocktail_check"	onClick="Click_A8(1)">Blossoming Geographer [10% resistance to Magic Attacks for 30 minutes]',0);
 		myInnerHtml("EN850",'<input type="checkbox" name="drip_of_yggdrasil_cocktail_check"		onClick="Click_A8(1)">Drip of Yggdrasil [10% EXP Boost for 30 minutes + No EXP loss when dying]',0);
-		myInnerHtml("EN851",'<input type="checkbox" name="moscow_headless_mule_cocktail_check"	onClick="Click_A8(1)">Moscow Headless Mule [For 10 minutes, FLEE + 30 and you regenerate 3% of your Maximum HP every 10 seconds. Can not be used while in Frenzy]',0);
+		myInnerHtml("EN851",'<input type="checkbox" name="moscow_headless_mule_cocktail_check"	onClick="Click_A8(1)">Moscow Headless Mule [FLEE + 30 and you regenerate 3% of your Maximum HP every 10 seconds for 10 minutes. Can not be used while in Frenzy]',0);
+		myInnerHtml("EN856",'<input type="checkbox" name="bobo_boba_cocktail_check"				onClick="Click_A8(1)">Bobo\'s Boba [Ignores 10% DEF and MDEF on all monsters for 5 minutes]',0);
+		myInnerHtml("EN857",'<input type="checkbox" name="wolfchev_nightcap_cocktail_check"		onClick="Click_A8(1)">Wolfchev\'s Nightcap [Increases physical and magical damage against Biolab monsters by 15% for 15 minutes]',0);
+		myInnerHtml("EN858",'<input type="checkbox" name="chepet_match_cocktail_check"			onClick="Click_A8(1)">Chepet\'s Match [Increases heal power of [Heal], [Sanctuary] and [Potion Pitcher] by 10% for 15 minutes]',0);
+		myInnerHtml("EN859",'<input type="checkbox" name="dullahan_ale_cocktail_check"			onClick="Click_A8(1)">Dullahan\'s Ale [Adds +10 Perfect Dodge for 20 minutes]',0);
+		myInnerHtml("EN860",'<input type="checkbox" name="sippin_galapago_cocktail_check"		onClick="Click_A8(1)">Sippin\' Galapago [Increases received heal from any skills by 10% for 15 minutes]',0);
+		myInnerHtml("EN861",'<input type="checkbox" name="sleeper_dream_cocktail_check"			onClick="Click_A8(1)">Sleeper\'s Dream [Increases MaxHP by 5% for 15 minutes]',0);
+		myInnerHtml("EN862",'<input type="checkbox" name="mobster_paradise_cocktail_check"		onClick="Click_A8(1)">Mobster\'s Paradise [Increases MaxSP by 5% for 15 minutes]',0);
 
 		var PET_OBJ_copy= new Array();
 		PET_OBJ_copy = PET_OBJ_copy.concat(PET_OBJ);
@@ -5003,6 +5015,14 @@ with(document.calcForm){
 		drip_of_yggdrasil_cocktail_check.checked = drip_of_yggdrasil_cocktail
 		moscow_headless_mule_cocktail_check.checked = moscow_headless_mule_cocktail
 		blossoming_geographer_cocktail_check.checked = blossoming_geographer_cocktail
+		
+		bobo_boba_cocktail_check.checked = bobo_boba_cocktail
+		wolfchev_nightcap_cocktail_check.checked = wolfchev_nightcap_cocktail
+		chepet_match_cocktail_check.checked = chepet_match_cocktail
+		dullahan_ale_cocktail_check.checked = dullahan_ale_cocktail
+		sippin_galapago_cocktail_check.checked = sippin_galapago_cocktail
+		sleeper_dream_cocktail_check.checked = sleeper_dream_cocktail
+		mobster_paradise_cocktail_check.checked = mobster_paradise_cocktail
 	}else{
 		var str;
 		str = '<table style="border: 1px solid #999; border-collapse: collapse; width: auto;">';
@@ -8197,14 +8217,15 @@ function BaiCI(wBaiCI)
 		debug_atk+="\nb_wBaiCI:"+wBaiCI;
 	}
 
-	if(n_A_PassSkill8[22]){
-		if(MANUKU_MONSTER())
-			wBaiCI = wBaiCI * 110 / 100
-	}
-	if(n_A_PassSkill8[25]){
-		if(SUPURE_MONSTER())
-			wBaiCI = wBaiCI * 110 / 100
-	}
+	if (n_A_PassSkill8[23] && MANUKU_MONSTER())
+		wBaiCI = wBaiCI * 110 / 100
+
+	if (n_A_PassSkill8[26] && SUPURE_MONSTER())
+		wBaiCI = wBaiCI * 110 / 100
+
+	// Wolfchev's Nightcap - Increases physical damage against Biolab monsters by 15%
+	if (wolfchev_nightcap_cocktail && IsABiolabMonster())
+		wBaiCI = wBaiCI * 1.15;
 
 	return wBaiCI;
 }
