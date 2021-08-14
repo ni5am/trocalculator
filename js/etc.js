@@ -609,7 +609,7 @@ SQI_BONUS =[
 ,[61,1381,"Electric Guitar","+20% MaxHP",15,20,0]
 ,[62,1381,"Electric Guitar","+15 Crit, 20% more damage with Critical Hits",10,15,70,20,0]
 ,[63,1381,"Electric Guitar","20% more damage with Long Range attacks",25,20,0]
-,[64,1381,"Electric Guitar","35% more damage with [Musical Strike]",5207,35,0]
+,[64,1381,"Electric Guitar","35% more damage with [Musical Strike]",5199,35,0]
 ,[65,1381,"Electric Guitar","15% Aftercast reduction with [Arrow Vulcan]",8292,15,0]
 ,[66,1381,"Electric Guitar","Immobilize the target for 2 seconds after using [Arrow Vulcan]; Fails against MvP monsters and in WoE",0]
 ,[67,1381,"Electric Guitar","15% chance to cause Curse status after using [Jupitel Thunder]",0]
