@@ -2294,8 +2294,8 @@ with(document.calcForm){
 		n_tok[11] += 10;
 
 	// Duneyrr Card#511 [Lord Knight] When activated during Frenzy, add another Perfect Dodge + 10.
-	if (CardNumSearch(511) && SkillSearch(258) && TimeItemNumSearch(51))
-		n_tok[11] += 10;
+	if (SkillSearch(258) && TimeItemNumSearch(51))
+		n_tok[11] += 10 * CardNumSearch(511);
 
 	// #117 - Baby Skoll - [Extended Class] Perfect Dodge +3
 	if (n_A_PassSkill8[0] == 117 && (n_A_JobSearch() > 6 || 20 == n_A_JOB))
