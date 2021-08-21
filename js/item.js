@@ -4050,11 +4050,13 @@ function Item_Setumei(nC1,nC2)
 	if(92 == nC1)
 		CBIstr += "Heal received from [Heal] increased by "+ wIS + nC2 +"%<BR>";
 	if(93 == nC1)
-		CBIstr += "Potion Pitcher effectiveness increased by "+ wIS + nC2 +"%<BR>";
+		CBIstr += "[Potion Pitcher] effectiveness increased by "+ wIS + nC2 +"%<BR>";
 	if(199 == nC1)
 		CBIstr += "Heal received from [Potion Pitcher] increased by "+ wIS + nC2 +"%<BR>";
 	if(200 == nC1)
 		CBIstr += "Heal received from [Slim Potion Pitcher] increased by "+ wIS + nC2 +"%<BR>";
+	if(201 == nC1)
+		CBIstr += "[Slim Potion Pitcher] effectiveness increased by "+ wIS + nC2 +"%<BR>";
 	if(94 == nC1)
 		CBIstr += "Sanctuary effectiveness increased by "+ wIS + nC2 +"%<BR>";
 	if(96 == nC1)

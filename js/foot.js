@@ -666,7 +666,7 @@ with(document.calcForm){
 	for(var i=0;i<=6;i++)
 		n_Delay[i] = 0;
 
-	for(i=1;i<=200;i++){
+	for(i=1;i<=201;i++){
 		n_tok[i] = 0;
 		n_tok[i] += StPlusCalc2(i);
 		n_tok[i] += StPlusCard(i);
@@ -1023,13 +1023,14 @@ with(document.calcForm){
 		n_tok[17] += 20;
 	}
 	/*
-		Brave Battlefield Morning Star (damage)
+		Brave Battlefield Morning Star
 		[Refine level 8-10]
-		[Alchemist Class]
-		ATK + 30
+		[Alchemist Class] ATK + 30, increase healing with Potion Pitcher by 15% and Slim Potion Pitcher by 5%.
 	*/
 	if(EquipNumSearch(908) && n_A_Weapon_ATKplus >= 8 && n_A_JobSearch2() == 19) {
 		n_tok[17] += 30;
+		n_tok[93] += 15;
+		n_tok[201] += 5;	
 	}
 	/*
 		Gloirous Morning Star (Monk demi-human reduction)
@@ -6217,13 +6218,14 @@ function KakutyouKansuu(){
 		pp_lv = eval(document.calcForm.pp_lv.value);
 		spp_lv = eval(document.calcForm.spp_lv.value);
 		source_lv = eval(document.calcForm.pp_source_lv.value);
-		hp_recovery_lv = eval(document.calcForm.pp_isp_lv.value);
-		sp_recovery_lv = eval(document.calcForm.pp_irp_lv.value);
+		hp_recovery_lv = eval(document.calcForm.pp_irp_lv.value);
+		sp_recovery_lv = eval(document.calcForm.pp_isp_lv.value);
 		target_vit = eval(document.calcForm.pp_target_vit.value);
 		target_int = eval(document.calcForm.pp_target_int.value);
 		//potion_rank = eval(document.calcForm.pp_potion_rank.value); Rank not taken into consideration for PP/SPP
 		pp_consumable = eval(document.calcForm.pp_consumable.value);
 		pp_healpower = eval(document.calcForm.pp_heal_rate_bonus.value);
+		spp_healpower = eval(document.calcForm.spp_heal_rate_bonus.value);
 		selected_consumable = eval(document.calcForm.pp_consumable.value);
 		is_source_linked = eval(document.calcForm.pp_source_link.checked);
 		learning_potion_lv = eval(document.calcForm.pp_learning_potion_lv.value);
@@ -6294,6 +6296,9 @@ function KakutyouKansuu(){
 		
 		// Slim Potion Pitcher
 		bonus = (1 + (spp_lv * 10 + pp_lv * 10 + learning_potion_lv * 5) / 100) * relative_bonus * rank_bonus;
+		
+		// bHealPower bonus
+		bonus *= 1 + (spp_healpower / 100);
 		
 		// bHealPower2 bonus
 		bonus *=  1 + (spp_healpower2 / 100);
@@ -7138,6 +7143,7 @@ function update_pp_calc()
 	{
 		document.calcForm.pp_source_lv.value = n_A_BaseLV;
 		document.calcForm.pp_heal_rate_bonus.value = n_tok[93];
+		document.calcForm.spp_heal_rate_bonus.value = n_tok[201];
 		document.calcForm.pp_received_heal_rate_bonus.value = 0;
 		document.calcForm.spp_received_heal_rate_bonus.value = 0;
 		document.calcForm.pp_learning_potion_lv.value = SkillSearch(442);
@@ -7363,6 +7369,7 @@ function KakutyouKansuu2(){
 		pp_display += "<tr><td>Increase Spiritual Power: " + '<td><select name="pp_isp_lv" onChange="KakutyouKansuu()"></select></td>';
 		pp_display += "<td>Target's INT:</td>" + '<td><select name="pp_target_int" onChange="KakutyouKansuu()"></select></td>';
 		pp_display +=  "<td>Increase PP Received Heal Rate:</td>" + '<td><input type="text" onChange="KakutyouKansuu()" name="pp_received_heal_rate_bonus" value="0" size=2>%</td></tr>';
+		pp_display +=  "<tr><td/><td/><td/><td/><td>Increase SPP Heal Rate:</td>" + '<td><input type="text" onChange="KakutyouKansuu()" name="spp_heal_rate_bonus" value="0" size=2>%</td></tr>';
 		pp_display +=  "<tr><td/><td/><td/><td/><td>Increase SPP Received Heal Rate:</td>" + '<td><input type="text" onChange="KakutyouKansuu()" name="spp_received_heal_rate_bonus" value="0" size=2>%</td></tr>';
 
 		pp_display += "</table><br>";

@@ -232,7 +232,8 @@ Effect list:
 	198: When [value] == 9, Armor becomes Undead element
 	199: Received heal effectiveness from [Potion Pitcher] increased by + [value]%
 	200: Received heal effectiveness from [Slim Potion Pitcher] increased by + [value]%
-	201-217: (unused)
+	201: Heal effectiveness from [Slim Potion Pitcher] increased by + [value]%
+	202-217: (unused)
 	218: Increases HP recovered by n% for healing items
 	218: Increases HP recovered by n% for healing item id ([id, n, g = 1 for group bonus])
 	219: Increases SP recovered by n% for healing items
