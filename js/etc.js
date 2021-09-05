@@ -429,7 +429,7 @@ ITEM_SP_TIME_OBJ =[
 ,[1,"Isilla Card","Cast Time -50%,FLEE+30",2,472,9,30,73,-50,0]
 ,[2,"Ice Titan Card","DEF+10",2,484,18,10,0]
 ,[3,"Atroce Card","ASPD+100%",2,463,12,100,0]
-,[4,"Anolian Card","Improve Concentration Lv1",2,224,0]
+,[4,"Anolian Card","Activate level 1 [Attention Concentrate]",2,224,0]
 ,[5,"Alchemist Card Set","Adrenaline Rush",2,461,0]
 ,[6,"Valorous Assassin Damascus","MATK + 10% and ASPD + 20%",4,898,73,20,89,10,0]
 ,[7,"Ixion Wings","ASPD + 7%",1,821,12,7,0]
@@ -442,7 +442,7 @@ ITEM_SP_TIME_OBJ =[
 ,[14,"Glorious Shuriken","Throw Fuuma Shuriken/Final Strike Damage + 100%",0,0,0] //,1,1098,5396,100,5405,100,5438,100,0
 ,[15,"Glorious Bloody Roar[+9]","ASPD + 100%",1,1090,12,100,0]
 ,[16,"Naght Sieger Twin-Blade [Red]","Ignore [Non-Boss] Monster Defense",1,933,21,100,0]
-,[17,"Her National Treasury","none",0,0,0] //replace me
+,[17,"Elemental Sword + Elemental Boots","MATK + 1% per Elemental Sword refine level at a 4% chance for 5 seconds when attacking normally.",1,1821,0] 
 ,[18,"Desert Twilight + Desert Wind","190 ASPD",1,818,12,100,0]
 ,[19,"Shadow Guard Set [Shadow Walk + Shadow Guard]","FLEE + 20",1,995,9,20,0]
 ,[20,"Huuma Front Shuriken (Valorous)","Throw Fuuma Shuriken/Final Strike Damage + 100%",0,0,0] //1,931,5396,100,5405,100,5438,100,0
@@ -482,6 +482,7 @@ ITEM_SP_TIME_OBJ =[
 ,[54,"Brindle Eel [Rental]","When long range attacking, has a chance of adding ASPD + 10% for 7 seconds.",1,1807,12,10,0]
 ,[55,"Saurel [Rental]","When using a melee attack, has a chance of adding ATK + 30 for 7 seconds.",1,1811,17,30,0]
 ,[56,"Saurel [Rental]","When doing a magical attack, has a chance of adding MATK + 10% for 7 seconds.",1,1811,89,10,0]
+,[57,"Invective Robe", "Activate level 1 [Attention Concentrate].",1,1818,0]
 ];
 //ITEM_SP_TIME_OBJ_SORT = [0,5,10,4,27,3,44,37,30,31,26,39,49,45,46,18,48,15,11,12,14,13,17,32,1,7,47,35,33,21,16,40,28,34,38,42,19,22,23,24,36,41,25,6,20,8,29,43];
 

@@ -613,10 +613,28 @@ InsertSkill = [
 ];
 
 
-
+/*
+	AutospellSkill[0] 	- AutosSpell ID that will be declared with the effect #221
+	AutospellSkill[1] 	- 0 (not visibile in Skill Combo)
+						- 1 (bAutoSpell)
+						- 2 (bAutoSpellOnSkill) in such case Autospell[5] will be the triggering skill
+	AutospellSkill[2] 	- Skill ID
+	AutospellSkill[3] 	- Skill LV
+	AutospellSkill[4] 	- Skill trigger chance %
+	AutospellSkill[5] 	- bAutospell type 	- 1 (atkbased)
+											- 2 (shortrange)
+											- 3 (longrange)
+											- 4	(magical)
+											- 5 (attacking)
+											- 6 (receivingATKbased)
+											- 0 by default
+											- Triggering skill ID in case of bAutoSpellOnSkill
+	AutospellSkill[5] 	- 0 (low chance)
+						- 1 (medium chance)
+						- 2 (high chance)
+*/
 
 AutoSpellSkill = [
-//ID - Gets called in second spot(221(effect),1(ID)), autocast id = 1 by default, skill Id,Skill Lvl, chance %, attacktype(1atkbased,2shortrange,3longrange,4magical,5attacking,6receivingATKbased,0 by default, 0=low chance, 1=medium chance, 2=high chance)
 [0,0,0,0,0,0], //there's a chance to cast the skill [Basic Attack]Lv 0
 [1,1,54,3,10,1], //When performing a ATK based attack, there's a 10 % chance to cast the skill [Cold Bolt]Lv 3
 [2,1,51,3,10,1], //When performing a ATK based attack, there's a 10 % chance to cast the skill [Fire Bolt]Lv 3
@@ -767,9 +785,12 @@ AutoSpellSkill = [
 [146,0,8,5,5,1],   //When performing a ATK based attack, there's a 5 % chance to cast the skill [Provoke]Lv 5
 [147,0,15,1,4,1],  //When performing a ATK based attack, there's a 4 % chance to cast the skill [Steal]Lv 1
 [148,1,413,5,10,1],  //When performing a ATK based attack, there's a 10% chance to cast the skill [Wind Blade]Lv 5
-[149,1,57,5,15,1],  // When performing a ATK based attack, there's a 10% chance to cast the skill [Thunder Storm]Lv 5 up to Lv10 based on weapon refine
+[149,1,57,5,15,1],  // When performing a ATK based attack, there's a 15% chance to cast the skill [Thunder Storm]Lv 5 up to Lv10 based on weapon refine
+[150,1,54,3,5,1],		//When performing a ATK based attack, there's a 5% chance to cast the skill [Fire Bolt]Lv 3
+[151,2,51,3,100,54],	//Upon casting [Cold Bolt], there's a 100% chance to cast the skill [Fire Bolt]Lv 3
+[152,2,56,3,100,51],	//Upon casting [Fire Bolt], there's a 100% chance to cast the skill [Lightning Bolt]Lv 3
+[153,2,132,3,100,56],	//Upon casting [Lightning Bolt], there's a 100% chance to cast the skill [Earth Spike]Lv 3
 ];
-//ID - Gets called in second spot(221(effect),1(ID)), autocast id = 1 by default, skill Id,Skill Lvl, chance %, attacktype(1atkbased,2shortrange,3longrange,4magical,5attacking,6receivingATKbased,0 by default, 0=low chance, 1=medium chance, 2=high chance)
 
 TRO_MAGICALSKILL_ELEMENTS = [
   [0], //Neural

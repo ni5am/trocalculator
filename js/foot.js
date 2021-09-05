@@ -697,6 +697,14 @@ with(document.calcForm){
 		// Glorious Tablet#1094 - [Every Refine Level] ATK + 20 
 		if (n_A_PassSkill8[i] == 13 && EquipNumSearch(1094)) // FIXME : Only applies to PvP
 			n_tok[17] += 20 * n_A_Weapon_ATKplus;
+		// Elemental Sword#939 + Elemental Boots#1819 [Every Refine Levels] MATK + 1%
+		if (n_A_PassSkill8[i] == 17 && EquipNumSearch(1821))
+		{
+			if (939 == n_A_Equip[0])
+				n_tok[89] += n_A_Weapon_ATKplus;
+			else if (n_Nitou && 939 == n_A_Equip[1])
+				n_tok[89] += n_A_Weapon2_ATKplus;
+		}
 	}
 	
 	// Manage weapon attack bonus, those bonus are impacted by the Size multiplier
@@ -1170,6 +1178,21 @@ with(document.calcForm){
 	// Tasty Pink Ration - ATK + 15
 	if (n_A_PassSkill8[31])
 		n_tok[17] += 15;
+	
+	// Snake Encyclopedia#1820 + Sidewinder Card#43 - ATK + 25
+	// Snake Encyclopedia#1820 + Snake Card#34 - ATK + 25 and + 5% additional Poison Chance
+	// Snake Encyclopedia#1820 + + Anacondaq Card#25 - Increase physical damage on Poison Property enemies by 5% and ignore their defense by 15%
+	if (EquipNumSearch(1820))
+	{
+		snake_cards = CardNumSearch(34);
+		anacondaq_cards = CardNumSearch(25);
+		sidewinder_cards = CardNumSearch(43);
+		
+		n_tok[130] += 5 * snake_cards;
+		n_tok[45] += 5 * anacondaq_cards;
+		n_tok[385] += 15 * anacondaq_cards;
+		n_tok[17] += 25 * (snake_cards + sidewinder_cards);
+	}
 	
 	// Antonio's Coat#1728 - [Every Refine Level] ATK & MATK + 1
 	if (EquipNumSearch(1728)) {
@@ -2937,6 +2960,9 @@ with(document.calcForm){
 		n_tok[98] += 15;
 	}
 
+	// Elemental Boots#1819 - [Refine Level +7 or Higher] MATK + 20
+	if (n_A_SHOES_DEF_PLUS > 6 && EquipNumSearch(1819))
+		n_tok[98] += 20;
 
 	//custom TalonRO Magical Booster & Staff of Piercing Combo
 	if(EquipNumSearch(1430)& EquipNumSearch(645)){
@@ -3224,6 +3250,16 @@ with(document.calcForm){
 	if (EquipNumSearch(897) && n_A_JOB == 43)
 		n_tok[12] += 5;
 
+	// Elemental Sword#939 + Elemental Boots#1819 [Every 2 Refine Levels] ASPD + 1%
+	// When using two Elemental Swords, only the first Sword is used!
+	if (EquipNumSearch(1819))
+	{
+		if (939 == n_A_Equip[0])
+			n_tok[12] += Math.floor(n_A_Weapon_ATKplus / 2);
+		else if (n_Nitou && 939 == n_A_Equip[1])
+			n_tok[12] += Math.floor(n_A_Weapon2_ATKplus / 2);
+	}
+
 	//[Custom TalonRO 2018-06-15 - Malangdo Enchantment for ASPD] [Kato]
 	for (i=0; i < tRO_MalangdoEnchantment.length; i++) {
 		var vME = tRO_MalangdoEnchantment[i];
@@ -3435,6 +3471,24 @@ with(document.calcForm){
 	//[TalonRO Custom - 2018-07-27 - Glorious Bloody Roar/Glorious Guitar/Glorious Lariat - Every Upgrade gives after-cast delay -1%] [Amor]
 	if (EquipNumSearch(1090) || EquipNumSearch(1092) || EquipNumSearch(1093))
 		n_tok[74] += n_A_Weapon2_ATKplus;
+	
+	/* 	Invective Robe#1818
+		[Non-Hunter Class][Every Refine Level] - Pierce 1% of Demi-human, Demon and Undead Monster Defense.
+		[Extended Class] 	- Enable use of level 1 [Attention Concentrate].
+							- Reduce Aftercast Delay by 20%.
+	*/
+	if (EquipNumSearch(1818))
+	{
+		if (n_A_JobSearch() != 4)
+		{
+			n_tok[181] += n_A_BODY_DEF_PLUS;
+			n_tok[186] += n_A_BODY_DEF_PLUS;
+			n_tok[187] += n_A_BODY_DEF_PLUS;
+		}
+		
+		if (n_A_JobSearch() == 41 || 20 == n_A_JOB || 44 == n_A_JOB || 45 == n_A_JOB)
+			n_tok[74] += 20;
+	}
 
 	// Skill delay reduction script bonus
 	skill_delay_reduction = StPlusCalc2(8000 + n_A_ActiveSkill);
@@ -3607,7 +3661,16 @@ with(document.calcForm){
 			n_tok[25] += 5;
 		}
 	}
-
+	
+	/* 	Apis Axe#1816
+		[Refine Level +7 or Higher] Increases damage with ranged attacks by 5%.
+		[Refine Level +9 or Higher] Increases damage with ranged attacks by 5%.
+	*/
+	if (1816 == n_A_Equip[0])
+		n_tok[25] +=  5 * (Math.floor(n_A_Weapon_ATKplus / 7) + Math.floor(n_A_Weapon_ATKplus / 9));
+	if (n_Nitou && 1816 == n_A_Equip[1])
+		n_tok[25] +=  5 * (Math.floor(n_A_Weapon2_ATKplus / 7) + Math.floor(n_A_Weapon2_ATKplus / 9));
+	
 	//[Custom TalonRO - 2018-06-01 - Palace Guard if refine rate >=7 add -1% ranged reduction] [Kato]
 	if (EquipNumSearch(1545))
 		n_tok[78] += n_A_HEAD_DEF_PLUS - 5;
@@ -4171,17 +4234,6 @@ with(document.calcForm){
 			}
 		}
 	}
-	
-	/*
-	//increase damage of skills based on element for n_tok[340-349] - [Loa]
-	for(i=0;i<TRO_MAGICALSKILL_ELEMENTS.length;i++){
-		if(TRO_MAGICALSKILL_ELEMENTS[i].indexOf(n_A_ActiveSkill) != -1){
-			for(j=0; j<10; j++) {
-				n_tok[170 + j] = ((n_tok[170 + j] + 100) * (100 + n_tok[340 + i]) / 100) - 100;
-			}
-		}
-	}
-	*/
 
 	//[TalonRO Custom 2018-07-17 - Add (4 * Refine/3) Magical Fire Damage Nightmare Ancient Mummy] [Kato]
 	if (n_A_card[12] == 546)
@@ -4534,7 +4586,7 @@ function StPlusCalc()
 	}else if(TimeItemNumSearch(31)){
 		n_tok[5] = Math.floor((n_A_DEX + n_tok[5] - ic_dex_bonus_exclusion) * 104 / 100) - n_A_DEX;
 		n_tok[2] = Math.floor((n_A_AGI + n_tok[2] - ic_agi_bonus_exclusion) * 104 / 100) - n_A_AGI;
-	}else if(TimeItemNumSearch(4)){
+	}else if(TimeItemNumSearch(4) || TimeItemNumSearch(57)){
 		n_tok[5] = Math.floor((n_A_DEX + n_tok[5] - ic_dex_bonus_exclusion) * 103 / 100) - n_A_DEX;
 		n_tok[2] = Math.floor((n_A_AGI + n_tok[2] - ic_agi_bonus_exclusion) * 103 / 100) - n_A_AGI;
 	}
@@ -4820,6 +4872,29 @@ function StPlusCalc()
 		if (n_A_Weapon_ATKplus >= 9) {
 			n_tok[5] += 3; // DEX + 3
 		}
+	}
+	
+	/* 	Invective Robe#1818 + Heavenly Maiden Robe#522 Combo#1825
+		[Every Heavenly Maiden Robe Refine Level] - MATK + 3
+		[Every 2 Heavenly Maiden Robe Refine Level] - MDEF + 1
+	*/
+	if (EquipNumSearch(1825))
+	{
+		n_tok[98] += 3 * n_A_SHOULDER_DEF_PLUS;
+		n_tok[19] += Math.floor(n_A_SHOULDER_DEF_PLUS / 2);
+	}
+
+	// Invective Robe#1818 + Vali's Manteau#704 Combo#1826 - [Every Vali's Manteau Refine Level] - VIT + 1
+	n_tok[3] += n_A_SHOULDER_DEF_PLUS * EquipNumSearch(1826)
+		
+	/* 	Invective Robe#1818 + Ancient Cape#315 Combo#1827 - [Non-Hunter Class]
+		ASPD + 5%
+		[Every 2 Ancient Cape Refine Level] - AGI + 1
+	*/
+	if (n_A_JobSearch() != 4 && EquipNumSearch(1827))
+	{
+		n_tok[12] += 5;
+		n_tok[2] += Math.floor(n_A_SHOULDER_DEF_PLUS / 2);
 	}
 
 	if(CardNumSearch(405)){
@@ -5674,13 +5749,21 @@ function ActiveSkillSetPlus()
 					j++;
 				}
 			}else if(ItemOBJ[n_A_Equip[i]][11+j2] == 221){
-				if(AutoSpellSkill[ItemOBJ[n_A_Equip[i]][12+j2]][1] == 1){
+				if(AutoSpellSkill[ItemOBJ[n_A_Equip[i]][12+j2]][1]){
 					w_ASSP0[j] = AutoSpellSkill[ItemOBJ[n_A_Equip[i]][12+j2]][2];
 					w_ASSP9[j] = AutoSpellSkill[ItemOBJ[n_A_Equip[i]][12+j2]][0] + 2000;
 					j++;
 				}
 			}
 		}
+	}
+	
+	// Apis Axe#1816 - [Novice Class or Merchant Class] - Enables use of level 1 [Throw Tomahawk#302].
+	if (EquipNumSearch(1816) && (n_A_JobSearch() == 6 || n_A_JobSearch() == 0))
+	{
+		w_ASSP0[j] = 302;
+		w_ASSP9[j] = 3008; // Acquired Skill
+		j++;
 	}
 
 	for(i=0;i<=25;i++){

@@ -959,7 +959,7 @@ ItemOBJ = [
 ,[936,9,1001,60,4,0,70,75,"Dark Thorn Staff","","Each refine adds magic defense bypassing to your magic attacks<br>Each refine reduces the aftercast delay of your skills",20,7,89,20,4,3,5,3,0]
 ,[937,1,128,120,3,3,70,70,"Trackers Dagger","","Adds a 10% chance of using [Bash]Lv 10 when [Back Stab] is casted",1,1,2,2,5,1,5169,20,0]
 ,[938,1,1001,130,3,2,70,50,"Ivory Knife","","Adds a 3% chance of using [Critical Wound]Lv 1 on the target attacking.",2,2,12,3,138,3,0]
-,[939,2,1001,105,3,3,120,70,"Elemental Sword","","Adds a 5% chance of using [Cold Bolt]Lv 3 on the target when doing a physical attack<br>Casts [Fire Bolt]Lv 3 on the target when [Cold Bolt] is used<br>Casts [Lightening Bolt]Lv 3 on the target when [Fire Bolt] is used<br>Casts [Earth Spike]Lv 3 on the target when [Lightening Bolt] is used",1,2,4,4,5,1,89,5,40,10,0]
+,[939,2,1001,105,3,3,120,70,"Elemental Sword","","<br><b>[Battlegrounds]</b> When using two Elemental Swords at the same time, lower MATK by 70%.",1,2,4,4,5,1,89,5,40,10,221,150,221,151,221,152,221,153,0]
 ,[940,3,1001,200,4,2,200,70,"Invoker Of Death","","1% chance that you or the enemy will get a random status effect when physically attacking<br>When physically attacking, add a chance that an 11 * 11 area will get hit for 100% damage while you regain 100% damage worth of HP<br><b>[Refine Rate 9~10]</b><br>Area becomes 15 * 15, and you will do 200% damage to the area while you regaining 200% damage worth of HP",1,5,2,2,11,20,0]
 ,[941,5,1001,160,3,1,100,50,"Ivory Lance","","1% chance to cast Level 1 Joint Beat on enemy when attacking",2,2,12,3,220,15,221,134,138,3,0]
 ,[942,5,121,150,4,1,560,70,"Carled","","Every two upgrades made to the weapon gives Def +1",12,-10,0]
@@ -1869,6 +1869,18 @@ ItemOBJ = [
 ,[1813,50,0,1,0,0,40,1,"Majestic Evil Horn","","When attacking with an ATK based attack, adds a 1% chance to absorb 7% of the damage inflicted on the enemy as SP<br>When attacking with an ATK based attack, adds a 3% chance to absorb 15% of the damage inflicted on the enemy as HP",56,3,380,3,381,15,382,1,383,7,0]
 ,[1814,50,0,4,0,1,10,1,"Curupira Hat","",0,5,3,397,1,0]
 ,[1815,50,0,2,0,0,30,30,"Goat Horn","",0,131,5,0]
+,[1816,6,94,75,4,4,150,40,"Apis Axe","","<b>[Refine Level +7 or Higher]</b><br>Increases damage with ranged attacks by 5%.<br><b>[Refine Level +9 or Higher]</b><br>Increases damage with ranged attacks by 5%.<br><b>[Novice Class or Merchant Class]<b></br>Enables use of level 1 [Throw Tomahawk].",25,10,0]
+,[1817,61,0,4,0,1,150,75,"Iron Shield","","10% resistance against Physical Long Range Skills.<br><b>[This multiplies with normal Long Range Resistance, it does not stack!]</b>",0]
+,[1818,60,0,1,0,1,75,90,"Invective Robe","","<b>[Non-Hunter Class][Every Refine Level]</b><br>Pierce 1% of Demi-human, Demon and Undead Monster Defense.<br><br><b>[Extended Class]</b><br>Enable use of level 1 [Attention Concentrate].<br>20% less Aftercast Delay.<br>",0]
+,[1819,63,0,2,0,1,50,70,"Elemental Boots","","<br><b>[Refine Level +7 or Higher]</b><br>MATK + 20<br>5% more damage with [Fire Bolt], [Cold Bolt], [Lightning Bolt], [Earth Spike].",5051,5,5054,5,5056,5,5132,5,0]
+,[1820,12,0,90,4,3,75,40,"Snake Encyclopedia","","<br><b>[Every Refine Level]</b><br>Add a 3% chance to drop a Venom Canine when killing a Snake Type Monster.<br>Add a 0.3% chance to drop Karvodailnirol when killing a Snake Type Monster.<br><br><b>[+ Snake Card]</b><br>ATK + 25 and additional Poison Chance + 5% for each equipped Snake Card.<br><br><b>[+Sidewinder Card]</b><br>ATK + 25 for each equipped Sidewinder Card.<br><br><b>[+ Anacondaq Card]</b><br>Increase physical damage on Poison Property enemies by 5% and Ignore 15% of their Defense for each equipped Anacondaq Card.<br><br><b>[+ Side Winder Card or Snake Head Hat]</b><br>[Double Attack] level is equal to the refine level of Snake Encyclopedia.",89,15,0]
+,[1821,100,0,0,0,0,0,0,"Elemental Sword + Elemental Boots","","<br>MATK + 1% per Elemental Sword refine level at a 4% chance for 5 seconds when attacking normally.<br>ASPD + 1% for every 2 refine levels of Elemental Sword.<br>",0]
+,[1822,100,0,0,0,0,0,0,"Snake Encyclopedia + Evil Snake Lord Hat","",0,4,3,5,5,0]
+,[1823,100,0,0,0,0,0,0,"Snake Encyclopedia + White Snake Hat","",0,4,3,5,5,0]
+,[1824,50,0,2,0,1,50,60,"Evil Snake Lord Hat","","A hat used by the Evil Snake Lord. Wearing it makes you feel like an emperor.",1,1,2,2,4,1,0]
+,[1825,100,0,0,0,0,0,0,"Invective Robe + Heavenly Maiden Robe","","MATK + 3 for each Heavenly Maiden Robe refine level.<br>MDEF + 1 for every 2 refine levels of Heavenly Maiden Robe.",4,2,0]
+,[1826,100,0,0,0,0,0,0,"Invective Robe + Vali's Manteau","","VIT + 1 for each Vali's Manteau refine level.",60,15,0]
+,[1827,100,0,0,0,0,0,0,"Invective Robe + Ancient Cape","","[Non-Hunter Class]<br>ASPD + 5%<br>AGI + 1 for every 2 refines of Ancient Cape.",0]
 ];
 
 //Test code for finding the values in Skill.js AutoSpellSkill
@@ -3718,6 +3730,18 @@ ItemID = [
 ,[1813,1,5584]
 ,[1814,1,18857]
 ,[1815,1,8519]
+,[1816,1,21845]
+,[1817,1,21846]
+,[1818,1,21847]
+,[1819,1,21848]
+,[1820,1,21849]
+,[1821,2,13414,21848]
+,[1822,2,21849,5364]
+,[1823,2,21849,5411]
+,[1824,1,5364]
+,[1825,2,21847,2513]
+,[1826,2,21847,2517]
+,[1827,2,21847,2525]
 ];
 
 /*
@@ -4152,15 +4176,21 @@ function Item_Setumei(nC1,nC2)
 	if(221 == nC1){
 		wNAME99 = [0,"When performing a ATK based attack, ","When performing a short-range ATK based attack, ","When performing a long-range ATK based attack, ","When performing a magical attack, ","When performing a physical or magical attack, ","When receiving ATK based damage, ","When receiving short-range ATK based damage, ","When receiving long-range ATK based damage, ","When receiving magical damage, ","When receiving ATK based or magical damage, "];
 		wNAME98 = ["low","medium","high"];
-		CBIstr += wNAME99[AutoSpellSkill[nC2][5]] +"there's a ";
-    //Checks the 6th line in the AutoSpellSKill array to see if its name should be wName98
+		
+		if (AutoSpellSkill[nC2][1] == 2) // bAutoSpellOnSkill
+			CBIstr += "Upon casting [" + SkillOBJ[AutoSpellSkill[nC2][5]][2] + "], ";
+		else
+			CBIstr += wNAME99[AutoSpellSkill[nC2][5]];
+		
+		CBIstr += "there's a ";
+		//Checks the 6th line in the AutoSpellSKill array to see if its name should be wName98
 		if(AutoSpellSkill[nC2][6] == 0)
 			CBIstr += wNAME98[0];
-    else if(AutoSpellSkill[nC2][6] == 1)
-      CBIstr += wNAME98[1];
-    else if(AutoSpellSkill[nC2][6] == 2)
-      CBIstr += wNAME98[2];
-    //If the AutoSpellSKill 4th spot is greater than 0 give it a %
+		else if(AutoSpellSkill[nC2][6] == 1)
+		  CBIstr += wNAME98[1];
+		else if(AutoSpellSkill[nC2][6] == 2)
+		  CBIstr += wNAME98[2];
+		//If the AutoSpellSKill 4th spot is greater than 0 give it a %
 		else if(AutoSpellSkill[nC2][4] > 0)
 			CBIstr += AutoSpellSkill[nC2][4] + "%";
 		  CBIstr += " chance to cast the skill ["+ SkillOBJ[AutoSpellSkill[nC2][2]][2] +"] Lv"+ AutoSpellSkill[nC2][3] +"<BR>";
@@ -4397,6 +4427,12 @@ w_SE = [[737,436,475,"NULL"]
 ,[1781,1775,724,"NULL"] //Custom TalonRO - Ninja Scale Armor + Shinobi Sash
 ,[1782,1776,724,"NULL"] //Custom TalonRO - Tenebris Latitantes + Shinobi Sash
 ,[1804,1802,1803,"NULL"] //Custom TalonRO - Mob Scarf + Rebellion Scarf
+,[1821,939,1819,"NULL"] //Custom TalonRO - Elemental Sword + Elemental Boots
+,[1822,1820,1824,"NULL"] //Custom TalonRO - Snake Encyclopedia + Evil Snake Lord Hat
+,[1823,1820,1267,"NULL"] //Custom TalonRO - Snake Encyclopedia + White Snake Hat
+,[1825,1818,522,"NULL"] //Custom TalonRO - Invective Robe + Heavenly Maiden Robe
+,[1826,1818,704,"NULL"] //Custom TalonRO - Invective Robe + Vali's Manteau
+,[1827,1818,315,"NULL"] //Custom TalonRO - Invective Robe + Ancient Cape
 ];
 
 SE_MAXnum = w_SE.length -1;

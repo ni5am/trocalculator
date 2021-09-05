@@ -460,7 +460,7 @@ Effect list:
 	295: On (all?) monsters, ignore [value]% MDEF
 	296: On Normal monsters, ignore [value]% MDEF
 	297: On Bosstype monsters, ignore [value]% MDEF
-	298-309: (unused)
+	298-299: (unused)
 	300: Increases short range damage on [Neutral] monsters by [value]%
 	301: Increases short range damage on [Water] monsters by [value]%
 	302: Increases short range damage on [Earth] monsters by [value]%
@@ -545,7 +545,17 @@ Effect list:
 	381: Amount of drain HP.
 	382: Chance of drain SP.
 	383: Amount of drain SP.
-	384-389:
+	384-379:
+	380: Ignore [Neutral] race monsters defense by [value]%
+	381: Ignore [Water] race monsters defense by [value]%
+	382: Ignore [Earth] race monsters defense by [value]%
+	383: Ignore [Wind] race monsters defense by [value]%
+	384: Ignore [Insect] race monsters defense by [value]%
+	385: Ignore [Poison] race monsters defense by [value]%
+	386: Ignore [Holy] race monsters defense by [value]%
+	387: Ignore [Shadow] race monsters defense by [value]%
+	388: Ignore [Ghost] race monsters defense by [value]%
+	389: Ignore [Undead] race monsters defense by [value]%
 	390: When receiving physical attacks, adds a [value]% chance to inflict [Poison] on the enemy
 	391: When receiving physical attacks, adds a [value]% chance to inflict [Stun] on the enemy
 	392: When receiving physical attacks, adds a [value]% chance to inflict [Freeze] on the enemy

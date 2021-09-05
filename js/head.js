@@ -3126,10 +3126,19 @@ function BattleHiDam(){
 
 
 	if(n_B[20]){
-		wBHD = n_tok[78];
+		long_range_resistance = n_tok[78];
+		physical_long_range_resistance = 1;
+		
+		// Iron Shield#1817 - 10% resistance against Physical Long Range Skills.
+		// Similar to NPC_DEFENDER not stacking with n_tok[78]
+		physical_long_range_resistance -= EquipNumSearch(1817) / 10;
+			
 		for(i=0;i<=6;i++)
-			w_HiDam[i] -= Math.floor(w_HiDam[i] * wBHD /100);
-
+		{
+			w_HiDam[i] = Math.floor(w_HiDam[i] * (1 - long_range_resistance / 100));
+			w_HiDam[i] = Math.floor(w_HiDam[i] * physical_long_range_resistance);
+		}
+		
 		if(SkillSearch(165)){
 			wBHD = 5 + 15 * SkillSearch(165);
 			for(i=0;i<=6;i++)
@@ -3377,7 +3386,11 @@ function BattleMagicCalc(wBMC)
 				wX += 5;
 		}
 	}
-		
+	
+	// Elemental Boots#1819 - [Refine Level +7 or Higher] 5% more damage with [Fire Bolt], [Cold Bolt], [Lightning Bolt], [Earth Spike].
+	if ((n_A_ActiveSkill == 51 || n_A_ActiveSkill == 54 || n_A_ActiveSkill == 56 || n_A_ActiveSkill == 132) && n_A_SHOES_DEF_PLUS > 6)
+		wX += 5;
+	
 	// Yellow Lichtern Card#612 - [Ninja Class] - 25% more damage with [Wind Blade]
 	if (44 == n_A_JOB)
 		wX += 25 * CardNumSearch(612);
@@ -7334,7 +7347,8 @@ Race - n_B[2] = raceID - example n_B[2] = 3, Plant
 	
 	def_race_reduction = n_tok[180 + n_B[2]];
 	def_class_reduction = (n_B[19] ? n_tok[22] : n_tok[21]);
-	def_reduction = Math.min(100, def_race_reduction + def_class_reduction);
+	def_property_reduction = n_tok[380 + Math.floor(n_B[3] / 10)];
+	def_reduction = Math.min(100, def_race_reduction + def_class_reduction + def_property_reduction);
 
 	n_B[14] = Math.ceil(n_B[14] * (100 - def_reduction) / 100 * (100 - def_skill_reduction) / 100);
 	n_B[23] = Math.ceil(n_B[23] * (100 - def_reduction) / 100 * (100 - def_skill_reduction) / 100);
@@ -7651,7 +7665,7 @@ function calc()
 		
 	// Sidewinder Card#43 - Enable [Double Attack] Lv 1 on any weapon type
 	if (CardNumSearch(43))
-		wDA = Math.max(5, SkillSearch(13) * 5);
+		wDA = Math.max((EquipNumSearch(1820) ? Math.max(1,n_A_Weapon_ATKplus) * 5 : 5), SkillSearch(13) * 5);
 	
 	// Nagan#399, Nagan [Rental]#1348 - Enable [Double Attack] Lv 5
 	if (EquipNumSearch(399) || EquipNumSearch(1348))
@@ -7663,7 +7677,7 @@ function calc()
 
 	// Snake Head Hat#1495 - Enable [Double Attack] Lv 1, does not apply on Fist
 	if (EquipNumSearch(1495) && n_A_WeaponType)
-		wDA = Math.max(5, SkillSearch(13) * 5);
+		wDA = Math.max((EquipNumSearch(1820) ? Math.max(1,n_A_Weapon_ATKplus) * 5 : 5), SkillSearch(13) * 5);
 	
 	// Tempest#1789 - If [Chain Action Learned] enables [Double Attack] according to the level of [Chain Action] learned
 	// [Every Refine Level] - Increase [Double Attack] rate further by 3%
