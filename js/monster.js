@@ -987,6 +987,12 @@ MonsterOBJ = [
 ,[866,"Paladin Randel [MVP]",7,64,1,99,2418577,87,100,62,160,52,5961,9253,76,36,2870457,1526554,,1,0,2235]
 ,[867,"Scholar Celia [MVP]",7,84,1,99,1014851,93,133,155,200,85,1981,4706,39,76,3109638,845221,,1,0,2237]
 ,[868,"Stalker Gertie [MVP]",6,54,1,99,1353606,63,255,30,233,60,5146,6617,34,46,2156687,680865,,1,0,2239]
+// [Custom TalonRO - 2021-09-01 Morroc Guild Dungeon]
+,[869,"Dandelion Member",7,1,1,73,42724,60,62,45,74,1,910,1128,35,35,28458,18393,,0,0,27316]
+,[870,"Primal Matyr",2,72,2,84,35513,60,124,43,124,55,641,1042,31,22,33112,36596,,0,0,27312]
+,[871,"Horemhab",7,92,2,86,73535,60,51,120,87,43,730,1797,35,51,48364,40426,,0,0,27314]
+,[872,"Apis",2,32,2,86,66885,60,40,102,65,27,880,1500,30,75,41205,35024,,0,0,27313]
+,[873,"Scarab",4,22,0,72,32354,60,161,10,205,34,543,691,45,22,26188,16002,,0,0,27315]
 ];
 
 //[id, "name",race,element,size,lvl,hp,vit,agi,int,dex,luk,minatk,maxatk,def,mdef,baseexp@1x_rate,jobexp@1x_rate,,1 boss/0 non-boss,1 range/0 melee, monster ID]
@@ -1014,7 +1020,7 @@ MonsterABC.push("N")
 var tiiki = ["All Regions","SQI Instances","GMC","Abyss Lake Dungeon","Amatsu","Ancient Tower","Ant Hell","Ayothaya","Battlegrounds","Bibilan",
 "Bio Labs","Bitfrost","Brasilis","Clock Tower","Coal Mine","Comodo Caves","Comodo Fields","Culverts","Dewata","Dimensional Crack","Eclage","Einbroch Dungeon",
 "Einbroch Fields","Elysian Garden","El Dicastes","Endless Tower Finale","Geffenia","Geffen Dungeon","Geffen Fields","Glast Heim","Glast Heim Dungeons","Gonryun",
-"Guild Dungeon [Aldebaran]","Guild Dungeon [Arunafeltz]","Guild Dungeon [Geffen]","Guild Dungeon [Payon]","Guild Dungeon [Prontera]",
+"Guild Dungeon [Aldebaran]","Guild Dungeon [Arunafeltz]","Guild Dungeon [Geffen]","Guild Dungeon [Morroc]","Guild Dungeon [Payon]","Guild Dungeon [Prontera]",
 "Guild Dungeon [Schwartzvald]","Hidden Temple","Hugel Fields","Ice Cave","Juperos Dungeon","Kiel Dungeon","Lighthalzen Fields",
 "Louyang","Lutie & Toy Factory","Magma Dungeon","Malangdo","Malangdo Culvert","Manuk","Morroc Fields","Moscovia","Mt. Mjolnir","Nameless Island","Nidhoggr's Nest",
 "Niflheim","Odins Shrine","Old Glast Heim","Orc Dungeon","Payon Dungeon","Payon Fields","Poring Island","Port Malaya Instance","Prontera Fields","Pyramid","Pyramid [Nightmare]","Rachel Fields",
@@ -1062,6 +1068,7 @@ Array.from({ length: 861 + 1 - 806},(_,k) => 806 + k),// SQI Instances
 [15,16,43,46,47,84,137,138,206,215,289,"N"],// Guild Dungeon [Aldebaran]
 [460,478,518,519,520,521,522,"N"],// Guild Dungeon [Arunafeltz]
 [83,85,104,172,173,175,190,193,296,"N"],// Guild Dungeon [Geffen]
+Array.from({ length: 873 + 1 - 869},(_,k) => 869 + k),// Guild Dungeon [Morroc]
 [1,10,33,38,69,81,126,135,169,205,239,274,"N"],// Guild Dungeon [Payon]
 [5,80,92,93,97,125,127,281,282,315,"N"],// Guild Dungeon [Prontera]
 [9,514,515,516,517,518,"N"],// Guild Dungeon [Schwartzvald]
