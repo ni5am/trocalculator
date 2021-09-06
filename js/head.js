@@ -2718,18 +2718,20 @@ with(document.calcForm){
 		if(Taijin == 0){//SK0 = EQ || SK1 = WF || SK2 = Kaupe
 			str += '<TD id="EN_SK3"></TD><TD id="B_SK3"></TD></TR>';
 			str += '<TD id="EN_SK2"></TD><TD id="B_SK2"></TD></TR>';
-			str += '<TR><TD id="EN_SK0"></TD></TR>';
+			str += '<TR><TD id="EN_SK0"></TD>';
 			str += '<TR><TD id="EN_SK1"></TD><TD id="B_SK1"/>';
-			str += '<TD>Players in Range:&nbsp;</TD><TD id="B_SK0"></TD>';
-
+			str += '<TD>Players in Range:&nbsp;</TD><TD id="B_SK0"></TD><TR>';
+			str += '<TR><TD id="EN_SK4"></TD>';
+			str += '<TD><input type="radio" id="melee_eq_button" onclick="BattleCalc998()" name="skill_range_control" value="0" checked><label for="melee_eq_button">Melee</label></input></TD>';
+			str += '<TD><input type="radio" id="range_eq_button" onclick="BattleCalc998()" name="skill_range_control" value="1"><label for="range_eq_button">Range</label></input></TD><TR>';
 		}
 		str += '</TABLE>';
 		myInnerHtml("MONSTER_SKILLS",str,0);
 		B_ENSKSW.checked = 1;
 
-		var name_SKILL = ["<b>Earthquake:</b>","Level:","Wall of Fog","Kaupe"];
+		var name_SKILL = ["<b>Earthquake:</b>","Level:","Wall of Fog","Kaupe","<b>Range Control:</b>"];
 		var html_SKILL = new Array();
-		for(i=0;i<=3;i++)
+		for(i=0;i<=4;i++)
 			myInnerHtml("EN_SK"+i,name_SKILL[i],0);
 
 		html_SKILL[0] = '<select name="EQ_PL" onChange="calc()"/>';
@@ -2985,6 +2987,9 @@ function BattleCalc998()
 	
 	if (0 == Taijin && document.calcForm.B_ENSKSW.checked) // Only applies to PvM
 	{
+		// Range control
+		is_range_attack = eval(document.calcForm.skill_range_control.value)
+		
 		// Damage reduction
 
 		MS_ASSUMPTIO = 1; // Assumptio
@@ -3009,6 +3014,7 @@ function BattleCalc998()
 		MS_RACE = 1 - n_tok[50 + n_B[2]] / 100; 	// Race reduction
 		MS_ELEMENT = 1 - n_tok[330 + n_B[3]] / 100;	// Monster element reduction
 		MS_MAGIC = 1 - n_tok[101] / 100;			// Magic reduction
+		MS_MELEE = 1 - n_tok[100] / 100;			// Melee reduction
 		MS_REGION = 1 - (MANUKU_MONSTER() && n_A_PassSkill8[24] ? 0.1 : 0) - (SUPURE_MONSTER() && n_A_PassSkill8[27] ? 0.1 : 0);
 		
 		// NPC_EARTHQUAKE Skill
@@ -3029,8 +3035,8 @@ function BattleCalc998()
 
 				MS_REDUCTION = MS_BOSS * MS_ELEMENT * MS_NEUTRAL * MS_RACE * MS_MAGIC * MS_REGION * (blossoming_geographer_cocktail ? 0.9 : 1); // EQ is considered as short ranged attack, no damage reduction from bLongAtkDef
 
-				EQ_MINDMG = Math.floor(Math.floor(Math.floor(Math.floor(n_B[12] * EQ_RATIO * (1 - n_A_MDEF /100) - n_A_INTMDEF) * MS_REDUCTION) * MS_WOF * MS_ASSUMPTIO * MS_EC) / EQ_TARGETS);
-				EQ_MAXDMG = Math.floor(Math.floor(Math.floor(Math.floor(n_B[13] * EQ_RATIO * (1 - n_A_MDEF /100) - n_A_INTMDEF) * MS_REDUCTION) * MS_WOF * MS_ASSUMPTIO * MS_EC) / EQ_TARGETS);
+				EQ_MINDMG = Math.floor(Math.floor(Math.floor(Math.floor(n_B[12] * EQ_RATIO * (1 - n_A_MDEF /100) - n_A_INTMDEF) * MS_REDUCTION) * MS_WOF * MS_ASSUMPTIO * MS_EC * (is_range_attack ? MS_RANGE : MS_MELEE)) / EQ_TARGETS);
+				EQ_MAXDMG = Math.floor(Math.floor(Math.floor(Math.floor(n_B[13] * EQ_RATIO * (1 - n_A_MDEF /100) - n_A_INTMDEF) * MS_REDUCTION) * MS_WOF * MS_ASSUMPTIO * MS_EC * (is_range_attack ? MS_RANGE : MS_MELEE)) / EQ_TARGETS);
 
 				EQ_POWER = Math.floor(EQ_MINDMG * HITS) + "~" + Math.floor(EQ_MAXDMG * HITS) + " (" + EQ_MINDMG + "~" + EQ_MAXDMG + " x " + HITS + " Hits)";
 			}
@@ -3044,7 +3050,7 @@ function BattleCalc998()
 			HITS = 1 - MS_KAUPE;
 			
 			HJ_RATIO = HJ_LV;
-			MS_REDUCTION = MS_BOSS * MS_RANGE * MS_ELEMENT * MS_NEUTRAL * MS_RACE * (sting_slap_cocktail ? 0.9 : 1);
+			MS_REDUCTION = MS_BOSS * (is_range_attack ? MS_RANGE : MS_MELEE) * MS_ELEMENT * MS_NEUTRAL * MS_RACE * (sting_slap_cocktail ? 0.9 : 1);
 			
 			HJ_MINDMG = Math.floor(Math.floor(Math.floor(n_B[12] * HJ_RATIO * (1 - n_A_DEF /100) - n_A_VITDEF[0]) * MS_REDUCTION) * MS_WOF * MS_ASSUMPTIO * MS_EC);
 			HJ_MAXDMG = Math.floor(Math.floor(Math.floor(n_B[13] * HJ_RATIO * (1 - n_A_DEF /100) - n_A_VITDEF[2]) * MS_REDUCTION) * MS_WOF * MS_ASSUMPTIO * MS_EC);
