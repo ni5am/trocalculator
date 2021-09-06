@@ -650,6 +650,8 @@ with(document.calcForm){
 		n_A_PassSkill9[51] = eval(ARG_RC36.value);
 		n_A_PassSkill9[52] = eval(ARG_RC37.value);
 		n_A_PassSkill9[53] = eval(ARG_RC38.value);
+		n_A_PassSkill9[54] = eval(ARG_RC39.value);
+		n_A_PassSkill9[55] = eval(ARG_RC40.value);
 	}
 
 	for(i=0;i<=22;i++)
@@ -5375,6 +5377,10 @@ function StPlusCard(nSTP2)
 		w += n_A_PassSkill9[46];
 	if(nSTP2 == 99)
 		w += n_A_PassSkill9[53];
+	if(nSTP2 == 73)
+		w += n_A_PassSkill9[54];
+	if(nSTP2 == 74)
+		w += n_A_PassSkill9[55];
 	//end custom TalonRO Skill9 calcs
 	return w;
 }
@@ -10285,7 +10291,7 @@ if (0 == Taijin)
 document.calcForm.A2_SKILLSW.checked = 0;
 
 n_A_PassSkill9 = new Array();
-for(i=0;i<=53;i++)
+for(i=0;i<=55;i++)
 	n_A_PassSkill9[i] = 0;
 //custom TalonRO SQI-Bonus calculation
 SQI_Bonus_Effect = new Array();
