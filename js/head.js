@@ -3032,7 +3032,7 @@ function BattleCalc998()
 		MS_REGION = 1 - (MANUKU_MONSTER() && n_A_PassSkill8[24] ? 0.1 : 0) - (SUPURE_MONSTER() && n_A_PassSkill8[27] ? 0.1 : 0);
 		
 		// NPC_EARTHQUAKE Skill
-		EQ_LV = (EQ_MOBS.hasOwnProperty(n_B[0])) ? EQ_MOBS[n_B[0]] : EQB[3];
+		EQ_LV = (EQ_MOBS.hasOwnProperty(n_B[0])) ? EQ_MOBS[n_B[0]] : eval(document.calcForm.EQ_LV.value);
 		document.calcForm.EQ_LV.value = EQ_LV;
 		EQ_TARGETS = eval(document.calcForm.EQ_PL.value)
 		
@@ -3047,10 +3047,10 @@ function BattleCalc998()
 				HITS = 3 - MS_KAUPE;
 				EQ_RATIO = 2 + EQ_LV + EQ_LV / 2 + ((EQ_LV > 4) ? 1 : 0);
 
-				MS_REDUCTION = MS_BOSS * MS_ELEMENT * MS_NEUTRAL * MS_RACE * MS_MAGIC * MS_REGION * (blossoming_geographer_cocktail ? 0.9 : 1); // EQ is considered as short ranged attack, no damage reduction from bLongAtkDef
+				MS_REDUCTION = MS_BOSS * MS_ELEMENT * MS_NEUTRAL * MS_RACE * MS_MAGIC * MS_REGION * (blossoming_geographer_cocktail ? 0.9 : 1);
 
-				EQ_MINDMG = Math.floor(Math.floor(Math.floor(Math.floor(n_B[12] * EQ_RATIO * (1 - n_A_MDEF /100) - n_A_INTMDEF) * MS_REDUCTION) * MS_WOF * MS_ASSUMPTIO * MS_EC * (is_range_attack ? MS_RANGE : MS_MELEE)) / EQ_TARGETS);
-				EQ_MAXDMG = Math.floor(Math.floor(Math.floor(Math.floor(n_B[13] * EQ_RATIO * (1 - n_A_MDEF /100) - n_A_INTMDEF) * MS_REDUCTION) * MS_WOF * MS_ASSUMPTIO * MS_EC * (is_range_attack ? MS_RANGE : MS_MELEE)) / EQ_TARGETS);
+				EQ_MINDMG = Math.floor(Math.floor(Math.floor(n_B[12] * EQ_RATIO * MS_REDUCTION) * MS_WOF * MS_ASSUMPTIO * MS_EC * (is_range_attack ? MS_RANGE : MS_MELEE)) / EQ_TARGETS - n_A_INTMDEF);
+				EQ_MAXDMG = Math.floor(Math.floor(Math.floor(n_B[13] * EQ_RATIO * MS_REDUCTION) * MS_WOF * MS_ASSUMPTIO * MS_EC * (is_range_attack ? MS_RANGE : MS_MELEE)) / EQ_TARGETS - n_A_INTMDEF);
 
 				EQ_POWER = Math.floor(EQ_MINDMG * HITS) + "~" + Math.floor(EQ_MAXDMG * HITS) + " (" + EQ_MINDMG + "~" + EQ_MAXDMG + " x " + HITS + " Hits)";
 			}
