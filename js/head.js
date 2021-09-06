@@ -9499,44 +9499,6 @@ function apply_physical_skill_damage_modifiers(damage_list, skill_id)
 	if (skill_id == 7 && EquipNumSearch(1352))
 		skill_modifier += 25;
 
-	//custom TalonRO SQI Bonus Twin Fang: Grimtooth damage +25%
-	if (skill_id == 84 && EquipNumSearch(1375))
-	{
-		for(i=0;i<SQI_Bonus_Effect.length;i++)
-		{
-			if(SQI_Bonus_Effect[i]==7)
-			{
-				skill_modifier += 25;
-				break;
-			}
-		}
-	}
-
-	//custom TalonRO SQI Bonus Aegis Shield: Shield Chain damage +10%
-	if(skill_id == 324)
-		if(EquipNumSearch(1376))
-			for(i=0;i<SQI_Bonus_Effect.length;i++)
-				if(SQI_Bonus_Effect[i]==14) {
-					skill_modifier += 10;
-					break;
-				}
-	//custom TalonRO SQI Bonus Artemis Bow: Double Strafe damage +15%
-	if(skill_id == 40)
-		if(EquipNumSearch(1377))
-			for(i=0;i<SQI_Bonus_Effect.length;i++)
-				if(SQI_Bonus_Effect[i]==24) {
-					skill_modifier += 15;
-					break;
-				}
-	//custom TalonRO SQI Bonus Belmont Whip: Throw Arrow damage +35%
-	if(skill_id == 207)
-		if(EquipNumSearch(1378))
-			for(i=0;i<SQI_Bonus_Effect.length;i++)
-				if(SQI_Bonus_Effect[i]==36) {
-					skill_modifier += 35;
-
-					break;
-				}
 	if (skill_id == 272 && EquipNumSearch(1045))
 		skill_modifier += n_A_Weapon_ATKplus * 3;
 
@@ -9563,7 +9525,6 @@ function apply_physical_skill_damage_modifiers(damage_list, skill_id)
 	// Cannon Spear#1516 - [Every 3 Refine] Increases Head Crush damage by 5%
 	if (skill_id == 260 && EquipNumSearch(1516))
 		skill_modifier += 5 * Math.floor(n_A_Weapon_ATKplus / 3);
-
 
 	// Assaulter Spear#903 - [Refine level 8-10] Increase damage of Spiral Pierce by 20%
 	if (EquipNumSearch(903) && n_A_Weapon_ATKplus >= 8 && skill_id == 259)
@@ -9762,6 +9723,10 @@ function apply_monster_physical_damage_modifiers(damage_list)
 	// Pinguicula's Fruit Jam [Increases physical damage on Splendide maps by 10%]
 	if (n_A_PassSkill8[25] && SUPURE_MONSTER())
 		monster_damage_modifier += 10;
+	
+	// Wolfchev's Nightcap - Increases magical damage against Biolab monsters by 15%
+	if (wolfchev_nightcap_cocktail && IsABiolabMonster())
+		monster_damage_modifier += 15;
 
 	monster_damage_modifier = StPlusCalc2(1000 + n_B[0]) + StPlusCard(1000 + n_B[0]);
 
@@ -9893,11 +9858,8 @@ function apply_defense_reduction(damage_list, ignore_defense)
     return damage_list;
 }
 
-function apply_post_defense_damage_bonus(damage_list)
+function apply_post_defense_damage_bonus(damage_list, skill_id, is_left_hand_active)
 {
-	// Weapon refine bonus, except for Investigate and Asura Strike, counted #spheres times for Finger Offensive
-	// Aura blade except for Spiral Pierce
-	// Sonic Acceleration
 
     damage_list = apply_masteries_bonus(damage_list);
 
@@ -9911,8 +9873,7 @@ function apply_magical_defense_reduction(damage_list, ignore_defense)
         target_mdef = n_B[15];
         target_mdef2 = n_B_MDEF2;
 
-        // Vesper
-        // High Wizard Kathryne
+        // mdef reduction already applied on target mdef
 
         damage_list[0] = Math.floor(damage_list[0] * (100 - target_mdef) / 100 - target_mdef2);
         damage_list[2] = Math.floor(damage_list[2] * (100 - target_mdef) / 100 - target_mdef2);
@@ -10011,6 +9972,8 @@ function calc_physical_attack_damage(skill_id, skill_lv, is_critical_attack, is_
 	damage_list = apply_physical_damage_modifiers(damage_list, skill_info.is_range_attack, is_critical_attack);
 	damage_list = damage_list.map(function(x) { return x * skill_info.hits});
 
+	// Asura#197 damage cap management
+
 	return damage_list;
 }
 
@@ -10021,6 +9984,7 @@ function retrieve_skill_info(skill_id, skill_lv)
     ratio = 1;
     duration = 0;
     cast_time = 0;
+	damage_tick = 0;
     motion_delay = 0;
     forced_motion = 0;
     // Initialize with weapon element, skills should override if using any other element
@@ -10152,10 +10116,15 @@ function retrieve_skill_info(skill_id, skill_lv)
             w_HIT = 100;
             w_HIT_HYOUJI = 100;
 
+			damage_tick = 1;
+			// #57 - [Demonstration] damage interval reduced by 75% (every 0.25 secs instead of 1 sec)
+			if (SQI_Bonus_Effect.findIndex(x => x == 57) > -1)
+				damage_tick = 0.25
+
             element = 3;
             cast_time = 1;
-            allows_modifiers = false;
             ratio += skill_lv * 0.2;
+            allows_modifiers = false;
             break;
         case 260:
             acd = 0.5;
@@ -10188,12 +10157,12 @@ function retrieve_skill_info(skill_id, skill_lv)
             break;
         case 292:
             hits = 9;
-            forced_motion=3;
+            forced_motion = 2;
             is_range_attack = true;
             ratio += 1 + skill_lv;
             element = ArrowOBJ[n_A_Arrow][1];
-            acd = (skill_lv > 5) ? 1 : 0.8;
-            if(eval(document.calcForm.A_Weapon_zokusei.value) != 0)
+            acd = 2 + (skill_lv > 5) ? 1 : 0.8;
+            if(eval(document.calcForm.A_Weapon_zokusei.value) != 0) // FIXME: Useless ?
                 element = eval(document.calcForm.A_Weapon_zokusei.value);
             cast_time = 1.8 + skill_lv *0.2;
             break;
@@ -10310,9 +10279,7 @@ function retrieve_skill_info(skill_id, skill_lv)
             acd = 1 + skill_lv *0.2;
             ratio += skill_lv * 1 + 2;
             break;
-        case 436:
-            acd = 1;
-            cast_time = 1;
+        case 436: // Spread Attack#436
             is_range_attack = true;
             ratio += skill_lv * 0.2 - 0.2;
             break;
@@ -10350,18 +10317,17 @@ function retrieve_skill_info(skill_id, skill_lv)
             cast_time = (1 + hits) * n_A_CAST;
             hits = Math.min(skill_lv, SkillSearch(185)); // n_A_PassSkill2[10]; FO not available to any other class
             break;
-        case 418:
-            acd = 1;
+        case 418: // Triple Action#418
             hits = 3;
             ratio += 0.5;
             is_range_attack = true;
             break;
-        case 391:
+        case 391: // Beast Strafing#391
             hits = 2;
             is_range_attack = true;
             ratio += n_A_STR * 0.08 - 0.5;
             break;
-        case 429: // Desperadp#429 FIXME decimal hits ?
+        case 429: // Desperado#429 FIXME decimal hits ?
             acd = 1;
             ratio += skill_lv * 0.5 - 0.5;
             desperado_hits = [1,1.2,1.6,2,2.4,3,3.6,4,5,6,7,8,9,10];
