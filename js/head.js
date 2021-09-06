@@ -9860,6 +9860,29 @@ function apply_defense_reduction(damage_list, ignore_defense)
 
 function apply_post_defense_damage_bonus(damage_list, skill_id, is_left_hand_active)
 {
+	damage_bonus = 0;
+	weapon_refine = (is_left_hand_active ? n_A_Weapon2LV_seirenATK : n_A_WeaponLV_seirenATK); // FIXME battle_info.refine_bonus
+
+	// Weapon refine bonus not applying for Investigate#193, Asura Strike#197#321, Shield Chain#324 and Shield Boomerang#159#384
+	excluded_skills = [159,193,197,321,324,384];
+	if (192 == skill_id) // Bonus counted #spheres#185 times for Finger Offensive#192
+		damage_bonus += weapon_refine * SkillSearch(185);
+	else if (excluded_skills.findIndex(x => x == skill_id) < 0)
+		damage_bonus += weapon_refine;
+	
+	// Aura Blade#254 damage bonus, not applied with Spiral Pierce#259
+	if (skill_id != 259)
+		damage_bonus += SkillSearch(254) * 20;
+	
+	// Blade of Angels#1379 - #50 Enable Aura Blade lv 5
+	if (1379 == n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x == 50) > -1)
+		damage_bonus += 100;
+	
+	damage_list = damage_list.map(function(x) {return x + damage_bonus});
+	
+	// Sonic Acceleration#381 - Sonic Blow damage#83#388 + 10%
+	if ((83 == skill_id || 388 == skill_id) && SkillSearch(381))
+		damage_list = apply_damage_modifier(damage_list, 10);
 
     damage_list = apply_masteries_bonus(damage_list);
 
