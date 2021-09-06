@@ -7745,70 +7745,10 @@ function calc()
 	if(Taijin==0)
 		myInnerHtml("BattleFLEE",Math.floor((w_FLEE + (100 - w_FLEE) * n_A_LUCKY / 100) * 100) / 100,0);
 
-	n_A_workDEX = Math.floor(n_A_DEX * (1 + (n_A_WeaponLV - 1) * 0.2));
-
-	n_A_DMG = [0,0,0];
-
-	if(n_A_workDEX>=n_A_Weapon_ATK || SkillSearch(155))
-		n_A_DMG[2] = n_A_ATK + n_A_WeaponLV_Maxplus + Math.floor(n_A_Weapon_ATK * wCSize);
-	else
-		n_A_DMG[2] = n_A_ATK + n_A_WeaponLV_Maxplus + Math.floor((n_A_Weapon_ATK - 1) * wCSize);
-
-	//[Bug Fix 2018-07-16 - Bowling Bash with Bow weapon formula] [NattWara]
-	//if(n_A_WeaponType==10||n_A_WeaponType==17||n_A_WeaponType==18||n_A_WeaponType==19||n_A_WeaponType==20||n_A_WeaponType==21)
-	if((n_A_WeaponType==10 && n_A_ActiveSkill!=76)||n_A_WeaponType==17||n_A_WeaponType==18||n_A_WeaponType==19||n_A_WeaponType==20||n_A_WeaponType==21)
-		n_A_DMG[2] += Math.floor((ArrowOBJ[n_A_Arrow][0]-1) * wCSize);
-
-	//[Bug Fix 2018-07-16 - Bowling Bash with Bow weapon formula] [NattWara]
-	//if(n_A_WeaponType==10||n_A_WeaponType==17||n_A_WeaponType==18||n_A_WeaponType==19||n_A_WeaponType==20||n_A_WeaponType==21)
-	if((n_A_WeaponType==10 && n_A_ActiveSkill!=76)||n_A_WeaponType==17||n_A_WeaponType==18||n_A_WeaponType==19||n_A_WeaponType==20||n_A_WeaponType==21)
-	{
-		w1 = n_A_ATK + n_A_WeaponLV_Maxplus + Math.floor(n_A_Weapon_ATK * n_A_Weapon_ATK / 100 * wCSize);
-		w2 = n_A_ATK + n_A_WeaponLV_Maxplus + Math.floor(n_A_Weapon_ATK * n_A_workDEX / 100 * wCSize);
-
-		w = Math.floor((ArrowOBJ[n_A_Arrow][0]-1) * wCSize);
-		w1 += w;
-		w2 += w;
-		if(w1 > w2)w1 = w2;
-		if(n_A_DMG[2] < w1)n_A_DMG[2] = w1;
-	}
-
-	//[Bug Fix 2018-07-16 - Bowling Bash with Bow weapon formula] [NattWara]
-	//if(n_A_WeaponType==10||n_A_WeaponType==17||n_A_WeaponType==18||n_A_WeaponType==19||n_A_WeaponType==20||n_A_WeaponType==21)
-	if((n_A_WeaponType==10 && n_A_ActiveSkill!=76)||n_A_WeaponType==17||n_A_WeaponType==18||n_A_WeaponType==19||n_A_WeaponType==20||n_A_WeaponType==21)
-	{
-		n_A_DMG[0] = n_A_ATK + n_A_WeaponLV_Minplus + Math.floor((n_A_Weapon_ATK * n_A_Weapon_ATK / 100) * wCSize);
-		w = n_A_ATK + n_A_WeaponLV_Minplus + Math.floor((n_A_Weapon_ATK * n_A_workDEX / 100) * wCSize);
-		if(n_A_DMG[0] > w)n_A_DMG[0] = w;
-	}
-	else{
-		if(n_A_workDEX >= n_A_Weapon_ATK)
-			n_A_DMG[0] = n_A_ATK + n_A_WeaponLV_Minplus + Math.floor(n_A_Weapon_ATK * wCSize);
-		else{
-
-			if(SkillSearch(155))
-				n_A_workDEX = n_A_Weapon_ATK;
-			n_A_DMG[0] = n_A_ATK + n_A_WeaponLV_Minplus + Math.floor(n_A_workDEX * wCSize);
-		}
-	}
-
-
-	n_A_DMG[1] = (n_A_DMG[0] + n_A_DMG[2]) / 2;
-
-	n_Enekyori=0;
-	n_A_CriATK = [0,0,0];
-	n_A_CriATK[1] = n_A_ATK + (n_A_WeaponLV_Minplus + n_A_WeaponLV_Maxplus) /2 + Math.floor(n_A_Weapon_ATK * wCSize);
-	n_A_CriATK[0] = n_A_ATK + n_A_WeaponLV_Minplus + Math.floor(n_A_Weapon_ATK * wCSize);
-	n_A_CriATK[2] = n_A_ATK + n_A_WeaponLV_Maxplus + Math.floor(n_A_Weapon_ATK * wCSize);
-
-	if (n_A_WeaponType==10 || 17<=n_A_WeaponType && n_A_WeaponType <= 21)
-	{
-		n_Enekyori=1;
-		
-		for(i=0;i<=2;i++)
-			n_A_CriATK[i] += Math.floor((ArrowOBJ[n_A_Arrow][0]) * wCSize);
-	}
-
+	n_Enekyori = (n_A_WeaponType==10 || 17 <= n_A_WeaponType && n_A_WeaponType <= 21) ? 1 : 0;
+	
+	n_A_DMG = calc_base_atk(n_A_ATK, false, false, n_Enekyori);
+	n_A_CriATK = calc_base_atk(n_A_ATK, true, false, n_Enekyori);
 
 	BK_n_A_DMG = [0,0,0];
 	BK_n_A_DMG[2] = n_A_DMG[2];
@@ -9211,4 +9151,82 @@ function manage_left_hand_effect(flag)
 		n_tok[23] += 1 * flag;
 		
 	ClickB_Enemy();
+}
+
+// Base attack computation
+function calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex_based)
+{
+	size_modifier = is_left_hand_active ? weaponsize[n_A_Weapon2Type][n_B[4]] : weaponsize[n_A_WeaponType][n_B[4]];
+
+	atk_min = 0;
+	atk_max = n_A_Weapon_ATK;
+
+	weapon_lv = is_left_hand_active ? n_A_Weapon2LV : n_A_WeaponLV;
+	weapon_refine = is_left_hand_active ? n_A_Weapon2_ATKplus : n_A_Weapon_ATKplus;
+	min_weapon_bonus = (weapon_lv && weapon_refine) ? 1 : 0 ;
+
+	// if the attack is not a critical hit at the exception of arrows attack
+	if (!is_critical_attack || is_dex_based)
+	{
+		atk_min = n_A_DEX;
+
+		if (weapon_lv)
+			atk_min *= (80 + weapon_lv * 20) / 100;
+
+		atk_min = Math.min(atk_min, atk_max);
+
+		if (is_dex_based && n_A_ActiveSkill != 76)
+		{
+			atk_min = Math.floor(atk_min * atk_max / 100);
+			atk_max = Math.max(atk_min, atk_max);
+		}
+	}
+	else
+		atk_min = atk_max;
+
+	// Maximize Power#155
+	if (SkillSearch(155))
+		atk_min = atk_max;
+
+	damage_min = atk_min;
+	damage_max = atk_max;
+
+	// Add over refine bonus
+	refine_damage_bonus = calc_weapon_damage_bonus(weapon_refine, weapon_lv)
+
+	damage_min = base_atk + min_weapon_bonus + Math.floor(damage_min * size_modifier);
+	damage_max = base_atk + refine_damage_bonus + Math.floor(damage_max * size_modifier);
+
+	if (is_critical_attack)
+		damage_min = damage_max;
+
+	if (is_dex_based && n_A_ActiveSkill != 76) // Add arrow base attack, except for Bowling Bash
+	{
+		if (is_critical_attack)
+		{
+			damage_min += ArrowOBJ[n_A_Arrow][0];
+			damage_max += ArrowOBJ[n_A_Arrow][0];
+		}
+		else
+			damage_max += ArrowOBJ[n_A_Arrow][0] - 1;
+	}
+
+	return [damage_min, Math.floor((damage_min + damage_max) / 2), damage_max];
+}
+
+// Additional base atk dmg bonus for refine and overrefine (weapon is refined above safety refine level)
+function calc_weapon_damage_bonus(weapon_refine, weapon_lv)
+{
+	damage_bonus = 0;
+
+	if (weapon_lv)
+	{
+		safe_refine = [7, 6, 5, 4];
+		refine_bonus = [2, 3, 5, 7];
+		overrefine_bonus = [3, 5, 8, 13];
+
+		damage_bonus = weapon_refine * refine_bonus[weapon_lv - 1] + Math.max(weapon_refine - safe_refine[weapon_lv - 1], 0) * overrefine_bonus[weapon_lv - 1];
+	}
+
+	return damage_bonus;
 }
