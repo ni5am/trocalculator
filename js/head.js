@@ -1111,6 +1111,18 @@ function BattleCalc999()
 		debug_atk+="\nb_ATKbai02:"+n_A_DMG[1];
 		ATKbai02(wbairitu,0);
 		debug_atk+="\na_ATKbai02:"+n_A_DMG[1];
+		
+		/*
+		contextual_damage = [0,0,0]
+		
+		if (391 == n_A_ActiveSkill)
+		{
+			myInnerHtml("CRIATKname","Double Strafe Damage",0);
+			contextual_damage = calc_physical_attack_damage(40, 10, false, false);
+			contextual_damage[1] = Math.floor((contextual_damage[0] + contextual_damage[2]) / 2);
+			myInnerHtml("CRIATK",contextual_damage[1],0);
+		}*/
+		
 		for(var i=0;i<=2;i++){
 			if (i==1) {
 				debug_atk+="\nb_BattleCalc (w_DMG[1]):"+w_DMG[i];
@@ -1119,6 +1131,8 @@ function BattleCalc999()
 			if (i==1) {
 				debug_atk+="\na_BattleCalc (w_DMG[1]):"+w_DMG[i];
 			}
+			
+			
 			if(n_A_ActiveSkill==391 && n_B[2]!=2 && n_B[2]!=4)
 				w_DMG[i] = 0;
 
@@ -1135,6 +1149,7 @@ function BattleCalc999()
 			}
 			w_DMG[i] -= EDP_DMG(i);
 			w_DMG[i] *= wHITsuu;
+			
 		}
 		var wX = BattleCalc2(0);
 		w_DMG[1] = (w_DMG[1] * w_HIT + wX * wHITsuu *(100-w_HIT))/100;
@@ -7843,6 +7858,12 @@ function calc()
 	for(var i=0;i<InnStr.length;i++)
 		myInnerHtml("strID_"+i,InnStr[i],0);
 	
+			debug_damage = [0,0,0]
+		myInnerHtml("CRIATKname","Revamp Debug Damage",0);
+		debug_damage = calc_physical_attack_damage(n_A_ActiveSkill, n_A_ActiveSkillLV, false, false);
+		debug_damage[1] = Math.floor((debug_damage[0] + debug_damage[2]) / 2);
+		myInnerHtml("CRIATK","[" + debug_damage[0] + ", " + debug_damage[1] + ", " + debug_damage[2] + "]",0);
+	
 	KakutyouKansuu();
 	update_monster_status();
 }
@@ -9229,4 +9250,1564 @@ function calc_weapon_damage_bonus(weapon_refine, weapon_lv)
 	}
 
 	return damage_bonus;
+}
+
+function calc_skill_base_damage(active_skill, base_atk, is_critical_attack, is_left_hand_active, is_dex_based)
+{
+	skill_base_damage = 0;
+	damage_list = [0, 0, 0];
+
+	switch(active_skill)
+	{
+		case 284: // Sacrifice#284
+			skill_base_damage = Math.floor(n_A_MaxHP * 9 / 100); // FIXME: MaxHP variable
+			break;
+	    case 405: // Final Strike#405
+	        skill_base_damage =  Math.floor(40 * n_A_STR + eval(document.calcForm.SkillSubNum.value) * 8 * n_A_ActiveSkillLV / 100);
+            break
+        case 438: // Final Strike [MaxHP - 1]#438
+            skill_base_damage =  Math.floor(40 * n_A_STR + (n_A_MaxHP - 1) * 8 * n_A_ActiveSkillLV / 100);
+			break;
+		case 259: // Spiral Pierce#259
+			spear_weight = ItemOBJ[n_A_Equip[0]][6];
+			skill_base_damage = Math.floor(spear_weight * 0.8); // 80% of weapon's weight
+
+			// Apply STR bonus
+			dstr = Math.floor(n_A_STR / 10);
+			skill_base_damage += dstr * dstr;
+
+			// Apply size modifier
+			skill_base_damage = Math.floor(skill_base_damage * (1.25 - (n_B[4] * 0.25)));
+			break;
+		case 384: // Shield Boomerang#384 [Soul Linked]
+		case 159: // Shield Boomerang#159
+		case 324: // Shield Chain#324
+			shield_weight = (n_A_Equip[5] != 305) ? ItemOBJ[n_A_Equip[5]][6] : 0;
+			skill_base_damage = base_atk + shield_weight;
+			break;
+		default:
+			damage_list = calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex_based);
+			// Crit Attack rate
+			// TK Power
+			/*FIXME : (skill_id == HW_MAGICCRASHER?4:0)|
+				(!skill_id && sc && sc->data[SC_CHANGE]?4:0)|
+				(skill_id == MO_EXTREMITYFIST?8:0)|
+				(sc && sc->data[SC_WEAPONPERFECTION]?8:0);*/
+			break;
+    }
+
+	if (skill_base_damage)
+		return [skill_base_damage, 0, skill_base_damage];
+	else
+		return damage_list;
+}
+
+function apply_masteries_bonus(damage_list)
+{
+	mastery_atk_bonus = 0;
+
+	// FIXME, Investigate Extremity Fist, Grand Cross not applicables
+	// Masteries related to weapons
+	switch (n_A_WeaponType)
+	{
+		case 1: // Dagger
+		case 2: // One-handed Sword
+			mastery_atk_bonus += 4 * SkillSearch(3); // One-handed Sword Mastery#3
+			break;
+		case 3: // Two-handed Sword
+			mastery_atk_bonus += 4 * SkillSearch(4); // Two-handed Sword Mastery#4
+			break;
+		case 4: // One-handed Spear
+		case 5: // Two-handed Spear
+			mastery_atk_bonus += (SkillSearch(78) ? 5 : 4) * SkillSearch(69); // Spear Mastery#69 enhanced while Riding#78
+			break;
+		case 6: // One-handed Axe
+		case 7: // Two-handed Axe
+			mastery_atk_bonus += 3 * SkillSearch(241); // Axe Mastery#241
+			break;
+		case 8: // Mace
+			mastery_atk_bonus += 3 * SkillSearch(89); // Mace Mastery#89
+			break;
+		case 11: // Katar
+			mastery_atk_bonus += 3 * SkillSearch(81); // Katar Mastery#81
+			break;
+		case 12: // Book
+			mastery_atk_bonus += 3 * SkillSearch(224); // Advanced Book#224
+			break;
+		case 0: // Unarmed
+			mastery_atk_bonus += 10 * SkillSearch(329); // Sprint#329 [Unarmed]
+		case 13:
+			mastery_atk_bonus += 3 * SkillSearch(183); // Iron Hand#183, applied as well when unarmed
+			break;
+		case 14: // Instrument
+			mastery_atk_bonus += 3 * SkillSearch(198);
+			break;
+		case 15: // Whip
+			mastery_atk_bonus += 3 * SkillSearch(206);
+			break;
+	}
+
+	// Demon Bane#24, effective on Demon Race or Undead element 91-94
+	// FIXME: Disabled on players
+	if (SkillSearch(24) && (n_B[2] == 6 || (91 <= n_B[3] && n_B[3] <= 94)))
+		mastery_atk_bonus += Math.floor((3 + 5/100 * n_A_BaseLV) * SkillSearch(24));
+
+	// Beast Bane#116 effective on Brute and Insect
+	if(n_B[2] == 2 || n_B[2] == 4)
+	{
+		mastery_atk_bonus += 4 * SkillSearch(116);
+
+		if (SkillSearch(390)) // Hunter Link#390
+			mastery_atk_bonus += n_A_STR;
+	}
+
+	// FIXME : battle_skill_stacks_masteries_vvs not applicable to Shield Chain & Shield Boomerang
+	return [damage_list[0] + mastery_atk_bonus, 0, damage_list[2] + mastery_atk_bonus];
+}
+
+function apply_skill_damage_ratio(damage_list, ratio)
+{
+	damage_list = apply_damage_modifier(damage_list, ratio);
+
+	return damage_list;
+}
+
+function apply_physical_damage_modifiers(damage_list, is_range_attack, is_critical_attack)
+{
+	// if(wBCEDPch==0 && not_use_card == 0)
+	// FIXME: Some skills disable modifiers
+	// FIXME: EDP impacts modifiers ?
+	modifiers = 100;
+
+	// bAddRace - physical damage modifier against race r
+	race_modifier = 100 + n_tok[30 + n_B[2]];
+
+	// bAddEle - Physical damage modifier against element e
+	element_modifier = 100 + n_tok[40 + Math.floor(n_B[3] / 10)];
+
+	// bAddSize - Physical damage modifier against size s
+	size_modifier = 100 + n_tok[27 + n_B[4]];
+
+	// bLongAtkRate - Physical damage modifier for long ranged attacks
+	// FIXME: What's the purpose of TyouEnkakuSousa3dan
+	range_modifier = 100;
+	if (is_range_attack) // FIXME: && TyouEnkakuSousa3dan != -1) // Is range attack ?
+			range_modifier += n_tok[25];
+
+	// bAddClass - Physical damage modifier against class c
+	class_modifier = 100 + (n_B[19] ? n_tok[26] : 0) + n_tok[80];
+
+	// FIXME : Ensure that Sharp Shooting benefits from this modifier
+	// bCritAtkRate - Increases critical damage modifier
+	critical_modifier = 100;
+	if (is_critical_attack && n_A_ActiveSkill != 401)
+		critical_modifier += n_tok[70];
+
+	// bAddRace2 - damage modifier against dedicated monster race
+	race2_modifier = 100
+	if (108 <= n_B[0] && n_B[0] <= 115 || n_B[0] == 319) // RC2_Goblin
+		race2_modifier += n_tok[81];
+
+	if (116 <= n_B[0] && n_B[0] <= 120) // RC2_Kobold
+		race2_modifier += n_tok[82];
+
+	if (49 <= n_B[0] && n_B[0] <= 52 || 55 == n_B[0] || 221 == n_B[0]) // RC2_Orc
+		race2_modifier += n_tok[83];
+
+	if (106 == n_B[0] || 152 == n_B[0] || 308 == n_B[0] || 32 == n_B[0] || 541 == n_B[0]) // RC2_Golem
+		race2_modifier += n_tok[84];
+
+	// wBaiCI = Math.floor(tPlusDamCut(wBaiCI));
+	// FIXME: tPlusDamCut ?
+	modifiers *= race_modifier / 100 * race2_modifier / 100 * element_modifier / 100 * class_modifier / 100 * critical_modifier / 100 * size_modifier / 100 * range_modifier / 100;
+	return apply_damage_modifier(damage_list, modifiers);
+}
+
+function apply_physical_skill_damage_modifiers(damage_list, skill_id)
+{
+	skill_modifier = 100;
+
+	// Hatred
+	if(Taijin == 0) // PvM
+	{
+		if (SkillSearch(354) && SkillSearch(365))
+			skill_modifier += (n_A_BaseLV + n_A_STR + n_A_LUK + n_A_DEX) / (12 - SkillSearch(354) *3);
+		else if (SkillSearch(354) && n_B[4]==2 && n_B[6] >= 17392)
+			skill_modifier += (n_A_BaseLV + n_A_STR + n_A_LUK + n_A_DEX) / (12 - SkillSearch(354) *3);
+		else if (SkillSearch(352) && n_B[4]==0)
+			skill_modifier += (n_A_BaseLV + n_A_LUK + n_A_DEX) / (12 - SkillSearch(352) *3);
+		else if (SkillSearch(353) && n_B[4]==1 && n_B[6] >= 5218)
+			skill_modifier += (n_A_BaseLV + n_A_LUK + n_A_DEX) / (12 - SkillSearch(353) *3);
+	}
+	else // PvP
+	{
+		if (SkillSearch(354))
+			skill_modifier += (n_A_BaseLV + n_A_STR + n_A_LUK + n_A_DEX) / (12 - SkillSearch(354) *3);
+		else if(SkillSearch(352))
+			skill_modifier += (n_A_BaseLV + n_A_LUK + n_A_DEX) / (12 - SkillSearch(352) *3);
+		else if(SkillSearch(353))
+			skill_modifier += (n_A_BaseLV + n_A_LUK + n_A_DEX) / (12 - SkillSearch(353) *3);
+	}
+
+	// Berserk#258 - Double damage
+	if (SkillSearch(258))
+		skill_modifier += 100;
+
+	if (SkillSearch(266))
+		skill_modifier += 50 * (SkillSearch(266) + 1);
+
+	// Poison React[Counter]#86
+	if (skill_id == 86 && (50 <= n_B[3] && n_B[3] < 60))
+		skill_modifier += 30 * skill_idLV;
+
+	if(n_A_WeaponType == 11 && SkillSearch(262))
+		skill_modifier += 10 + 2 * SkillSearch(262);
+
+	if (skill_id == 6 && n_A_SHOES_DEF_PLUS >= 9 && CardNumSearch(362))
+		skill_modifier += 10;
+
+	if (skill_id == 76 && (n_A_WeaponType == 2 || n_A_WeaponType == 3))
+		skill_modifier += 25 * CardNumSearch(464);
+
+	if (skill_id == 41 && n_A_WeaponType == 10)
+		skill_modifier += 50 * CardNumSearch(465);
+
+	if (skill_id == 40 && n_A_Weapon_ATKplus >= 9 && EquipNumSearch(1089))
+		skill_modifier += 20;
+
+	//custom TalonRO rental - Bow of Evil: Double Strafe damage +25%
+	if (skill_id == 40 && EquipNumSearch(1332))
+		skill_modifier += 25;
+
+	//custom TalonRO rental - Katar of Speed: Sonic Blow damage +25%
+	if ((skill_id == 83 || skill_id == 388) && EquipNumSearch(1342))
+		skill_modifier += 25;
+
+	//custom TalonRO rental - Mace of Madness: Cart Revolution damage +25%
+	if (skill_id == 66 && EquipNumSearch(1343))
+		skill_modifier += 25;
+
+	//custom TalonRO rental - Monk Knuckle: Finger Offensive damage +25%
+	if (skill_id == 192 && EquipNumSearch(1346))
+		skill_modifier += 25;
+
+	//custom TalonRO rental - Phenomena Whip: Throw Arrow damage +25%
+	if (skill_id == 207 && EquipNumSearch(1349))
+		skill_modifier += 25;
+
+	//custom TalonRO rental - Spear of Excellent: Magnum Break damage +25%
+	if (skill_id == 7 && EquipNumSearch(1352))
+		skill_modifier += 25;
+
+	//custom TalonRO SQI Bonus Twin Fang: Grimtooth damage +25%
+	if (skill_id == 84 && EquipNumSearch(1375))
+	{
+		for(i=0;i<SQI_Bonus_Effect.length;i++)
+		{
+			if(SQI_Bonus_Effect[i]==7)
+			{
+				skill_modifier += 25;
+				break;
+			}
+		}
+	}
+
+	//custom TalonRO SQI Bonus Aegis Shield: Shield Chain damage +10%
+	if(skill_id == 324)
+		if(EquipNumSearch(1376))
+			for(i=0;i<SQI_Bonus_Effect.length;i++)
+				if(SQI_Bonus_Effect[i]==14) {
+					skill_modifier += 10;
+					break;
+				}
+	//custom TalonRO SQI Bonus Artemis Bow: Double Strafe damage +15%
+	if(skill_id == 40)
+		if(EquipNumSearch(1377))
+			for(i=0;i<SQI_Bonus_Effect.length;i++)
+				if(SQI_Bonus_Effect[i]==24) {
+					skill_modifier += 15;
+					break;
+				}
+	//custom TalonRO SQI Bonus Belmont Whip: Throw Arrow damage +35%
+	if(skill_id == 207)
+		if(EquipNumSearch(1378))
+			for(i=0;i<SQI_Bonus_Effect.length;i++)
+				if(SQI_Bonus_Effect[i]==36) {
+					skill_modifier += 35;
+
+					break;
+				}
+	if (skill_id == 272 && EquipNumSearch(1045))
+		skill_modifier += n_A_Weapon_ATKplus * 3;
+
+	//custom TalonRO Imperial Guard: Shield Chain damage +2% each refine above 6
+	if(skill_id == 324 && n_A_LEFT_DEF_PLUS > 6 && EquipNumSearch(1459))
+		skill_modifier += 2*(n_A_LEFT_DEF_PLUS-6);
+
+	// Back Stab#169
+	if (skill_id == 169)
+	{
+		//custom TalonRO Black Wing: Back Stab damage +2% each refine
+		if (EquipNumSearch(1463))
+			skill_modifier += 2 * n_A_Weapon_ATKplus;
+
+		//brave assassin damascus [Loa] 2018-07-24
+		if(EquipNumSearch(897) && n_A_JobSearch2() == 14)
+			skill_modifier += 10;
+	}
+
+	// Raid#171
+	if (skill_id == 171 && EquipNumSearch(897) && n_A_JobSearch2() == 14)
+		skill_modifier += 10;
+
+	// Cannon Spear#1516 - [Every 3 Refine] Increases Head Crush damage by 5%
+	if (skill_id == 260 && EquipNumSearch(1516))
+		skill_modifier += 5 * Math.floor(n_A_Weapon_ATKplus / 3);
+
+
+	// Assaulter Spear#903 - [Refine level 8-10] Increase damage of Spiral Pierce by 20%
+	if (EquipNumSearch(903) && n_A_Weapon_ATKplus >= 8 && skill_id == 259)
+		skill_modifier += 20;
+
+	// Glorious Tablet#1094 - Increase damage with [Flying Side Kick] by 10%.
+	if (EquipNumSearch(1094) && (skill_id == 339 || skill_id == 305))
+		skill_modifier += 10;
+
+	// Brave Assassin Damascus#897 - [Crusader Class] Add 5% more damage with [Shield Chain]
+	if (EquipNumSearch(897) && n_A_JobSearch2() == 13 && skill_id == 324)
+		skill_modifier += 5;
+
+	// Soldier Grenade Launcher#929 - [Refine level 6-10] Increase damage of [Ground Drift] by 25%
+	if (EquipNumSearch(929) && n_A_Weapon_ATKplus >= 6 && skill_id == 437)
+		skill_modifier += 25;
+
+	// Brave Gladiator Blade#900 - [Rogue and Crusader Classes]
+	if (skill_id == 161 	&& (n_A_JobSearch2() == 13 || n_A_JobSearch2() == 14)
+								&& EquipNumSearch(900))
+	{
+		// Add 15% more damage with [Holy Cross] skill
+		skill_modifier += 15;
+
+		// [Refine level 7-10] Add an additional 5% more damage with [Holy Cross] skill
+		if (n_A_Weapon_ATKplus >= 7)
+			skill_modifier += 5;
+
+		// For every refine +8 or higher, add 1% more damage with [Holy Cross] skill
+		if (n_A_Weapon_ATKplus >= 8)
+			skill_modifier += n_A_Weapon_ATKplus - 7;
+	}
+
+	// Glorious Holy Avenger#1079 - [Refine Rate 7~10] Increases damage with [Holy Cross] by 15%
+	if (skill_id == 161 && n_A_Weapon_ATKplus >= 7 && EquipNumSearch(1079))
+		skill_modifier += 15;
+
+	if (skill_id == 428 && n_A_Weapon_ATKplus >= 9 && EquipNumSearch(1099))
+		skill_modifier += 2 * n_A_Weapon_ATKplus;
+
+	if (skill_id == 430 && n_A_Weapon_ATKplus >= 9 && EquipNumSearch(1100))
+		skill_modifier += 3 * n_A_Weapon_ATKplus;
+
+	if (skill_id == 436 && n_A_Weapon_ATKplus >= 9 && EquipNumSearch(1102))
+		skill_modifier += 2 * n_A_Weapon_ATKplus;
+
+	if (skill_id == 437 && n_A_Weapon_ATKplus >= 9 && EquipNumSearch(1103))
+		skill_modifier += 2 * n_A_Weapon_ATKplus;
+
+	if ((skill_id == 6 || skill_id == 76) && skill_idLV == 10 && EquipNumSearch(1159))
+		skill_modifier += 50;
+
+	if (skill_id == 65 && (SU_LUK >= 90 || SU_DEX >= 90) && EquipNumSearch(1164))
+		skill_modifier += 15;
+
+	if (skill_id == 264 && EquipNumSearch(1176) && SkillSearch(81) == 10)
+		skill_modifier += 20;
+
+	if (TyouEnkakuSousa3dan == -1 && EquipNumSearch(639))
+		skill_modifier += 15;
+
+	if ((skill_id==83 || skill_id==388) && SkillSearch(381)) // FIXME :  && wBCEDPch==0
+		skill_modifier += 10;
+
+	// Meteor Assault#264
+	if (skill_id == 264)
+	{
+		// Enforcer Cape#1699 - [Every Refine Level] Increase [Meteor Assault] damage by 1%
+		skill_modifier += n_A_SHOULDER_DEF_PLUS * EquipNumSearch(1699)
+
+		// Brave Carnage Katar#909 - [Refine level 7~10] Increase [Meteor Assault] damage by 15%
+		if(n_A_Weapon_ATKplus >= 7)
+			skill_modifier += 15 * EquipNumSearch(909);
+	}
+
+	// Glorious Claw#1096
+	if (EquipNumSearch(1096))
+	{
+		// [Every Refine Level] Increase [Triple Attack], [Chain Combo] and [Combo Finish] damage by 5%
+		if (skill_id >= 187 || skill_id <= 189)
+			skill_modifier += 5 * n_A_Weapon_ATKplus;
+
+		// [Every Refine Level Above +5]  Increase [Tiger Knuckle Fist] and [Chain Crush Combo] damage by 5%
+		if (skill_id == 289 || skill_id == 290)
+			skill_modifier += 5 * Math.max(0, n_A_Weapon_ATKplus - 5);
+	}
+
+	// Glorious Claymore#1080 - [Every Refine Level] Increase [Bowling Bash] and [Charge Attack] damage by 1% [Amor]
+	if (skill_id == 76 || skill_id == 308)
+		skill_modifier += n_A_Weapon_ATKplus * EquipNumSearch(1080);
+
+	// Mammonite#65
+	if (skill_id == 65)
+	{
+		// Glorious Two Handed Axe#1087 - [Every Refine Level] Increase [Mammonite] damage by 2% [Amor]
+		skill_modifier += 2 * n_A_Weapon_ATKplus * EquipNumSearch(1087);
+
+		// Glorious Cleaver#1088 - [Every Refine Level] Increase [Mammonite] damage by 1% [Amor]
+		skill_modifier += n_A_Weapon_ATKplus * EquipNumSearch(1088);
+	}
+
+	// Glorious Flamberge#1077 - [Every Refine Level] Increase [Bash], [Mammonite] and [Back Stab] damage by 2% [Amor]
+	if (skill_id == 65 || skill_id == 6 || skill_id == 169)
+		skill_modifier += 2 * n_A_Weapon_ATKplus * EquipNumSearch(1077);
+
+	// Glorious Grenade Launcher#1103 - [Every Refine Level] Increase [Ground Drift] damage by 2% [Amor]
+	if (skill_id == 437)
+		skill_modifier += 2 * n_A_Weapon_ATKplus * EquipNumSearch(1103);
+
+	// Triple Action#418
+	if (skill_id == 418)
+	{
+		// Glorious Grenade Launcher#1103 - [Every Refine Level] Increase [Triple Action] damage by 1% [Amor]
+		skill_modifier += n_A_Weapon_ATKplus * EquipNumSearch(1103);
+
+		// Glorious Grenade Launcher#1103, Glorious Rifle#1100, Glorious Shotgun#1102 - [If Scouter Is Not Equipped] Increase [Triple Action] damage by 30%
+		if (!EquipNumSearch(1387))
+			skill_modifier += 30 * (EquipNumSearch(1103) + EquipNumSearch(1100) + EquipNumSearch(1102));
+	}
+
+	// Glorious Huuma Shuriken#1098 - [Every Refine Level] Increase [Throw Huuma Shuriken] damage by 3% [Amor]
+	if (skill_id == 396)
+		skill_modifier += 3 * n_A_Weapon_ATKplus * EquipNumSearch(1098);
+
+	// Glorious Revolver#1099 - [Every Refine Level] Increase [Rapid Shower] damage by 1% [Amor]
+	if (skill_id == 428)
+		skill_modifier += n_A_Weapon_ATKplus * EquipNumSearch(1099);
+
+	// Glorious Rifle#1100 - [Every Refine Level] Increase [Tracking] and [Piercing Shot] damage by 3% [Amor]
+	if (skill_id == 430 || skill_id == 432)
+		skill_modifier += 3 * n_A_Weapon_ATKplus * EquipNumSearch(1100);
+
+	// Glorious Shotgun#1102 - [Every Refine Level] Increase [Spread Attack] damage by 2% [Amor]
+	if (skill_id == 436)
+		skill_modifier += 2 * n_A_Weapon_ATKplus * EquipNumSearch(1102);
+
+	// Valorous Battle CrossBow#913 - [Refine level 8-10] Increase damage with [Sharp Shooting] by 10%] [Gawk]
+	if (skill_id == 272 && n_A_Weapon_ATKplus >= 8)
+		skill_modifier += 10 * EquipNumSearch(913);
+
+	// Glorious Hunter Bow#1089 - [Every Refine] Increases [Double Strafing] damage by 2%] [Gawk]
+	if (skill_id == 40)
+		skill_modifier += 2 * n_A_Weapon_ATKplus * EquipNumSearch(1089);
+
+	// Valorous Carnage Katar#910 - [Refine Level 6~10] Increases damage with [Sonic Blow] by 10%.
+	if (n_A_Weapon_ATKplus >= 6 && skill_id == 83 && EquipNumSearch(910))
+	{
+		skill_modifier += 10;
+
+		// [Refine Level 9~10] - Increases damage with [Sonic Blow] by 20%.
+		if (n_A_Weapon_ATKplus >= 9)
+			skill_modifier += 20;
+	}
+
+	skill_modifier += StPlusCalc2(5000 + skill_id) + StPlusCard(5000 + skill_id);
+
+	return apply_damage_modifier(damage_list, skill_modifier);
+}
+
+function apply_magical_skill_damage_modifiers(damage_list)
+{
+    // Skill damage bonus - bSkillAtk
+    // FIXME: same modifier than for physical damage, merge ?
+    skill_modifier = StPlusCalc2(5000 + n_A_ActiveSkill) + StPlusCard(5000 + n_A_ActiveSkill);
+
+    // [Mage Class] - Increases damage of the skills [Soul Strike], [Napalm Beat] and [Napalm Vulcan] by 20%
+    if (n_A_JobSearch()==5 && (46 == n_A_ActiveSkill || 47 == n_A_ActiveSkill || 277 == n_A_ActiveSkill))
+        skill_modifier += 20 * CardNumSearch(474);
+
+    // RJC Katyusha Flower#1146 - [Every Refine] Increases damage of [Heaven's Drive] and [Earth Spike] by 1%
+    if ((132 == n_A_ActiveSkill || 133 == n_A_ActiveSkill) && EquipNumSearch(1146))
+        skill_modifier += n_A_Weapon_ATKplus;
+
+    // Lacrima Stick#1169 - [Every Refine] Increases damage of [Storm Gust] by 1%
+    if (131 == n_A_ActiveSkill && EquipNumSearch(1169))
+        skill_modifier += n_A_Weapon_ATKplus;
+
+    // Chilly Spell Book#1653 - [Every Refine] Increases damage of [Storm Gust] and [Cold Bolt] by 3%
+    if ((54 == n_A_ActiveSkill || 131 == n_A_ActiveSkill) && EquipNumSearch(1653))
+        skill_modifier += 3 * n_A_Weapon_ATKplus;
+
+    // Noah's Hat#1247 - [Acolyte Class] Increases damage of [Holy Light] by 5% [Refine Rate > 7] Increases damage of [Holy Light] by 5%
+    if (n_A_JobSearch() == 3 && (37 == n_A_ActiveSkill || 387 == n_A_ActiveSkill) && EquipNumSearch(1247))
+        skill_modifier += 5 + 5 * Math.floor(n_A_HEAD_DEF_PLUS / 8);
+
+    return apply_damage_modifier(damage_list, skill_modifier);
+}
+
+function apply_monster_physical_damage_modifiers(damage_list)
+{
+	monster_damage_modifier = 100;
+	// Manuk's Sturdiness [Increases physical damage on Manuk maps by 10%]
+	if (n_A_PassSkill8[22] && MANUKU_MONSTER())
+		monster_damage_modifier += 10;
+
+	// Pinguicula's Fruit Jam [Increases physical damage on Splendide maps by 10%]
+	if (n_A_PassSkill8[25] && SUPURE_MONSTER())
+		monster_damage_modifier += 10;
+
+	monster_damage_modifier = StPlusCalc2(1000 + n_B[0]) + StPlusCard(1000 + n_B[0]);
+
+	return apply_damage_modifier(damage_list, monster_damage_modifier);
+}
+
+function apply_element_damage_ratio(damage_list, element)
+{
+	element_ratio = 100;
+	aoe_damage_bonus = [100, 110, 114, 117, 119, 120];
+
+	element_ratio *= Math.max(zokusei[n_B[3]][element],0);
+
+	// Volcano on fire attack
+	if(n_A_PassSkill6[0] == 0 && element == 3)
+		damage_list = apply_damage_modifier(damage_list, aoe_damage_bonus[n_A_PassSkill6[1]]);
+
+	// Deluge on water attack
+	if(n_A_PassSkill6[0] == 1 && element == 1)
+		damage_list = apply_damage_modifier(damage_list, aoe_damage_bonus[n_A_PassSkill6[1]]);
+
+	// Violent Gale on wind attack
+	if(n_A_PassSkill6[0] == 2 && element == 4)
+		damage_list = apply_damage_modifier(damage_list, aoe_damage_bonus[n_A_PassSkill6[1]]);
+
+	// Fire damage are doubled on spider web
+	if (n_B_IJYOU[17] && element == 3)
+		damage_list = apply_damage_modifier(damage_list, 200);
+
+	return apply_damage_modifier(damage_list, element_ratio);
+}
+
+function apply_damage_modifier(damage_list, modifier)
+{
+	for (i = 0; i < damage_list.length; i++)
+		damage_list[i] = Math.floor(damage_list[i] * modifier / 100);
+
+	return damage_list;
+}
+
+function apply_defensive_status_change(damage_list)
+{
+	// Defender
+	// Wall of Fog
+	// Armor Change
+	// Assumptio
+	// Energy Coat
+}
+
+function apply_offensive_status_change(damage_list, skill_info)
+{
+	// True Sight#270 - Damage +20%
+	true_sight_lv = SkillSearch(270)
+	if (true_sight_lv)
+		damage_list = apply_damage_modifier(damage_list, 100 + 2 * true_sight_lv);
+
+    // Link - Priest - Holy Light#387 - Managed through skill ratio
+	// Link - Assassin - Sonic Blow#388 +25% on WoE +100% in PvM
+	if (388 == skill_info.id)
+	    damage_list = Taijin ? damage_list = apply_damage_modifier(damage_list, 125) : apply_damage_modifier(damage_list, 200);
+
+    // Link - Crusader - Shield Boomerang +100%
+	if (384 == skill_info.id)
+	    damage_list = apply_damage_modifier(damage_list, 200);
+
+    // Lex Aeterna
+	is_multi_hit_attack = false;
+	if (n_B_IJYOU[6])
+	{
+	    if (is_multi_hit_attack) // Manage multi-hit
+	        damage_list = apply_damage_modifier(damage_list, 100 + 100 * (skill_info.hits + 1) / skill_info.hits);
+	    else
+	        damage_list = apply_damage_modifier(damage_list, 200);
+	}
+
+	// EDP - Venom Splasher, Soul Breaker, Meteor Assault ignore EDP
+	if ((skill_info.id != 88 || skill_info.id != 263 || skill_info.id != 264) && SkillSearch(266))
+		damage_list = apply_damage_modifier(damage_list, 150 + 50 * SkillSearch(266));
+
+	// Miracle - All monsters are considered as Star monsters
+	// Hatred
+	/*
+	uint16 anger_level;
+	if (sd != nullptr && anger_id < MAX_PC_FEELHATE && (anger_level = pc_checkskill(sd, sg_info[anger_id].anger_id))) {
+		int skillratio = sd->status.base_level + sstatus->dex + sstatus->luk;
+
+		if (anger_id == 2)
+			skillratio += sstatus->str; // SG_STAR_ANGER additionally has STR added in its formula.
+		if (anger_level < 4)
+			skillratio /= 12 - 3 * anger_level;
+		ATK_ADDRATE(wd->damage, wd->damage2, skillratio);
+	*/
+	
+	return damage_list;
+}
+
+function apply_constant_damage_bonus(damage_list)
+{
+	constant_damage_bonus = 0;
+
+	// Asura Strike#197#321
+	if (197 == n_A_ActiveSkill || 321 == n_A_ActiveSkill)
+		constant_damage_bonus += 250 + 150 * n_A_ActiveSkillLV;
+
+	return [damage_list[0] + constant_damage_bonus, 0, damage_list[2] + constant_damage_bonus];
+}
+
+function apply_defense_reduction(damage_list, ignore_defense)
+{
+    if (!ignore_defense)
+    {
+        effective_vitdef = [0, 0, 0];
+
+        // bDefIgnoreRace
+        effective_def = Math.abs((n_tok[180 + n_B[2]] - 1) * n_B[14]);
+
+        for (i = 0; i < effective_vitdef.length; ++i)
+            effective_vitdef[i] = Math.abs((n_tok[180 + n_B[2]] - 1) * n_B_DEF2[i]);
+
+        // bDefIgnoreClass
+        effective_def *= Math.abs(Math.min((n_B[19] ? Math.floor(n_tok[22] / 10) : n_tok[22]), 1) - 1);
+        for (i = 0; i < effective_vitdef.length; ++i)
+            effective_vitdef[i] *= Math.abs(Math.min((n_B[19] ? Math.floor(n_tok[22] / 10) : n_tok[22]), 1) - 1);
+
+        damage_list = apply_damage_modifier(damage_list, 100 - effective_def);
+        damage_list = [damage_list[0] - effective_vitdef[0], 0, damage_list[2] - effective_vitdef[2]];
+    }
+
+    return damage_list;
+}
+
+function apply_post_defense_damage_bonus(damage_list)
+{
+	// Weapon refine bonus, except for Investigate and Asura Strike, counted #spheres times for Finger Offensive
+	// Aura blade except for Spiral Pierce
+	// Sonic Acceleration
+
+    damage_list = apply_masteries_bonus(damage_list);
+
+	return damage_list;
+}
+
+function apply_magical_defense_reduction(damage_list, ignore_defense)
+{
+    if (!ignore_defense)
+    {
+        target_mdef = n_B[15];
+        target_mdef2 = n_B_MDEF2;
+
+        // Vesper
+        // High Wizard Kathryne
+
+        damage_list[0] = Math.floor(damage_list[0] * (100 - target_mdef) / 100 - target_mdef2);
+        damage_list[2] = Math.floor(damage_list[2] * (100 - target_mdef) / 100 - target_mdef2);
+    }
+
+    return damage_list;
+}
+
+function calc_magical_attack_damage(skill_info)
+{
+    // Initialize damage list with min matk and max matk used for status display
+    damage_list = [0, 0, 0];
+    damage_list[0] = n_A_MATK[0];
+    damage_list[2] = n_A_MATK[2];
+
+    if (122 == n_A_ActiveSkill) // Fire Pillar#122
+        damage_list = damage_list.map(function(x) {return x + 50});
+    else if (104 == n_A_ActiveSkill && n_B[2] != 6 && n_B[3] < 90) // Magnus Exorcismus#104 on non-undead monsters
+        damage_list = damage_list.map(function(x) {return 0});
+
+    damage_list = apply_magical_defense_reduction(damage_list, skill_info.ignore_defense);
+    damage_list = calc_skill_damage_ratio(damage_list, skill_info.ratio);
+    damage_list = apply_element_damage_ratio(damage_list, skill_info.element);
+
+    // MagicAddEle
+    // Damage modifier on magic element
+    element_modifier = n_tok[340 + skill_info.element]
+
+    // Damage modifier for monster element
+    element_modifier += n_tok[350 + Math.floor(n_B[3]/10)];
+
+    // Damage modifier for race - bMagicAddRace
+    // Dragonology#234 - Increases Attack Power, MATK and DEF against Dragon type monsters by 4% per SkillLV
+    n_tok[179] += SkillSearch(234) * 4;
+    race_modifier = n_tok[170 + n_B[2]];
+
+    // Increases magical damage against bosstype monsters - bMagicAddClass,Class_Boss
+    class_modifier = n_B[19] ? n_tok[97] : n_tok[96];
+
+    // bMagicAddSize - unused modifier
+    // bMagicAddRace2 - unused modifier
+    // bAddMagicDamageClass - unused modifier
+
+    // FIXME : wBMC2 = tPlusDamCut(wBMC2); Lex Aeterna ?
+
+    damage_list = apply_magical_skill_damage_modifiers(damage_list);
+
+    // Monster region damage modifier
+    monster_modifier = 100;
+    if (n_A_PassSkill8[23] && MANUKU_MONSTER())
+        monster_modifier += 10;
+    if (n_A_PassSkill8[26] && SUPURE_MONSTER())
+        monster_modifier += 10;
+
+    modifiers *= race_modifier / 100 * element_modifier / 100 * class_modifier / 100 * monster_modifier;
+
+    return apply_damage_modifier(damage_list, modifiers);
+}
+
+function calc_physical_attack_damage(skill_id, skill_lv, is_critical_attack, is_left_hand_active)
+{
+    // Gravitation Field + Pressure fixed damage
+
+    // Envenom - TF_Poison
+
+    // Status base attack computation
+	is_dex_based = (n_A_WeaponType == 10 || n_A_WeaponType == 14 || n_A_WeaponType == 15 || 17 <= n_A_WeaponType && n_A_WeaponType <= 21);
+	base_atk = (is_dex_based) ? n_A_DEX : n_A_STR;
+	datk = Math.floor(base_atk / 10);
+	base_atk += datk * datk;
+	base_atk += Math.floor(((is_dex_based) ? n_A_STR : n_A_DEX) / 5) + Math.floor(n_A_LUK / 5) + n_tok[17];
+
+	skill_info = retrieve_skill_info(skill_id, skill_lv);
+	is_dex_based = (n_A_WeaponType == 10 || 17 <= n_A_WeaponType && n_A_WeaponType <= 21);
+	damage_list = calc_skill_base_damage(skill_id, base_atk, is_critical_attack, is_left_hand_active, is_dex_based);
+	damage_list = apply_skill_damage_ratio(damage_list, skill_info.ratio);
+
+	damage_list = apply_physical_skill_damage_modifiers(damage_list, skill_id);
+	damage_list = apply_constant_damage_bonus(damage_list);
+	damage_list = apply_offensive_status_change(damage_list, skill_info);
+
+	// FIXME: Apply skill bonus attack - pc_skillatk_bonus
+
+	damage_list = apply_defense_reduction(damage_list, skill_info.ignore_defense);
+	damage_list = apply_post_defense_damage_bonus(damage_list);
+	damage_list = apply_element_damage_ratio(damage_list, skill_info.element);
+
+	// Kunai dmg
+	// Weapon Search bonus
+	// TK_RUN bonus
+	// Ground Drift
+	// Cart Revolution bonus with Hilt Binding
+	// Bonus dmg for Finger Offensive
+	// Refine bonus for Shield Boomerang & Shield Chain
+
+	damage_list = apply_physical_damage_modifiers(damage_list, skill_info.is_range_attack, is_critical_attack);
+	damage_list = damage_list.map(function(x) { return x * skill_info.hits});
+
+	return damage_list;
+}
+
+function retrieve_skill_info(skill_id, skill_lv)
+{
+    acd = 0;
+    hits = 1;
+    ratio = 1;
+    duration = 0;
+    cast_time = 0;
+    motion_delay = 0;
+    forced_motion = 0;
+    // Initialize with weapon element, skills should override if using any other element
+    element = n_A_Weapon_zokusei;
+
+    is_critical = false;
+    is_multi_hits = false;
+    ignore_defense = false;
+    is_magic_attack = false;
+    is_range_attack = false;
+    allows_modifiers = true;
+
+    switch(skill_id)
+    {
+        case 187: // Triple Attack#187
+            break; // FIXME
+        case 272: // Sharp Shooting#272
+            acd = 1.5;
+            is_range_attack = true;
+            cast_time = 2 * n_A_CAST;
+            ratio += 1 + 0.5 * skill_lv;
+            break;
+        case 401: // Shadow Slash#401
+            ratio += skill_lv - 1;
+            break;
+        case 6: // Bash#6
+            ratio += skill_lv * 0.3;
+            break;
+        case 7: // Magnum Break#7
+            acd = 2;
+            element = 3;
+            ratio += skill_lv * 0.2;
+            break;
+        case 19: // Sand Attack#19
+            element = 2;
+            ratio += 0.25;
+            allows_modifiers = false;
+            break;
+        case 41: // Arrow Shower#41
+            acd = 1;
+            is_range_attack = true;
+            ratio += skill_lv * 0.05 - 0.25;
+            break;
+        case 44: // Arrow Repel#44
+            ratio += 0.5;
+            cast_time = 1.5;
+            is_range_attack = true;
+            break;
+        case 65: // Mammonite#65
+            ratio += skill_lv * 0.5;
+            break;
+        case 71: // Spear Stab#71
+            is_range_attack = true;
+            ratio += skill_lv *0.2;
+            break;
+        case 84: // Grimtooth#84
+            ratio += 0.2 * skill_lv;
+            is_range_attack = (skill_lv >= 3) ? true : false;
+            break;
+        case 158: // Shield Charge#158
+            ratio += skill_lv *0.2;
+            break;
+        case 161:
+            element = 6;
+            ratio += skill_lv *0.35;
+            break;
+        case 171:
+            ratio += skill_lv *0.4;
+            break;
+        case 72:
+            acd = 1;
+            is_range_attack = true;
+            ratio += skill_lv *0.5;
+            break;
+        case 73: // Brandish Spear#73 FIXME: to test
+            cast_time = 0.7;
+            r = 1 + 2 * skill_lv;
+
+            ratio += -1 + r;
+            if (skill_lv > 3)
+                ratio += r / 2;
+            if (skill_lv > 6)
+                ratio += r / 4;
+            if (skill_lv > 9)
+                ratio += r / 8;
+            break;
+        case 83:    // Sonic Blow#83
+        case 388:   // Sonic Blow [Soul Linked]#388
+            hits = 8;
+            forced_motion = 2;
+            ratio += skill_lv * 0.5 + 2;
+            break;
+        case 111:
+            element = 1;
+            allow_modifiers = false;
+            break;
+        case 169:
+            w_HIT = 100;
+            w_HIT_HYOUJI = 100;
+
+            acd = 0.5;
+            ratio += skill_lv *0.4 + 2;
+            break;
+        case 176:
+            acd = 1;
+            ratio += skill_lv * 0.3;
+            break;
+        case 188:
+            hits = 4;
+            motion_delay = 0.1;
+            ratio += 0.5 + skill_lv * 0.5;
+            forced_motion = 1 - (0.004 * n_A_AGI) - (0.002 * n_A_DEX);
+            break;
+        case 189:
+            motion_delay = 0.1;
+            ratio += 1.4 + skill_lv * 0.6;
+            forced_motion = 0.7 - (0.004 * n_A_AGI) - (0.002 * n_A_DEX);
+            break;
+        case 199:
+        case 207:
+            cast_time = 1.5;
+            is_range_attack = true;
+            ratio += (skill_lv * 0.4 - 0.4);
+            element = ArrowOBJ[n_A_Arrow][1];
+            if(eval(document.calcForm.A_Weapon_zokusei.value) != 0)
+                element = eval(document.calcForm.A_Weapon_zokusei.value);
+            break;
+        case 248:
+            w_HIT = 100;
+            w_HIT_HYOUJI = 100;
+
+            element = 3;
+            cast_time = 1;
+            allows_modifiers = false;
+            ratio += skill_lv * 0.2;
+            break;
+        case 260:
+            acd = 0.5;
+            is_range_attack = true;
+            ratio += skill_lv *0.4;
+            break;
+        case 261:
+            is_range_attack = true;
+            acd = (skill_lv > 5) ? 1: 0.8;
+            ratio += skill_lv * 0.1 - 0.5;
+            break;
+        case 264:
+            acd = 0.5;
+            cast_time = 0.5;
+            allows_modifiers = false;
+            ratio += (skill_lv * 0.4 - 0.6);
+            break;
+        case 288:
+            acd = 0.3;
+            ratio += 1 + skill_lv;
+            break;
+        case 289:
+            motion_delay = 0.1;
+            ratio += skill_lv -0.6;
+            forced_motion = 0.7 - (0.004 * n_A_AGI) - (0.002 * n_A_DEX);
+            break;
+        case 290:
+            ratio += (3 + skill_lv);
+            acd = (skill_lv > 6) ? 1 : 0.8;
+            break;
+        case 292:
+            hits = 9;
+            forced_motion=3;
+            is_range_attack = true;
+            ratio += 1 + skill_lv;
+            element = ArrowOBJ[n_A_Arrow][1];
+            acd = (skill_lv > 5) ? 1 : 0.8;
+            if(eval(document.calcForm.A_Weapon_zokusei.value) != 0)
+                element = eval(document.calcForm.A_Weapon_zokusei.value);
+            cast_time = 1.8 + skill_lv *0.2;
+            break;
+        case 302:
+            element = 4;
+            is_range_attack = true;
+            allows_modifiers = false;
+            break;
+        case 303:
+            ratio += (skill_lv - 1) * 1;
+            break;
+        case 306: // Throw Venom Knife#306
+            is_range_attack = true;
+            allows_modifiers = false;
+            break;
+        case 307: // Phantasmic Arrow#307
+            ratio += 0.5;
+            is_range_attack = true;
+            allows_modifiers = false;
+            break;
+        case 308: // Charge Attack#308
+            range = eval(document.calcForm.SkillSubNum.value);
+            ratio += range;
+            cast_time = Math.min(0.5 * (range + 1), 1.5);
+            break;
+        case 317: // Heat#317
+        case 318: // Heat [no pushback]#318 // FIXME
+            motion_delay = n_B[19] ? 0.1 : 0.05;
+            break;
+        case 326: // Cart Termination#326
+            allows_modifiers = false;
+            ratio += Math.floor((eval(document.calcForm.SkillSubNum.value) / (16 - skill_lv) / 100 - 1) * 100) / 100;
+            break;
+        case 382:
+            ratio += 2;
+            allows_modifiers = false;
+            break;
+        case 331:
+        case 333:
+            ratio += 0.6 + skill_lv * 0.2;
+            break;
+        case 337:
+            hits = 3;
+        case 335:
+            ratio += 0.9 + skill_lv * 0.3;
+            break;
+        case 339:
+            ratio += skill_lv * 0.1 - 0.7;
+            break;
+        case 305: // Flying Side Kick [Sprint On]#305 // FIXME Manage TK_RUN
+            if (SkillSearch(379) && n_A_WeaponType == 0)
+                ratio += n_A_BaseLV * 0.08 - 1;
+            else
+                ratio += n_A_BaseLV * 0.04 - 1;
+            break;
+        case 398:
+            acd = 3;
+            ratio += skill_lv * 0.1;
+            break;
+        case 400:
+            acd = 1;
+            ratio += skill_lv * 0.1;
+            break;
+        case 419: // Bull's Eyes#419
+            acd = 1;
+            hits = 5;
+            cast_time = 0.5;
+            is_range_attack = true;
+            allows_modifiers = false;
+            ratio += (n_B[2] == 2 || n_B[2] == 7) ? 4 : 0; // Demi-human or Brute
+            break;
+        case 423:
+            acd = 0.5;
+            element = 8;
+            is_range_attack = true;
+            allows_modifiers = false;
+            break;
+        case 428:
+            hits = 5;
+            acd = 1.7;
+            is_range_attack = true;
+            ratio += skill_lv *0.5 + 4;
+            break;
+        case 430: // Tracking#430 // FIXME fixed cast time, update rifle items 1100/926 to fit proper cast time reduction
+            acd = 1;
+            is_range_attack = true;
+            ratio += skill_lv + 1;
+            cast_time = 1 + 0.2 * skill_lv;
+
+            w_HIT = Math.min(w_HIT * 5 + 5, 100);
+            w_HIT_HYOUJI = w_HIT;
+            break;
+        case 431:
+            acd = 1;
+            cast_time = 2;
+            is_range_attack = true;
+            break;
+        case 432:
+            w_HIT = 100;
+            w_HIT_HYOUJI = 100;
+
+            acd = 0.5;
+            cast_time = 1.5;
+            is_range_attack = true;
+            ratio += skill_lv * 0.2;
+            break;
+        case 434: // Dust/Crowd Control Shot#434 FIXME
+            cast_time = 1;
+            forced_motion = 1;
+            ratio += skill_lv * 0.5;
+            break;
+        case 435:
+            is_range_attack = true;
+            acd = 1 + skill_lv *0.2;
+            ratio += skill_lv * 1 + 2;
+            break;
+        case 436:
+            acd = 1;
+            cast_time = 1;
+            is_range_attack = true;
+            ratio += skill_lv * 0.2 - 0.2;
+            break;
+        case 437:
+            acd = 1;
+            cast_time = 1;
+            is_range_attack = true;
+            allows_modifiers = false;
+            break;
+        case 275: // Magic Crasher#275
+            cast_time = 0.3;
+            acd = 0.3;
+            is_range_attack = true;
+            cast_time = cast_time * n_A_CAST;
+            break;
+        case 40:
+            hits = 2;
+            is_range_attack = true;
+            ratio += skill_lv * 0.1 - 0.1;
+            break;
+        case 70: // Pierce#40
+            hits = n_B[4] + 1;
+            ratio += skill_lv * 0.1;
+            break;
+        case 76: // Bowling Bash#76
+            hits = 2;
+            is_multi_hits = true;
+            ratio += skill_lv * 0.4;
+            cast_time = 0.7 * n_A_CAST;
+            break;
+        case 192: // Finger Offensive#192 // FIXME Add refine dmg by sphere
+            acd = 0.5;
+            is_range_attack = true;
+            ratio += skill_lv * 0.5;
+            cast_time = (1 + hits) * n_A_CAST;
+            hits = Math.min(skill_lv, SkillSearch(185)); // n_A_PassSkill2[10]; FO not available to any other class
+            break;
+        case 418:
+            acd = 1;
+            hits = 3;
+            ratio += 0.5;
+            is_range_attack = true;
+            break;
+        case 391:
+            hits = 2;
+            is_range_attack = true;
+            ratio += n_A_STR * 0.08 - 0.5;
+            break;
+        case 429: // Desperadp#429 FIXME decimal hits ?
+            acd = 1;
+            ratio += skill_lv * 0.5 - 0.5;
+            desperado_hits = [1,1.2,1.6,2,2.4,3,3.6,4,5,6,7,8,9,10];
+            hits = desperado_hits[eval(document.calcForm.SkillSubNum.value)];
+            break;
+        case 118: // Blitz Beat#118
+            acd = 1;
+            element = 0;
+            is_range_attack = true;
+            cast_time = 1.5 * n_A_CAST;
+            break;
+        case 271: // Falcon Assault#271 // Damage computed outside FIXME
+            acd = 3;
+            element = 0;
+            cast_time = n_A_CAST;
+            is_range_attack = true;
+            break;
+        case 17: // Envenom#17
+            element = 5;
+            break;
+        case 86: // Poison React#86
+            element = 5;
+            ratio += 0.3 * skill_lv;
+            break;
+        case 159: // Shield Boomerang#159
+        case 384: // Shield Boomerang#384 FIXME: Manage Link bonus outside, HIT 100%, acd / 2, damage * 2
+            acd = 0.7;
+            element = 0;
+            is_range_attack = true;
+            ratio += 0.3 * skill_lv;
+            break;
+        case 324: // Shield Chain#324
+            acd = 1;
+            element = 0;
+            cast_time = n_A_CAST;
+            is_range_attack = true;
+            ratio += 0.3 * skill_lv;
+            break;
+        case 259: // Spiral Pierce#259
+            is_range_attack = true;
+            ratio += 0.5 * skill_lv;
+            acd = 1 + 0.2 * skill_lv;
+            cast_time = Math.min((0.1 + 0.2 * skill_lv), 1) * n_A_CAST;
+            break;
+        case 88: // Venom Splasher#88
+            allows_modifiers = false;
+            cast_time = n_A_CAST;
+            ratio += 4 + 0.5 * skill_lv + 0.2 * eval(document.calcForm.SkillSubNum.value);
+            ratio *= n_B[19] ? 0 : 1; // Not working on boss type monsters
+            break;
+        case 263: // Soul Breaker#263
+            is_range_attack = true;
+            allows_modifiers = false;
+            cast_time = 0.5 * n_A_CAST;
+            ratio += skill_lv - 1; // Only applied to weapon damage part
+            acd = 0.8 + 0.2 * skill_lv;
+            break;
+        case 162: // Grand Cross#162
+            acd = 1.5;
+            element = 6;
+            cast_time = 3 * n_A_CAST;
+            break;
+        case 66: // Cart Revolution#66 FIXME : No impact with Over Thrust ?
+            ratio += 0.5 + eval(document.calcForm.SkillSubNum.value) / 8000;
+            break;
+        case 83: // Pressure#283
+            w_HIT_HYOUJI = 100;
+            acd = 1.5 + skill_lv * 0.25;
+            cast_time = (1.5 + 0.5 * skill_lv) * n_A_CAST;
+            break;
+        case 284: // Sacrifice#284
+            element = 0;
+            w_HIT_HYOUJI = 100;
+            break;
+        case 193:
+            acd = 0.5;
+            element = 0;
+            w_HIT_HYOUJI = 100;
+            cast_time = n_A_CAST;
+            ratio += skill_lv * 0.75;
+            break;
+        case 197: // Asura#197
+        case 321: // Asura [Max SP - 1]#321
+            acd = 10;
+            element = 0;
+            w_HIT_HYOUJI = 100;
+            cast_time = (4.5 - 0.5 * skill_lv) * n_A_CAST;
+            ratio += Math.floor(7 + ((197 == n_A_ActiveSkill) ? eval(document.calcForm.SkillSubNum.value) : n_A_MAxSP - 1) / 10);
+            break;
+        case 394: // Throw Dagger#394
+            is_range_attack = true;
+            allows_modifiers = false;
+            break;
+        case 395: // Throw Kunai#395
+            acd = 1;
+            is_range_attack = true;
+            allows_modifiers = false;
+            element = KunaiOBJ[eval(document.calcForm.SkillSubNum.value)][1];
+            break;
+        case 396: // Throw Huuma Shuriken#396
+            acd = 3;
+            is_range_attack = true;
+            cast_time = 3 * n_A_CAST;
+            ratio += skill_lv * 1.5 + 0.5;
+            hits = 2 + Math.round(skill_lv / 2);
+            break;
+        case 405: // Final Strike#405
+        case 438: // Final Strike [MaxHP - 1]#438
+            element = 0;
+            w_HIT_HYOUJI = 100;
+            is_range_attack = true;
+            break;
+        case 244:
+            element = 0;
+            w_HIT_HYOUJI = 100;
+            cast_time = n_A_CAST;
+            is_range_attack = true;
+            allows_modifiers = false;
+            ratio = 0.5 + skill_lv * 0.5;
+            break;
+        case 328:
+            acd = 1;
+            element = 0;
+            w_HIT_HYOUJI = 100;
+            cast_time = n_A_CAST;
+            is_range_attack = true;
+            hits = skill_lv;
+            break;
+        case 106: // Land Mine#106
+            element = 2;
+            w_HIT_HYOUJI = 100;
+            break;
+        case 112: // Blast Mine#112
+            element = 4;
+            w_HIT_HYOUJI = 100;
+            break;
+        case 113: // Claymore Trap#113
+            element = 3;
+            w_HIT_HYOUJI = 100;
+            break;
+        case 25: // Heal#25
+            acd = 1;
+            element = 6;
+            w_HIT_HYOUJI = 100;
+            is_magic_attack = true;
+            break;
+        case 94: // Sanctuary#94
+            element = 6;
+            w_HIT_HYOUJI = 100;
+            cast_time = 5 * n_A_CAST;
+            is_magic_attack = true;
+            break;
+        case 102: // Turn Undead#102
+            acd = 3;
+            element = 6;
+            w_HIT_HYOUJI = 100;
+            is_magic_attack = true;
+            cast_time = n_A_CAST;
+            break;
+        case 97: // Resurrection#97
+            acd = 3;
+            element = 0;
+            w_HIT_HYOUJI = 100;
+            is_magic_attack = true;
+            cast_time = (8 - skill_lv * 2) * n_A_CAST;
+            break;
+        case 325: // Gravitation Field#325
+            acd = 2;
+            element = 0;
+            duration = 9;
+            w_HIT_HYOUJI = 100;
+            is_magic_attack = true;
+            cast_time = 5 * n_A_CAST;
+            hits = 4 + skill_lv;
+            break;
+        case 51: // Fire Bolt#51
+            element = 3;
+            is_magic_attack = true;
+            hits = skill_lv;
+            acd = 0.8 + skill_lv * 0.2;
+            cast_time = n_A_CAST * 0.7 * skill_lv;
+            break;
+        case 54: // Cold Bolt#54
+            element = 1;
+            is_magic_attack = true;
+            hits = skill_lv;
+            acd = 0.8 + skill_lv * 0.2;
+            cast_time = n_A_CAST * 0.7 * skill_lv;
+            break;
+        case 56: // Lightning Bolt#56
+            element = 4;
+            is_magic_attack = true;
+            hits = skill_lv;
+            acd = 0.8 + skill_lv * 0.2;
+            cast_time = n_A_CAST * 0.7 * skill_lv;
+            break;
+        case 52: // Fire Ball#52
+            element = 3;
+            is_magic_attack = true;
+            ratio = 0.7 + skill_lv * 0.1;
+            acd = 1 + Math.floor(skill_lv / 6) * 0.5;
+            cast_time = n_A_CAST * (1 + Math.floor(skill_lv / 6) * 0.5);
+            break;
+        case 53: // Fire Wall#53
+            acd = 0.1;
+            ratio = 0.5;
+            element = 3;
+            is_magic_attack = true;
+            hits = 4 + skill_lv;
+            cast_time = n_A_CAST * 2.15 - (skill_lv * 0.15);
+            break;
+        case 55: // Frost Diver#55
+            acd = 1.5;
+            element = 1;
+            is_magic_attack = true;
+            cast_time = n_A_CAST * 0.8;
+            ratio = 1 + skill_lv * 0.1;
+            break;
+        case 57: // Thunder Storm#57
+            acd = 2;
+            ratio = 0.8;
+            element = 4;
+            is_magic_attack = true;
+            hits = skill_lv;
+            cast_time = n_A_CAST * 1 * skill_lv;
+            break;
+        case 46: // Napalm Beat#46
+            acd_by_lv = [1,1,1,1,0.9,0.9,0.8,0.8,0.7,0.6,0.5];
+
+            element = 8;
+            is_magic_attack = true;
+            cast_time = n_A_CAST * 0.5;
+            acd = acd_by_lv[skill_lv];
+            ratio = 0.7 + skill_lv * 0.1;
+            break;
+        case 47: // Soul Strike#47
+            element = 8;
+            is_magic_attack = true;
+            cast_time = n_A_CAST * 0.5;
+            hits = Math.round(skill_lv / 2);
+            acd = 0.8 + 0.2 * (skill_lv % 2) + skill_lv * 0.1;
+
+            if (n_b[3] >= 90) // Damage increased on Undead
+                ratio += 0.05 * skill_lv;
+            break;
+        case 122: // Fire Pillar#122
+            acd = 1;
+            ratio = 0.2;
+            element = 3;
+            ignore_defense = true;
+            is_magic_attack = true;
+            hits = skill_lv + 2;
+            cast_time = n_A_CAST * (3.3 - 0.3 * skill_lv);
+            break;
+        case 124: // Sightrasher#124
+            acd = 2;
+            element = 3;
+            is_magic_attack = true;
+            cast_time = n_A_CAST * 0.7;
+            ratio = 1 + skill_lv * 0.2;
+            break;
+        case 125: // Meteor Storm#125
+            element = 3;
+            motion_delay = 0;
+            is_magic_attack = true;
+            cast_time = n_A_CAST * 15;
+            acd = Math.floor(skill_lv / 2) * 1 + 2;
+            hits = Math.round(skill_lv / 2) * (Math.floor(skill_lv / 2) + 2);
+            break;
+        case 126: // Jupitel Thunder#126
+            element = 4;
+            is_magic_attack = true;
+            hits = skill_lv + 2;
+            cast_time = n_A_CAST * (2 + skill_lv * 0.5);
+            break;
+        case 127: // Lord of Vermillion#127
+            acd = 5;
+            hits = 4;
+            element = 4;
+            duration = 4;
+            is_magic_attack = true;
+            ratio = 0.8 + skill_lv * 0.2;
+            cast_time = n_A_CAST * (15.5 - skill_lv * 0.5);
+            break;
+        case 128: // Water Ball#128
+        case 320: // Water Ball#320 - Lv10 through Plagiarism
+            element = 1;
+            is_magic_attack = true;
+            forced_motion = 0.1 * hits;
+            ratio = 1 + skill_lv * 0.3;
+            cast_time = n_A_CAST * skill_lv;
+
+            if(skill_lv > 1)
+                hits = (skill_lv > 3) ? 25 : 9;
+            break;
+        case 130: // Frost Nova#130
+            acd = 1;
+            element = 1;
+            is_magic_attack = true;
+            ratio = 0.66 + skill_lv * 0.066;
+            cast_time = n_A_CAST * (6 - Math.floor((skill_lv - 1) / 2) * 0.5);
+            break;
+        case 131: // Storm Gust#131
+            acd = 5;
+            element = 1;
+            duration = 4.5;
+            is_magic_attack = true;
+            ratio = 1 + skill_lv * 0.4;
+            cast_time = n_A_CAST * (5 + skill_lv);
+            hits = eval(document.calcForm.SkillSubNum.value);
+            break;
+        case 132: // Earth Spike#132
+        case 133: // Heaven's Drive#133
+        case 319: // Heaven's Drive#319 - Lv1
+            acd = 0.7;
+            element = 2;
+            is_magic_attack = true;
+            hits = skill_lv;
+            cast_time = n_A_CAST * skill_lv;
+            break;
+        case 277: // Napalm Vulcan#277
+            acd = 1;
+            element = 8;
+            cast_time = n_A_CAST;
+            is_magic_attack = true;
+            hits = skill_lv;
+            ratio = 0.7 + skill_lv * 0.1;
+            break;
+        case 37:  // Holy Light#37
+        case 387: // Holy Light [Soul Linked]#387
+            element = 6;
+            is_magic_attack = true;
+            cast_time = n_A_CAST * 2;
+            ratio = (387 == n_A_ActiveSkill) ? 6.25 : 1.25;
+            break;
+        case 104: // Magnus Exorcismus#104
+            acd = 4;
+            element = 6;
+            is_magic_attack = true;
+            hits = skill_lv;
+            cast_time = n_A_CAST * 15;
+            break;
+        case 312: // Dark Strike#312
+            element = 7;
+            is_magic_attack = true;
+            hits = Math.round(skill_lv / 2);
+            break;
+        case 373: // Estin#373
+            acd = 0.5;
+            is_magic_attack = true;
+            cast_time = n_A_CAST * 0.1;
+            element = eval(document.calcForm.A_Weapon_zokusei.value);
+            ratio = n_B[4] ? 0.01 : (skill_lv * 0.1); // Efficient only on small size monsters
+
+            if (Taijin) // Disabled in PvP
+                ratio = 0;
+            break;
+        case 374: // Estun#374
+            acd = 0.5;
+            is_magic_attack = true;
+            cast_time = n_A_CAST * 0.1;
+            ratio = skill_lv * 0.05;
+            element = eval(document.calcForm.A_Weapon_zokusei.value);
+
+            if (Taijin) // Disabled in PvP
+                ratio = 0;
+            break;
+        case 375: // Esma#375
+            acd = 0.5;
+            is_magic_attack = true;
+            hits = skill_lv;
+            cast_time = n_A_CAST * 2;
+            ratio = 0.4 + n_A_BaseLV / 100;
+            element = eval(document.calcForm.A_Weapon_zokusei.value);
+
+            if (Taijin) // Disabled in PvP
+                ratio = 0;
+            break;
+        case 407: // Crimson Fire Blossom#407
+            element = 3;
+            ratio = 0.9;
+            is_magic_attack = true;
+            hits = skill_lv;
+            cast_time = n_A_CAST * 0.7 * skill_lv;
+            break;
+        case 408: // Crimson Fire Formation#408
+            acd = 1;
+            element = 3;
+            ratio = 0.5;
+            is_magic_attack = true;
+            hits = Math.round(skill_lv / 2) + 4;
+            cast_time = n_A_CAST * (6.5 - 0.5 * skill_lv);
+            break;
+        case 409: // Dragon Fire Formation#409
+            acd = 3;
+            hits = 3;
+            element = 3;
+            is_magic_attack = true;
+            cast_time = n_A_CAST * 3;
+            ratio = 1.5 + skill_lv * 1.5;
+            break;
+        case 410: // Lightning Spear of Ice
+            element = 1;
+            ratio = 1;
+            is_magic_attack = true;
+            hits = skill_lv + 2;
+            cast_time = n_A_CAST * skill_lv * 0.7;
+        case 412: // Falling Ice Pillar
+            acd = 3;
+            hits = 1;
+            element = 1;
+            is_magic_attack = true;
+            cast_time = n_A_CAST * 3;
+            ratio = 1 + skill_lv * 0.5;
+            break;
+        case 413: // Wind Blade#413
+            acd = 1;
+            ratio = 1;
+            element = 4;
+            is_magic_attack = true;
+            hits = Math.floor(skill_lv / 2) + 1;
+            cast_time = n_A_CAST * Math.floor(skill_lv / 2) + 1;
+            break;
+        case 414: // Lightning Crash#414
+            hits = 1;
+            element = 4;
+            is_magic_attack = true;
+            cast_time = n_A_CAST * 4;
+            ratio = 1.6 + 0.4 * skill_lv;
+            break;
+        case 415: // North Wind#415
+            hits = 1;
+            element = 4;
+            is_magic_attack = true;
+            cast_time = n_A_CAST * 4;
+            ratio = 1 + skill_lv;
+            break;
+    }
+
+    ratio *= 100;
+
+    return {
+        id: skill_id, lv: skill_lv, element: element, hits: hits, ratio: ratio,
+        motion_delay: motion_delay, forced_motion: forced_motion, cast_time: cast_time,
+        allows_modifiers: allows_modifiers, is_critical: is_critical,
+        ignore_defense: ignore_defense, is_range_attack: is_range_attack,
+        is_magic_attack: is_magic_attack, is_multi_hits: is_multi_hits, duration: duration
+    }
 }
