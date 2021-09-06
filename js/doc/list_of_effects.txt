@@ -456,7 +456,18 @@ Effect list:
 	221: When [value] == 141, When performing a ATK based attack, there's a 5% chance to cast the skill [Dragon Fire Formation learned] Lv2
 	221: When [value] == 142, When performing a ATK based attack, there's a 2% chance to cast the skill [Water Ball] Lv2
 	221: When [value] == 143, When performing a ATK based attack, there's a 0.2 * staff refine level)% chance to cast the skill [Sightrasher] Lv2
-	222-294: (unused)
+	222-279: (unused)
+	280: Ignore [Neutral] race monsters defense by [value]%
+	281: Ignore [Water] race monsters defense by [value]%
+	282: Ignore [Earth] race monsters defense by [value]%
+	283: Ignore [Wind] race monsters defense by [value]%
+	284: Ignore [Insect] race monsters defense by [value]%
+	285: Ignore [Poison] race monsters defense by [value]%
+	286: Ignore [Holy] race monsters defense by [value]%
+	287: Ignore [Shadow] race monsters defense by [value]%
+	288: Ignore [Ghost] race monsters defense by [value]%
+	289: Ignore [Undead] race monsters defense by [value]%
+	290-294: (unused)
 	295: On (all?) monsters, ignore [value]% MDEF
 	296: On Normal monsters, ignore [value]% MDEF
 	297: On Bosstype monsters, ignore [value]% MDEF
@@ -545,17 +556,7 @@ Effect list:
 	381: Amount of drain HP.
 	382: Chance of drain SP.
 	383: Amount of drain SP.
-	384-379:
-	380: Ignore [Neutral] race monsters defense by [value]%
-	381: Ignore [Water] race monsters defense by [value]%
-	382: Ignore [Earth] race monsters defense by [value]%
-	383: Ignore [Wind] race monsters defense by [value]%
-	384: Ignore [Insect] race monsters defense by [value]%
-	385: Ignore [Poison] race monsters defense by [value]%
-	386: Ignore [Holy] race monsters defense by [value]%
-	387: Ignore [Shadow] race monsters defense by [value]%
-	388: Ignore [Ghost] race monsters defense by [value]%
-	389: Ignore [Undead] race monsters defense by [value]%
+	384-389:
 	390: When receiving physical attacks, adds a [value]% chance to inflict [Poison] on the enemy
 	391: When receiving physical attacks, adds a [value]% chance to inflict [Stun] on the enemy
 	392: When receiving physical attacks, adds a [value]% chance to inflict [Freeze] on the enemy

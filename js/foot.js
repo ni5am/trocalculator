@@ -1190,7 +1190,7 @@ with(document.calcForm){
 		
 		n_tok[130] += 5 * snake_cards;
 		n_tok[45] += 5 * anacondaq_cards;
-		n_tok[385] += 15 * anacondaq_cards;
+		n_tok[285] += 15 * anacondaq_cards;
 		n_tok[17] += 25 * (snake_cards + sidewinder_cards);
 	}
 	

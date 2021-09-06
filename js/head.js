@@ -7347,7 +7347,7 @@ Race - n_B[2] = raceID - example n_B[2] = 3, Plant
 	
 	def_race_reduction = n_tok[180 + n_B[2]];
 	def_class_reduction = (n_B[19] ? n_tok[22] : n_tok[21]);
-	def_property_reduction = n_tok[380 + Math.floor(n_B[3] / 10)];
+	def_property_reduction = n_tok[280 + Math.floor(n_B[3] / 10)];
 	def_reduction = Math.min(100, def_race_reduction + def_class_reduction + def_property_reduction);
 
 	n_B[14] = Math.ceil(n_B[14] * (100 - def_reduction) / 100 * (100 - def_skill_reduction) / 100);
