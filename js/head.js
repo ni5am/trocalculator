@@ -10391,6 +10391,7 @@ function retrieve_skill_info(skill_id, skill_lv)
             break;
         case 324: // Shield Chain#324
             acd = 1;
+			hits = 5;
             element = 0;
             cast_time = n_A_CAST;
             is_range_attack = true;
