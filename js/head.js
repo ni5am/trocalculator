@@ -2170,7 +2170,6 @@ function BattleCalc999()
 		}
 		else if(n_A_ActiveSkill==375){
 			n_A_Weapon_zokusei = eval(document.calcForm.A_Weapon_zokusei.value);
-			n_Delay[0] = 1;
 			wHITsuu = n_A_ActiveSkillLV;
 			wCast = 2;
 			n_Delay[2] = 0.5;
@@ -10019,7 +10018,7 @@ function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_han
 	// ATK_ADD2(wd.damage, wd.damage2, ((wd.div_ < 1) ? 1 : wd.div_) * sd->right_weapon.star, ((wd.div_ < 1) ? 1 : wd.div_) * sd->left_weapon.star);
 	
 	// Spirit Sphere damage bonus
-	damage_list = damage_list.map(x => x + 3 * Math.max(SkillSearch(185), n_A_PassSkill2[10]));
+	damage_list = damage_list.map(x => x + 3 * Math.pow(Math.max(SkillSearch(185), n_A_PassSkill2[10]), 2));
 	
 	// Sprint#329 unarmed bonus for Whirlwind Kick#331, Axe Kick#333, Round Kick#335 and Counter Kick#337
 	if ([331, 333, 335, 337].findIndex(x => x == skill_info.id) > -1 && 0 == n_A_WeaponType)
