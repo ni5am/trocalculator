@@ -10032,9 +10032,25 @@ function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_han
 	damage_list = apply_physical_damage_modifiers(damage_list, skill_info.is_range_attack, is_critical_attack, skill_info.allows_modifiers);
 	damage_list = damage_list.map(function(x) { return x * (skill_info.is_considered_as_single_hit ? 1 : skill_info.hits)});
 
-	// Asura#197 damage cap management
+	// Asura Strike#197#321 soft cap damage management
+	if (197 == skill_info.id || 321 == skill_info.id)
+		damage_list = damage_list.map(function(x) { return manage_asura_soft_cap(x) });
 
 	return damage_list;
+}
+
+function manage_asura_soft_cap(damage)
+{
+	soft_cap = 200000;
+	
+	if (damage > soft_cap)
+	{
+		overflow_damage = damage - soft_cap;
+		smoothed_damage = 1.323031 + 0.5996693 * overflow_damage - 0.000001183789 * overflow_damage**2 + 2.125968e-12 * overflow_damage ** 3 - 2.736422e-18 * overflow_damage ** 4 + 1.647955e-24 * overflow_damage**5;
+		damage = Math.floor(200000 + smoothed_damage);
+	}
+
+	return damage;
 }
 
 function retrieve_skill_info(skill_id, skill_lv)
@@ -10479,8 +10495,9 @@ function retrieve_skill_info(skill_id, skill_lv)
             acd = 10;
             element = 0;
             w_HIT_HYOUJI = 100;
+			ignore_defense = true;
             cast_time = (4.5 - 0.5 * skill_lv) * n_A_CAST;
-            ratio += Math.floor(7 + ((197 == n_A_ActiveSkill) ? eval(document.calcForm.SkillSubNum.value) : n_A_MAxSP - 1) / 10);
+            ratio += Math.floor(7 + ((197 == n_A_ActiveSkill) ? eval(document.calcForm.SkillSubNum.value) : n_A_MaxSP - 1) / 10);
             break;
         case 394: // Throw Dagger#394
             is_range_attack = true;
