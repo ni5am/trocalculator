@@ -9372,54 +9372,58 @@ function apply_skill_damage_ratio(damage_list, ratio)
 	return damage_list;
 }
 
-function apply_physical_damage_modifiers(damage_list, is_range_attack, is_critical_attack)
+function apply_physical_damage_modifiers(damage_list, is_range_attack, is_critical_attack, allows_modifiers)
 {
 	// if(wBCEDPch==0 && not_use_card == 0)
 	// FIXME: Some skills disable modifiers
 	// FIXME: EDP impacts modifiers ?
 	modifiers = 100;
 
-	// bAddRace - physical damage modifier against race r
-	race_modifier = 100 + n_tok[30 + n_B[2]];
+	if (allows_modifiers)
+	{
+		// bAddRace - physical damage modifier against race r
+		race_modifier = 100 + n_tok[30 + n_B[2]];
 
-	// bAddEle - Physical damage modifier against element e
-	element_modifier = 100 + n_tok[40 + Math.floor(n_B[3] / 10)];
+		// bAddEle - Physical damage modifier against element e
+		element_modifier = 100 + n_tok[40 + Math.floor(n_B[3] / 10)];
 
-	// bAddSize - Physical damage modifier against size s
-	size_modifier = 100 + n_tok[27 + n_B[4]];
+		// bAddSize - Physical damage modifier against size s
+		size_modifier = 100 + n_tok[27 + n_B[4]];
 
-	// bLongAtkRate - Physical damage modifier for long ranged attacks
-	// FIXME: What's the purpose of TyouEnkakuSousa3dan
-	range_modifier = 100;
-	if (is_range_attack) // FIXME: && TyouEnkakuSousa3dan != -1) // Is range attack ?
-			range_modifier += n_tok[25];
+		// bLongAtkRate - Physical damage modifier for long ranged attacks
+		// FIXME: What's the purpose of TyouEnkakuSousa3dan
+		range_modifier = 100;
+		if (is_range_attack) // FIXME: && TyouEnkakuSousa3dan != -1) // Is range attack ?
+				range_modifier += n_tok[25];
 
-	// bAddClass - Physical damage modifier against class c
-	class_modifier = 100 + (n_B[19] ? n_tok[26] : 0) + n_tok[80];
+		// bAddClass - Physical damage modifier against class c
+		class_modifier = 100 + (n_B[19] ? n_tok[26] : 0) + n_tok[80];
 
-	// FIXME : Ensure that Sharp Shooting benefits from this modifier
-	// bCritAtkRate - Increases critical damage modifier
-	critical_modifier = 100;
-	if (is_critical_attack && n_A_ActiveSkill != 401)
-		critical_modifier += n_tok[70];
+		// FIXME : Ensure that Sharp Shooting benefits from this modifier
+		// bCritAtkRate - Increases critical damage modifier
+		critical_modifier = 100;
+		if (is_critical_attack && n_A_ActiveSkill != 401)
+			critical_modifier += n_tok[70];
 
-	// bAddRace2 - damage modifier against dedicated monster race
-	race2_modifier = 100
-	if (108 <= n_B[0] && n_B[0] <= 115 || n_B[0] == 319) // RC2_Goblin
-		race2_modifier += n_tok[81];
+		// bAddRace2 - damage modifier against dedicated monster race
+		race2_modifier = 100
+		if (108 <= n_B[0] && n_B[0] <= 115 || n_B[0] == 319) // RC2_Goblin
+			race2_modifier += n_tok[81];
 
-	if (116 <= n_B[0] && n_B[0] <= 120) // RC2_Kobold
-		race2_modifier += n_tok[82];
+		if (116 <= n_B[0] && n_B[0] <= 120) // RC2_Kobold
+			race2_modifier += n_tok[82];
 
-	if (49 <= n_B[0] && n_B[0] <= 52 || 55 == n_B[0] || 221 == n_B[0]) // RC2_Orc
-		race2_modifier += n_tok[83];
+		if (49 <= n_B[0] && n_B[0] <= 52 || 55 == n_B[0] || 221 == n_B[0]) // RC2_Orc
+			race2_modifier += n_tok[83];
 
-	if (106 == n_B[0] || 152 == n_B[0] || 308 == n_B[0] || 32 == n_B[0] || 541 == n_B[0]) // RC2_Golem
-		race2_modifier += n_tok[84];
+		if (106 == n_B[0] || 152 == n_B[0] || 308 == n_B[0] || 32 == n_B[0] || 541 == n_B[0]) // RC2_Golem
+			race2_modifier += n_tok[84];
 
-	// wBaiCI = Math.floor(tPlusDamCut(wBaiCI));
-	// FIXME: tPlusDamCut ?
-	modifiers *= race_modifier / 100 * race2_modifier / 100 * element_modifier / 100 * class_modifier / 100 * critical_modifier / 100 * size_modifier / 100 * range_modifier / 100;
+		// wBaiCI = Math.floor(tPlusDamCut(wBaiCI));
+		// FIXME: tPlusDamCut ?
+		modifiers *= race_modifier / 100 * race2_modifier / 100 * element_modifier / 100 * class_modifier / 100 * critical_modifier / 100 * size_modifier / 100 * range_modifier / 100;
+	}
+	
 	return apply_damage_modifier(damage_list, modifiers);
 }
 
@@ -9793,10 +9797,9 @@ function apply_offensive_status_change(damage_list, skill_info)
 	    damage_list = apply_damage_modifier(damage_list, 200);
 
     // Lex Aeterna
-	is_multi_hit_attack = false;
 	if (n_B_IJYOU[6])
 	{
-	    if (is_multi_hit_attack) // Manage multi-hit
+	    if (skill_info.is_multi_hits) // Manage multi-hit
 	        damage_list = apply_damage_modifier(damage_list, 100 + 100 * (skill_info.hits + 1) / skill_info.hits);
 	    else
 	        damage_list = apply_damage_modifier(damage_list, 200);
@@ -9992,8 +9995,8 @@ function calc_physical_attack_damage(skill_id, skill_lv, is_critical_attack, is_
 	// Bonus dmg for Finger Offensive
 	// Refine bonus for Shield Boomerang & Shield Chain
 
-	damage_list = apply_physical_damage_modifiers(damage_list, skill_info.is_range_attack, is_critical_attack);
-	damage_list = damage_list.map(function(x) { return x * skill_info.hits});
+	damage_list = apply_physical_damage_modifiers(damage_list, skill_info.is_range_attack, is_critical_attack, skill_info.allows_modifiers);
+	damage_list = damage_list.map(function(x) { return x * (skill_info.is_considered_as_single_hit ? 1 : skill_info.hits)});
 
 	// Asura#197 damage cap management
 
@@ -10019,6 +10022,7 @@ function retrieve_skill_info(skill_id, skill_lv)
     is_magic_attack = false;
     is_range_attack = false;
     allows_modifiers = true;
+	is_considered_as_single_hit = false;
 
     switch(skill_id)
     {
@@ -10102,7 +10106,7 @@ function retrieve_skill_info(skill_id, skill_lv)
             break;
         case 111:
             element = 1;
-            allow_modifiers = false;
+            allows_modifiers = false;
             break;
         case 169:
             w_HIT = 100;
@@ -10178,7 +10182,7 @@ function retrieve_skill_info(skill_id, skill_lv)
             ratio += (3 + skill_lv);
             acd = (skill_lv > 6) ? 1 : 0.8;
             break;
-        case 292:
+        case 292: // Arrow Vulcan#292
             hits = 9;
             forced_motion = 2;
             is_range_attack = true;
@@ -10188,6 +10192,8 @@ function retrieve_skill_info(skill_id, skill_lv)
             if(eval(document.calcForm.A_Weapon_zokusei.value) != 0) // FIXME: Useless ?
                 element = eval(document.calcForm.A_Weapon_zokusei.value);
             cast_time = 1.8 + skill_lv *0.2;
+			
+			is_considered_as_single_hit = true;
             break;
         case 302:
             element = 4;
@@ -10263,11 +10269,12 @@ function retrieve_skill_info(skill_id, skill_lv)
             is_range_attack = true;
             allows_modifiers = false;
             break;
-        case 428:
+        case 428: // Rapid Shower#428
             hits = 5;
             acd = 1.7;
             is_range_attack = true;
             ratio += skill_lv *0.5 + 4;
+			is_considered_as_single_hit = true;
             break;
         case 430: // Tracking#430 // FIXME fixed cast time, update rifle items 1100/926 to fit proper cast time reduction
             acd = 1;
@@ -10795,8 +10802,9 @@ function retrieve_skill_info(skill_id, skill_lv)
     return {
         id: skill_id, lv: skill_lv, element: element, hits: hits, ratio: ratio,
         motion_delay: motion_delay, forced_motion: forced_motion, cast_time: cast_time,
-        allows_modifiers: allows_modifiers, is_critical: is_critical,
+        allows_modifiers: allows_modifiers, is_critical: is_critical, damage_tick: damage_tick,
         ignore_defense: ignore_defense, is_range_attack: is_range_attack,
-        is_magic_attack: is_magic_attack, is_multi_hits: is_multi_hits, duration: duration
+        is_magic_attack: is_magic_attack, is_multi_hits: is_multi_hits, duration: duration,
+		is_considered_as_single_hit: is_considered_as_single_hit
     }
 }
