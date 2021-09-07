@@ -9993,7 +9993,10 @@ function calc_physical_attack_damage(skill_id, skill_lv, is_critical_attack, is_
 	// Ground Drift
 	// Cart Revolution bonus with Hilt Binding
 	// Bonus dmg for Finger Offensive
-	// Refine bonus for Shield Boomerang & Shield Chain
+	
+	// Refine bonus for Shield Chain#324 and Shield Boomerang#159#384
+	if ([159, 324, 385].findIndex(x => x == skill_id) > -1)
+		damage_list = damage_list.map(x => x + shield_refine * 10);
 
 	damage_list = apply_physical_damage_modifiers(damage_list, skill_info.is_range_attack, is_critical_attack, skill_info.allows_modifiers);
 	damage_list = damage_list.map(function(x) { return x * (skill_info.is_considered_as_single_hit ? 1 : skill_info.hits)});
