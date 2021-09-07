@@ -7860,7 +7860,7 @@ function calc()
 	
 			debug_damage = [0,0,0]
 		myInnerHtml("CRIATKname","Revamp Debug Damage",0);
-		debug_damage = calc_physical_attack_damage(n_A_ActiveSkill, n_A_ActiveSkillLV, false, false);
+		debug_damage = calc_attack_damage(n_A_ActiveSkill, n_A_ActiveSkillLV, false, false);
 		debug_damage[1] = Math.floor((debug_damage[0] + debug_damage[2]) / 2);
 		myInnerHtml("CRIATK","[" + debug_damage[0] + ", " + debug_damage[1] + ", " + debug_damage[2] + "]",0);
 	
@@ -9959,46 +9959,74 @@ function calc_magical_attack_damage(skill_info)
     return apply_damage_modifier(damage_list, modifiers);
 }
 
-function calc_physical_attack_damage(skill_id, skill_lv, is_critical_attack, is_left_hand_active)
+function calc_attack_damage(skill_id, skill_lv, is_critical_attack, is_left_hand_active)
 {
-    // Gravitation Field + Pressure fixed damage
-
-    // Envenom - TF_Poison
-
-    // Status base attack computation // FIXME: Should not be computed here
-	is_dex_based = (n_A_WeaponType == 10 || n_A_WeaponType == 14 || n_A_WeaponType == 15 || 17 <= n_A_WeaponType && n_A_WeaponType <= 21);
-	base_atk = (is_dex_based) ? n_A_DEX : n_A_STR;
-	datk = Math.floor(base_atk / 10);
-	base_atk += datk * datk;
-	base_atk += Math.floor(((is_dex_based) ? n_A_STR : n_A_DEX) / 5) + Math.floor(n_A_LUK / 5) + n_tok[17];
-	
-	// In the meantime use of n_A_ATK
-	base_atk = n_A_ATK;
+	damage = [0, 0, 0];
+	// Manage skill with fixed damage
+	// Gravitation Field#325
+	if (325 == skill_id)
+		return damage.map(function(x) {return 200 + 200 * skill_lv});
+	// Pressure#283
+	else if (283 == skill_id)
+		return damage.map(function(x) {return 500 + 300 * skill_lv});
 
 	skill_info = retrieve_skill_info(skill_id, skill_lv);
+	
+	if (skill_info.is_magic_attack)
+		damage = calc_magical_attack_damage(skill_info)
+	else
+		damage = calc_physical_attack_damage(skill_info, is_critical_attack, is_left_hand_active);
+	
+	return damage;
+}
+
+function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_hand_active)
+{
+	// Status not refactored yet, use of n_A_ATK in the meantime
+	base_atk = n_A_ATK;
 	is_dex_based = (n_A_WeaponType == 10 || 17 <= n_A_WeaponType && n_A_WeaponType <= 21);
-	damage_list = calc_skill_base_damage(skill_id, base_atk, is_critical_attack, is_left_hand_active, is_dex_based);
+	
+	damage_list = calc_skill_base_damage(skill_info.id, base_atk, is_critical_attack, is_left_hand_active, is_dex_based);
 	damage_list = apply_skill_damage_ratio(damage_list, skill_info.ratio);
 
-	damage_list = apply_physical_skill_damage_modifiers(damage_list, skill_id);
+	damage_list = apply_physical_skill_damage_modifiers(damage_list, skill_info.id);
 	damage_list = apply_constant_damage_bonus(damage_list);
 	damage_list = apply_offensive_status_change(damage_list, skill_info);
-
-	// FIXME: Apply skill bonus attack - pc_skillatk_bonus
 
 	damage_list = apply_defense_reduction(damage_list, skill_info.ignore_defense);
 	damage_list = apply_post_defense_damage_bonus(damage_list);
 	damage_list = apply_element_damage_ratio(damage_list, skill_info.element);
 
-	// Kunai dmg
-	// Weapon Search bonus
-	// TK_RUN bonus
-	// Ground Drift
-	// Cart Revolution bonus with Hilt Binding
-	// Bonus dmg for Finger Offensive
+	// Throw Kunai#395 bonus damage
+	if (395 == skill_info.id)
+		damage_list = damage_list.map(x => x + 90);
+	
+	// Weaponry Research#148 damage bonus
+	damage_list = damage_list.map(x => x + 2 * SkillSearch(148));
+	
+	// Envenom#17 [TF_Poison] damage bonus
+	damage_list = damage_list.map(x => x + 15 * SkillSearch(17));
+	
+	// Ground Drift#437 bonus damage
+	damage_list = damage_list.map(x => x + 50 * SkillSearch(437));
+	
+	// Hilt Binding#146 damage bonus, does not apply to Cart Revolution#66
+	if (skill_info.id != 66 && SkillSearch(146))
+		damage_list = damage_list.map(x => x + 4);
+	
+	// FIXME Star Crumb bonus, does not apply to Shield Boomerang#159#384
+	// if (skill_id != 159 && skill_id != 384)
+	// ATK_ADD2(wd.damage, wd.damage2, ((wd.div_ < 1) ? 1 : wd.div_) * sd->right_weapon.star, ((wd.div_ < 1) ? 1 : wd.div_) * sd->left_weapon.star);
+	
+	// Spirit Sphere damage bonus
+	damage_list = damage_list.map(x => x + 3 * Math.max(SkillSearch(185), n_A_PassSkill2[10]));
+	
+	// Sprint#329 unarmed bonus for Whirlwind Kick#331, Axe Kick#333, Round Kick#335 and Counter Kick#337
+	if ([331, 333, 335, 337].findIndex(x => x == skill_info.id) > -1 && 0 == n_A_WeaponType)
+		damage_list = damage_list.map(x => x + 10 * SkillSearch(329));
 	
 	// Refine bonus for Shield Chain#324 and Shield Boomerang#159#384
-	if ([159, 324, 385].findIndex(x => x == skill_id) > -1)
+	if ([159, 324, 385].findIndex(x => x == skill_info.id) > -1)
 		damage_list = damage_list.map(x => x + shield_refine * 10);
 
 	damage_list = apply_physical_damage_modifiers(damage_list, skill_info.is_range_attack, is_critical_attack, skill_info.allows_modifiers);
@@ -10346,12 +10374,12 @@ function retrieve_skill_info(skill_id, skill_lv)
             ratio += skill_lv * 0.4;
             cast_time = 0.7 * n_A_CAST;
             break;
-        case 192: // Finger Offensive#192 // FIXME Add refine dmg by sphere
+        case 192: // Finger Offensive#192
             acd = 0.5;
             is_range_attack = true;
             ratio += skill_lv * 0.5;
             cast_time = (1 + hits) * n_A_CAST;
-            hits = Math.min(skill_lv, SkillSearch(185)); // n_A_PassSkill2[10]; FO not available to any other class
+            hits = Math.min(skill_lv, SkillSearch(185));
             break;
         case 418: // Triple Action#418
             hits = 3;
