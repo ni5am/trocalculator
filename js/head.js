@@ -9297,7 +9297,7 @@ function calc_skill_base_damage(active_skill, base_atk, is_critical_attack, is_l
     }
 
 	if (skill_base_damage)
-		return [skill_base_damage, 0, skill_base_damage];
+		return [skill_base_damage, skill_base_damage, skill_base_damage];
 	else
 		return damage_list;
 }
@@ -9965,12 +9965,15 @@ function calc_physical_attack_damage(skill_id, skill_lv, is_critical_attack, is_
 
     // Envenom - TF_Poison
 
-    // Status base attack computation
+    // Status base attack computation // FIXME: Should not be computed here
 	is_dex_based = (n_A_WeaponType == 10 || n_A_WeaponType == 14 || n_A_WeaponType == 15 || 17 <= n_A_WeaponType && n_A_WeaponType <= 21);
 	base_atk = (is_dex_based) ? n_A_DEX : n_A_STR;
 	datk = Math.floor(base_atk / 10);
 	base_atk += datk * datk;
 	base_atk += Math.floor(((is_dex_based) ? n_A_STR : n_A_DEX) / 5) + Math.floor(n_A_LUK / 5) + n_tok[17];
+	
+	// In the meantime use of n_A_ATK
+	base_atk = n_A_ATK;
 
 	skill_info = retrieve_skill_info(skill_id, skill_lv);
 	is_dex_based = (n_A_WeaponType == 10 || 17 <= n_A_WeaponType && n_A_WeaponType <= 21);
