@@ -9741,27 +9741,28 @@ function apply_monster_physical_damage_modifiers(damage_list)
 	return apply_damage_modifier(damage_list, monster_damage_modifier);
 }
 
-function apply_element_damage_ratio(damage_list, element)
+function apply_element_damage_ratio(damage_list, skill_info)
 {
 	element_ratio = 100;
 	aoe_damage_bonus = [100, 110, 114, 117, 119, 120];
 
-	element_ratio *= Math.max(zokusei[n_B[3]][element],0);
+	if (!skill_info.ignore_element)
+		element_ratio *= Math.max(zokusei[n_B[3]][skill_info.element],0);
 
 	// Volcano on fire attack
-	if(n_A_PassSkill6[0] == 0 && element == 3)
+	if(n_A_PassSkill6[0] == 0 && skill_info.element == 3)
 		damage_list = apply_damage_modifier(damage_list, aoe_damage_bonus[n_A_PassSkill6[1]]);
 
 	// Deluge on water attack
-	if(n_A_PassSkill6[0] == 1 && element == 1)
+	if(n_A_PassSkill6[0] == 1 && skill_info.element == 1)
 		damage_list = apply_damage_modifier(damage_list, aoe_damage_bonus[n_A_PassSkill6[1]]);
 
 	// Violent Gale on wind attack
-	if(n_A_PassSkill6[0] == 2 && element == 4)
+	if(n_A_PassSkill6[0] == 2 && skill_info.element == 4)
 		damage_list = apply_damage_modifier(damage_list, aoe_damage_bonus[n_A_PassSkill6[1]]);
 
 	// Fire damage are doubled on spider web
-	if (n_B_IJYOU[17] && element == 3)
+	if (n_B_IJYOU[17] && skill_info.element == 3)
 		damage_list = apply_damage_modifier(damage_list, 200);
 
 	return apply_damage_modifier(damage_list, element_ratio);
@@ -9919,11 +9920,12 @@ function calc_magical_attack_damage(skill_info)
     damage_list[0] = n_A_MATK[0];
     damage_list[2] = n_A_MATK[2];
 
-    if (122 == n_A_ActiveSkill) // Fire Pillar#122
+    if (122 == skill_info.id) // Fire Pillar#122
         damage_list = damage_list.map(function(x) {return x + 50});
-    else if (104 == n_A_ActiveSkill && n_B[2] != 6 && n_B[3] < 90) // Magnus Exorcismus#104 on non-undead monsters
+    else if (104 == skill_info.id && n_B[2] != 6 && n_B[3] < 90) // Magnus Exorcismus#104 on non-undead monsters
         damage_list = damage_list.map(function(x) {return 0});
-
+	else if (325 == skill_info.id) // Gravitation Field#325
+		damage_list = damage_list.map(function(x) {return 200 + 200 * skill_info.lv});
 
 	// FIXME: Manage heal/sanctuary
 	// skill_calc_heal(skill_id, skill_lv);
@@ -9932,7 +9934,7 @@ function calc_magical_attack_damage(skill_info)
 	damage_list = apply_magical_skill_damage_modifiers(damage_list, skill_info.id);
     damage_list = apply_magical_defense_reduction(damage_list, skill_info.ignore_defense);
     
-    damage_list = apply_element_damage_ratio(damage_list, skill_info.element);
+    damage_list = apply_element_damage_ratio(damage_list, skill_info);
 
     // MagicAddEle
     // Damage modifier on magic element
@@ -9975,11 +9977,9 @@ function calc_attack_damage(skill_id, skill_lv, is_critical_attack, is_left_hand
 {
 	damage = [0, 0, 0];
 	// Manage skill with fixed damage
-	// Gravitation Field#325
-	if (325 == skill_id)
-		return damage.map(function(x) {return 200 + 200 * skill_lv});
+
 	// Pressure#283
-	else if (283 == skill_id)
+	if (283 == skill_id)
 		return damage.map(function(x) {return 500 + 300 * skill_lv});
 
 	skill_info = retrieve_skill_info(skill_id, skill_lv);
@@ -10006,7 +10006,7 @@ function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_han
 
 	damage_list = apply_defense_reduction(damage_list, skill_info.ignore_defense);
 	damage_list = apply_post_defense_damage_bonus(damage_list, skill_info, is_left_hand_active);
-	damage_list = apply_element_damage_ratio(damage_list, skill_info.element);
+	damage_list = apply_element_damage_ratio(damage_list, skill_info);
 
 	// Throw Kunai#395 bonus damage
 	if (395 == skill_info.id)
@@ -10082,6 +10082,7 @@ function retrieve_skill_info(skill_id, skill_lv)
     is_critical = false;
     is_multi_hits = false;
     ignore_defense = false;
+	ignore_element = false;
     is_magic_attack = false;
     is_range_attack = false;
     allows_modifiers = true;
@@ -10601,9 +10602,14 @@ function retrieve_skill_info(skill_id, skill_lv)
             element = 0;
             duration = 9;
             w_HIT_HYOUJI = 100;
-            is_magic_attack = true;
-            cast_time = 5 * n_A_CAST;
             hits = 4 + skill_lv;
+            cast_time = 5 * n_A_CAST;
+			
+			ignore_defense = true;
+			ignore_element = true;
+            is_magic_attack = true;
+			enable_masteries = false;
+			allows_modifiers = false;
             break;
         case 51: // Fire Bolt#51
             element = 3;
@@ -10875,7 +10881,7 @@ function retrieve_skill_info(skill_id, skill_lv)
         id: skill_id, lv: skill_lv, element: element, hits: hits, ratio: ratio,
         motion_delay: motion_delay, forced_motion: forced_motion, cast_time: cast_time,
         allows_modifiers: allows_modifiers, is_critical: is_critical, damage_tick: damage_tick,
-        ignore_defense: ignore_defense, is_range_attack: is_range_attack,
+        ignore_defense: ignore_defense, ignore_element: ignore_element, is_range_attack: is_range_attack,
         is_magic_attack: is_magic_attack, is_multi_hits: is_multi_hits, duration: duration,
 		is_considered_as_single_hit: is_considered_as_single_hit, enable_masteries: enable_masteries
     }
