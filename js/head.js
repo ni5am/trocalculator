@@ -9368,6 +9368,7 @@ function apply_masteries_bonus(damage_list, skill_info)
 	return damage_list.map(function(x) { return x + mastery_atk_bonus });
 }
 
+// FIXME: Potentially not required
 function apply_skill_damage_ratio(damage_list, ratio)
 {
 	damage_list = apply_damage_modifier(damage_list, ratio);
@@ -9691,30 +9692,30 @@ function apply_physical_skill_damage_modifiers(damage_list, skill_id)
 	return apply_damage_modifier(damage_list, skill_modifier);
 }
 
-function apply_magical_skill_damage_modifiers(damage_list)
+function apply_magical_skill_damage_modifiers(damage_list, skill_id)
 {
     // Skill damage bonus - bSkillAtk
     // FIXME: same modifier than for physical damage, merge ?
-    skill_modifier = StPlusCalc2(5000 + n_A_ActiveSkill) + StPlusCard(5000 + n_A_ActiveSkill);
+    skill_modifier = 100 + StPlusCalc2(5000 + skill_id) + StPlusCard(5000 + skill_id);
 
     // [Mage Class] - Increases damage of the skills [Soul Strike], [Napalm Beat] and [Napalm Vulcan] by 20%
-    if (n_A_JobSearch()==5 && (46 == n_A_ActiveSkill || 47 == n_A_ActiveSkill || 277 == n_A_ActiveSkill))
+    if (n_A_JobSearch()==5 && (46 == skill_id || 47 == skill_id || 277 == skill_id))
         skill_modifier += 20 * CardNumSearch(474);
 
     // RJC Katyusha Flower#1146 - [Every Refine] Increases damage of [Heaven's Drive] and [Earth Spike] by 1%
-    if ((132 == n_A_ActiveSkill || 133 == n_A_ActiveSkill) && EquipNumSearch(1146))
+    if ((132 == skill_id || 133 == skill_id) && EquipNumSearch(1146))
         skill_modifier += n_A_Weapon_ATKplus;
 
     // Lacrima Stick#1169 - [Every Refine] Increases damage of [Storm Gust] by 1%
-    if (131 == n_A_ActiveSkill && EquipNumSearch(1169))
+    if (131 == skill_id && EquipNumSearch(1169))
         skill_modifier += n_A_Weapon_ATKplus;
 
     // Chilly Spell Book#1653 - [Every Refine] Increases damage of [Storm Gust] and [Cold Bolt] by 3%
-    if ((54 == n_A_ActiveSkill || 131 == n_A_ActiveSkill) && EquipNumSearch(1653))
+    if ((54 == skill_id || 131 == skill_id) && EquipNumSearch(1653))
         skill_modifier += 3 * n_A_Weapon_ATKplus;
 
     // Noah's Hat#1247 - [Acolyte Class] Increases damage of [Holy Light] by 5% [Refine Rate > 7] Increases damage of [Holy Light] by 5%
-    if (n_A_JobSearch() == 3 && (37 == n_A_ActiveSkill || 387 == n_A_ActiveSkill) && EquipNumSearch(1247))
+    if (n_A_JobSearch() == 3 && (37 == skill_id || 387 == skill_id) && EquipNumSearch(1247))
         skill_modifier += 5 + 5 * Math.floor(n_A_HEAD_DEF_PLUS / 8);
 
     return apply_damage_modifier(damage_list, skill_modifier);
@@ -9904,8 +9905,8 @@ function apply_magical_defense_reduction(damage_list, ignore_defense)
 
         // mdef reduction already applied on target mdef
 
-        damage_list[0] = Math.floor(damage_list[0] * (100 - target_mdef) / 100 - target_mdef2);
-        damage_list[2] = Math.floor(damage_list[2] * (100 - target_mdef) / 100 - target_mdef2);
+        damage_list[0] = Math.max(0, Math.floor(damage_list[0] * (100 - target_mdef) / 100 - target_mdef2));
+        damage_list[2] = Math.max(0, Math.floor(damage_list[2] * (100 - target_mdef) / 100 - target_mdef2));
     }
 
     return damage_list;
@@ -9923,13 +9924,19 @@ function calc_magical_attack_damage(skill_info)
     else if (104 == n_A_ActiveSkill && n_B[2] != 6 && n_B[3] < 90) // Magnus Exorcismus#104 on non-undead monsters
         damage_list = damage_list.map(function(x) {return 0});
 
+
+	// FIXME: Manage heal/sanctuary
+	// skill_calc_heal(skill_id, skill_lv);
+
+	damage_list = apply_skill_damage_ratio(damage_list, skill_info.ratio);
+	damage_list = apply_magical_skill_damage_modifiers(damage_list, skill_info.id);
     damage_list = apply_magical_defense_reduction(damage_list, skill_info.ignore_defense);
-    damage_list = calc_skill_damage_ratio(damage_list, skill_info.ratio);
+    
     damage_list = apply_element_damage_ratio(damage_list, skill_info.element);
 
     // MagicAddEle
     // Damage modifier on magic element
-    element_modifier = n_tok[340 + skill_info.element]
+    element_modifier = 100 + n_tok[340 + skill_info.element]
 
     // Damage modifier for monster element
     element_modifier += n_tok[350 + Math.floor(n_B[3]/10)];
@@ -9937,29 +9944,29 @@ function calc_magical_attack_damage(skill_info)
     // Damage modifier for race - bMagicAddRace
     // Dragonology#234 - Increases Attack Power, MATK and DEF against Dragon type monsters by 4% per SkillLV
     n_tok[179] += SkillSearch(234) * 4;
-    race_modifier = n_tok[170 + n_B[2]];
+    race_modifier = 100 + n_tok[170 + n_B[2]];
 
     // Increases magical damage against bosstype monsters - bMagicAddClass,Class_Boss
-    class_modifier = n_B[19] ? n_tok[97] : n_tok[96];
+    class_modifier = 100 + (n_B[19] ? n_tok[97] : n_tok[96]);
 
     // bMagicAddSize - unused modifier
     // bMagicAddRace2 - unused modifier
     // bAddMagicDamageClass - unused modifier
-
-    // FIXME : wBMC2 = tPlusDamCut(wBMC2); Lex Aeterna ?
-
-    damage_list = apply_magical_skill_damage_modifiers(damage_list);
-
+    
     // Monster region damage modifier
+	// FIXME: Dedicated function required ?
     monster_modifier = 100;
     if (n_A_PassSkill8[23] && MANUKU_MONSTER())
         monster_modifier += 10;
     if (n_A_PassSkill8[26] && SUPURE_MONSTER())
         monster_modifier += 10;
 
-    modifiers *= race_modifier / 100 * element_modifier / 100 * class_modifier / 100 * monster_modifier;
+    modifiers = race_modifier / 100 * element_modifier / 100 * class_modifier / 100 * monster_modifier;
+	
+	damage_list = apply_damage_modifier(damage_list, modifiers)
+	damage_list = apply_offensive_status_change(damage_list, skill_info);
 
-    return apply_damage_modifier(damage_list, modifiers);
+    return damage_list;
 }
 
 function calc_attack_damage(skill_id, skill_lv, is_critical_attack, is_left_hand_active)
