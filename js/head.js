@@ -9964,6 +9964,8 @@ function calc_magical_attack_damage(skill_info)
     modifiers = race_modifier / 100 * element_modifier / 100 * class_modifier / 100 * monster_modifier;
 	
 	damage_list = apply_damage_modifier(damage_list, modifiers)
+	damage_list = damage_list.map(function(x) { return x * (skill_info.is_considered_as_single_hit ? 1 : skill_info.hits)});
+
 	damage_list = apply_offensive_status_change(damage_list, skill_info);
 
     return damage_list;
@@ -10001,7 +10003,6 @@ function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_han
 
 	damage_list = apply_physical_skill_damage_modifiers(damage_list, skill_info.id);
 	damage_list = apply_constant_damage_bonus(damage_list);
-	damage_list = apply_offensive_status_change(damage_list, skill_info);
 
 	damage_list = apply_defense_reduction(damage_list, skill_info.ignore_defense);
 	damage_list = apply_post_defense_damage_bonus(damage_list, skill_info, is_left_hand_active);
@@ -10041,6 +10042,8 @@ function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_han
 
 	damage_list = apply_physical_damage_modifiers(damage_list, skill_info.is_range_attack, is_critical_attack, skill_info.allows_modifiers);
 	damage_list = damage_list.map(function(x) { return x * (skill_info.is_considered_as_single_hit ? 1 : skill_info.hits)});
+
+	damage_list = apply_offensive_status_change(damage_list, skill_info);
 
 	// Asura Strike#197#321 soft cap damage management
 	if (197 == skill_info.id || 321 == skill_info.id)
