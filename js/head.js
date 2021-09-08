@@ -1382,7 +1382,7 @@ function BattleCalc999()
 		BattleCalc998();
 	}
 
-	else if (162 == n_A_ActiveSkill) // Grand Cross#163
+	else if (162 == n_A_ActiveSkill) // Grand Cross#162
 	{
 		n_PerHIT_DMG = 0;
 
@@ -9284,6 +9284,9 @@ function calc_skill_base_damage(active_skill, base_atk, is_critical_attack, is_l
 			shield_weight = (n_A_Equip[5] != 305) ? ItemOBJ[n_A_Equip[5]][6] : 0;
 			skill_base_damage = base_atk + shield_weight;
 			break;
+		case 328: // Acid Demonstration#328
+			skill_base_damage = 0.7 * n_A_INT * n_A_INT * n_B[7] / (n_A_INT + n_B[7]);
+			break;
 		default:
 			damage_list = calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex_based);
 			// Crit Attack rate
@@ -9301,67 +9304,68 @@ function calc_skill_base_damage(active_skill, base_atk, is_critical_attack, is_l
 		return damage_list;
 }
 
-function apply_masteries_bonus(damage_list)
+function apply_masteries_bonus(damage_list, skill_info)
 {
 	mastery_atk_bonus = 0;
 
-	// FIXME, Investigate Extremity Fist, Grand Cross not applicables
-	// Masteries related to weapons
-	switch (n_A_WeaponType)
+	if (skill_info.enable_masteries)
 	{
-		case 1: // Dagger
-		case 2: // One-handed Sword
-			mastery_atk_bonus += 4 * SkillSearch(3); // One-handed Sword Mastery#3
-			break;
-		case 3: // Two-handed Sword
-			mastery_atk_bonus += 4 * SkillSearch(4); // Two-handed Sword Mastery#4
-			break;
-		case 4: // One-handed Spear
-		case 5: // Two-handed Spear
-			mastery_atk_bonus += (SkillSearch(78) ? 5 : 4) * SkillSearch(69); // Spear Mastery#69 enhanced while Riding#78
-			break;
-		case 6: // One-handed Axe
-		case 7: // Two-handed Axe
-			mastery_atk_bonus += 3 * SkillSearch(241); // Axe Mastery#241
-			break;
-		case 8: // Mace
-			mastery_atk_bonus += 3 * SkillSearch(89); // Mace Mastery#89
-			break;
-		case 11: // Katar
-			mastery_atk_bonus += 3 * SkillSearch(81); // Katar Mastery#81
-			break;
-		case 12: // Book
-			mastery_atk_bonus += 3 * SkillSearch(224); // Advanced Book#224
-			break;
-		case 0: // Unarmed
-			mastery_atk_bonus += 10 * SkillSearch(329); // Sprint#329 [Unarmed]
-		case 13:
-			mastery_atk_bonus += 3 * SkillSearch(183); // Iron Hand#183, applied as well when unarmed
-			break;
-		case 14: // Instrument
-			mastery_atk_bonus += 3 * SkillSearch(198);
-			break;
-		case 15: // Whip
-			mastery_atk_bonus += 3 * SkillSearch(206);
-			break;
+		// Masteries related to weapons
+		switch (n_A_WeaponType)
+		{
+			case 1: // Dagger
+			case 2: // One-handed Sword
+				mastery_atk_bonus += 4 * SkillSearch(3); // One-handed Sword Mastery#3
+				break;
+			case 3: // Two-handed Sword
+				mastery_atk_bonus += 4 * SkillSearch(4); // Two-handed Sword Mastery#4
+				break;
+			case 4: // One-handed Spear
+			case 5: // Two-handed Spear
+				mastery_atk_bonus += (SkillSearch(78) ? 5 : 4) * SkillSearch(69); // Spear Mastery#69 enhanced while Riding#78
+				break;
+			case 6: // One-handed Axe
+			case 7: // Two-handed Axe
+				mastery_atk_bonus += 3 * SkillSearch(241); // Axe Mastery#241
+				break;
+			case 8: // Mace
+				mastery_atk_bonus += 3 * SkillSearch(89); // Mace Mastery#89
+				break;
+			case 11: // Katar
+				mastery_atk_bonus += 3 * SkillSearch(81); // Katar Mastery#81
+				break;
+			case 12: // Book
+				mastery_atk_bonus += 3 * SkillSearch(224); // Advanced Book#224
+				break;
+			case 0: // Unarmed
+				mastery_atk_bonus += 10 * SkillSearch(329); // Sprint#329 [Unarmed]
+			case 13:
+				mastery_atk_bonus += 3 * SkillSearch(183); // Iron Hand#183, applied as well when unarmed
+				break;
+			case 14: // Instrument
+				mastery_atk_bonus += 3 * SkillSearch(198);
+				break;
+			case 15: // Whip
+				mastery_atk_bonus += 3 * SkillSearch(206);
+				break;
+		}
+
+		// Demon Bane#24, effective on Demon Race or Undead element 91-94
+		// FIXME: Disabled on players
+		if (SkillSearch(24) && (n_B[2] == 6 || (91 <= n_B[3] && n_B[3] <= 94)))
+			mastery_atk_bonus += Math.floor((3 + 5/100 * n_A_BaseLV) * SkillSearch(24));
+
+		// Beast Bane#116 effective on Brute and Insect
+		if(n_B[2] == 2 || n_B[2] == 4)
+		{
+			mastery_atk_bonus += 4 * SkillSearch(116);
+
+			if (SkillSearch(390)) // Hunter Link#390
+				mastery_atk_bonus += n_A_STR;
+		}
 	}
 
-	// Demon Bane#24, effective on Demon Race or Undead element 91-94
-	// FIXME: Disabled on players
-	if (SkillSearch(24) && (n_B[2] == 6 || (91 <= n_B[3] && n_B[3] <= 94)))
-		mastery_atk_bonus += Math.floor((3 + 5/100 * n_A_BaseLV) * SkillSearch(24));
-
-	// Beast Bane#116 effective on Brute and Insect
-	if(n_B[2] == 2 || n_B[2] == 4)
-	{
-		mastery_atk_bonus += 4 * SkillSearch(116);
-
-		if (SkillSearch(390)) // Hunter Link#390
-			mastery_atk_bonus += n_A_STR;
-	}
-
-	// FIXME : battle_skill_stacks_masteries_vvs not applicable to Shield Chain & Shield Boomerang
-	return [damage_list[0] + mastery_atk_bonus, 0, damage_list[2] + mastery_atk_bonus];
+	return damage_list.map(function(x) { return x + mastery_atk_bonus });
 }
 
 function apply_skill_damage_ratio(damage_list, ratio)
@@ -9860,20 +9864,20 @@ function apply_defense_reduction(damage_list, ignore_defense)
     return damage_list;
 }
 
-function apply_post_defense_damage_bonus(damage_list, skill_id, is_left_hand_active)
+function apply_post_defense_damage_bonus(damage_list, skill_info, is_left_hand_active)
 {
 	damage_bonus = 0;
 	weapon_refine = (is_left_hand_active ? n_A_Weapon2LV_seirenATK : n_A_WeaponLV_seirenATK); // FIXME battle_info.refine_bonus
 
-	// Weapon refine bonus not applying for Investigate#193, Asura Strike#197#321, Shield Chain#324 and Shield Boomerang#159#384
-	excluded_skills = [159,193,197,321,324,384];
-	if (192 == skill_id) // Bonus counted #spheres#185 times for Finger Offensive#192
+	// Weapon refine bonus not applying for Investigate#193, Asura Strike#197#321, Shield Chain#324, Acid Demonstration#328 and Shield Boomerang#159#384
+	excluded_skills = [159,193,197,321,324,328,384];
+	if (192 == skill_info.id) // Bonus counted #spheres#185 times for Finger Offensive#192
 		damage_bonus += weapon_refine * SkillSearch(185);
-	else if (excluded_skills.findIndex(x => x == skill_id) < 0)
+	else if (excluded_skills.findIndex(x => x == skill_info.id) < 0)
 		damage_bonus += weapon_refine;
 	
 	// Aura Blade#254 damage bonus, not applied with Spiral Pierce#259
-	if (skill_id != 259)
+	if (skill_info.id != 259)
 		damage_bonus += SkillSearch(254) * 20;
 	
 	// Blade of Angels#1379 - #50 Enable Aura Blade lv 5
@@ -9883,10 +9887,10 @@ function apply_post_defense_damage_bonus(damage_list, skill_id, is_left_hand_act
 	damage_list = damage_list.map(function(x) {return x + damage_bonus});
 	
 	// Sonic Acceleration#381 - Sonic Blow damage#83#388 + 10%
-	if ((83 == skill_id || 388 == skill_id) && SkillSearch(381))
+	if ((83 == skill_info.id || 388 == skill_info.id) && SkillSearch(381))
 		damage_list = apply_damage_modifier(damage_list, 10);
 
-    damage_list = apply_masteries_bonus(damage_list);
+    damage_list = apply_masteries_bonus(damage_list, skill_info);
 
 	return damage_list;
 }
@@ -9993,7 +9997,7 @@ function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_han
 	damage_list = apply_offensive_status_change(damage_list, skill_info);
 
 	damage_list = apply_defense_reduction(damage_list, skill_info.ignore_defense);
-	damage_list = apply_post_defense_damage_bonus(damage_list);
+	damage_list = apply_post_defense_damage_bonus(damage_list, skill_info, is_left_hand_active);
 	damage_list = apply_element_damage_ratio(damage_list, skill_info.element);
 
 	// Throw Kunai#395 bonus damage
@@ -10071,6 +10075,7 @@ function retrieve_skill_info(skill_id, skill_lv)
     is_magic_attack = false;
     is_range_attack = false;
     allows_modifiers = true;
+	enable_masteries = true;
 	is_considered_as_single_hit = false;
 
     switch(skill_id)
@@ -10469,6 +10474,7 @@ function retrieve_skill_info(skill_id, skill_lv)
             acd = 1.5;
             element = 6;
             cast_time = 3 * n_A_CAST;
+			enable_masteries = false;
             break;
         case 66: // Cart Revolution#66 FIXME : No impact with Over Thrust ?
             ratio += 0.5 + eval(document.calcForm.SkillSubNum.value) / 8000;
@@ -10482,12 +10488,13 @@ function retrieve_skill_info(skill_id, skill_lv)
             element = 0;
             w_HIT_HYOUJI = 100;
             break;
-        case 193:
+        case 193: // Investigate#193
             acd = 0.5;
             element = 0;
             w_HIT_HYOUJI = 100;
             cast_time = n_A_CAST;
             ratio += skill_lv * 0.75;
+			enable_masteries = false;
             break;
         case 197: // Asura#197
         case 321: // Asura [Max SP - 1]#321
@@ -10495,6 +10502,7 @@ function retrieve_skill_info(skill_id, skill_lv)
             element = 0;
             w_HIT_HYOUJI = 100;
 			ignore_defense = true;
+			enable_masteries = false;
             cast_time = (4.5 - 0.5 * skill_lv) * n_A_CAST;
             ratio += Math.floor(7 + ((197 == n_A_ActiveSkill) ? eval(document.calcForm.SkillSubNum.value) : n_A_MaxSP - 1) / 10);
             break;
@@ -10529,13 +10537,16 @@ function retrieve_skill_info(skill_id, skill_lv)
             allows_modifiers = false;
             ratio = 0.5 + skill_lv * 0.5;
             break;
-        case 328:
+        case 328: // Acid Demonstration#328
             acd = 1;
             element = 0;
+            hits = skill_lv;
             w_HIT_HYOUJI = 100;
             cast_time = n_A_CAST;
+			ignore_defense = true;
             is_range_attack = true;
-            hits = skill_lv;
+			enable_masteries = false;
+			allows_modifiers = false;
             break;
         case 106: // Land Mine#106
             element = 2;
@@ -10856,6 +10867,6 @@ function retrieve_skill_info(skill_id, skill_lv)
         allows_modifiers: allows_modifiers, is_critical: is_critical, damage_tick: damage_tick,
         ignore_defense: ignore_defense, is_range_attack: is_range_attack,
         is_magic_attack: is_magic_attack, is_multi_hits: is_multi_hits, duration: duration,
-		is_considered_as_single_hit: is_considered_as_single_hit
+		is_considered_as_single_hit: is_considered_as_single_hit, enable_masteries: enable_masteries
     }
 }
