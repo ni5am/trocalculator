@@ -4572,25 +4572,16 @@ function StPlusCalc()
 
 	// Improve Concentration#42
 	// Does not include cards bonus for % bonus computation
-	var w = SkillSearch(42);
+	var ac_level = Math.max(SkillSearch(42), n_A_PassSkill6[3], TimeItemNumSearch(31) ? 2 : 0, (TimeItemNumSearch(4) || TimeItemNumSearch(57)) ? 1 : 0);
 	
 	// Enchants are considered as card slot as well, but applied later on, only midgear enchants need to be excluded here	
 	ic_dex_bonus_exclusion = StPlusCard(5);
 	ic_agi_bonus_exclusion = StPlusCard(2) + EquipNumSearch(1373);
 	
-	if(w){
-		w += 2;
-		n_tok[5] += Math.floor((n_A_DEX + n_tok[5] - ic_dex_bonus_exclusion) * w / 100);
-		n_tok[2] += Math.floor((n_A_AGI + n_tok[2] - ic_agi_bonus_exclusion) * w / 100);
-	}else if(n_A_PassSkill6[3]){
-		n_tok[5] = Math.floor((n_A_DEX + n_tok[5] - ic_dex_bonus_exclusion) * (102 + n_A_PassSkill6[3]) / 100) - n_A_DEX;
-		n_tok[2] = Math.floor((n_A_AGI + n_tok[2] - ic_agi_bonus_exclusion) * (102 + n_A_PassSkill6[3]) / 100) - n_A_AGI;
-	}else if(TimeItemNumSearch(31)){
-		n_tok[5] = Math.floor((n_A_DEX + n_tok[5] - ic_dex_bonus_exclusion) * 104 / 100) - n_A_DEX;
-		n_tok[2] = Math.floor((n_A_AGI + n_tok[2] - ic_agi_bonus_exclusion) * 104 / 100) - n_A_AGI;
-	}else if(TimeItemNumSearch(4) || TimeItemNumSearch(57)){
-		n_tok[5] = Math.floor((n_A_DEX + n_tok[5] - ic_dex_bonus_exclusion) * 103 / 100) - n_A_DEX;
-		n_tok[2] = Math.floor((n_A_AGI + n_tok[2] - ic_agi_bonus_exclusion) * 103 / 100) - n_A_AGI;
+	if (ac_level)
+	{
+		n_tok[5] += Math.floor((n_A_DEX + n_tok[5] - ic_dex_bonus_exclusion) * (2 + ac_level) / 100);
+		n_tok[2] += Math.floor((n_A_AGI + n_tok[2] - ic_agi_bonus_exclusion) * (2 + ac_level) / 100);
 	}
 	if(SkillSearch(422)){
 
