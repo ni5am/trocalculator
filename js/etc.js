@@ -1145,6 +1145,17 @@ ME_ENCHANTABLE = [
 	,[559, 0] //Butcher [0/1]
 	,[659, 0] //Thunder P [2]
 	,[561, 0] //Inferno [1]
+	// Altea & Ares [2], Heaven's Feather & Hell's Fire [2], and Color Scope [3] can only be enchanted once.
+	,[1784, 0] //Altea & Ares [2]
+	,[1785, 0] //Heaven's Feather & Hell's Fire [2]
+	,[1786, 0] //Color Scope [3]
+	,[1787, 0] //RAG203
+	,[1788, 0] //Minigun
+	,[1789, 0] //Tempest
+	,[1790, 0] //Rolling Thunder
+	,[1791, 0] //Death Fire
+	,[1792, 0] //End of the Horizon
+	,[1793, 0] //Southern Cross
 ];
 
 BIOLAB_ENCHANTS_WEAPON = [
