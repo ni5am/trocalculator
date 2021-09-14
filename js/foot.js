@@ -131,7 +131,7 @@ with(document.calcForm){
 		}
 	}
 	//Add rebirth classes when adopted unchecked
-	else if(!adopted && A_JOB.options.length < 47){
+	else if(!adopted && A_JOB.options.length < 46){
 		for(i = 21; i < 41; i++){
 			var option = document.createElement("option");
 			option.value = (i);
