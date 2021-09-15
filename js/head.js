@@ -8706,7 +8706,7 @@ function CastAndDelay(){
 
 			Delay is expressed in ms, flooring operation should take that into consideration
 		*/
-		if (n_A_PassSkill3[32])
+		if (n_A_PassSkill3[2])
 		{
 			bragi_acd_reduction = Math.max((n_Delay[2] - (n_A_PassSkill3[45] ? 0 : 0.4)), 0) * n_tok[74]; // Only applies to PvM
 			n_Delay[2] = Math.floor(n_Delay[2] * 100 - bragi_acd_reduction) / 100;
