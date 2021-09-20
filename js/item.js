@@ -1673,7 +1673,7 @@ ItemOBJ = [
 //Advanced Angel Gear - Set
 ,[1629,50,50,6,0,1,30,99,"Advanced Angel's Kiss","","A hair ornament that was kissed by the Super Novice's Guardian Angel.",76,30,0]
 ,[1630,63,50,2,0,1,30,99,"Advanced Angel's Reincarnation","","Heavenly sandals worn by the Guardian Angel of Super Novices.",13,500,14,100,0]
-,[1631,62,50,6,0,1,40,99,"Advanced Angelic Cardigan","","Super Novice Guardian Angel's warm and comfortable cardigan.",16,50,0]
+,[1631,62,50,6,0,1,40,99,"Advanced Angelic Cardigan","","Super Novice Guardian Angel's warm and comfortable cardigan.",75,50,0]
 ,[1632,61,50,6,0,1,40,99,"Advanced Angelic Guard","","Super Novice Guardian Angel's shield which contains holy power that can nullify evil.",56,5,61,5,62,5,63,5,64,5,65,5,66,5,67,5,68,5,69,5,0]
 ,[1633,60,50,8,0,1,60,99,"Advanced Angelic Protection","","Super Novice Guardian Angel's robe.",19,20,0]
 ,[1634,100,0,0,0,0,0,0,"Advanced Angels Kiss + Advanced Angelic Cardigan","","",17,10,0]
