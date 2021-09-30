@@ -723,7 +723,7 @@ SQI_BONUS =[
 ,[174,1390,"Suiken","Add a 25% chance to auto cast [Call Spirits] after using [Investigate]",0]
 ,[175,1391,"Tome of Ymir","+20% MaxHP",15,20,0]
 ,[176,1391,"Tome of Ymir","CRIT + 15, 10% more damage with Critical Hits",20,15,70,10,0]
-,[177,1391,"Tome of Ymir","Enables use of level 10 [Soul Drain] and regain 2 SP for each normal attack.",0]
+,[177,1391,"Tome of Ymir","Enables use of level 10 [Soul Drain] and regain 2 SP for each normal attack.",16,20,0]
 ,[178,1391,"Tome of Ymir","Enables use of level 3 [Strip Shield]",220,53,0]
 ,[179,1391,"Tome of Ymir","No cast time with [Memorize] and [Double Bolt]",0]
 ,[180,1391,"Tome of Ymir","Pierce 10% of enemy MDEF when using [Fire Bolt], [Cold Bolt], [Lightning Bolt], or [Earth Spike]",0]
