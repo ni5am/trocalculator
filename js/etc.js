@@ -431,7 +431,7 @@ ITEM_SP_TIME_OBJ =[
 ,[3,"Atroce Card","ASPD+100%",2,463,12,100,0]
 ,[4,"Anolian Card","Activate level 1 [Attention Concentrate]",2,224,0]
 ,[5,"Alchemist Card Set","Adrenaline Rush",2,461,0]
-,[6,"Valorous Assassin Damascus","MATK + 10% and ASPD + 20%",4,898,73,20,89,10,0]
+,[6,"Valorous Assassin Damascus","MATK + 10% and ASPD + 20%",1,898,73,20,89,10,0]
 ,[7,"Ixion Wings","ASPD + 7%",1,821,12,7,0]
 ,[8,"Vanberk Card","CRIT + 100",2,471,10,100,0]
 ,[9,"Wolfheiden","Receive -20% Physical Damage, +20% Magical Damage[Stone Skin Lv1]",1,708,0]
@@ -483,6 +483,8 @@ ITEM_SP_TIME_OBJ =[
 ,[55,"Saurel [Rental]","When using a melee attack, has a chance of adding ATK + 30 for 7 seconds.",1,1811,17,30,0]
 ,[56,"Saurel [Rental]","When doing a magical attack, has a chance of adding MATK + 10% for 7 seconds.",1,1811,89,10,0]
 ,[57,"Invective Robe", "Activate level 1 [Attention Concentrate].",1,1818,0]
+,[58,"Valorous Assassin Damascus", "Enable Ice Pick effect.",1,898,23,1,0]
+,[59,"Glorious Staff of Destruction", "MATK + 3% for each refine level for 6 seconds when using magic attacks at a 1% chance per refine.",1,1083,0]
 ];
 //ITEM_SP_TIME_OBJ_SORT = [0,5,10,4,27,3,44,37,30,31,26,39,49,45,46,18,48,15,11,12,14,13,17,32,1,7,47,35,33,21,16,40,28,34,38,42,19,22,23,24,36,41,25,6,20,8,29,43];
 
