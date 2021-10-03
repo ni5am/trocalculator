@@ -6707,8 +6707,7 @@ function KakutyouKansuu(){
 		var wkk16="";
 		if(n_A_JOB==9 || n_A_JOB==23){
 			var wX = 100+n_tok[94];
-			if(EquipNumSearch(644))
-				wX += n_A_Weapon_ATKplus * 1.5;
+
 			wkk16+="<table border=0>";
 			wkk16+="<tr><td><b>Sanctuary Level 1</b></td><td>"+Math.floor(100 * wX /100)+"</td></tr>";
 			wkk16+="<tr><td><b>Sanctuary Level 2</b></td><td>"+Math.floor(200 * wX /100)+"</td></tr>";
