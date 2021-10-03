@@ -4542,6 +4542,40 @@ with(document.calcForm){
 	if (n_A_Weapon_ATKplus > 6 && EquipNumSearch(917))
 		n_tok[401] += 5;
 
+	// Manage SP cost reduction bonus
+	// Mana Recharge#441 - Decreases SP Cost of all your skills by 4% by level. 
+	n_tok[72] -= 4 * SkillSearch(441);
+
+	// Green Whistle#1462 - [Every Refine Level > 6] - Reduce SP cost of all skills by 2%
+	n_tok[72] -= Math.max(0, n_A_Weapon_ATKplus - 6) * 2 * EquipNumSearch(1462);
+
+	// Mental Stick#1508 - [Every Refine Level > 5] - Reduce SP cost of all skills by 1%
+	// Note that SP cost will be increased if the refine rate is not high enough, no refine check in the script
+	n_tok[72] -= (n_A_Weapon_ATKplus - 5) * EquipNumSearch(1508);
+	
+	// Staff of Destruction#646 - [Every Refine Level] - Increase SP cost of all skills by 2%
+	n_tok[72] += n_A_Weapon_ATKplus * 2 * EquipNumSearch(646);
+
+	// Staff of Ord#1171 - [Dragonology] Lv 5 - Reduce SP cost of all skills by 15%
+	n_tok[72] -= 15 * Math.max(0, SkillSearch(234) - 4) * EquipNumSearch(1171);
+
+	// Stem Whip# 1454 - [Every Refine Level > 6] - Reduce SP cost of all skills by 2%
+	n_tok[72] -= Math.max(0, n_A_Weapon_ATKplus - 6) * 2 * EquipNumSearch(1454);
+	
+	// Sura Rampage#1512 - [Every Refine Level > 4] - Reduce SP cost of all skills by 1%
+	n_tok[72] -= Math.max(0, n_A_Weapon_ATKplus - 4) * EquipNumSearch(1512);
+
+	// Rose Casquette#1741
+	if (EquipNumSearch(1741))
+	{
+		// [Base DEX > 90] - Reduce SP cost of all skills by 5%
+		if (SU_DEX > 90)
+			n_tok[72] -= 5;
+		// [Base DEX > 95] - Reduce SP cost of all skills by 5%
+		if (SU_DEX > 95)
+			n_tok[72] -= 5;
+	}
+
 	// Update Extended Information
 	KakutyouKansuu();
 	//KakutyouKansuu2();
@@ -4570,25 +4604,13 @@ function StPlusCalc()
 	
 	n_tok[5] += SkillSearch(38);
 
-	// Improve Concentration#42
-	// Does not include cards bonus for % bonus computation
-	var ac_level = Math.max(SkillSearch(42), n_A_PassSkill6[3], TimeItemNumSearch(31) ? 2 : 0, (TimeItemNumSearch(4) || TimeItemNumSearch(57)) ? 1 : 0);
-	
-	// Enchants are considered as card slot as well, but applied later on, only midgear enchants need to be excluded here	
-	ic_dex_bonus_exclusion = StPlusCard(5);
-	ic_agi_bonus_exclusion = StPlusCard(2) + EquipNumSearch(1373);
-	
-	if (ac_level)
+	if(SkillSearch(422)) // Increase Accuracy#422
 	{
-		n_tok[5] += Math.floor((n_A_DEX + n_tok[5] - ic_dex_bonus_exclusion) * (2 + ac_level) / 100);
-		n_tok[2] += Math.floor((n_A_AGI + n_tok[2] - ic_agi_bonus_exclusion) * (2 + ac_level) / 100);
-	}
-	if(SkillSearch(422)){
-
 		n_tok[5] += 4;
 		n_tok[2] += 4;
 	}
 
+	// Equipment bonus
 	if(n_A_JobSearch()==41 && EquipNumSearch(672))
 		n_tok[2] += 1;
 	if(n_A_JobSearch()==41 && EquipNumSearch(673))
@@ -4612,10 +4634,7 @@ function StPlusCalc()
 
 	if(EquipNumSearch(649))
 		n_tok[5] -= SU_DEX;
-
-	if(n_A_WeaponType==9)
-		n_tok[4] += CardNumSearch(466);
-
+	
 	//custom TalonRO pet Pinguicula + Poring Cake Hat combo
 	if(n_A_PassSkill8[0]==57 && EquipNumSearch(1059))
 		n_tok[7] += 1;
@@ -4677,14 +4696,13 @@ function StPlusCalc()
 	}
 
 	//[TalonRO Custom - 2018-07-27 - Glorious Bloody Roar - Every Upgrade gives + 1 INT] [Amor]
-	if(EquipNumSearch(1090)){
+	if(EquipNumSearch(1090))
 		n_tok[4] += n_A_Weapon2_ATKplus;
-	}
 
 	//[TalonRO Custom - 2018-07-28 - Glorious Gladius - +5 DEX for Rogue/Stalker/Ninja/SL][Amor]
-	if(EquipNumSearch(1076) && (n_A_JobSearch2() == 14 || n_A_JOB== 43 || n_A_JOB == 44)){
-			n_tok[5] += 5;
-	}
+	if(EquipNumSearch(1076) && (n_A_JobSearch2() == 14 || n_A_JOB== 43 || n_A_JOB == 44))
+		n_tok[5] += 5;
+
 	//[TalonRO Custom - 2018-07-29 - Glorious Rapier - +1 INT per Refine][Amor]
 	if(EquipNumSearch(1078)){
 		n_tok[4] += n_A_Weapon_ATKplus;
@@ -4711,40 +4729,7 @@ function StPlusCalc()
 			n_tok[26] += 15;
 	}
 
-	// Mana Recharge#441 - Decreases SP Cost of all your skills by 4% by level. 
-	n_tok[72] -= 4 * SkillSearch(441);
-
-	// Green Whistle#1462 - [Every Refine Level > 6] - Reduce SP cost of all skills by 2%
-	n_tok[72] -= Math.max(0, n_A_Weapon_ATKplus - 6) * 2 * EquipNumSearch(1462);
-
-	// Mental Stick#1508 - [Every Refine Level > 5] - Reduce SP cost of all skills by 1%
-	// Note that SP cost will be increased if the refine rate is not high enough, no refine check in the script
-	n_tok[72] -= (n_A_Weapon_ATKplus - 5) * EquipNumSearch(1508);
-	
-	// Staff of Destruction#646 - [Every Refine Level] - Increase SP cost of all skills by 2%
-	n_tok[72] += n_A_Weapon_ATKplus * 2 * EquipNumSearch(646);
-
-	// Staff of Ord#1171 - [Dragonology] Lv 5 - Reduce SP cost of all skills by 15%
-	n_tok[72] -= 15 * Math.max(0, SkillSearch(234) - 4) * EquipNumSearch(1171);
-
-	// Stem Whip# 1454 - [Every Refine Level > 6] - Reduce SP cost of all skills by 2%
-	n_tok[72] -= Math.max(0, n_A_Weapon_ATKplus - 6) * 2 * EquipNumSearch(1454);
-	
-	// Sura Rampage#1512 - [Every Refine Level > 4] - Reduce SP cost of all skills by 1%
-	n_tok[72] -= Math.max(0, n_A_Weapon_ATKplus - 4) * EquipNumSearch(1512);
-
-	// Rose Casquette#1741
-	if (EquipNumSearch(1741))
-	{
-		// [Base DEX > 90] - Reduce SP cost of all skills by 5%
-		if (SU_DEX > 90)
-			n_tok[72] -= 5;
-		// [Base DEX > 95] - Reduce SP cost of all skills by 5%
-		if (SU_DEX > 95)
-			n_tok[72] -= 5;
-	}
-
-	if(n_A_JobSearch()==3)
+		if(n_A_JobSearch()==3)
 		n_tok[4] += CardNumSearch(383);
 	if(CardNumSearch(173))n_tok[4] += n_A_LEFT_DEF_PLUS;
 	if(CardNumSearch(402))n_tok[6] += n_A_SHOULDER_DEF_PLUS;
@@ -4779,16 +4764,6 @@ function StPlusCalc()
 	// Giant Shield#1500 - [Every Refine Level > 5] Resistance against Large + 1%
 	n_tok[192] += Math.max(0, n_A_LEFT_DEF_PLUS - 5) * EquipNumSearch(1500);
 
-	if(CardNumSearch(185))n_tok[3] += Math.floor(SU_DEX /18);
-	if(CardNumSearch(187))n_tok[1] += Math.floor(SU_INT /18);
-	if(CardNumSearch(189))n_tok[6] += Math.floor(SU_AGI /18);
-	if(CardNumSearch(191))n_tok[2] += Math.floor(SU_LUK /18);
-	if(CardNumSearch(196))n_tok[4] += Math.floor(SU_STR /18);
-	if(CardNumSearch(197))n_tok[5] += Math.floor(SU_VIT /18);
-
-	//custom TalonRO Gryphon Card
-	if(CardNumSearch(277))n_tok[6] += Math.floor(SU_STR /11)*2*CardNumSearch(277);
-
 	//custom King Poring Hat
 	if(EquipNumSearch(1444)){
 		n_tok[5] += Math.floor(n_A_HEAD_DEF_PLUS/3);
@@ -4796,26 +4771,7 @@ function StPlusCalc()
 	}
 	//custom TalonRO Meginjard
 	if(EquipNumSearch(348))
-		if((n_A_JOB!=8) && (n_A_JOB!=22))n_tok[1] +=30*EquipNumSearch(348);;
-	//alert(n_A_JOB+","+n_A_JobSearch());
-	//custom TalonRO Dolomedes Card
-	if(CardNumSearch(514))
-		if(n_A_JobSearch()==4)
-			n_tok[5] += Math.floor(n_A_HEAD_DEF_PLUS /3);
-		else
-			n_tok[4] += Math.floor(n_A_HEAD_DEF_PLUS /3);
-	//custom TalonRO Cendrawasih Card
-	if(CardNumSearch(517))
-		if(n_A_JobSearch()==5)
-			n_tok[4] += Math.floor(n_A_HEAD_DEF_PLUS /3);
-	//custom TalonRO King Dramoh
-	if(CardNumSearch(527))
-		if(n_A_JobSearch()==1)
-			n_tok[1] += Math.floor(n_A_HEAD_DEF_PLUS /3);
-
-	// Tarou#98 + Cramp#273 Combo
-	if ((n_A_card[14] == 98 || n_A_card[15] == 98) && CardNumSearch(273))
-		n_tok[1] += 3;
+		if((n_A_JOB!=8) && (n_A_JOB!=22))n_tok[1] +=30*EquipNumSearch(348);
 
 	//Orc Hero Headdress [For Every 4 Refines] STR + 1 - [Loa] - 2018-07-03
 	if(EquipNumSearch(1142)){
@@ -4889,6 +4845,69 @@ function StPlusCalc()
 		n_tok[12] += 5;
 		n_tok[2] += Math.floor(n_A_SHOULDER_DEF_PLUS / 2);
 	}
+
+	//[Custom TalonRO - 2018-07-26 - Speedy Recovery Wand +3 INT to Acolyte/Priest/High Priest] [Amor]
+	if(EquipNumSearch(920) && (n_A_JOB == 3 || n_A_JOB == 9 || n_A_JOB == 23)){
+		n_tok[4] += 3;
+		
+		/*
+			[Refine level 8-10]
+			Reduce ranged damage by 1% per refine
+			But spend 1% more SP per refine on skill usage up to 10% total at +10.
+		*/
+		if (n_A_Weapon_ATKplus > 7)
+		{
+			n_tok[72] += n_A_Weapon_ATKplus;
+			n_tok[78] += n_A_Weapon_ATKplus;
+		}
+	}
+
+	// Improve Concentration#42
+	// Does not include cards bonus for % bonus computation
+	var ac_level = Math.max(SkillSearch(42), n_A_PassSkill6[3], TimeItemNumSearch(31) ? 2 : 0, (TimeItemNumSearch(4) || TimeItemNumSearch(57)) ? 1 : 0);
+	
+	// Enchants are considered as card slot as well, but applied later on, only midgear enchants need to be excluded here	
+	ic_dex_bonus_exclusion = StPlusCard(5) + StPlusCard(7);
+	ic_agi_bonus_exclusion = StPlusCard(2) + StPlusCard(7) + EquipNumSearch(1373);
+	
+	if (ac_level)
+	{
+		n_tok[5] += Math.floor((n_A_DEX + n_tok[5] + n_tok[7] - ic_dex_bonus_exclusion) * (2 + ac_level) / 100);
+		n_tok[2] += Math.floor((n_A_AGI + n_tok[2] + n_tok[7] - ic_agi_bonus_exclusion) * (2 + ac_level) / 100);
+	}
+
+	// Card bonus
+	if(n_A_WeaponType==9)
+		n_tok[4] += CardNumSearch(466);
+
+	if(CardNumSearch(185))n_tok[3] += Math.floor(SU_DEX /18);
+	if(CardNumSearch(187))n_tok[1] += Math.floor(SU_INT /18);
+	if(CardNumSearch(189))n_tok[6] += Math.floor(SU_AGI /18);
+	if(CardNumSearch(191))n_tok[2] += Math.floor(SU_LUK /18);
+	if(CardNumSearch(196))n_tok[4] += Math.floor(SU_STR /18);
+	if(CardNumSearch(197))n_tok[5] += Math.floor(SU_VIT /18);
+
+	//custom TalonRO Gryphon Card
+	if(CardNumSearch(277))n_tok[6] += Math.floor(SU_STR /11)*2*CardNumSearch(277);
+
+	//custom TalonRO Dolomedes Card
+	if(CardNumSearch(514))
+		if(n_A_JobSearch()==4)
+			n_tok[5] += Math.floor(n_A_HEAD_DEF_PLUS /3);
+		else
+			n_tok[4] += Math.floor(n_A_HEAD_DEF_PLUS /3);
+	//custom TalonRO Cendrawasih Card
+	if(CardNumSearch(517))
+		if(n_A_JobSearch()==5)
+			n_tok[4] += Math.floor(n_A_HEAD_DEF_PLUS /3);
+	//custom TalonRO King Dramoh
+	if(CardNumSearch(527))
+		if(n_A_JobSearch()==1)
+			n_tok[1] += Math.floor(n_A_HEAD_DEF_PLUS /3);
+
+	// Tarou#98 + Cramp#273 Combo
+	if ((n_A_card[14] == 98 || n_A_card[15] == 98) && CardNumSearch(273))
+		n_tok[1] += 3;
 
 	if(CardNumSearch(405)){
 		if(n_A_JobSearch()==1 || n_A_JobSearch()==2 || n_A_JobSearch()==6)
@@ -4991,22 +5010,6 @@ function StPlusCalc()
 				n_tok[i] += marionette_bonus;
 				marionette_stats.push(marionette_bonus);
 			}
-		}
-	}
-
-	//[Custom TalonRO - 2018-07-26 - Speedy Recovery Wand +3 INT to Acolyte/Priest/High Priest] [Amor]
-	if(EquipNumSearch(920) && (n_A_JOB == 3 || n_A_JOB == 9 || n_A_JOB == 23)){
-		n_tok[4] += 3;
-		
-		/*
-			[Refine level 8-10]
-			Reduce ranged damage by 1% per refine
-			But spend 1% more SP per refine on skill usage up to 10% total at +10.
-		*/
-		if (n_A_Weapon_ATKplus > 7)
-		{
-			n_tok[72] += n_A_Weapon_ATKplus;
-			n_tok[78] += n_A_Weapon_ATKplus;
 		}
 	}
 
