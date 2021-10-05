@@ -767,7 +767,7 @@ ItemOBJ = [
 ,[744,100,0,0,0,0,0,0,"Vali's Manteau set",0,0,3,5,75,10,76,10,0]
 ,[745,100,0,0,0,0,0,0,"Goibne's set",0,0,3,5,15,15,16,5,18,5,19,15,61,10,62,10,63,10,64,10,0]
 ,[746,100,0,0,0,0,0,0,"Morrigane's set",0,0,1,2,6,9,17,18,10,13,11,13,0]
-,[747,100,0,0,0,0,0,0,"Morpheus's",0,"Casting can not be interrupted (does not work in WoE)",214,5,19,11,16,20,73,25,0]
+,[747,100,0,0,0,0,0,0,"Morpheus's",0,"Casting can not be interrupted (does not work in WoE)",4,5,214,5,19,11,16,20,73,25,0]
 ,[748,100,0,0,0,0,0,0,"Novice Angelic set",0,"Add a 3% chance of auto casting Level 1 Assumptio on the user when the user receives Physical Damage",13,900,14,100,0]
 ,[749,100,0,0,0,0,0,0,"Valkyrie set",0,0,7,1,0]
 ,[750,100,0,0,0,0,0,0,"Soul Staff/Wizardry Staff set",0,"Reduce Casting Time by [Wizardry Staff] or [Soul Staff] Refine Rate",89,6,5,2,0]
