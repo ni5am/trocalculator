@@ -6962,7 +6962,7 @@ function KakutyouKansuu(){
 		
 		smith_job_lvl = eval(document.calcForm.smith_jlvl_select.value) + 1;
 		smith_bonus = (smith_job_lvl - 50) / 2;
-		smith_bonus = Math.sign(smith_bonus) * Math.floor(Math.abs(smith_bonus));
+		smith_bonus = npc_refine ? 0 : Math.sign(smith_bonus) * Math.floor(Math.abs(smith_bonus));
 		
 		refine_table = document.getElementById("refine_table");
 		refine_header = document.getElementById("refine_system_header");
@@ -6995,7 +6995,7 @@ function KakutyouKansuu(){
 		for (i = 0; i < 10; ++i)
 		{
 			cumulated_rate = refine_rate.reduce(function (a, b, c) { return c > i ? a : a * b/100;});
-			items_required = Math.ceil(100 / cumulated_rate);
+			items_required = (100 / cumulated_rate).toPrecision(4);
 			
 			cumulated_catalysts = refine_rate.map(function (x, c) { return Math.ceil((c > i ? 0 : items_required) * x / 100);});
 			catalysts_required = cumulated_catalysts.reduce(function (a, b) { return a + b;});
