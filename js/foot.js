@@ -4437,16 +4437,19 @@ with(document.calcForm){
 			n_tok[135] += 10;
 		else if (23 == n_A_Arrow) // Stun Arrow#23
 			n_tok[131] += 10;
-		else if (n_A_WeaponType >= 17 && n_A_WeaponType <= 20 && 2 == n_A_Arrow) // Bloody Shell#2
-			n_tok[138] += 1;
+		else if (n_A_WeaponType >= 17 && n_A_WeaponType <= 20) // Manage bullets
+		{
+			if (2 == n_A_Arrow) // Bloody Shell#2
+				n_tok[138] += 1;
+			else if (9 == n_A_Arrow) // Gong Bug#5 - [Stun] chance is increased by 10%.
+				n_tok[131] += 10;
+		}
 		else if (21 == n_A_WeaponType) // Manage grenade launcher ammunitions
 		{
 			if (3 == n_A_Arrow) // Blind Sphere#3
 				n_tok[134] += 5;
 			else if (4 == n_A_Arrow) // Poison Sphere#4
 				n_tok[130] += 5;
-			else if (5 == n_A_Arrow) // Gong Bug#5 - [Stun] chance is increased by 10%.
-				n_tok[131] += 10;
 		}
 	}
 	else if (394 == n_A_ActiveSkill && 5 == eval(document.calcForm.SkillSubNum.value)) // Throw Shuriken#394 - Starfish#5 - [Stun] chance is increased by 10%.

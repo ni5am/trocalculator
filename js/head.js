@@ -150,6 +150,7 @@ BulletOBJ = [
 [15,1,"Water Bullet"],
 [15,7,"Shadow Bullet"],
 [15,8,"Immaterial Bullet"],
+[50,0,"Gong Bug"],
 ];
 
 GrenadeOBJ = [
@@ -158,7 +159,6 @@ GrenadeOBJ = [
 [50,4,"Lightning Sphere"],
 [50,7,"Blind Sphere"],
 [50,5,"Poison Sphere"],
-[50,0,"Gong Bug"],
 ];
 
 SyurikenOBJ = [
