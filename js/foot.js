@@ -1665,6 +1665,17 @@ with(document.calcForm){
 	if (mobster_paradise_cocktail)
 		n_tok[16] += 5;
 
+	/*
+		Service for you - n_A_PassSkill3[6]
+		Increase max SP and SP regeneration while reducing the SP consumption of all players within the area of effect.
+		SP consumption reduction is affected by the Dancer's INT / 10 and level of Dance Lessons / 2.
+	*/
+	if(n_A_PassSkill3[6])
+	{
+		n_tok[72] -= 20 + 3 * n_A_PassSkill3[6] + Math.floor(n_A_PassSkill3[36] / 2) + Math.floor(n_A_PassSkill3[26] / 10);
+		n_tok[16] += 15 + n_A_PassSkill3[6] + Math.floor(n_A_PassSkill3[36] / 2) + Math.floor(n_A_PassSkill3[26] /10);
+	}
+
 	w += n_tok[16];
 	if(n_A_SHOES_DEF_PLUS >= 9 && CardNumSearch(304))
 		w += 10;
@@ -1690,20 +1701,6 @@ with(document.calcForm){
 		w -= n_A_SHOES_DEF_PLUS;
 	
 	n_A_MaxSP = Math.floor(n_A_MaxSP * (100 + w)/100);
-
-	/*
-		Service for you - n_A_PassSkill3[6]
-		Increase max SP and SP regeneration while reducing the SP consumption of all players within the area of effect.
-		SP consumption reduction is affected by the Dancer's INT / 10 and level of Dance Lessons / 2.
-	*/
-	if(n_A_PassSkill3[6])
-	{
-		n_tok[72] -= 20 + 3 * n_A_PassSkill3[6] + Math.floor(n_A_PassSkill3[36] / 2) + Math.floor(n_A_PassSkill3[26] / 10);
-		n_tok[16] += 15 + n_A_PassSkill3[6] + Math.floor(n_A_PassSkill3[36] / 2) + Math.floor(n_A_PassSkill3[26] /10);
-	}
-
-	n_A_MaxSP = Math.floor(n_A_MaxSP);
-	//end - custom TalonRO update - Service for you
 
 	if(n_A_MaxSP >= 100)
 		myInnerHtml("A_MaxSP",n_A_MaxSP,0);
