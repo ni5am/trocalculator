@@ -568,7 +568,7 @@ SQI_BONUS =[
 ,[17,1376,"Aegis Shield","20% more damage with [Shield Boomerang]",5159,20,5384,20,0]
 ,[18,1376,"Aegis Shield","20% more damage with [Shield Chain]",5324,20,0]
 ,[19,1376,"Aegis Shield","Ignore [Grand Cross] holy self-damage",0]
-,[20,1376,"Aegis Shield","Increase effectiveness of [Heal] by 20% (10% in PvP/WoE)",90,20,0]
+,[20,1376,"Aegis Shield","Increase effectiveness of [Heal] by 20% (10% in PvP/WoE)",91,20,0]
 ,[21,1377,"Artemis Bow","+15% MaxHP",15,15,0]
 ,[22,1377,"Artemis Bow","+10% MaxSP, 25% chance to ignore arrow costs when using skills or attacking normally",16,15,0]
 ,[23,1377,"Artemis Bow","20% Magic Resistance",101,20,0]
