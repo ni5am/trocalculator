@@ -6732,6 +6732,10 @@ function KakutyouKansuu(){
 			hp_drain_chance = Math.min(100, n_tok[380] - lh_hp_drain_chance);
 			sp_drain_chance = Math.min(100, n_tok[382] - lh_sp_drain_chance);
 			
+			// #82 - Reduce HP leech bonus by 50% under union
+			if (SkillSearch(364) && 1383 == n_A_Equip[8] && SQI_Bonus_Effect.findIndex(x => x == 82) > -1)
+				hp_drain_value = Math.floor(hp_drain_value / 2);
+			
 			monsters_count = eval(document.calcForm.A_KakutyouSelNum.value)
 			
 			if (typeof monsters_count == 'undefined' || monsters_count < 1)
