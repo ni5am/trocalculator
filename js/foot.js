@@ -7012,10 +7012,10 @@ function KakutyouKansuu(){
 			refine_table.rows[i + 2].cells[1].innerHTML = refine_rate[i] + "%";
 			refine_table.rows[i + 2].cells[2].innerHTML = cumulated_rate.toPrecision(4) + "%";
 			refine_table.rows[i + 2].cells[3].innerHTML = items_required;
-			refine_table.rows[i + 2].cells[4].innerHTML = print_number_with_comma(theoretical_item_cost) + " z";
-			refine_table.rows[i + 2].cells[5].innerHTML = print_number_with_comma(catalysts_required);
-			refine_table.rows[i + 2].cells[6].innerHTML = print_number_with_comma(theoretical_catalyst_cost) + " z";
-			refine_table.rows[i + 2].cells[7].innerHTML = print_number_with_comma(total_cost) + " z";
+			refine_table.rows[i + 2].cells[4].innerHTML = print_number_with_comma(Math.round(theoretical_item_cost)) + " z";
+			refine_table.rows[i + 2].cells[5].innerHTML = print_number_with_comma(Math.round(catalysts_required));
+			refine_table.rows[i + 2].cells[6].innerHTML = print_number_with_comma(Math.round(theoretical_catalyst_cost)) + " z";
+			refine_table.rows[i + 2].cells[7].innerHTML = print_number_with_comma(Math.round(total_cost)) + " z";
 		}
 		
 		myInnerHtml("A_KakutyouData", "",0);
