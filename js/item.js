@@ -1881,6 +1881,8 @@ ItemOBJ = [
 ,[1825,100,0,0,0,0,0,0,"Invective Robe + Heavenly Maiden Robe","","MATK + 3 for each Heavenly Maiden Robe refine level.<br>MDEF + 1 for every 2 refine levels of Heavenly Maiden Robe.",4,2,0]
 ,[1826,100,0,0,0,0,0,0,"Invective Robe + Vali's Manteau","","VIT + 1 for each Vali's Manteau refine level.",60,15,0]
 ,[1827,100,0,0,0,0,0,0,"Invective Robe + Ancient Cape","","[Non-Hunter Class]<br>ASPD + 5%<br>AGI + 1 for every 2 refines of Ancient Cape.",0]
+,[1828,50,0,1,0,0,30,50,"Evolved Whisper Mask","","<b>Upper, Middle, and Lower Headgear</b>",5,3,68,20,0]
+,[1829,50,0,1,0,1,40,1,"Shaman Hat","",0,60,3,61,3,62,3,63,3,64,3,65,3,66,3,67,3,68,3,69,3,0]
 ];
 
 //Test code for finding the values in Skill.js AutoSpellSkill
@@ -3742,6 +3744,8 @@ ItemID = [
 ,[1825,2,21847,2513]
 ,[1826,2,21847,2517]
 ,[1827,2,21847,2525]
+,[1828,1,5461]
+,[1829,1,5665]
 ];
 
 /*
