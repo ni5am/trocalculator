@@ -386,7 +386,7 @@ SkillOBJ = [
 [384,5,'Shield Boomerang [Soul Linked]'],
 [385,1,'Super Novice Link [Soul Linker]'],
 [386,1,'One Hand Quicken [Soul Linked]'],
-[387,1,'Holy Light [Soul Linked]',15],
+[387,1,'Holy Light [Soul Linked]',75],
 [388,10,'Sonic Blow [Soul Linked]',16,18,20,22,24,26,28,30,32,34],
 [389,1,'Full Andrenaline Rush'],
 [390,1,'Hunter Spirit [Soul Linker]'],

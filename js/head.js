@@ -150,6 +150,7 @@ BulletOBJ = [
 [15,1,"Water Bullet"],
 [15,7,"Shadow Bullet"],
 [15,8,"Immaterial Bullet"],
+[50,0,"Gong Bug"],
 ];
 
 GrenadeOBJ = [
@@ -158,7 +159,6 @@ GrenadeOBJ = [
 [50,4,"Lightning Sphere"],
 [50,7,"Blind Sphere"],
 [50,5,"Poison Sphere"],
-[50,0,"Gong Bug"],
 ];
 
 SyurikenOBJ = [
@@ -527,7 +527,13 @@ function BattleCalc999()
 						san[i] = 3;
 				}
 				str_bSUBname += "Raging Trifecta Blow Damage<BR>";
-				str_bSUB += san[0] +"~"+ san[2] +" ("+ (30 - SkillSearch(187) + 10 * CardNumSearch(619)) +"% Chance)<BR>";
+				
+				triple_attack_rate = 30 - SkillSearch(187) + 10 * CardNumSearch(619);
+				
+				// Glorious Claw#1096 - [Every Refine Level] - Triple Attack#187 rate + 3%
+				triple_attack_rate += EquipNumSearch(1096) * n_A_Weapon_ATKplus * 3;
+				
+				str_bSUB += san[0] +"~"+ san[2] +" ("+ triple_attack_rate +"% Chance)<BR>";
 				TyouEnkakuSousa3dan = 0;
 				if(n_Min_DMG > san[0])
 					n_Min_DMG = san[0];
@@ -1192,7 +1198,7 @@ function BattleCalc999()
 		}
 
 		for(var i=0;i<=2;i++){
-			Last_DMG_A[i] = Last_DMG_B[i] = wBT;
+			Last_DMG_A[i] = Last_DMG_B[i] = ApplySkillAtkBonus(wBT);
 			InnStr[i] += Last_DMG_A[i];
 			if(n_A_ActiveSkill==118){
 				Last_DMG_B[i] = wBT / n_A_ActiveSkillLV;
@@ -8122,8 +8128,15 @@ function BaiCI(wBaiCI)
 			crit_dmg_modifier = (272 == n_A_ActiveSkill || 401 == n_A_ActiveSkill) ? 0 : n_tok[70];
 			
 			// #24 - 10% more damage with Critical Hits - Artemis bonus also increases Sharpshoot damage
-			if (272 == n_A_ActiveSkill && 1377 == n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x == 24) > -1) // Sharpshoot#272
-				crit_dmg_modifier = 10;
+			if (272 == n_A_ActiveSkill)  // Sharpshoot#272
+			{
+				// #24 - 10% more damage with Critical Hits
+				if (1377 == n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x == 24) > -1)
+					crit_dmg_modifier += 10;
+
+				if (EquipNumSearch(913)) // Valorous Battle CrossBow#913
+					crit_dmg_modifier += 10;
+			}
 
 			if (401 == n_A_ActiveSkill) // Shadow Slash#401
 			{
@@ -8131,6 +8144,9 @@ function BaiCI(wBaiCI)
 				// #109 - 20% more damage with Critical Hits - Hira bonus also increases Shadow Slash damage
 				if (1385 == n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x == 109) > -1)
 					crit_dmg_modifier += 20;
+				
+				if (EquipNumSearch(897)) // Brave Assassin Damascus#897
+					crit_dmg_modifier += 10;
 			}
 
 			wBaiCI = Math.floor(wBaiCI * (100 + crit_dmg_modifier) /100);
@@ -8152,7 +8168,14 @@ function BaiCI(wBaiCI)
 			debug_atk+="\n --- (BaiCI) specific monster Modifier ---";
 			debug_atk+="\nb_wBaiCI:"+wBaiCI;
 		}
-		wBaiCI = Math.floor(wBaiCI * (100+StPlusCalc2(1000+n_B[0])+StPlusCard(1000+n_B[0])) /100);
+		
+		monster_dmg_modifier = StPlusCalc2(1000 + n_B[0]) + StPlusCard(1000 + n_B[0]);
+		
+		// Glorious Jamadhar#1091 - [Refine Rate 6-10] - Increases physical attack against Emperium#44 by 10%.
+		if (44 && EquipNumSearch(1091) && n_A_Weapon_ATKplus >= 6)
+			monster_dmg_modifier += 10;
+
+		wBaiCI = Math.floor(wBaiCI * (100 + monster_dmg_modifier) /100);
 		if(debug_dmg_avg)
 			debug_atk+="\na_wBaiCI:"+wBaiCI;
 
@@ -8253,7 +8276,27 @@ function ApplySkillAtkBonus(dmg)
 	//custom TalonRO Cannon Spear: Head Crush damage +5% each 3rd refine
 	if(n_A_ActiveSkill == 260 && EquipNumSearch(1516))
 		skill_atk_bonus_ratio += 3 * Math.floor(n_A_Weapon_ATKplus / 3);
+	
+	// Glorious Dagger#1076 - [Every Refine Level] - Increases [Falcon Assault]#271 damage by 3%.
+	if(n_A_ActiveSkill == 271 && EquipNumSearch(1076))
+		skill_atk_bonus_ratio += 3 * n_A_Weapon_ATKplus;
+	
+	// Glorious Jamadhar#1091 - [Every Refine Level] - Increases [Grimtooth]#84 damage by 3%.
+	if(n_A_ActiveSkill == 84 && EquipNumSearch(1091))
+		skill_atk_bonus_ratio += 3 * n_A_Weapon_ATKplus;
 
+	// Glorious Fist#1097 - [Every Refine Level] - Increases [Finger Offensive]#192 damage by 1% and 2% instead above +5.
+	if (n_A_ActiveSkill == 192 && EquipNumSearch(1097))
+		skill_atk_bonus_ratio += n_A_Weapon_ATKplus + Math.max(0, n_A_Weapon_ATKplus - 5);
+
+	// Soldier Revolver#925 - [Refine Level >=7] - Increases [Rapid Shower]#428 damage by 10%.
+	if(n_A_ActiveSkill == 428 && n_A_Weapon_ATKplus >= 7 && EquipNumSearch(925))
+			skill_atk_bonus_ratio += 10;
+		
+	// Valorous Huuma Front Shuriken#931 - [Refine Level >= 8] - Increases [Throw Shuriken]#394, [Throw Kunai]#395 and [Throw Huuma Shuriken]#396 damage by 30%.
+	if ((n_A_ActiveSkill == 394	|| n_A_ActiveSkill == 395 || n_A_ActiveSkill == 396) && n_A_Weapon_ATKplus >= 8 && EquipNumSearch(931))
+		skill_atk_bonus_ratio += 30;
+	
 	/*
 		Assaulter Spear
 		[Refine level 8-10]
@@ -8261,13 +8304,6 @@ function ApplySkillAtkBonus(dmg)
 	*/
 	if (n_A_Weapon_ATKplus >= 8 && n_A_ActiveSkill == 259 && EquipNumSearch(903))
 		skill_atk_bonus_ratio += 20;
-
-	/*
-		Glorious Tablet
-		Increase damage with [Flying Side Kick] by 10%.
-	*/
-	if ((n_A_ActiveSkill == 339 || n_A_ActiveSkill == 305) && EquipNumSearch(1094))
-		skill_atk_bonus_ratio += 10;
 
 	/*
 		Brave Assassin Damascus
@@ -8286,29 +8322,23 @@ function ApplySkillAtkBonus(dmg)
 		skill_atk_bonus_ratio += 25;
 
 	/*
-		Brave Gladiator Blade
-		[Rogue and Crusader Classes]
+		Brave Gladiator Blade - [Crusader]
 	*/
-	if ((n_A_JobSearch2() == 13 || n_A_JobSearch2() == 14)
-		&& n_A_ActiveSkill == 161 && EquipNumSearch(900))
+	if (n_A_JobSearch2() == 13 && n_A_ActiveSkill == 161 && EquipNumSearch(900))
 	{
-		// Add 15% more damage with [Holy Cross] skill.
-		skill_atk_bonus_ratio += 15;
-		// [Refine level 7-10] Add an additional 5% more damage with [Holy Cross] skill.
+		// Add 20% more damage with [Holy Cross] skill.
+		skill_atk_bonus_ratio += 20;
+		// [Refine level 7-10] Increases [Holy Cross] damage by 10%.
 		if (n_A_Weapon_ATKplus >= 7)
-			skill_atk_bonus_ratio += 5;
-		// For every refine +8 or higher, add 1% more damage with [Holy Cross] skill.
-		if (n_A_Weapon_ATKplus >= 8)
-			skill_atk_bonus_ratio += n_A_Weapon_ATKplus - 7;
+			skill_atk_bonus_ratio += 10;
+		// [Refine level 9-10] Increases [Holy Cross] damage by 10%.
+		if (n_A_Weapon_ATKplus >= 9)
+			skill_atk_bonus_ratio += 10;
 	}
 
-	/*
-		Glorious Holy Avenger
-		[Refine Rate 7~10]
-		Increases damage with [Holy Cross] by 15%.
-	*/
-	if (n_A_Weapon_ATKplus >= 7 && n_A_ActiveSkill == 161 && EquipNumSearch(1079))
-		skill_atk_bonus_ratio += 15;
+	// Valorous Gladiator Blade#899 - [Refine 7-10] - Increases [Bash] and [Mammonite] damage by 20%.
+	if ((6 == n_A_ActiveSkill || 65 == n_A_ActiveSkill) && EquipNumSearch(899))
+		skill_atk_bonus_ratio += 20;
 
 	if (n_A_ActiveSkill == 428 && n_A_Weapon_ATKplus >= 9 && EquipNumSearch(1099))
 		skill_atk_bonus_ratio += 2 * n_A_Weapon_ATKplus;
@@ -8369,9 +8399,9 @@ function ApplySkillAtkBonus(dmg)
 		skill_atk_bonus_ratio += n_A_Weapon_ATKplus * EquipNumSearch(1088);
 	}
 
-	// Glorious Flamberge#1077 - [Every Refine Level] Increase [Bash], [Mammonite] and [Back Stab] damage by 2% [Amor]
+	// Glorious Flamberge#1077 - [Every Refine Level] Increase [Bash], [Mammonite] and [Back Stab] damage by 5% [Amor]
 	if (n_A_ActiveSkill == 65 || n_A_ActiveSkill == 6 || n_A_ActiveSkill == 169)
-		skill_atk_bonus_ratio += 2 * n_A_Weapon_ATKplus * EquipNumSearch(1077);
+		skill_atk_bonus_ratio += 5 * n_A_Weapon_ATKplus * EquipNumSearch(1077);
 
 	// Glorious Grenade Launcher#1103 - [Every Refine Level] Increase [Ground Drift] damage by 2% [Amor]
 	if (n_A_ActiveSkill == 437)

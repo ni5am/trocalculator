@@ -273,12 +273,12 @@ cardOBJ = [
 ,[251,7,"Poisonous Toad","Causes Envenom to push the target 5 cells back",221,65,0]
 ,[252,1,"Orc Lady","<b>Does not work on Orc Hero neither Orc Lord</b>",83,30,0]
 ,[253,1,"Seal","When equipped by an Acolyte type class, gain +9 critical against undead and demon monsters",8,10,9,3,0]
-,[254,1,"Shell Fish","Increase damage on [Crab] by 30%",1072,30,17,5,0]
+,[254,1,"Shell Fish",0,1072,30,17,5,0]
 ,[255,1,"Incantation Samurai",0,17,65,0] //custom TalonRO atk+65
 ,[256,6,"Gargoyle",0,5,5,0] //custom TalonRO dex+5 - diff position
 ,[257,6,"Gajomart",0,123,10,53,-20,0]
 ,[258,5,"Kapha","If refined to +5 or less, gain MDEF+8",0]
-,[259,1,"Crab","Increase damage on [Aster] by 30%",1240,30,17,5,0]
+,[259,1,"Crab",0,1240,30,17,5,0]
 ,[260,7,"Shinobi","10% chance of casting lv5 [Cloaking] when receiving ATK based damage",2,1,0]
 ,[261,4,"Karakasa","[Base Strenght >= 77] [Confusion] chance is increased by 6%.",397,3,0]
 ,[262,7,"Galapago","3% chance of obtaining Apple Juice, Banana Juice and Carrot Juice when killing an Insect race monster",218,[531,50,1],218,[532,50,1],218,[534,50,1],0]
@@ -375,7 +375,7 @@ cardOBJ = [
 ,[353,1,"Panzer Goblin",0,70,10,116,7,0]
 ,[354,7,"Heater","<b>[Swordman Class]</b><br>Perfect Dodge +3",10,3,0]
 ,[355,1,"Beetle King","Regain 5 SP when killing a Fish race monster with a ATK based attack<BR>Drains 5 SP when the weapon is unequipped",0]
-,[356,1,"Aster","+30% damage on [Shellfish]",1059,30,17,5,0]
+,[356,1,"Aster",0,1059,30,17,5,0]
 ,[357,1,"Kiel D-01","Add a 10% chance of gaining 5% of the damage inflicted upon an enemy as SP with each attack. (not calced)<BR>Add a 10% chance of decreasing enemy's SP amount by 5% when attacking. (not calced)",382,10,383,5,0] //custom TalonRO - diff position
 ,[358,3,"Parasite",0,60,5,18,1,0]
 ,[359,1,"False Angel","Regain 5 SP when killing a Angel race monster with a ATK based attack<BR>Drains 5 SP when the weapon is unequipped",0]
@@ -626,7 +626,7 @@ cardOBJ = [
 ,[599,2,"Hell Apocalypse",0,15,5,13,200,0]
 ,[600,100,"Hell Apocalypse + Apocalypse","[If Apocalypse Card Equipped on Meteor Plate]<br/>Gain protection from the Freeze status.",15,5,152,50,0]
 // Old Glast Heim
-,[601,1,"1st Commander of Destruction",0,8,5,5073,50,0]
+,[601,1,"1st Commander of Destruction","<b>[If Nibelungen Equipped]</b> [Brandish Spear] damage bonus is reduced to 40%.",8,5,5073,50,0]
 ,[602,1,"2nd Commander of Destruction", "<b>[If Two-Handed Spear Equipped]</b><br/> 50% more damage with [Holy Cross].",8,5,0]
 ,[603,4,"Corrupted Soul",0,18,5,19,5,393,10,399,10,0]
 ,[604,2,"Amdarais","[Cart Termination] damage inflicted on [Ghost] Element monsters by 25%.<br>[Cart Termination] damage inflicted on [Neutral] Element monsters by 10%.",300,10,308,25,0]
