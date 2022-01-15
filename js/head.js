@@ -21,6 +21,7 @@ wLAch=0;
 wCriTyuu=0;
 wBTw1=0;
 n_TAKA_DMG=0;
+w_MagiclBulet=0;
 TyouEnkakuSousa3dan = 0;
 not_use_card = 0;
 support_autospell = 0;
@@ -9864,15 +9865,22 @@ function apply_offensive_status_change(damage_list, skill_info)
 	return damage_list;
 }
 
-function apply_constant_damage_bonus(damage_list)
+function apply_misc_damage_bonus(damage_list, skill_info)
 {
-	constant_damage_bonus = 0;
+	misc_damage_bonus = [0,0];
 
 	// Asura Strike#197#321
-	if (197 == n_A_ActiveSkill || 321 == n_A_ActiveSkill)
-		constant_damage_bonus += 250 + 150 * n_A_ActiveSkillLV;
+	if (197 == skill_info.id || 321 == skill_info.id)
+	{
+		asura_constant_damage_bonus = 250 + 150 * skill_info.lv;
+		misc_damage_bonus = [asura_constant_damage_bonus, asura_constant_damage_bonus];
+	}
 
-	return [damage_list[0] + constant_damage_bonus, 0, damage_list[2] + constant_damage_bonus];
+	// Magical Bullet#423
+	if (423 == skill_info.id)
+		misc_damage_bonus = [n_A_MATK[0], n_A_MATK[1]];
+
+	return [damage_list[0] + misc_damage_bonus[0], 0, damage_list[2] + misc_damage_bonus[1]];
 }
 
 function apply_defense_reduction(damage_list, ignore_defense)
@@ -10035,7 +10043,7 @@ function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_han
 	damage_list = apply_skill_damage_ratio(damage_list, skill_info.ratio);
 
 	damage_list = apply_physical_skill_damage_modifiers(damage_list, skill_info.id);
-	damage_list = apply_constant_damage_bonus(damage_list);
+	damage_list = apply_misc_damage_bonus(damage_list, skill_info);
 
 	damage_list = apply_defense_reduction(damage_list, skill_info.ignore_defense);
 	damage_list = apply_post_defense_damage_bonus(damage_list, skill_info, is_left_hand_active);
@@ -10062,8 +10070,11 @@ function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_han
 	// if (skill_id != 159 && skill_id != 384)
 	// ATK_ADD2(wd.damage, wd.damage2, ((wd.div_ < 1) ? 1 : wd.div_) * sd->right_weapon.star, ((wd.div_ < 1) ? 1 : wd.div_) * sd->left_weapon.star);
 	
-	// Spirit Sphere damage bonus
-	damage_list = damage_list.map(x => x + 3 * Math.pow(Math.max(SkillSearch(185), n_A_PassSkill2[10]), 2));
+	// Spirit Sphere damage bonus including Flip the Coin#416 for gunslingers
+	if (192 == skill_info.id)
+		damage_list = damage_list.map(x => x + 3 * Math.pow(Math.max(SkillSearch(185), n_A_PassSkill2[10]), 2));
+	else
+		damage_list = damage_list.map(x => x + 3 * (Math.max(SkillSearch(185), n_A_PassSkill2[10]) + SkillSearch(416)));
 	
 	// Sprint#329 unarmed bonus for Whirlwind Kick#331, Axe Kick#333, Round Kick#335 and Counter Kick#337
 	if ([331, 333, 335, 337].findIndex(x => x == skill_info.id) > -1 && 0 == n_A_WeaponType)
@@ -10121,6 +10132,8 @@ function retrieve_skill_info(skill_id, skill_lv)
     allows_modifiers = true;
 	enable_masteries = true;
 	is_considered_as_single_hit = false;
+
+	// FIXME : Add hit_bonus, has_perfect_hit
 
     switch(skill_id)
     {
@@ -10354,18 +10367,14 @@ function retrieve_skill_info(skill_id, skill_lv)
             ratio += skill_lv * 0.1;
             break;
         case 419: // Bull's Eyes#419
-            acd = 1;
-            hits = 5;
             cast_time = 0.5;
             is_range_attack = true;
             allows_modifiers = false;
             ratio += (n_B[2] == 2 || n_B[2] == 7) ? 4 : 0; // Demi-human or Brute
             break;
-        case 423:
-            acd = 0.5;
+        case 423: // Magical Bullet#423
             element = 8;
             is_range_attack = true;
-            allows_modifiers = false;
             break;
         case 428: // Rapid Shower#428
             hits = 5;
@@ -10411,12 +10420,13 @@ function retrieve_skill_info(skill_id, skill_lv)
             is_range_attack = true;
             ratio += skill_lv * 0.2 - 0.2;
             break;
-        case 437:
-            acd = 1;
-            cast_time = 1;
-            is_range_attack = true;
-            allows_modifiers = false;
-            break;
+        case 437: // Ground Drift#437
+			w_HIT = 100;
+			w_HIT_HYOUJI = 100;
+
+			cast_time = 2;
+			is_range_attack = true;
+			break;
         case 275: // Magic Crasher#275
             cast_time = 0.3;
             acd = 0.3;
