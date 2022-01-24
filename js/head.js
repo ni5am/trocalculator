@@ -10525,10 +10525,13 @@ function retrieve_skill_info(skill_id, skill_lv)
             acd = 0.8 + 0.2 * skill_lv;
             break;
         case 162: // Grand Cross#162
+			hits = 3;
             acd = 1.5;
             element = 6;
-            cast_time = 3 * n_A_CAST;
+			is_magic_attack = true;
+			allows_modifiers = false;
 			enable_masteries = false;
+            cast_time = 3 * n_A_CAST;
             break;
         case 66: // Cart Revolution#66 FIXME : No impact with Over Thrust ?
             ratio += 0.5 + eval(document.calcForm.SkillSubNum.value) / 8000;
@@ -10928,4 +10931,58 @@ function retrieve_skill_info(skill_id, skill_lv)
         is_magic_attack: is_magic_attack, is_multi_hits: is_multi_hits, duration: duration,
 		is_considered_as_single_hit: is_considered_as_single_hit, enable_masteries: enable_masteries
     }
+}
+
+function retrieve_target_info()
+{
+	i = 0;
+	return {
+		id 			: n_B[i++],
+		name 		: n_B[i++],
+		race 		: n_B[i++],
+		element 	: n_B[i++],
+		size 		: n_B[i++],
+		lv 			: n_B[i++],
+		hp 			: n_B[i++],
+		vit 		: n_B[i++],
+		agi 		: n_B[i++],
+		int 		: n_B[i++],
+		dex 		: n_B[i++],
+		luk 		: n_B[i++],
+		min_atk 	: n_B[i++],
+		max_atk 	: n_B[i++],
+		def 		: n_B[i++],
+		mdef 		: n_B[i++],
+		base_exp 	: n_B[i++],
+		job_exp 	: n_B[i++],
+		unused 		: n_B[i++],
+		is_boss 	: n_B[i++],
+		monster_id 	: n_B[i++]
+	}
+}
+
+function retrieve_source_info()
+{
+	return {
+		lv 				: n_A_BaseLV,
+		jlv				: n_A_JobLV,
+		hp 				: n_A_MaxHP,
+		sp 				: n_A_MaxSP,
+		str 			: n_A_STR,
+		vit 			: n_A_VIT,
+		agi 			: n_A_AGI,
+		int 			: n_A_INT,
+		dex 			: n_A_DEX,
+		luk 			: n_A_LUK,
+		def 			: n_A_DEF,
+		vit_def			: n_A_VITDEF,
+		mdef 			: n_A_MDEF,
+		int_mdef		: n_A_INTMDEF,
+		base_atk 		: n_A_ATK,
+		rh_element 		: n_A_Weapon_zokusei,
+		rh_refine		: n_A_Weapon_ATKplus,
+		lh_element		: n_A_Weapon2_zokusei,
+		lh_refine		: n_A_Weapon2_ATKplus,
+		armor_element	: n_A_BodyZokusei
+	}
 }
