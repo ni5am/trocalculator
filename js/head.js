@@ -9975,7 +9975,14 @@ function calc_magical_attack_damage(skill_info)
 	damage_list = apply_magical_skill_damage_modifiers(damage_list, skill_info.id);
     damage_list = apply_magical_defense_reduction(damage_list, skill_info.ignore_defense);
     
-    damage_list = apply_element_damage_ratio(damage_list, skill_info);
+	// Manage Grand & Dark Cross
+	if (162 == skill_info.id) // Grand Cross#162 FIXME Invalid result
+	{
+		gc_physical_damage = calc_physical_attack_damage(skill_info, false, false);
+		damage_list = apply_element_damage_ratio(damage_list, skill_info).map((function(x, idx) { return Math.floor( (x + gc_physical_damage[idx]) * (100 + 40 * skill_info.lv) / 100); }));
+	}
+	else
+		damage_list = apply_element_damage_ratio(damage_list, skill_info);
 
     // MagicAddEle
     // Damage modifier on magic element
