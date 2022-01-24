@@ -4004,9 +4004,6 @@ with(document.calcForm){
 	if(n_B[19]==1 && CardNumSearch(425))
 		n_tok[297] += 20 * CardNumSearch(425); //custom TalonRO Vesper Card ignore 20% MDEF on boss type monsters
 		//n_tok[297] += 30 * CardNumSearch(425); // original Vesper Cardp ignore 30% Mdef on boss type monsters
-	//custom TalonRO High Wizard Card, 20% MDEF bypass on non-boss monster
-	if(n_B[19]==0 && CardNumSearch(424))
-		n_tok[296] += 20 * CardNumSearch(424);
 	if(EquipNumSearch(936))
 		n_tok[295] += (n_A_Weapon_ATKplus * 1);
 	if(n_B[19]==1 && EquipNumSearch(1228)){

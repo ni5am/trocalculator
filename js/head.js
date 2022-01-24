@@ -3287,9 +3287,7 @@ function BattleMagicCalc(wBMC)
 {
 	wBMC_MDEF = n_B[15];
 	var MDEF_Musi = 0;
-	//custom TalonRO Update 2014-09-24
-	//if(n_B[19]==0 && CardNumSearch(424))
-	//	MDEF_Musi = 1;
+
 	if(MDEF_Musi != 0){
 		//custom TalonRO High Wizard Kathryne
 		wBMC_MDEF = wBMC_MDEF/100*80;
