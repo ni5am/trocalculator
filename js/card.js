@@ -444,7 +444,7 @@ cardOBJ = [
 ,[422,2,"Angra Mantis","<b>[Thief Class]</b><br>Every 2 refine adds 1% critical damage",70,2,0]
 ,[423,6,"General Egnigem Cenia","Regain 100 HP and 100 SP every 10 seconds",15,20,16,20,0] //custom TalonRO better regenaration; +20% instead of +10% hp, +20% sp
 ,[424,2,"High Wizard",0,296,20,0] //custom TalonRO ignore 20% mdef of non-boss; removed cast-time and spregen stuff
-,[425,2,"Vesper","Magical attacks ignore the magical defenses by 20% on boss type monsters",0] //custom TalonRO ignores 20% instead of 30%
+,[425,2,"Vesper",0,297,20,0] //custom TalonRO ignores 20% instead of 30%
 ,[426,2,"Margaretha Solin",0,4,1,221,85,0]
 ,[427,1,"Thanatos Dolor",0,178,10,0]
 ,[428,1,"Skeggiold",0,176,2,0]
