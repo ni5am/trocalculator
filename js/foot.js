@@ -3998,9 +3998,6 @@ with(document.calcForm){
 		n_tok[295] += 10 + n_A_Weapon_ATKplus;
 	if(n_A_WeaponType==9)
 		n_tok[295] += 2 * CardNumSearch(466);
-	//custom TalonRO Gold Queen Scaraba Card, 1% mdef bypass with rod-type weapon
-	if(n_A_WeaponType==9)
-		n_tok[295] += 1 * CardNumSearch(529);
 	if(EquipNumSearch(936))
 		n_tok[295] += (n_A_Weapon_ATKplus * 1);
 	if(n_B[19]==1 && EquipNumSearch(1228)){

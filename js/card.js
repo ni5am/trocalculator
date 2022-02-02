@@ -550,7 +550,7 @@ cardOBJ = [
 ,[527,2,"King Dramoh","<b>[Swordsman Class]</b><br>STR + 1 for every 3 refines",1,2,0]
 //custom TalonRO [Update 2014-08-30]
 ,[528,7,"Gold Scaraba","Increases your ATK by 1 for every 5 job levels you have",15,-1,0]
-,[529,1,"Gold Queen Scaraba","Add a 1% Magical Defense bypass (with rod-type weapon)",12,15,190,1,191,1,192,1,0]
+,[529,1,"Gold Queen Scaraba",0,12,15,190,1,191,1,192,1,295,1,0]
 //custom TalonRO [Update 2015-01-01]
 ,[530,2,"Pinguicula","<b>[Ninja Class]</b><br>Nullifies the use of Ninja Stones when casting skills",72,25,0]
 //custom TalonRO [Update 2015-12-29]
