@@ -9969,68 +9969,68 @@ function apply_magical_defense_reduction(damage_list, ignore_defense)
 function calc_magical_attack_damage(skill_info)
 {
     // Initialize damage list with min matk and max matk used for status display
-    damage_list = [0, 0, 0];
-    damage_list[0] = n_A_MATK[0];
-    damage_list[2] = n_A_MATK[2];
+    magical_damage = [0, 0, 0];
+    magical_damage[0] = n_A_MATK[0];
+    magical_damage[2] = n_A_MATK[2];
 
     if (122 == skill_info.id) // Fire Pillar#122
-        damage_list = damage_list.map(function(x) {return x + 50});
+        magical_damage = magical_damage.map(function(x) {return x + 50});
     else if (104 == skill_info.id && n_B[2] != 6 && n_B[3] < 90) // Magnus Exorcismus#104 on non-undead monsters
-        damage_list = damage_list.map(function(x) {return 0});
+        magical_damage = magical_damage.map(function(x) {return 0});
 	else if (325 == skill_info.id) // Gravitation Field#325
-		damage_list = damage_list.map(function(x) {return 200 + 200 * skill_info.lv});
+		magical_damage = magical_damage.map(function(x) {return 200 + 200 * skill_info.lv});
 
 	// FIXME: Manage heal/sanctuary
 	// skill_calc_heal(skill_id, skill_lv);
 
-	damage_list = apply_skill_damage_ratio(damage_list, skill_info.ratio);
-	damage_list = apply_magical_skill_damage_modifiers(damage_list, skill_info.id);
-    damage_list = apply_magical_defense_reduction(damage_list, skill_info.ignore_defense);
+	magical_damage = apply_skill_damage_ratio(magical_damage, skill_info.ratio);
+	magical_damage = apply_magical_skill_damage_modifiers(magical_damage, skill_info.id);
+    magical_damage = apply_magical_defense_reduction(magical_damage, skill_info.ignore_defense);
     
 	// Manage Grand & Dark Cross
 	if (162 == skill_info.id) // Grand Cross#162 FIXME Invalid result
 	{
-		gc_physical_damage = calc_physical_attack_damage(skill_info, false, false);
-		damage_list = apply_element_damage_ratio(damage_list, skill_info).map((function(x, idx) { return Math.floor( (x + gc_physical_damage[idx]) * (100 + 40 * skill_info.lv) / 100); }));
+		physical_damage = calc_physical_attack_damage(skill_info, false, false);
+		magical_damage = apply_element_damage_ratio(magical_damage.map(function(x, idx) { return Math.floor((x + physical_damage[idx]) * (100 + 40 * skill_info.lv) / 100); }), skill_info);
 	}
 	else
-		damage_list = apply_element_damage_ratio(damage_list, skill_info);
+		magical_damage = apply_element_damage_ratio(magical_damage, skill_info);
 
-    // MagicAddEle
-    // Damage modifier on magic element
-    element_modifier = 100 + n_tok[340 + skill_info.element]
+	if (skill_info.allows_modifiers)
+	{
+		// MagicAddEle
+		// Damage modifier on magic element
+		element_modifier = 100 + n_tok[340 + skill_info.element]
 
-    // Damage modifier for monster element
-    element_modifier += n_tok[350 + Math.floor(n_B[3]/10)];
+		// Damage modifier for monster element
+		element_modifier += n_tok[350 + Math.floor(n_B[3]/10)];
 
-    // Damage modifier for race - bMagicAddRace
-    // Dragonology#234 - Increases Attack Power, MATK and DEF against Dragon type monsters by 4% per SkillLV
-    n_tok[179] += SkillSearch(234) * 4;
-    race_modifier = 100 + n_tok[170 + n_B[2]];
+		// Damage modifier for race - bMagicAddRace
+		// Dragonology#234 - Increases Attack Power, MATK and DEF against Dragon type monsters by 4% per SkillLV
+		n_tok[179] += SkillSearch(234) * 4;
+		race_modifier = 100 + n_tok[170 + n_B[2]];
 
-    // Increases magical damage against bosstype monsters - bMagicAddClass,Class_Boss
-    class_modifier = 100 + (n_B[19] ? n_tok[97] : n_tok[96]);
+		// Increases magical damage against bosstype monsters - bMagicAddClass,Class_Boss
+		class_modifier = 100 + (n_B[19] ? n_tok[97] : n_tok[96]);
 
-    // bMagicAddSize - unused modifier
-    // bMagicAddRace2 - unused modifier
-    // bAddMagicDamageClass - unused modifier
-    
-    // Monster region damage modifier
-	// FIXME: Dedicated function required ?
-    monster_modifier = 100;
-    if (n_A_PassSkill8[23] && MANUKU_MONSTER())
-        monster_modifier += 10;
-    if (n_A_PassSkill8[26] && SUPURE_MONSTER())
-        monster_modifier += 10;
+		// bMagicAddSize - unused modifier
+		// bMagicAddRace2 - unused modifier
+		// bAddMagicDamageClass - unused modifier
+		
+		// Monster region damage modifier
+		// FIXME: Dedicated function required ?
+		monster_modifier = 100;
+		if (n_A_PassSkill8[23] && MANUKU_MONSTER())
+			monster_modifier += 10;
+		if (n_A_PassSkill8[26] && SUPURE_MONSTER())
+			monster_modifier += 10;
 
-    modifiers = race_modifier / 100 * element_modifier / 100 * class_modifier / 100 * monster_modifier;
-	
-	damage_list = apply_damage_modifier(damage_list, modifiers)
-	damage_list = damage_list.map(function(x) { return x * (skill_info.is_considered_as_single_hit ? 1 : skill_info.hits)});
+		modifiers = race_modifier / 100 * element_modifier / 100 * class_modifier / 100 * monster_modifier;
+		
+		magical_damage = apply_damage_modifier(magical_damage, modifiers)
+	}
 
-	damage_list = apply_offensive_status_change(damage_list, skill_info);
-
-    return damage_list;
+    return magical_damage;
 }
 
 function calc_attack_damage(skill_id, skill_lv, is_critical_attack, is_left_hand_active)
@@ -10049,6 +10049,15 @@ function calc_attack_damage(skill_id, skill_lv, is_critical_attack, is_left_hand
 	else
 		damage = calc_physical_attack_damage(skill_info, is_critical_attack, is_left_hand_active);
 	
+	damage = damage.map(function(x) { return x * (skill_info.is_considered_as_single_hit ? 1 : skill_info.hits)});
+
+	damage = apply_offensive_status_change(damage, skill_info);
+
+	// Asura Strike#197#321 soft cap damage management
+	if (197 == skill_info.id || 321 == skill_info.id)
+		damage = damage.map(function(x) { return manage_asura_soft_cap(x) });
+
+	
 	return damage;
 }
 
@@ -10058,33 +10067,33 @@ function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_han
 	base_atk = n_A_ATK;
 	is_dex_based = (n_A_WeaponType == 10 || 17 <= n_A_WeaponType && n_A_WeaponType <= 21);
 	
-	damage_list = calc_skill_base_damage(skill_info.id, base_atk, is_critical_attack, is_left_hand_active, is_dex_based);
-	damage_list = apply_skill_damage_ratio(damage_list, skill_info.ratio);
+	physical_damage = calc_skill_base_damage(skill_info.id, base_atk, is_critical_attack, is_left_hand_active, is_dex_based);
+	physical_damage = apply_skill_damage_ratio(physical_damage, skill_info.ratio);
 
-	damage_list = apply_physical_skill_damage_modifiers(damage_list, skill_info.id, skill_info.lv);
-	damage_list = apply_misc_damage_bonus(damage_list, skill_info);
+	physical_damage = apply_physical_skill_damage_modifiers(physical_damage, skill_info.id, skill_info.lv);
+	physical_damage = apply_misc_damage_bonus(physical_damage, skill_info);
 
-	damage_list = apply_defense_reduction(damage_list, skill_info.ignore_defense);
-	damage_list = apply_post_defense_damage_bonus(damage_list, skill_info, is_left_hand_active);
-	damage_list = apply_element_damage_ratio(damage_list, skill_info);
-	damage_list = apply_additional_element_damage(damage_list, skill_info, base_atk);
+	physical_damage = apply_defense_reduction(physical_damage, skill_info.ignore_defense);
+	physical_damage = apply_post_defense_damage_bonus(physical_damage, skill_info, is_left_hand_active);
+	physical_damage = apply_element_damage_ratio(physical_damage, skill_info);
+	physical_damage = apply_additional_element_damage(physical_damage, skill_info, base_atk);
 
 	// Throw Kunai#395 bonus damage
 	if (395 == skill_info.id)
-		damage_list = damage_list.map(x => x + 90);
+		physical_damage = physical_damage.map(x => x + 90);
 	
 	// Weaponry Research#148 damage bonus
-	damage_list = damage_list.map(x => x + 2 * SkillSearch(148));
+	physical_damage = physical_damage.map(x => x + 2 * SkillSearch(148));
 	
 	// Envenom#17 [TF_Poison] damage bonus
-	damage_list = damage_list.map(x => x + 15 * SkillSearch(17));
+	physical_damage = physical_damage.map(x => x + 15 * SkillSearch(17));
 	
 	// Ground Drift#437 bonus damage
-	damage_list = damage_list.map(x => x + 50 * SkillSearch(437));
+	physical_damage = physical_damage.map(x => x + 50 * SkillSearch(437));
 	
 	// Hilt Binding#146 damage bonus, does not apply to Cart Revolution#66
 	if (skill_info.id != 66 && SkillSearch(146))
-		damage_list = damage_list.map(x => x + 4);
+		physical_damage = physical_damage.map(x => x + 4);
 	
 	// FIXME Star Crumb bonus, does not apply to Shield Boomerang#159#384
 	// if (skill_id != 159 && skill_id != 384)
@@ -10092,28 +10101,21 @@ function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_han
 	
 	// Spirit Sphere damage bonus including Flip the Coin#416 for gunslingers
 	if (192 == skill_info.id)
-		damage_list = damage_list.map(x => x + 3 * Math.pow(Math.max(SkillSearch(185), n_A_PassSkill2[10]), 2));
+		physical_damage = physical_damage.map(x => x + 3 * Math.pow(Math.max(SkillSearch(185), n_A_PassSkill2[10]), 2));
 	else
-		damage_list = damage_list.map(x => x + 3 * (Math.max(SkillSearch(185), n_A_PassSkill2[10]) + SkillSearch(416)));
+		physical_damage = physical_damage.map(x => x + 3 * (Math.max(SkillSearch(185), n_A_PassSkill2[10]) + SkillSearch(416)));
 	
 	// Sprint#329 unarmed bonus for Whirlwind Kick#331, Axe Kick#333, Round Kick#335 and Counter Kick#337
 	if ([331, 333, 335, 337].findIndex(x => x == skill_info.id) > -1 && 0 == n_A_WeaponType)
-		damage_list = damage_list.map(x => x + 10 * SkillSearch(329));
+		physical_damage = physical_damage.map(x => x + 10 * SkillSearch(329));
 	
 	// Refine bonus for Shield Chain#324 and Shield Boomerang#159#384
 	if ([159, 324, 385].findIndex(x => x == skill_info.id) > -1)
-		damage_list = damage_list.map(x => x + shield_refine * 10);
+		physical_damage = physical_damage.map(x => x + shield_refine * 10);
 
-	damage_list = apply_physical_damage_modifiers(damage_list, skill_info.is_range_attack, is_critical_attack, skill_info.allows_modifiers);
-	damage_list = damage_list.map(function(x) { return x * (skill_info.is_considered_as_single_hit ? 1 : skill_info.hits)});
+	physical_damage = apply_physical_damage_modifiers(physical_damage, skill_info.is_range_attack, is_critical_attack, skill_info.allows_modifiers);
 
-	damage_list = apply_offensive_status_change(damage_list, skill_info);
-
-	// Asura Strike#197#321 soft cap damage management
-	if (197 == skill_info.id || 321 == skill_info.id)
-		damage_list = damage_list.map(function(x) { return manage_asura_soft_cap(x) });
-
-	return damage_list;
+	return physical_damage;
 }
 
 function manage_asura_soft_cap(damage)
