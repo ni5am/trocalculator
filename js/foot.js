@@ -3998,12 +3998,6 @@ with(document.calcForm){
 		n_tok[295] += 10 + n_A_Weapon_ATKplus;
 	if(n_A_WeaponType==9)
 		n_tok[295] += 2 * CardNumSearch(466);
-	//custom TalonRO Gold Queen Scaraba Card, 1% mdef bypass with rod-type weapon
-	if(n_A_WeaponType==9)
-		n_tok[295] += 1 * CardNumSearch(529);
-	if(n_B[19]==1 && CardNumSearch(425))
-		n_tok[297] += 20 * CardNumSearch(425); //custom TalonRO Vesper Card ignore 20% MDEF on boss type monsters
-		//n_tok[297] += 30 * CardNumSearch(425); // original Vesper Cardp ignore 30% Mdef on boss type monsters
 	if(EquipNumSearch(936))
 		n_tok[295] += (n_A_Weapon_ATKplus * 1);
 	if(n_B[19]==1 && EquipNumSearch(1228)){
