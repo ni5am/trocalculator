@@ -9463,7 +9463,7 @@ function apply_physical_damage_modifiers(damage_list, is_range_attack, is_critic
 	return apply_damage_modifier(damage_list, modifiers);
 }
 
-function apply_physical_skill_damage_modifiers(damage_list, skill_id)
+function apply_physical_skill_damage_modifiers(damage_list, skill_id, skill_lv)
 {
 	skill_modifier = 100;
 
@@ -9614,7 +9614,7 @@ function apply_physical_skill_damage_modifiers(damage_list, skill_id)
 	if (skill_id == 437 && n_A_Weapon_ATKplus >= 9 && EquipNumSearch(1103))
 		skill_modifier += 2 * n_A_Weapon_ATKplus;
 
-	if ((skill_id == 6 || skill_id == 76) && skill_idLV == 10 && EquipNumSearch(1159))
+	if ((skill_id == 6 || skill_id == 76) && skill_lv == 10 && EquipNumSearch(1159))
 		skill_modifier += 50;
 
 	if (skill_id == 65 && (SU_LUK >= 90 || SU_DEX >= 90) && EquipNumSearch(1164))
@@ -10047,7 +10047,7 @@ function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_han
 	damage_list = calc_skill_base_damage(skill_info.id, base_atk, is_critical_attack, is_left_hand_active, is_dex_based);
 	damage_list = apply_skill_damage_ratio(damage_list, skill_info.ratio);
 
-	damage_list = apply_physical_skill_damage_modifiers(damage_list, skill_info.id);
+	damage_list = apply_physical_skill_damage_modifiers(damage_list, skill_info.id, skill_info.lv);
 	damage_list = apply_misc_damage_bonus(damage_list, skill_info);
 
 	damage_list = apply_defense_reduction(damage_list, skill_info.ignore_defense);
