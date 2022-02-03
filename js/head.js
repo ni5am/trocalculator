@@ -9775,6 +9775,7 @@ function apply_monster_physical_damage_modifiers(damage_list)
 
 function apply_element_damage_ratio(damage_list, skill_info)
 {
+	// FIXME: replace n_B[3] with target_info
 	element_ratio = 100;
 	aoe_damage_bonus = [100, 110, 114, 117, 119, 120];
 
@@ -9798,6 +9799,19 @@ function apply_element_damage_ratio(damage_list, skill_info)
 		damage_list = apply_damage_modifier(damage_list, 200);
 
 	return apply_damage_modifier(damage_list, element_ratio);
+}
+
+function apply_additional_element_damage(damage_list, skill_info, base_atk)
+{
+	additional_damage = [0, 0, 0]
+
+	if (n_A_PassSkill2[11]) // Apply Magnum Break#7 SC_WATK_ELEMENT damage bonus
+	{
+		additional_damage = apply_damage_modifier(calc_base_atk(base_atk, false, false, false), 20); // 20% of base attack
+		additional_damage = apply_damage_modifier(additional_damage, 100 * Math.max(zokusei[n_B[3]][3],0)); // With fire property
+	}
+	
+	return damage_list.map(function(x, idx) { return (x + additional_damage[idx])})
 }
 
 function apply_damage_modifier(damage_list, modifier)
@@ -10053,6 +10067,7 @@ function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_han
 	damage_list = apply_defense_reduction(damage_list, skill_info.ignore_defense);
 	damage_list = apply_post_defense_damage_bonus(damage_list, skill_info, is_left_hand_active);
 	damage_list = apply_element_damage_ratio(damage_list, skill_info);
+	damage_list = apply_additional_element_damage(damage_list, skill_info, base_atk);
 
 	// Throw Kunai#395 bonus damage
 	if (395 == skill_info.id)
@@ -10160,6 +10175,7 @@ function retrieve_skill_info(skill_id, skill_lv)
             acd = 2;
             element = 3;
             ratio += skill_lv * 0.2;
+			// FIXME: 0.2 for inner range 3x3, 0.1 for outer range 5x5
             break;
         case 19: // Sand Attack#19
             element = 2;
