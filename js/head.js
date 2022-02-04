@@ -10048,10 +10048,11 @@ function calc_magical_attack_damage(skill_info)
 function calc_attack_damage(skill_id, skill_lv, is_critical_attack, is_left_hand_active)
 {
 	damage = [0, 0, 0];
-	// Manage skill with fixed damage
-
-	// Pressure#283
-	if (283 == skill_id)
+	
+	// Manage misc skill with fixed damage
+	if (22 == skill_id) // Throw Stone#22
+		return damage.map(function(x) {return 50});
+	else if (283 == skill_id) // Pressure#283
 		return damage.map(function(x) {return 500 + 300 * skill_lv});
 
 	skill_info = retrieve_skill_info(skill_id, skill_lv);
