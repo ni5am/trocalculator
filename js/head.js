@@ -9895,28 +9895,40 @@ function apply_misc_damage_bonus(damage_list, skill_info)
 	return [damage_list[0] + misc_damage_bonus[0], 0, damage_list[2] + misc_damage_bonus[1]];
 }
 
-function apply_defense_reduction(damage_list, ignore_defense)
+function apply_defense_reduction(damage_list, skill_info)
 {
-    if (!ignore_defense)
+    if (!skill_info.ignore_defense)
     {
-        effective_vitdef = [0, 0, 0];
+		// FIXME: replace with target_info for def reduction
+		vit_def = [0, 0, 0]
+		vit_def_bonus = Math.floor(n_B_DEF2[0] / 20) * Math.floor(n_B_DEF2[0] / 20);
+		
+		if (Taijin == 0 && n_B_IJYOU[21]) // Eska increases the random part of the formula by 100
+			vit_def_bonus += 100;
+		
+		vit_def[0] = n_B_DEF2[2];
+		vit_def[1] = n_B_DEF2[1] + Math.floor(vit_def_bonus / 2);
+		vit_def[2] = n_B_DEF2[0] + vit_def_bonus;
+		
+		// Defense reduction managed directly in monster properties
+		effective_def = n_B[14];
+		effective_vitdef = n_B_DEF2;
 
-        // bDefIgnoreRace
-        effective_def = Math.abs((n_tok[180 + n_B[2]] - 1) * n_B[14]);
-
-        for (i = 0; i < effective_vitdef.length; ++i)
-            effective_vitdef[i] = Math.abs((n_tok[180 + n_B[2]] - 1) * n_B_DEF2[i]);
-
-        // bDefIgnoreClass
-        effective_def *= Math.abs(Math.min((n_B[19] ? Math.floor(n_tok[22] / 10) : n_tok[22]), 1) - 1);
-        for (i = 0; i < effective_vitdef.length; ++i)
-            effective_vitdef[i] *= Math.abs(Math.min((n_B[19] ? Math.floor(n_tok[22] / 10) : n_tok[22]), 1) - 1);
-
-        damage_list = apply_damage_modifier(damage_list, 100 - effective_def);
-        damage_list = [damage_list[0] - effective_vitdef[0], 0, damage_list[2] - effective_vitdef[2]];
+		if (is_attack_piercing(skill_info)) // Investigate#193 damage are doubled
+			damage_list = damage_list.map(function(x, idx) { return Math.floor(x * (effective_def + vit_def[idx]) / (193 == skill_info.id ? 50 : 100)); });
+		else
+			damage_list = damage_list.map(function(x, idx) { return Math.floor(x * (100 - effective_def) / 100 - effective_vitdef[idx]); });
     }
 
     return damage_list;
+}
+
+function is_attack_piercing(skill_info)
+{
+	if (skill_info.id != 162 && skill_info.id != 324 && skill_info.id != 284 && skill_info.id != 159 && skill_info.id != 384) // Sacrifice#284, Grand Cross#162, Shield Chain#324, Shield Boomerang#159#384
+		return (193 == skill_info.id || n_tok[23]);  // bDefRatioAtkClass, Investigate#193
+
+	return false;
 }
 
 function apply_post_defense_damage_bonus(damage_list, skill_info, is_left_hand_active)
@@ -10073,7 +10085,7 @@ function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_han
 	physical_damage = apply_physical_skill_damage_modifiers(physical_damage, skill_info.id, skill_info.lv);
 	physical_damage = apply_misc_damage_bonus(physical_damage, skill_info);
 
-	physical_damage = apply_defense_reduction(physical_damage, skill_info.ignore_defense);
+	physical_damage = apply_defense_reduction(physical_damage, skill_info);
 	physical_damage = apply_post_defense_damage_bonus(physical_damage, skill_info, is_left_hand_active);
 	physical_damage = apply_element_damage_ratio(physical_damage, skill_info);
 	physical_damage = apply_additional_element_damage(physical_damage, skill_info, base_atk);
@@ -10519,6 +10531,7 @@ function retrieve_skill_info(skill_id, skill_lv)
             element = 0;
             is_range_attack = true;
             ratio += 0.3 * skill_lv;
+			enable_masteries = false;
             break;
         case 324: // Shield Chain#324
             acd = 1;
@@ -10526,6 +10539,7 @@ function retrieve_skill_info(skill_id, skill_lv)
             element = 0;
             cast_time = n_A_CAST;
             is_range_attack = true;
+			enable_masteries = false;
             ratio += 0.3 * skill_lv;
             break;
         case 259: // Spiral Pierce#259
