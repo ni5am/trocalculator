@@ -18,7 +18,7 @@ SkillOBJ = [
 [16,10,'Hiding',10],
 [17,10,'Envenom',12],
 [18,1,'Detoxify',10],
-[19,1,'Sand Attack',9],
+[19,1,'Sprinkle Sand',9],
 [20,1,'Back Slide',7],
 [21,1,'Find Stone',3],
 [22,1,'Throw Stone',2],

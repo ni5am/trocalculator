@@ -10194,10 +10194,10 @@ function retrieve_skill_info(skill_id, skill_lv)
             ratio += skill_lv * 0.2;
 			// FIXME: 0.2 for inner range 3x3, 0.1 for outer range 5x5
             break;
-        case 19: // Sand Attack#19
+        case 19: // Sprinkle Sand#19
             element = 2;
-            ratio += 0.25;
-            allows_modifiers = false;
+            ratio += 0.3;
+            allows_modifiers = true;
             break;
         case 41: // Arrow Shower#41
             acd = 1;
