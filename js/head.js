@@ -10099,10 +10099,12 @@ function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_han
 	physical_damage = physical_damage.map(x => x + 2 * SkillSearch(148));
 	
 	// Envenom#17 [TF_Poison] damage bonus
-	physical_damage = physical_damage.map(x => x + 15 * SkillSearch(17));
+	if (17 == skill_info.id)
+		physical_damage = physical_damage.map(x => x + 15 * skill_info.lv);
 	
 	// Ground Drift#437 bonus damage
-	physical_damage = physical_damage.map(x => x + 50 * SkillSearch(437));
+	if (437 == skill_info.id)
+		physical_damage = physical_damage.map(x => x + 50 * skill_info.lv);
 	
 	// Hilt Binding#146 damage bonus, does not apply to Cart Revolution#66
 	if (skill_info.id != 66 && SkillSearch(146))
