@@ -10129,6 +10129,13 @@ function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_han
 		physical_damage = physical_damage.map(x => x + shield_refine * 10);
 
 	physical_damage = apply_physical_damage_modifiers(physical_damage, skill_info.is_range_attack, is_critical_attack, skill_info.allows_modifiers);
+	
+	// Soul Breaker#263 misc damage part based on source INT
+	if (263 == skill_info.id)
+	{
+		physical_damage = physical_damage.map(x => x + 500 + 5 * skill_info.lv * n_A_INT);
+		physical_damage[2] += 500; // Max damage must take into consideration the random part rnd()%500
+	}
 
 	return physical_damage;
 }
