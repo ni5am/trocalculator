@@ -9223,7 +9223,7 @@ function calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex
 		atk_min = n_A_DEX;
 
 		if (weapon_lv)
-			atk_min *= (80 + weapon_lv * 20) / 100;
+			atk_min = Math.floor(atk_min * (80 + weapon_lv * 20) / 100);
 
 		atk_min = Math.min(atk_min, atk_max);
 
@@ -9628,9 +9628,6 @@ function apply_physical_skill_damage_modifiers(damage_list, skill_id, skill_lv)
 	if (TyouEnkakuSousa3dan == -1 && EquipNumSearch(639))
 		skill_modifier += 15;
 
-	if ((skill_id==83 || skill_id==388) && SkillSearch(381)) // FIXME :  && wBCEDPch==0
-		skill_modifier += 10;
-
 	// Meteor Assault#264
 	if (skill_id == 264)
 	{
@@ -9949,7 +9946,7 @@ function apply_post_defense_damage_bonus(damage_list, skill_info, is_left_hand_a
 	
 	// Sonic Acceleration#381 - Sonic Blow damage#83#388 + 10%
 	if ((83 == skill_info.id || 388 == skill_info.id) && SkillSearch(381))
-		damage_list = apply_damage_modifier(damage_list, 10);
+		damage_list = apply_damage_modifier(damage_list, 110);
 
     damage_list = apply_masteries_bonus(damage_list, skill_info);
 
@@ -10056,7 +10053,7 @@ function calc_attack_damage(skill_id, skill_lv, is_critical_attack, is_left_hand
 	else
 		damage = calc_physical_attack_damage(skill_info, is_critical_attack, is_left_hand_active);
 	
-	damage = damage.map(function(x) { return x * (skill_info.is_considered_as_single_hit ? 1 : skill_info.hits)});
+	damage = damage.map(function(x) { return (skill_info.is_considered_as_single_hit ? x - x % skill_info.hits : x * skill_info.hits)});
 	
 	// Lex Aeterna
 	if (n_B_IJYOU[6])
@@ -10265,7 +10262,8 @@ function retrieve_skill_info(skill_id, skill_lv)
         case 388:   // Sonic Blow [Soul Linked]#388
             hits = 8;
             forced_motion = 2;
-            ratio += skill_lv * 0.5 + 2;
+            ratio += skill_lv * 0.4 + 3;
+			is_considered_as_single_hit = true;
             break;
         case 111:
             element = 1;
