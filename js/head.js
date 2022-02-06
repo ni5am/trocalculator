@@ -9846,9 +9846,9 @@ function apply_offensive_status_change(damage_list, skill_info)
 	if (384 == skill_info.id)
 	    damage_list = apply_damage_modifier(damage_list, 200);
 
-	// EDP - Venom Splasher, Soul Breaker, Meteor Assault ignore EDP
+	// Venom Splasher#88, Soul Breaker#263, Meteor Assault#264 ignore EDP
 	edp_lv = SkillSearch(266);
-	if ((skill_info.id != 88 || skill_info.id != 263 || skill_info.id != 264) && edp_lv)
+	if (skill_info.id != 88 && skill_info.id != 263 && skill_info.id != 264 && edp_lv)
 		damage_list = apply_damage_modifier(damage_list, 150 + 50 * edp_lv);
 
 	// Miracle - All monsters are considered as Star monsters
