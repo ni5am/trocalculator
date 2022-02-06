@@ -9329,6 +9329,10 @@ function calc_skill_base_damage(active_skill, base_atk, is_critical_attack, is_l
 				(sc && sc->data[SC_WEAPONPERFECTION]?8:0);*/
 			break;
     }
+	
+	// Manage Poison Knife attack
+	if (306 == active_skill)
+		damage_list[2] += 29;
 
 	if (skill_base_damage)
 		return [skill_base_damage, skill_base_damage, skill_base_damage];
@@ -9455,9 +9459,13 @@ function apply_physical_damage_modifiers(damage_list, is_range_attack, is_critic
 		if (106 == n_B[0] || 152 == n_B[0] || 308 == n_B[0] || 32 == n_B[0] || 541 == n_B[0]) // RC2_Golem
 			race2_modifier += n_tok[84];
 
+		adv_katar_mastery = 100;
+		if (11 == n_A_WeaponType && SkillSearch(262)) // Adv. Katar Mastery functions similar to a +%ATK card
+			adv_katar_mastery += 10 + 2 * SkillSearch(262);
+
 		// wBaiCI = Math.floor(tPlusDamCut(wBaiCI));
 		// FIXME: tPlusDamCut ?
-		modifiers *= race_modifier / 100 * race2_modifier / 100 * element_modifier / 100 * class_modifier / 100 * critical_modifier / 100 * size_modifier / 100 * range_modifier / 100;
+		modifiers *= race_modifier / 100 * race2_modifier / 100 * element_modifier / 100 * class_modifier / 100 * critical_modifier / 100 * size_modifier / 100 * range_modifier / 100 * adv_katar_mastery / 100;
 	}
 	
 	return apply_damage_modifier(damage_list, modifiers);
@@ -9499,9 +9507,6 @@ function apply_physical_skill_damage_modifiers(damage_list, skill_id, skill_lv)
 	// Poison React[Counter]#86
 	if (skill_id == 86 && (50 <= n_B[3] && n_B[3] < 60))
 		skill_modifier += 30 * skill_idLV;
-
-	if(n_A_WeaponType == 11 && SkillSearch(262))
-		skill_modifier += 10 + 2 * SkillSearch(262);
 
 	if (skill_id == 6 && n_A_SHOES_DEF_PLUS >= 9 && CardNumSearch(362))
 		skill_modifier += 10;
