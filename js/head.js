@@ -9501,9 +9501,6 @@ function apply_physical_skill_damage_modifiers(damage_list, skill_id, skill_lv)
 	if (SkillSearch(258))
 		skill_modifier += 100;
 
-	if (SkillSearch(266))
-		skill_modifier += 50 * (SkillSearch(266) + 1);
-
 	// Poison React[Counter]#86
 	if (skill_id == 86 && (50 <= n_B[3] && n_B[3] < 60))
 		skill_modifier += 30 * skill_idLV;
@@ -9852,18 +9849,10 @@ function apply_offensive_status_change(damage_list, skill_info)
 	if (384 == skill_info.id)
 	    damage_list = apply_damage_modifier(damage_list, 200);
 
-    // Lex Aeterna
-	if (n_B_IJYOU[6])
-	{
-	    if (skill_info.is_multi_hits) // Manage multi-hit
-	        damage_list = apply_damage_modifier(damage_list, 100 + 100 * (skill_info.hits + 1) / skill_info.hits);
-	    else
-	        damage_list = apply_damage_modifier(damage_list, 200);
-	}
-
 	// EDP - Venom Splasher, Soul Breaker, Meteor Assault ignore EDP
-	if ((skill_info.id != 88 || skill_info.id != 263 || skill_info.id != 264) && SkillSearch(266))
-		damage_list = apply_damage_modifier(damage_list, 150 + 50 * SkillSearch(266));
+	edp_lv = SkillSearch(266);
+	if ((skill_info.id != 88 || skill_info.id != 263 || skill_info.id != 264) && edp_lv)
+		damage_list = apply_damage_modifier(damage_list, 150 + 50 * edp_lv);
 
 	// Miracle - All monsters are considered as Star monsters
 	// Hatred
@@ -10068,8 +10057,20 @@ function calc_attack_damage(skill_id, skill_lv, is_critical_attack, is_left_hand
 		damage = calc_physical_attack_damage(skill_info, is_critical_attack, is_left_hand_active);
 	
 	damage = damage.map(function(x) { return x * (skill_info.is_considered_as_single_hit ? 1 : skill_info.hits)});
+	
+	// Lex Aeterna
+	if (n_B_IJYOU[6])
+	{
+	    if (skill_info.is_multi_hits) // Manage multi-hit
+	        damage_list = apply_damage_modifier(damage_list, 100 + 100 * (skill_info.hits + 1) / skill_info.hits);
+	    else
+	        damage_list = apply_damage_modifier(damage_list, 200);
+	}
 
-	damage = apply_offensive_status_change(damage, skill_info);
+	// FIXME: Manage damage reduction status
+	// SC_ARMORCHANGE, SC_ENERGYCOAT, SC_FOGWALL, SC_DEFENDER, SC_ASSUMPTIO
+	
+	// FIXME: Manage RC2 damage modifiers
 
 	// Asura Strike#197#321 soft cap damage management
 	if (197 == skill_info.id || 321 == skill_info.id)
@@ -10090,6 +10091,7 @@ function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_han
 
 	physical_damage = apply_physical_skill_damage_modifiers(physical_damage, skill_info.id, skill_info.lv);
 	physical_damage = apply_misc_damage_bonus(physical_damage, skill_info);
+	physical_damage = apply_offensive_status_change(physical_damage, skill_info);
 
 	physical_damage = apply_defense_reduction(physical_damage, skill_info);
 	physical_damage = apply_post_defense_damage_bonus(physical_damage, skill_info, is_left_hand_active);
