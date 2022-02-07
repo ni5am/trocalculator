@@ -9891,24 +9891,25 @@ function apply_defense_reduction(damage_list, skill_info)
     if (!skill_info.ignore_defense)
     {
 		// FIXME: replace with target_info for def reduction
+		// FIXME: VITDEF formula different for players
+		def2 = n_B[7]; // FIXME target VIT
 		vit_def = [0, 0, 0]
-		vit_def_bonus = Math.floor(n_B_DEF2[0] / 20) * Math.floor(n_B_DEF2[0] / 20);
+		vit_def_bonus = Math.floor(def2 / 20) * Math.floor(def2 / 20);
 		
 		if (Taijin == 0 && n_B_IJYOU[21]) // Eska increases the random part of the formula by 100
 			vit_def_bonus += 100;
 		
-		vit_def[0] = n_B_DEF2[2];
-		vit_def[1] = n_B_DEF2[1] + Math.floor(vit_def_bonus / 2);
-		vit_def[2] = n_B_DEF2[0] + vit_def_bonus;
+		vit_def[0] = def2;
+		vit_def[1] = def2 + Math.max(0, (vit_def_bonus - 1) / 2);
+		vit_def[2] = def2 + Math.max(0, vit_def_bonus - 1);
 		
 		// Defense reduction managed directly in monster properties
 		effective_def = n_B[14];
-		effective_vitdef = n_B_DEF2;
 
 		if (is_attack_piercing(skill_info)) // Investigate#193 damage are doubled
 			damage_list = damage_list.map(function(x, idx) { return Math.floor(x * (effective_def + vit_def[idx]) / (193 == skill_info.id ? 50 : 100)); });
 		else
-			damage_list = damage_list.map(function(x, idx) { return Math.floor(x * (100 - effective_def) / 100 - effective_vitdef[idx]); });
+			damage_list = damage_list.map(function(x, idx) { return Math.floor(x * (100 - effective_def) / 100 - def2); });
     }
 
     return damage_list;
@@ -10119,10 +10120,14 @@ function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_han
 	// ATK_ADD2(wd.damage, wd.damage2, ((wd.div_ < 1) ? 1 : wd.div_) * sd->right_weapon.star, ((wd.div_ < 1) ? 1 : wd.div_) * sd->left_weapon.star);
 	
 	// Spirit Sphere damage bonus including Flip the Coin#416 for gunslingers
-	if (192 == skill_info.id)
-		physical_damage = physical_damage.map(x => x + 3 * Math.pow(Math.max(SkillSearch(185), n_A_PassSkill2[10]), 2));
-	else
-		physical_damage = physical_damage.map(x => x + 3 * (Math.max(SkillSearch(185), n_A_PassSkill2[10]) + SkillSearch(416)));
+	excluded_skills = [159,197,321,324,384]; // Shield Chain#324, Shield Boomerang#159#384, Asura Strike#197#321
+	if (excluded_skills.findIndex(x => x == skill_info.id) < 0)
+	{
+		if (192 == skill_info.id)
+			physical_damage = physical_damage.map(x => x + 3 * Math.pow(Math.max(SkillSearch(185), n_A_PassSkill2[10]), 2));
+		else // Investigate#193 is consuming one sphere
+			physical_damage = physical_damage.map(x => x + 3 * (Math.max(0, Math.max(SkillSearch(185), n_A_PassSkill2[10]) - (193 == skill_info.id ? 1 : 0)) + SkillSearch(416)));
+	}
 	
 	// Sprint#329 unarmed bonus for Whirlwind Kick#331, Axe Kick#333, Round Kick#335 and Counter Kick#337
 	if ([331, 333, 335, 337].findIndex(x => x == skill_info.id) > -1 && 0 == n_A_WeaponType)
