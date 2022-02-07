@@ -10564,7 +10564,6 @@ function retrieve_skill_info(skill_id, skill_lv)
             cast_time = Math.min((0.1 + 0.2 * skill_lv), 1) * n_A_CAST;
             break;
         case 88: // Venom Splasher#88
-            allows_modifiers = false;
             cast_time = n_A_CAST;
             ratio += 4 + 0.5 * skill_lv + 0.2 * eval(document.calcForm.SkillSubNum.value);
             ratio *= n_B[19] ? 0 : 1; // Not working on boss type monsters
