@@ -10237,11 +10237,13 @@ function retrieve_skill_info(skill_id, skill_lv)
             is_range_attack = (skill_lv >= 3) ? true : false;
             break;
         case 158: // Shield Charge#158
-            ratio += skill_lv *0.2;
+            ratio += skill_lv * 0.2;
             break;
-        case 161:
+        case 161: // Holy Cross#161
+			hits = 2;
             element = 6;
-            ratio += skill_lv *0.35;
+            ratio += skill_lv * 0.35;
+			is_considered_as_single_hit = true;
             break;
         case 171:
             ratio += skill_lv *0.4;
@@ -10285,13 +10287,14 @@ function retrieve_skill_info(skill_id, skill_lv)
             acd = 1;
             ratio += skill_lv * 0.3;
             break;
-        case 188:
+        case 188: // Chain Combo#188
             hits = 4;
             motion_delay = 0.1;
             ratio += 0.5 + skill_lv * 0.5;
+			is_considered_as_single_hit = true;
             forced_motion = 1 - (0.004 * n_A_AGI) - (0.002 * n_A_DEX);
             break;
-        case 189:
+        case 189: // Combo Finish#189
             motion_delay = 0.1;
             ratio += 1.4 + skill_lv * 0.6;
             forced_motion = 0.7 - (0.004 * n_A_AGI) - (0.002 * n_A_DEX);
@@ -10395,17 +10398,34 @@ function retrieve_skill_info(skill_id, skill_lv)
             ratio += 2;
             allows_modifiers = false;
             break;
-        case 331:
-        case 333:
-            ratio += 0.6 + skill_lv * 0.2;
-            break;
-        case 337:
+        case 331: // Whirlwind Kick#331
+        case 333: // Axe Kick#333
             hits = 3;
-        case 335:
-            ratio += 0.9 + skill_lv * 0.3;
+            ratio += 0.6 + skill_lv * 0.2;
+			is_considered_as_single_hit = true;
             break;
-        case 339:
+        case 337: // Counter Kick#337
+        case 335: // Round Kick#335
+            hits = 3;
+            ratio += 0.9 + skill_lv * 0.3;
+			is_considered_as_single_hit = true;
+            break;
+		case 305: // Flying Side Kick while running #305
+        case 339: // Flying Side Kick#339
+            hits = 3;
             ratio += skill_lv * 0.1 - 0.7;
+			is_considered_as_single_hit = true;
+			
+			// Combo after Break Fall#338 triggers
+			if (SkillSearch(338))
+				ratio += -1 + 0.04 * n_A_BaseLV;
+			else if (305 == skill_id) // While running
+			{
+				ratio += -1 + 0.04 * n_A_BaseLV;
+				
+				if (SkillSearch(379)) // SC_SPURT#379
+					ratio *= 2;
+			}
             break;
         case 305: // Flying Side Kick [Sprint On]#305 // FIXME Manage TK_RUN
             if (SkillSearch(379) && n_A_WeaponType == 0)
@@ -10815,11 +10835,12 @@ function retrieve_skill_info(skill_id, skill_lv)
             break;
         case 127: // Lord of Vermillion#127
             acd = 5;
-            hits = 4;
+            hits = 10;
             element = 4;
             duration = 4;
             is_magic_attack = true;
             ratio = 0.8 + skill_lv * 0.2;
+			is_considered_as_single_hit = true;
             cast_time = n_A_CAST * (15.5 - skill_lv * 0.5);
             break;
         case 128: // Water Ball#128
@@ -10938,6 +10959,7 @@ function retrieve_skill_info(skill_id, skill_lv)
             is_magic_attack = true;
             cast_time = n_A_CAST * 3;
             ratio = 1.5 + skill_lv * 1.5;
+			is_considered_as_single_hit = true;
             break;
         case 410: // Lightning Spear of Ice
             element = 1;
