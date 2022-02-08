@@ -9389,7 +9389,7 @@ function apply_masteries_bonus(damage_list, skill_info)
 		// Demon Bane#24, effective on Demon Race or Undead element 91-94
 		// FIXME: Disabled on players
 		if (SkillSearch(24) && (n_B[2] == 6 || (91 <= n_B[3] && n_B[3] <= 94)))
-			mastery_atk_bonus += Math.floor((3 + 5/100 * n_A_BaseLV) * SkillSearch(24));
+			mastery_atk_bonus += Math.floor(3 + 0.05 * (n_A_BaseLV + 1)) * SkillSearch(24);
 
 		// Beast Bane#116 effective on Brute and Insect
 		if(n_B[2] == 2 || n_B[2] == 4)
