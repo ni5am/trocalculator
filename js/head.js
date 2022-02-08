@@ -10967,7 +10967,8 @@ function retrieve_skill_info(skill_id, skill_lv)
             is_magic_attack = true;
             hits = skill_lv + 2;
             cast_time = n_A_CAST * skill_lv * 0.7;
-        case 412: // Falling Ice Pillar
+			break;
+        case 412: // Falling Ice Pillar#412
             acd = 3;
             hits = 1;
             element = 1;
