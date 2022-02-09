@@ -9987,9 +9987,8 @@ function apply_magical_defense_reduction(damage_list, ignore_defense)
         target_mdef2 = n_B_MDEF2;
 
         // mdef reduction already applied on target mdef
-
-        damage_list[0] = Math.max(0, Math.floor(damage_list[0] * (100 - target_mdef) / 100 - target_mdef2));
-        damage_list[2] = Math.max(0, Math.floor(damage_list[2] * (100 - target_mdef) / 100 - target_mdef2));
+        damage_list[0] = Math.max(1, Math.floor(damage_list[0] * (100 - target_mdef) / 100 - target_mdef2));
+        damage_list[2] = Math.max(1, Math.floor(damage_list[2] * (100 - target_mdef) / 100 - target_mdef2));
     }
 
     return damage_list;
@@ -10004,8 +10003,18 @@ function calc_magical_attack_damage(skill_info)
 
     if (122 == skill_info.id) // Fire Pillar#122
         magical_damage = magical_damage.map(function(x) {return x + 50});
-    else if (104 == skill_info.id && n_B[2] != 6 && n_B[3] < 90) // Magnus Exorcismus#104 on non-undead monsters
-        magical_damage = magical_damage.map(function(x) {return 0});
+	// Turn Undead#102 and Magnus Exorcismus#104 only apply on undead monsters
+    else if ((104 == skill_info.id || 102 == skill_info.id) && n_B[3] < 90) 
+			magical_damage = magical_damage.map(function(x) {return 0});
+	else if (102 == skill_info.id)
+	{
+		// FIXME: Input for remaining HP to avoid managing two variables
+		target_remaining_hp = 1;
+		tu_max_chance = Math.max(20 * skill_info.lv + n_A_LUK + n_A_INT + n_A_BaseLV + 200 - 200 * target_remaining_hp / n_B[6], 700);
+		tu_min_chance = Math.max(20 * skill_info.lv + n_A_LUK + n_A_INT + n_A_BaseLV, 700);
+
+		magical_damage = [n_A_BaseLV + n_A_INT + skill_info.lv * 10, 0, n_B[6]];
+	}
 	else if (325 == skill_info.id) // Gravitation Field#325
 		magical_damage = magical_damage.map(function(x) {return 200 + 200 * skill_info.lv});
 
@@ -10109,7 +10118,7 @@ function calc_attack_damage(skill_id, skill_lv, is_critical_attack, is_left_hand
 	if (197 == skill_info.id || 321 == skill_info.id)
 		damage = damage.map(function(x) { return manage_asura_soft_cap(x) });
 
-	return damage.map(function(x) { return Math.max(1, x) });
+	return damage.map(function(x) { return Math.max(0, x) });
 }
 
 function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_hand_active)
@@ -10748,8 +10757,10 @@ function retrieve_skill_info(skill_id, skill_lv)
             acd = 3;
             element = 6;
             w_HIT_HYOUJI = 100;
-            is_magic_attack = true;
             cast_time = n_A_CAST;
+			ignore_defense = true;
+            is_magic_attack = true;
+			allows_modifiers = false;
             break;
         case 97: // Resurrection#97
             acd = 3;
@@ -10962,8 +10973,8 @@ function retrieve_skill_info(skill_id, skill_lv)
             acd = 0.5;
             is_magic_attack = true;
             cast_time = n_A_CAST * 0.1;
-            ratio = skill_lv * 0.05;
             element = eval(document.calcForm.A_Weapon_zokusei.value);
+            ratio = n_B[4] < 2 ? skill_lv * 0.05 : 0.01; // Efficient only on small/medium size monsters
 
             if (Taijin) // Disabled in PvP
                 ratio = 0;
