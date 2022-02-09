@@ -7769,8 +7769,8 @@ function calc()
 
 	n_Enekyori = (n_A_WeaponType==10 || 17 <= n_A_WeaponType && n_A_WeaponType <= 21) ? 1 : 0;
 	
-	n_A_DMG = calc_base_atk(n_A_ATK, false, false, n_Enekyori);
-	n_A_CriATK = calc_base_atk(n_A_ATK, true, false, n_Enekyori);
+	n_A_DMG = calc_base_atk(n_A_ATK, false, false, n_Enekyori, false);
+	n_A_CriATK = calc_base_atk(n_A_ATK, true, false, n_Enekyori, false);
 
 	BK_n_A_DMG = [0,0,0];
 	BK_n_A_DMG[2] = n_A_DMG[2];
@@ -9206,7 +9206,7 @@ function manage_left_hand_effect(flag)
 }
 
 // Base attack computation
-function calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex_based)
+function calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex_based, is_magic_crasher)
 {
 	size_modifier = is_left_hand_active ? weaponsize[n_A_Weapon2Type][n_B[4]] : weaponsize[n_A_WeaponType][n_B[4]];
 
@@ -9246,8 +9246,8 @@ function calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex
 	// Add over refine bonus
 	refine_damage_bonus = calc_weapon_damage_bonus(weapon_refine, weapon_lv)
 
-	damage_min = base_atk + min_weapon_bonus + Math.floor(damage_min * size_modifier);
-	damage_max = base_atk + refine_damage_bonus + Math.floor(damage_max * size_modifier);
+	damage_min = (is_magic_crasher ? n_A_MATK[0] : base_atk) + min_weapon_bonus + Math.floor(damage_min * size_modifier);
+	damage_max = (is_magic_crasher ? n_A_MATK[0] : base_atk) + refine_damage_bonus + Math.floor(damage_max * size_modifier);
 
 	if (is_critical_attack)
 		damage_min = damage_max;
@@ -9320,7 +9320,7 @@ function calc_skill_base_damage(active_skill, base_atk, is_critical_attack, is_l
 			skill_base_damage = 0.7 * n_A_INT * n_A_INT * n_B[7] / (n_A_INT + n_B[7]);
 			break;
 		default:
-			damage_list = calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex_based);
+			damage_list = calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex_based, 275 == active_skill);
 			// Crit Attack rate
 			// TK Power
 			/*FIXME : (skill_id == HW_MAGICCRASHER?4:0)|
@@ -9820,7 +9820,7 @@ function apply_additional_element_damage(damage_list, skill_info, base_atk)
 
 	if (n_A_PassSkill2[11]) // Apply Magnum Break#7 SC_WATK_ELEMENT damage bonus
 	{
-		additional_damage = apply_damage_modifier(calc_base_atk(base_atk, false, false, false), 20); // 20% of base attack
+		additional_damage = apply_damage_modifier(calc_base_atk(base_atk, false, false, false, false), 20); // 20% of base attack
 		additional_damage = apply_damage_modifier(additional_damage, 100 * Math.max(zokusei[n_B[3]][3],0)); // With fire property
 	}
 	
@@ -10095,7 +10095,7 @@ function calc_attack_damage(skill_id, skill_lv, is_critical_attack, is_left_hand
 	if (n_B_IJYOU[6])
 	{
 	    if (skill_info.is_multi_hits) // Manage multi-hit
-	        damage = apply_damage_modifier(damage, 100 + 100 * (skill_info.hits + 1) / skill_info.hits);
+	        damage = apply_damage_modifier(damage, 100 + 100 / skill_info.hits);
 	    else
 	        damage = apply_damage_modifier(damage, 200);
 	}
@@ -10109,8 +10109,7 @@ function calc_attack_damage(skill_id, skill_lv, is_critical_attack, is_left_hand
 	if (197 == skill_info.id || 321 == skill_info.id)
 		damage = damage.map(function(x) { return manage_asura_soft_cap(x) });
 
-	
-	return damage;
+	return damage.map(function(x) { return Math.max(1, x) });
 }
 
 function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_hand_active)
@@ -10840,7 +10839,7 @@ function retrieve_skill_info(skill_id, skill_lv)
             hits = Math.round(skill_lv / 2);
             acd = 0.8 + 0.2 * (skill_lv % 2) + skill_lv * 0.1;
 
-            if (n_b[3] >= 90) // Damage increased on Undead
+            if (n_B[3] >= 90) // Damage increased on Undead
                 ratio += 0.05 * skill_lv;
             break;
         case 122: // Fire Pillar#122
@@ -10862,6 +10861,7 @@ function retrieve_skill_info(skill_id, skill_lv)
         case 125: // Meteor Storm#125
             element = 3;
             motion_delay = 0;
+			is_multi_hits = true;
             is_magic_attack = true;
             cast_time = n_A_CAST * 15;
             acd = Math.floor(skill_lv / 2) * 1 + 2;
@@ -10875,17 +10875,18 @@ function retrieve_skill_info(skill_id, skill_lv)
             break;
         case 127: // Lord of Vermillion#127
             acd = 5;
-            hits = 10;
+            hits = 4;
             element = 4;
             duration = 4;
+			is_multi_hits = true;
             is_magic_attack = true;
             ratio = 0.8 + skill_lv * 0.2;
-			is_considered_as_single_hit = true;
             cast_time = n_A_CAST * (15.5 - skill_lv * 0.5);
             break;
         case 128: // Water Ball#128
         case 320: // Water Ball#320 - Lv10 through Plagiarism
             element = 1;
+			is_multi_hits = true;
             is_magic_attack = true;
             forced_motion = 0.1 * hits;
             ratio = 1 + skill_lv * 0.3;
@@ -10905,6 +10906,7 @@ function retrieve_skill_info(skill_id, skill_lv)
             acd = 5;
             element = 1;
             duration = 4.5;
+			is_multi_hits = true;
             is_magic_attack = true;
             ratio = 1 + skill_lv * 0.4;
             cast_time = n_A_CAST * (5 + skill_lv);
