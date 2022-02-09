@@ -9330,9 +9330,23 @@ function calc_skill_base_damage(active_skill, base_atk, is_critical_attack, is_l
 			break;
     }
 	
-	// Manage Poison Knife attack
+	// Manage Poison Knife base attack
 	if (306 == active_skill)
 		damage_list[2] += 29;
+	
+	// Manage Shuriken base attack
+	if (394 == active_skill)
+	{
+		selected_shuriken = eval(document.calcForm.SkillSubNum.value);
+		damage_list[2] += SyurikenOBJ[selected_shuriken][0] - 1;
+	}
+
+	// Manage Kunai base attack
+	if (395 == active_skill)
+	{
+		selected_kunai = eval(document.calcForm.SkillSubNum.value);
+		damage_list[2] += KunaiOBJ[selected_kunai][0] - 1;
+	}
 
 	if (skill_base_damage)
 		return [skill_base_damage, skill_base_damage, skill_base_damage];
@@ -9872,6 +9886,13 @@ function apply_misc_damage_bonus(damage_list, skill_info)
 {
 	misc_damage_bonus = [0,0];
 
+	// Throw Shuriken#394
+	if (394 == skill_info.id)
+	{
+		shuriken_constant_damage_bonus = 4 * skill_info.lv;
+		misc_damage_bonus = [shuriken_constant_damage_bonus, shuriken_constant_damage_bonus];
+	}
+
 	// Asura Strike#197#321
 	if (197 == skill_info.id || 321 == skill_info.id)
 	{
@@ -9927,6 +9948,9 @@ function apply_post_defense_damage_bonus(damage_list, skill_info, is_left_hand_a
 {
 	damage_bonus = 0;
 	weapon_refine = (is_left_hand_active ? n_A_Weapon2LV_seirenATK : n_A_WeaponLV_seirenATK); // FIXME battle_info.refine_bonus
+	
+	// Throwing Pratice#393 mastery damage bonus
+	damage_bonus += 3 * SkillSearch(393);
 
 	// Weapon refine bonus not applying for Investigate#193, Asura Strike#197#321, Shield Chain#324, Acid Demonstration#328 and Shield Boomerang#159#384
 	excluded_skills = [159,193,197,321,324,328,384];
@@ -10639,12 +10663,13 @@ function retrieve_skill_info(skill_id, skill_lv)
             cast_time = (4.5 - 0.5 * skill_lv) * n_A_CAST;
             ratio += Math.floor(7 + ((197 == n_A_ActiveSkill) ? eval(document.calcForm.SkillSubNum.value) : n_A_MaxSP - 1) / 10);
             break;
-        case 394: // Throw Dagger#394
+        case 394: // Throw Shuriken#394
             is_range_attack = true;
             allows_modifiers = false;
             break;
         case 395: // Throw Kunai#395
             acd = 1;
+			hits = 3;
             is_range_attack = true;
             allows_modifiers = false;
             element = KunaiOBJ[eval(document.calcForm.SkillSubNum.value)][1];
@@ -10654,6 +10679,7 @@ function retrieve_skill_info(skill_id, skill_lv)
             is_range_attack = true;
             cast_time = 3 * n_A_CAST;
             ratio += skill_lv * 1.5 + 0.5;
+			is_considered_as_single_hit = true;
             hits = 2 + Math.round(skill_lv / 2);
             break;
         case 405: // Final Strike#405
