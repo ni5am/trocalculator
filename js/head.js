@@ -9949,8 +9949,9 @@ function apply_post_defense_damage_bonus(damage_list, skill_info, is_left_hand_a
 	damage_bonus = 0;
 	weapon_refine = (is_left_hand_active ? n_A_Weapon2LV_seirenATK : n_A_WeaponLV_seirenATK); // FIXME battle_info.refine_bonus
 	
-	// Throwing Pratice#393 mastery damage bonus
-	damage_bonus += 3 * SkillSearch(393);
+	// Throwing Pratice#393 mastery damage bonus only applying to Throw Shuriken#394
+	if (394 == skill_info.id)
+		damage_bonus += 3 * SkillSearch(393);
 
 	// Weapon refine bonus not applying for Investigate#193, Asura Strike#197#321, Shield Chain#324, Acid Demonstration#328 and Shield Boomerang#159#384
 	excluded_skills = [159,193,197,321,324,328,384];
@@ -10457,7 +10458,7 @@ function retrieve_skill_info(skill_id, skill_lv)
             else
                 ratio += n_A_BaseLV * 0.04 - 1;
             break;
-        case 398:
+        case 398: // Reverse Tatami#398
             acd = 3;
             ratio += skill_lv * 0.1;
             break;
