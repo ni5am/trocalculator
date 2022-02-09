@@ -10095,9 +10095,9 @@ function calc_attack_damage(skill_id, skill_lv, is_critical_attack, is_left_hand
 	if (n_B_IJYOU[6])
 	{
 	    if (skill_info.is_multi_hits) // Manage multi-hit
-	        damage_list = apply_damage_modifier(damage_list, 100 + 100 * (skill_info.hits + 1) / skill_info.hits);
+	        damage = apply_damage_modifier(damage, 100 + 100 * (skill_info.hits + 1) / skill_info.hits);
 	    else
-	        damage_list = apply_damage_modifier(damage_list, 200);
+	        damage = apply_damage_modifier(damage, 200);
 	}
 
 	// FIXME: Manage damage reduction status
