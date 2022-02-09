@@ -10071,6 +10071,16 @@ function calc_attack_damage(skill_id, skill_lv, is_critical_attack, is_left_hand
 		return damage.map(function(x) {return 50});
 	else if (283 == skill_id) // Pressure#283
 		return damage.map(function(x) {return 500 + 300 * skill_lv});
+	else if (397 == skill_id) // Throw Zeny#397
+	{
+		zeny_min_damage = 500 * skill_lv;
+		zeny_max_damage = zeny_min_damage * 2;
+		damage = [zeny_min_damage, Math.floor(zeny_min_damage + zeny_max_damage) / 2, zeny_max_damage];
+		
+		// Damage divided by 3 on boss type monsters
+		// Damage divided by 2 on players, FIXME: better handling for Taijin
+		return damage.map(function(x) {return Math.floor(x / (n_B[19] ? 3 : (Taijin ? 2 : 1)))});
+	}
 
 	skill_info = retrieve_skill_info(skill_id, skill_lv);
 	
@@ -10683,6 +10693,9 @@ function retrieve_skill_info(skill_id, skill_lv)
 			is_considered_as_single_hit = true;
             hits = 2 + Math.round(skill_lv / 2);
             break;
+		case 397: // Throw Zeny#397
+			acd = 5;
+			break;
         case 405: // Final Strike#405
         case 438: // Final Strike [MaxHP - 1]#438
             element = 0;
