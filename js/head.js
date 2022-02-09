@@ -9283,12 +9283,12 @@ function calc_weapon_damage_bonus(weapon_refine, weapon_lv)
 	return damage_bonus;
 }
 
-function calc_skill_base_damage(active_skill, base_atk, is_critical_attack, is_left_hand_active, is_dex_based)
+function calc_skill_base_damage(skill_info, base_atk, is_critical_attack, is_left_hand_active, is_dex_based)
 {
 	skill_base_damage = 0;
 	damage_list = [0, 0, 0];
 
-	switch(active_skill)
+	switch(skill_info.id)
 	{
 		case 284: // Sacrifice#284
 			skill_base_damage = Math.floor(n_A_MaxHP * 9 / 100); // FIXME: MaxHP variable
@@ -9301,7 +9301,7 @@ function calc_skill_base_damage(active_skill, base_atk, is_critical_attack, is_l
 			break;
 		case 259: // Spiral Pierce#259
 			spear_weight = ItemOBJ[n_A_Equip[0]][6];
-			skill_base_damage = Math.floor(spear_weight * 0.8); // 80% of weapon's weight
+			skill_base_damage = Math.floor(spear_weight * 0.8) * (1 + 0.5 * skill_info.lv); // 80% of weapon's weight x ratio which only applies to weight
 
 			// Apply STR bonus
 			dstr = Math.floor(n_A_STR / 10);
@@ -9320,7 +9320,7 @@ function calc_skill_base_damage(active_skill, base_atk, is_critical_attack, is_l
 			skill_base_damage = 0.7 * n_A_INT * n_A_INT * n_B[7] / (n_A_INT + n_B[7]);
 			break;
 		default:
-			damage_list = calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex_based, 275 == active_skill);
+			damage_list = calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex_based, 275 == skill_info.id);
 			// Crit Attack rate
 			// TK Power
 			/*FIXME : (skill_id == HW_MAGICCRASHER?4:0)|
@@ -9331,18 +9331,18 @@ function calc_skill_base_damage(active_skill, base_atk, is_critical_attack, is_l
     }
 	
 	// Manage Poison Knife base attack
-	if (306 == active_skill)
+	if (306 == skill_info.id)
 		damage_list[2] += 29;
 	
 	// Manage Shuriken base attack
-	if (394 == active_skill)
+	if (394 == skill_info.id)
 	{
 		selected_shuriken = eval(document.calcForm.SkillSubNum.value);
 		damage_list[2] += SyurikenOBJ[selected_shuriken][0] - 1;
 	}
 
 	// Manage Kunai base attack
-	if (395 == active_skill)
+	if (395 == skill_info.id)
 	{
 		selected_kunai = eval(document.calcForm.SkillSubNum.value);
 		damage_list[2] += KunaiOBJ[selected_kunai][0] - 1;
@@ -10130,7 +10130,7 @@ function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_han
 	base_atk = n_A_ATK;
 	is_dex_based = (n_A_WeaponType == 10 || 17 <= n_A_WeaponType && n_A_WeaponType <= 21);
 	
-	physical_damage = calc_skill_base_damage(skill_info.id, base_atk, is_critical_attack, is_left_hand_active, is_dex_based);
+	physical_damage = calc_skill_base_damage(skill_info, base_atk, is_critical_attack, is_left_hand_active, is_dex_based);
 	physical_damage = apply_skill_damage_ratio(physical_damage, skill_info.ratio);
 
 	physical_damage = apply_physical_skill_damage_modifiers(physical_damage, skill_info.id, skill_info.lv);
@@ -10629,8 +10629,9 @@ function retrieve_skill_info(skill_id, skill_lv)
             ratio += 0.3 * skill_lv;
             break;
         case 259: // Spiral Pierce#259
+			hits = 5;
+			ignore_defense = true;
             is_range_attack = true;
-            ratio += 0.5 * skill_lv;
             acd = 1 + 0.2 * skill_lv;
             cast_time = Math.min((0.1 + 0.2 * skill_lv), 1) * n_A_CAST;
             break;
@@ -10665,6 +10666,8 @@ function retrieve_skill_info(skill_id, skill_lv)
             break;
         case 284: // Sacrifice#284
             element = 0;
+			ratio += 0.1 * skill_lv - 0.1;
+			ignore_defense = true;
             w_HIT_HYOUJI = 100;
             break;
         case 193: // Investigate#193
