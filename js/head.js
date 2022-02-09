@@ -9926,6 +9926,9 @@ function apply_defense_reduction(damage_list, skill_info)
 		
 		// Defense reduction managed directly in monster properties
 		effective_def = n_B[14];
+		
+		if (244 == skill_info.id) // Acid Terror#244 ignores defense (but not vitdef)
+			effective_def = 0
 
 		if (is_attack_piercing(skill_info)) // Investigate#193 damage are doubled
 			damage_list = damage_list.map(function(x, idx) { return Math.floor(x * (effective_def + vit_def[idx]) / (193 == skill_info.id ? 50 : 100)); });
@@ -10710,7 +10713,7 @@ function retrieve_skill_info(skill_id, skill_lv)
             w_HIT_HYOUJI = 100;
             is_range_attack = true;
             break;
-        case 244:
+        case 244: // Acid Terror#244
             element = 0;
             w_HIT_HYOUJI = 100;
             cast_time = n_A_CAST;
