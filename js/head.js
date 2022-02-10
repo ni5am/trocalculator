@@ -9206,7 +9206,7 @@ function manage_left_hand_effect(flag)
 }
 
 // Base attack computation
-function calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex_based, is_magic_crasher)
+function calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex_based, skill_info)
 {
 	size_modifier = is_left_hand_active ? weaponsize[n_A_Weapon2Type][n_B[4]] : weaponsize[n_A_WeaponType][n_B[4]];
 	
@@ -9231,7 +9231,7 @@ function calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex
 
 		atk_min = Math.min(atk_min, atk_max);
 
-		if (is_dex_based && n_A_ActiveSkill != 76)
+		if (is_dex_based && skill_info.id != 76)
 		{
 			atk_min = Math.floor(atk_min * atk_max / 100);
 			atk_max = Math.max(atk_min, atk_max);
@@ -9251,13 +9251,14 @@ function calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex
 	min_weapon_bonus = (weapon_lv && weapon_refine > 4) ? 1 : 0 ;
 	overrefine_damage_bonus = calc_weapon_overrefine_bonus(weapon_refine, weapon_lv);
 
-	damage_min = (is_magic_crasher ? n_A_MATK[0] : base_atk) + min_weapon_bonus + Math.floor(damage_min * size_modifier);
-	damage_max = (is_magic_crasher ? n_A_MATK[0] : base_atk) + overrefine_damage_bonus + Math.floor(damage_max * size_modifier);
+	// Magic Crasher#275 considers min MATK instead of base ATK
+	damage_min = (275 == skill_info.id ? n_A_MATK[0] : base_atk) + min_weapon_bonus + Math.floor(damage_min * size_modifier);
+	damage_max = (275 == skill_info.id ? n_A_MATK[0] : base_atk) + overrefine_damage_bonus + Math.floor(damage_max * size_modifier);
 
 	if (is_critical_attack)
 		damage_min = damage_max;
 
-	if (is_dex_based && n_A_ActiveSkill != 76) // Add arrow base attack, except for Bowling Bash
+	if ((is_dex_based && skill_info.id != 76) || skill_info.uses_arrows) // Add arrow base attack, except for Bowling Bash
 	{
 		if (is_critical_attack)
 		{
@@ -9308,6 +9309,30 @@ function calc_skill_base_damage(skill_info, base_atk, is_critical_attack, is_lef
 
 	switch(skill_info.id)
 	{
+		case 106: // Land Mine#106
+			skill_base_damage = skill_info.lv * (n_A_DEX + 75) * (100 + n_A_INT) / 100;
+			break;
+		case 112: // Blast Mine#112
+			skill_base_damage = skill_info.lv * (Math.floor(n_A_DEX / 2) + 50) * (100 + n_A_INT) / 100;
+			break;
+		case 113: // Claymore Trap#113
+			skill_base_damage = skill_info.lv * (Math.floor(n_A_DEX / 2) + 75) * (100 + n_A_INT) / 100;
+			break;
+		case 118: // Blitz Beat#118
+		case 271: // Falcon Assault#271
+			steel_crow_lv = SkillSearch(119); // Steel Crow#119
+			skill_base_damage = (Math.floor(n_A_DEX / 10) + Math.floor(n_A_INT / 2) + steel_crow_lv * 3 + 40) * 2;
+
+			if (271 == skill_info.id)
+			{
+				skill_base_damage *= 5; // Number of hit from Blitz Beat#118 lv 5
+				skill_base_damage = Math.floor(skill_base_damage * (150 + 70 * skill_info.lv) / 100); //Falcon Assault Modifier
+			}
+			break;
+		case 200: // Dissonance#200
+			skill_base_damage = 30 + skill_info.lv * 10;
+			skill_base_damage += 3 * SkillSearch(198); // Musical Lesson#198
+			break;
 		case 284: // Sacrifice#284
 			skill_base_damage = Math.floor(n_A_MaxHP * 9 / 100); // FIXME: MaxHP variable
 			break;
@@ -9338,7 +9363,7 @@ function calc_skill_base_damage(skill_info, base_atk, is_critical_attack, is_lef
 			skill_base_damage = 0.7 * n_A_INT * n_A_INT * n_B[7] / (n_A_INT + n_B[7]);
 			break;
 		default:
-			damage_list = calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex_based, 275 == skill_info.id);
+			damage_list = calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex_based, skill_info);
 			// Crit Attack rate
 			// TK Power
 			/*FIXME : (skill_id == HW_MAGICCRASHER?4:0)|
@@ -9864,38 +9889,41 @@ function apply_defensive_status_change(damage_list)
 
 function apply_offensive_status_change(damage_list, skill_info)
 {
-	// True Sight#270 - Damage +20%
-	true_sight_lv = SkillSearch(270)
-	if (true_sight_lv)
-		damage_list = apply_damage_modifier(damage_list, 100 + 2 * true_sight_lv);
+	if (!skill_info.ignore_offensive_status)
+	{
+		// True Sight#270 - Damage +20%
+		true_sight_lv = SkillSearch(270)
+		if (true_sight_lv)
+			damage_list = apply_damage_modifier(damage_list, 100 + 2 * true_sight_lv);
 
-    // Link - Priest - Holy Light#387 - Managed through skill ratio
-	// Link - Assassin - Sonic Blow#388 +25% on WoE +100% in PvM
-	if (388 == skill_info.id)
-	    damage_list = Taijin ? damage_list = apply_damage_modifier(damage_list, 125) : apply_damage_modifier(damage_list, 200);
+		// Link - Priest - Holy Light#387 - Managed through skill ratio
+		// Link - Assassin - Sonic Blow#388 +25% on WoE +100% in PvM
+		if (388 == skill_info.id)
+			damage_list = Taijin ? damage_list = apply_damage_modifier(damage_list, 125) : apply_damage_modifier(damage_list, 200);
 
-    // Link - Crusader - Shield Boomerang +100%
-	if (384 == skill_info.id)
-	    damage_list = apply_damage_modifier(damage_list, 200);
+		// Link - Crusader - Shield Boomerang +100%
+		if (384 == skill_info.id)
+			damage_list = apply_damage_modifier(damage_list, 200);
 
-	// Venom Splasher#88, Soul Breaker#263, Meteor Assault#264 ignore EDP
-	edp_lv = SkillSearch(266);
-	if (skill_info.id != 88 && skill_info.id != 263 && skill_info.id != 264 && edp_lv)
-		damage_list = apply_damage_modifier(damage_list, 150 + 50 * edp_lv);
+		// Venom Splasher#88, Soul Breaker#263, Meteor Assault#264 ignore EDP
+		edp_lv = SkillSearch(266);
+		if (skill_info.id != 88 && skill_info.id != 263 && skill_info.id != 264 && edp_lv)
+			damage_list = apply_damage_modifier(damage_list, 150 + 50 * edp_lv);
 
-	// Miracle - All monsters are considered as Star monsters
-	// Hatred
-	/*
-	uint16 anger_level;
-	if (sd != nullptr && anger_id < MAX_PC_FEELHATE && (anger_level = pc_checkskill(sd, sg_info[anger_id].anger_id))) {
-		int skillratio = sd->status.base_level + sstatus->dex + sstatus->luk;
+		// Miracle - All monsters are considered as Star monsters
+		// Hatred
+		/*
+		uint16 anger_level;
+		if (sd != nullptr && anger_id < MAX_PC_FEELHATE && (anger_level = pc_checkskill(sd, sg_info[anger_id].anger_id))) {
+			int skillratio = sd->status.base_level + sstatus->dex + sstatus->luk;
 
-		if (anger_id == 2)
-			skillratio += sstatus->str; // SG_STAR_ANGER additionally has STR added in its formula.
-		if (anger_level < 4)
-			skillratio /= 12 - 3 * anger_level;
-		ATK_ADDRATE(wd->damage, wd->damage2, skillratio);
-	*/
+			if (anger_id == 2)
+				skillratio += sstatus->str; // SG_STAR_ANGER additionally has STR added in its formula.
+			if (anger_level < 4)
+				skillratio /= 12 - 3 * anger_level;
+			ATK_ADDRATE(wd->damage, wd->damage2, skillratio);
+		*/
+	}
 	
 	return damage_list;
 }
@@ -10245,6 +10273,7 @@ function retrieve_skill_info(skill_id, skill_lv)
     // Initialize with weapon element, skills should override if using any other element
     element = n_A_Weapon_zokusei;
 
+	uses_arrows = false;
     is_critical = false;
     is_multi_hits = false;
     ignore_defense = false;
@@ -10253,6 +10282,7 @@ function retrieve_skill_info(skill_id, skill_lv)
     is_range_attack = false;
     allows_modifiers = true;
 	enable_masteries = true;
+	ignore_offensive_status = false;
 	is_considered_as_single_hit = false;
 
 	// FIXME : Add hit_bonus, has_perfect_hit
@@ -10266,6 +10296,7 @@ function retrieve_skill_info(skill_id, skill_lv)
             is_range_attack = true;
             cast_time = 2 * n_A_CAST;
             ratio += 1 + 0.5 * skill_lv;
+			is_critical = false;
             break;
         case 401: // Shadow Slash#401
             ratio += skill_lv - 1;
@@ -10289,7 +10320,7 @@ function retrieve_skill_info(skill_id, skill_lv)
             is_range_attack = true;
             ratio += skill_lv * 0.05 - 0.25;
             break;
-        case 44: // Arrow Repel#44
+        case 44: // Charge Arrow#44
             ratio += 0.5;
             cast_time = 1.5;
             is_range_attack = true;
@@ -10354,9 +10385,10 @@ function retrieve_skill_info(skill_id, skill_lv)
             ratio += skill_lv * 0.4 + 3;
 			is_considered_as_single_hit = true;
             break;
-        case 111:
+        case 111: // Freezing Trap#111
             element = 1;
-            allows_modifiers = false;
+			is_magic_attack = true;
+			ratio += -0.5 + 0.1 * skill_lv;
             break;
         case 169:
             w_HIT = 100;
@@ -10381,13 +10413,18 @@ function retrieve_skill_info(skill_id, skill_lv)
             ratio += 1.4 + skill_lv * 0.6;
             forced_motion = 0.7 - (0.004 * n_A_AGI) - (0.002 * n_A_DEX);
             break;
-        case 199:
-        case 207:
+		case 200: // Dissonance#200
+			ignore_defense = true;
+			enable_masteries = false;
+			break;
+        case 199: // Musical Strike#199
+        case 207: // Throw Arrow#207
             cast_time = 1.5;
+			uses_arrows = true;
             is_range_attack = true;
-            ratio += (skill_lv * 0.4 - 0.4);
+            ratio += 0.25 + skill_lv * 0.25;
             element = ArrowOBJ[n_A_Arrow][1];
-            if(eval(document.calcForm.A_Weapon_zokusei.value) != 0)
+            if (eval(document.calcForm.A_Weapon_zokusei.value) != 0)
                 element = eval(document.calcForm.A_Weapon_zokusei.value);
             break;
         case 248:
@@ -10436,6 +10473,7 @@ function retrieve_skill_info(skill_id, skill_lv)
         case 292: // Arrow Vulcan#292
             hits = 9;
             forced_motion = 2;
+			uses_arrows = true;
             is_range_attack = true;
             ratio += 1 + skill_lv;
             element = ArrowOBJ[n_A_Arrow][1];
@@ -10630,15 +10668,20 @@ function retrieve_skill_info(skill_id, skill_lv)
             break;
         case 118: // Blitz Beat#118
             acd = 1;
+			hits = 5;
             element = 0;
+			ignore_defense = true;
             is_range_attack = true;
             cast_time = 1.5 * n_A_CAST;
+			ignore_offensive_status = true;
             break;
-        case 271: // Falcon Assault#271 // Damage computed outside FIXME
+        case 271: // Falcon Assault#271
             acd = 3;
             element = 0;
             cast_time = n_A_CAST;
+			ignore_defense = true;
             is_range_attack = true;
+			ignore_offensive_status = true;
             break;
         case 17: // Envenom#17
             element = 5;
@@ -10774,14 +10817,20 @@ function retrieve_skill_info(skill_id, skill_lv)
         case 106: // Land Mine#106
             element = 2;
             w_HIT_HYOUJI = 100;
+			ignore_defense = true;
+			ignore_offensive_status = true;
             break;
         case 112: // Blast Mine#112
             element = 4;
             w_HIT_HYOUJI = 100;
+			ignore_defense = true;
+			ignore_offensive_status = true;
             break;
         case 113: // Claymore Trap#113
             element = 3;
             w_HIT_HYOUJI = 100;
+			ignore_defense = true;
+			ignore_offensive_status = true;
             break;
         case 25: // Heal#25
             acd = 1;
@@ -11103,7 +11152,8 @@ function retrieve_skill_info(skill_id, skill_lv)
         allows_modifiers: allows_modifiers, is_critical: is_critical, damage_tick: damage_tick,
         ignore_defense: ignore_defense, ignore_element: ignore_element, is_range_attack: is_range_attack,
         is_magic_attack: is_magic_attack, is_multi_hits: is_multi_hits, duration: duration,
-		is_considered_as_single_hit: is_considered_as_single_hit, enable_masteries: enable_masteries
+		is_considered_as_single_hit: is_considered_as_single_hit, enable_masteries: enable_masteries,
+		ignore_offensive_status : ignore_offensive_status, uses_arrows : uses_arrows
     }
 }
 
