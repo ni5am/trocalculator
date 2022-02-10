@@ -9209,6 +9209,11 @@ function manage_left_hand_effect(flag)
 function calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex_based, is_magic_crasher)
 {
 	size_modifier = is_left_hand_active ? weaponsize[n_A_Weapon2Type][n_B[4]] : weaponsize[n_A_WeaponType][n_B[4]];
+	
+	// FIXME: refactor variables
+	// Large size weapon modifier while riding with spears should be applied for medium-size target
+	if (SkillSearch(78) && (4 == n_A_WeaponType || 5 == n_A_WeaponType) && 1 == n_B[4])
+		size_modifier = weaponsize[n_A_WeaponType][2];
 
 	atk_min = 0;
 	atk_max = n_A_Weapon_ATK;
@@ -10312,22 +10317,35 @@ function retrieve_skill_info(skill_id, skill_lv)
         case 171:
             ratio += skill_lv *0.4;
             break;
-        case 72:
+        case 72: // Spear Boomerang#72
             acd = 1;
             is_range_attack = true;
             ratio += skill_lv *0.5;
             break;
         case 73: // Brandish Spear#73 FIXME: to test
             cast_time = 0.7;
-            r = 1 + 2 * skill_lv;
-
-            ratio += -1 + r;
-            if (skill_lv > 3)
-                ratio += r / 2;
-            if (skill_lv > 6)
-                ratio += r / 4;
-            if (skill_lv > 9)
-                ratio += r / 8;
+			skill_ratio = 1 + skill_lv * 0.2;
+			aoe_position = eval(document.calcForm.SkillSubNum.value);
+			
+			// #131 - inflict full damage regardless of AoE position
+			if (1386 == n_A_Equip[0] && SQI_Bonus_Effect.findIndex(x => x == 131) > -1)
+				aoe_position = 0;
+			
+			ratio += skill_ratio - 1;
+			
+			if(skill_lv > 3 && aoe_position == 0)
+				ratio += skill_ratio / 2;
+			if(skill_lv > 6 && aoe_position == 0)
+				ratio += skill_ratio / 4;
+			if(skill_lv > 9 && aoe_position == 0)
+				ratio += skill_ratio / 8;
+			if(skill_lv > 6 && aoe_position == 1)
+				ratio += skill_ratio / 2;
+			if(skill_lv > 9 && aoe_position == 1)
+				ratio += skill_ratio / 4;
+			if(skill_lv > 9 && aoe_position == 2)
+				ratio += skill_ratio / 2;
+			
             break;
         case 83:    // Sonic Blow#83
         case 388:   // Sonic Blow [Soul Linked]#388
