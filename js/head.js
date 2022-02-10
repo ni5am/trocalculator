@@ -9215,7 +9215,6 @@ function calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex
 
 	weapon_lv = is_left_hand_active ? n_A_Weapon2LV : n_A_WeaponLV;
 	weapon_refine = is_left_hand_active ? n_A_Weapon2_ATKplus : n_A_Weapon_ATKplus;
-	min_weapon_bonus = (weapon_lv && weapon_refine) ? 1 : 0 ;
 
 	// if the attack is not a critical hit at the exception of arrows attack
 	if (!is_critical_attack || is_dex_based)
@@ -9244,10 +9243,11 @@ function calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex
 	damage_max = atk_max;
 
 	// Add over refine bonus
-	refine_damage_bonus = calc_weapon_damage_bonus(weapon_refine, weapon_lv)
+	min_weapon_bonus = (weapon_lv && weapon_refine > 4) ? 1 : 0 ;
+	overrefine_damage_bonus = calc_weapon_overrefine_bonus(weapon_refine, weapon_lv);
 
 	damage_min = (is_magic_crasher ? n_A_MATK[0] : base_atk) + min_weapon_bonus + Math.floor(damage_min * size_modifier);
-	damage_max = (is_magic_crasher ? n_A_MATK[0] : base_atk) + refine_damage_bonus + Math.floor(damage_max * size_modifier);
+	damage_max = (is_magic_crasher ? n_A_MATK[0] : base_atk) + overrefine_damage_bonus + Math.floor(damage_max * size_modifier);
 
 	if (is_critical_attack)
 		damage_min = damage_max;
@@ -9267,20 +9267,33 @@ function calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex
 }
 
 // Additional base atk dmg bonus for refine and overrefine (weapon is refined above safety refine level)
-function calc_weapon_damage_bonus(weapon_refine, weapon_lv)
+function calc_weapon_refine_bonus(weapon_refine, weapon_lv)
 {
-	damage_bonus = 0;
+	refine_damage_bonus = 0;
+
+	if (weapon_lv)
+	{
+		refine_bonus = [2, 3, 5, 7];
+
+		refine_damage_bonus = weapon_refine * refine_bonus[weapon_lv - 1];
+	}
+
+	return refine_damage_bonus;
+}
+
+function calc_weapon_overrefine_bonus(weapon_refine, weapon_lv)
+{
+	refine_damage_bonus = 0;
 
 	if (weapon_lv)
 	{
 		safe_refine = [7, 6, 5, 4];
-		refine_bonus = [2, 3, 5, 7];
 		overrefine_bonus = [3, 5, 8, 13];
 
-		damage_bonus = weapon_refine * refine_bonus[weapon_lv - 1] + Math.max(weapon_refine - safe_refine[weapon_lv - 1], 0) * overrefine_bonus[weapon_lv - 1];
+		refine_damage_bonus = Math.max(weapon_refine - safe_refine[weapon_lv - 1], 0) * overrefine_bonus[weapon_lv - 1];
 	}
 
-	return damage_bonus;
+	return refine_damage_bonus;
 }
 
 function calc_skill_base_damage(skill_info, base_atk, is_critical_attack, is_left_hand_active, is_dex_based)
@@ -9950,7 +9963,12 @@ function is_attack_piercing(skill_info)
 function apply_post_defense_damage_bonus(damage_list, skill_info, is_left_hand_active)
 {
 	damage_bonus = 0;
-	weapon_refine = (is_left_hand_active ? n_A_Weapon2LV_seirenATK : n_A_WeaponLV_seirenATK); // FIXME battle_info.refine_bonus
+	weapon_refine_bonus = 0;
+	
+	if (is_left_hand_active)
+		weapon_refine_bonus = calc_weapon_refine_bonus(n_A_Weapon2_ATKplus, n_A_Weapon2LV);
+	else
+		weapon_refine_bonus = calc_weapon_refine_bonus(n_A_Weapon_ATKplus, n_A_WeaponLV);
 	
 	// Throwing Pratice#393 mastery damage bonus only applying to Throw Shuriken#394
 	if (394 == skill_info.id)
@@ -9959,9 +9977,9 @@ function apply_post_defense_damage_bonus(damage_list, skill_info, is_left_hand_a
 	// Weapon refine bonus not applying for Investigate#193, Asura Strike#197#321, Shield Chain#324, Acid Demonstration#328 and Shield Boomerang#159#384
 	excluded_skills = [159,193,197,321,324,328,384];
 	if (192 == skill_info.id) // Bonus counted #spheres#185 times for Finger Offensive#192
-		damage_bonus += weapon_refine * SkillSearch(185);
+		damage_bonus += weapon_refine_bonus * SkillSearch(185);
 	else if (excluded_skills.findIndex(x => x == skill_info.id) < 0)
-		damage_bonus += weapon_refine;
+		damage_bonus += weapon_refine_bonus;
 	
 	// Aura Blade#254 damage bonus, not applied with Spiral Pierce#259
 	if (skill_info.id != 259)
