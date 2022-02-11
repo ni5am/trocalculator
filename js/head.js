@@ -9231,7 +9231,7 @@ function calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex
 
 		atk_min = Math.min(atk_min, atk_max);
 
-		if (is_dex_based && skill_info.id != 76)
+		if (is_dex_based && !skill_info.is_melee)
 		{
 			atk_min = Math.floor(atk_min * atk_max / 100);
 			atk_max = Math.max(atk_min, atk_max);
@@ -9258,7 +9258,7 @@ function calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex
 	if (is_critical_attack)
 		damage_min = damage_max;
 
-	if ((is_dex_based && skill_info.id != 76) || skill_info.uses_arrows) // Add arrow base attack, except for Bowling Bash
+	if ((is_dex_based && !skill_info.is_melee) || skill_info.uses_arrows) // Add arrow base attack, except for Stalker melee skills
 	{
 		if (is_critical_attack)
 		{
@@ -10273,6 +10273,7 @@ function retrieve_skill_info(skill_id, skill_lv)
     // Initialize with weapon element, skills should override if using any other element
     element = n_A_Weapon_zokusei;
 
+	is_melee = false;
 	uses_arrows = false;
     is_critical = false;
     is_multi_hits = false;
@@ -10345,7 +10346,8 @@ function retrieve_skill_info(skill_id, skill_lv)
             ratio += skill_lv * 0.35;
 			is_considered_as_single_hit = true;
             break;
-        case 171:
+        case 171: // Raid#171
+			is_melee = true;
             ratio += skill_lv *0.4;
             break;
         case 72: // Spear Boomerang#72
@@ -10390,15 +10392,18 @@ function retrieve_skill_info(skill_id, skill_lv)
 			is_magic_attack = true;
 			ratio += -0.5 + 0.1 * skill_lv;
             break;
-        case 169:
+        case 169: // Back Stab#169
             w_HIT = 100;
             w_HIT_HYOUJI = 100;
 
             acd = 0.5;
-            ratio += skill_lv *0.4 + 2;
+			is_melee = true;
+			// Damage are halved when bow is equipped
+            ratio += Math.floor(skill_lv * 0.4 + 2) / (10 == n_A_WeaponType ? 2 : 1);
             break;
-        case 176:
+        case 176: // Intimidate#176
             acd = 1;
+			is_melee = true;
             ratio += skill_lv * 0.3;
             break;
         case 188: // Chain Combo#188
@@ -10639,6 +10644,7 @@ function retrieve_skill_info(skill_id, skill_lv)
             break;
         case 76: // Bowling Bash#76
             hits = 2;
+			is_melee = true;
             is_multi_hits = true;
             ratio += skill_lv * 0.4;
             cast_time = 0.7 * n_A_CAST;
@@ -11153,7 +11159,7 @@ function retrieve_skill_info(skill_id, skill_lv)
         ignore_defense: ignore_defense, ignore_element: ignore_element, is_range_attack: is_range_attack,
         is_magic_attack: is_magic_attack, is_multi_hits: is_multi_hits, duration: duration,
 		is_considered_as_single_hit: is_considered_as_single_hit, enable_masteries: enable_masteries,
-		ignore_offensive_status : ignore_offensive_status, uses_arrows : uses_arrows
+		ignore_offensive_status : ignore_offensive_status, uses_arrows : uses_arrows, is_melee : is_melee
     }
 }
 
