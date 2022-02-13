@@ -9364,12 +9364,16 @@ function calc_skill_base_damage(skill_info, base_atk, is_critical_attack, is_lef
 			break;
 		default:
 			damage_list = calc_base_atk(base_atk, is_critical_attack, is_left_hand_active, is_dex_based, skill_info);
-			// Crit Attack rate
-			// TK Power
-			/*FIXME : (skill_id == HW_MAGICCRASHER?4:0)|
-				(!skill_id && sc && sc->data[SC_CHANGE]?4:0)|
-				(skill_id == MO_EXTREMITYFIST?8:0)|
-				(sc && sc->data[SC_WEAPONPERFECTION]?8:0);*/
+			
+			// Critical Attack Rate damage bonus
+			if (is_critical_attack)
+				apply_damage_modifier(damage_list, 100 + n_tok[70]);
+			
+			// Fighting Chant#342 damage bonus - TK_POWER
+			fighting_chant_lv = SkillSearch(342);
+			if (fighting_chant_lv) // Additional Party Members for Fighting Chant#380, not including player
+				apply_damage_modifier(damage_list, 100 + 2 * fighting_chant_lv * SkillSearch(380));
+
 			break;
     }
 	
