@@ -10220,10 +10220,12 @@ function calc_physical_attack_damage(skill_info, is_critical_attack, is_left_han
 	excluded_skills = [159,197,321,324,384]; // Shield Chain#324, Shield Boomerang#159#384, Asura Strike#197#321
 	if (excluded_skills.findIndex(x => x == skill_info.id) < 0)
 	{
+		// FIXME: Better management for sphere consumption, Triple Action#418, Investigate#193, more ?
 		if (192 == skill_info.id)
 			physical_damage = physical_damage.map(x => x + 3 * Math.pow(Math.max(SkillSearch(185), n_A_PassSkill2[10]), 2));
-		else // Investigate#193 is consuming one sphere
-			physical_damage = physical_damage.map(x => x + 3 * (Math.max(0, Math.max(SkillSearch(185), n_A_PassSkill2[10]) - (193 == skill_info.id ? 1 : 0)) + SkillSearch(416)));
+		else // Investigate#193 is consuming one sphere, Triple Action#418 is applying 3 times the damage bonus
+			physical_damage = physical_damage.map(x => x + 3 * (Math.max(0, Math.max(SkillSearch(185), n_A_PassSkill2[10]) - (193 == skill_info.id ? 1 : 0)) + (418 == skill_info.id ? 3 : 1) * SkillSearch(416)));
+		// FIXME: Chain Action is considering twice this bonus for base attack max damage during the trigger
 	}
 	
 	// Sprint#329 unarmed bonus for Whirlwind Kick#331, Axe Kick#333, Round Kick#335 and Counter Kick#337
@@ -10592,29 +10594,30 @@ function retrieve_skill_info(skill_id, skill_lv)
             w_HIT = Math.min(w_HIT * 5 + 5, 100);
             w_HIT_HYOUJI = w_HIT;
             break;
-        case 431:
+        case 431: // Disarm#431
             acd = 1;
             cast_time = 2;
             is_range_attack = true;
             break;
-        case 432:
+        case 432: // Piercing Shot#432
             w_HIT = 100;
             w_HIT_HYOUJI = 100;
 
             acd = 0.5;
             cast_time = 1.5;
+			ignore_defense = true;
             is_range_attack = true;
             ratio += skill_lv * 0.2;
             break;
-        case 434: // Dust/Crowd Control Shot#434 FIXME
+        case 434: // Dust/Crowd Control Shot#434
             cast_time = 1;
             forced_motion = 1;
             ratio += skill_lv * 0.5;
             break;
-        case 435:
+        case 435: // Full Buster#435
+            ratio += skill_lv + 2;
             is_range_attack = true;
-            acd = 1 + skill_lv *0.2;
-            ratio += skill_lv * 1 + 2;
+            acd = 1 + skill_lv * 0.2;
             break;
         case 436: // Spread Attack#436
             is_range_attack = true;
@@ -10658,8 +10661,8 @@ function retrieve_skill_info(skill_id, skill_lv)
             break;
         case 418: // Triple Action#418
             hits = 3;
-            ratio += 0.5;
             is_range_attack = true;
+            ratio += 0.5;
             break;
         case 391: // Beast Strafing#391
             hits = 2;
