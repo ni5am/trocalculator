@@ -422,6 +422,7 @@ PET_OBJ = [[0,"No Pet",0,0]
 ,[167,"Firewind Kite [Increase Physical and Magical damage against Fire and Wind element monsters by 2%]",0,43,2,353,2,44,2,354,2,0]
 ,[168,"Omega Cleaner [HIT +5, FLEE +3, DEX +1, ASPD +2%]",0,8,5,9,3,5,1,12,2,0]
 ,[169,"Empathizer [VIT +2, MATK +2%, Increases magical damage to DemiHuman monsters by 2%]",0,3,2,89,2,177,2,0]
+,[170,"Child Admin Beta [DEX +1, AGI +2, INT +2, Increases of Heal, Sanctuary and Potion Pitcher used on yourself by 5%]",0,5,1,2,2,4,2,91,5,93,5,94,5,0]
 ];
 
 ITEM_SP_TIME_OBJ =[
