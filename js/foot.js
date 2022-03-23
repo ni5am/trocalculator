@@ -4879,6 +4879,11 @@ function StPlusCalc()
 			n_tok[4] += 2;
 	}
 
+	//custom Girl Sun Hat
+	if(EquipNumSearch(1830)){
+		n_tok[4] += Math.floor(n_A_HEAD_DEF_PLUS/3)*2;
+	}
+
 	n_tok[1] += n_A_PassSkill2[0];
 	n_tok[4] += n_A_PassSkill2[0];
 	n_tok[5] += n_A_PassSkill2[0];

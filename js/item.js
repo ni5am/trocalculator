@@ -1883,6 +1883,7 @@ ItemOBJ = [
 ,[1827,100,0,0,0,0,0,0,"Invective Robe + Ancient Cape","","[Non-Hunter Class]<br>ASPD + 5%<br>AGI + 1 for every 2 refines of Ancient Cape.",0]
 ,[1828,50,0,1,0,0,30,50,"Evolved Whisper Mask","","<b>Upper, Middle, and Lower Headgear</b>",5,3,68,20,0]
 ,[1829,50,0,1,0,1,40,1,"Shaman Hat","",0,60,3,61,3,62,3,63,3,64,3,65,3,66,3,67,3,68,3,69,3,0]
+,[1830,50,0,4,0,1,35,1,"Girl Sun Hat","","A beautiful hat with a large flower to protect girls from the sun.",4,0,15,-5,0]
 ];
 
 //Test code for finding the values in Skill.js AutoSpellSkill
